@@ -9,6 +9,10 @@
     "dev": "pnpm run -r start:dev",
     "prettier": "npx prettier --write ."
   },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^5.2.1",
+    "prettier": "^3.4.2"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
