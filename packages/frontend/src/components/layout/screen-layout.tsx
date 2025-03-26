@@ -13,7 +13,7 @@ export default function ScreenLayout({
       className={cn([
         'w-svw h-svh',
         'max-w-xl max-h-[1000px] mx-auto',
-        'bg-screen overflow-x-hidden overflow-y-auto relative',
+        'bg-screen overflow-hidden relative',
       ])}
     >
       {children}
