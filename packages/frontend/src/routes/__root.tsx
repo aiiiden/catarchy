@@ -1,5 +1,6 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router';
-import Provider from '../provider';
+import { createRootRoute, Outlet } from '@tanstack/react-router';
+import Provider from '@/provider';
+import ScreenLayout from '@/components/layout/screen-layout';
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -9,7 +10,9 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <Provider>
-      <Outlet />
+      <ScreenLayout>
+        <Outlet />
+      </ScreenLayout>
     </Provider>
   );
 }

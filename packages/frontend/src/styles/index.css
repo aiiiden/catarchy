@@ -1,0 +1,56 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@font-face {
+  font-family: 'Unifont Ex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(./unifont-ex-mono.woff2) format('woff2');
+}
+
+@theme {
+  --color-screen: #fff;
+  --color-primary: #000;
+  --color-primary-light: #c0c0c0;
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+    font-family: 'Unifont Ex Mono', monospace;
+    color: var(--color-primary);
+  }
+
+  body {
+    background-color: #000;
+    display: flex;
+    justify-content: safe center;
+    align-items: safe center;
+    height: 100svh;
+  }
+
+  .font-bold {
+    text-shadow: 1px 0 0;
+  }
+
+  .font-bold.text-xl,
+  .font-bold.text-2xl,
+  .font-bold.text-3xl,
+  .font-bold.text-4xl,
+  .font-bold.text-5xl {
+    letter-spacing: 1px;
+  }
+
+  .font-bold.text-base,
+  .font-bold.text-lg {
+    letter-spacing: 0.75px;
+  }
+
+  .font-bold.text-sm,
+  .font-bold.text-xs {
+    text-shadow:
+      0.5px 0 0,
+      -0.5px 0 0;
+  }
+}
