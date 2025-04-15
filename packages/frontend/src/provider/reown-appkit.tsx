@@ -1,7 +1,7 @@
 import { WagmiProvider } from 'wagmi';
 import { AppKitNetwork, sepolia } from '@reown/appkit/networks';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
-import { createAppKit } from '@reown/appkit';
+import { createAppKit } from '@reown/appkit/react';
 
 const projectId = import.meta.env.VITE_REOWN_APPKIT_PROJECT_ID;
 
