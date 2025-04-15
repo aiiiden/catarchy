@@ -23,7 +23,6 @@ const wagmiAdapter = new WagmiAdapter({
 createAppKit({
   adapters: [wagmiAdapter],
   networks,
-  defaultNetwork: sepolia,
   projectId,
   metadata,
   features: {
