@@ -1,11 +1,11 @@
 import { wagmiAdapter } from '@/provider/reown-appkit';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { getAccount } from '@wagmi/core';
+import { useAccount } from 'wagmi';
 
 export const Route = createFileRoute('/main')({
   component: RouteComponent,
-  beforeLoad: async () => {},
-  loader() {
+  beforeLoad: async () => {
     const account = getAccount(wagmiAdapter.wagmiConfig);
 
     if (!account.isConnected) {
@@ -14,15 +14,10 @@ export const Route = createFileRoute('/main')({
         to: '/',
       });
     }
-
-    return { account };
   },
 });
 
 function RouteComponent() {
-  return (
-    <div>
-      Hello "/main"! <p className="break-all w-full"></p>
-    </div>
-  );
+  const { address } = useAccount();
+  return <div>Hello "/main"! {address}</div>;
 }

@@ -21,18 +21,16 @@ function RouteComponent() {
   const router = useRouter();
   const [opened, setOpened] = useState<boolean>(false);
   const { open } = useAppKit();
-  const { isConnected } = useAppKitAccount();
+  const { isConnected, status } = useAppKitAccount();
   const { disconnect } = useDisconnect();
 
   useEffect(() => {
-    if (opened && isConnected) {
-      console.log('isConnected', isConnected);
-      console.log('opened', opened);
+    if (opened && status === 'connected') {
       router.navigate({
         to: '/main',
       });
     }
-  }, [isConnected, opened, router]);
+  }, [status, opened]);
 
   const handleLogin = useCallback(async () => {
     if (isConnected) {

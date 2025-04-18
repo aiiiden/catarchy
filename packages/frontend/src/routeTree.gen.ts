@@ -11,10 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as RegisterImport } from './routes/register'
 import { Route as MainImport } from './routes/main'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const RegisterRoute = RegisterImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const MainRoute = MainImport.update({
   id: '/main',
@@ -46,6 +53,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MainImport
       parentRoute: typeof rootRoute
     }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -54,36 +68,41 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/main': typeof MainRoute
+  '/register': typeof RegisterRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/main': typeof MainRoute
+  '/register': typeof RegisterRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/main': typeof MainRoute
+  '/register': typeof RegisterRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/main'
+  fullPaths: '/' | '/main' | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/main'
-  id: '__root__' | '/' | '/main'
+  to: '/' | '/main' | '/register'
+  id: '__root__' | '/' | '/main' | '/register'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MainRoute: typeof MainRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MainRoute: MainRoute,
+  RegisterRoute: RegisterRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +116,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/main"
+        "/main",
+        "/register"
       ]
     },
     "/": {
@@ -105,6 +125,9 @@ export const routeTree = rootRoute
     },
     "/main": {
       "filePath": "main.tsx"
+    },
+    "/register": {
+      "filePath": "register.tsx"
     }
   }
 }
