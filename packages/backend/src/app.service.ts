@@ -4,9 +4,9 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello(): string {
     if (process.env.ENV === 'dev') {
-      return 'Hello World! (dev)';
+      return 'Hello World! (dev) ' + process.env.PORT;
     }
 
-    return 'Hello World! (prod)';
+    return 'Hello World! (prod) ' + process.env.PORT;
   }
 }
