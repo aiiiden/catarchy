@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cat Emoji with Platform</title>
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
+      #container {
+        width: 260px;
+        height: 200px;
+        border: 2px solid black;
+        position: relative;
+        overflow: hidden;
+      }
+      #cat {
+        font-size: 24px;
+        position: absolute;
+        transition: transform 0.1s ease;
+      }
+      #platform {
+        width: 60px;
+        height: 10px;
+        background-color: black;
+        position: absolute;
+        left: 100px;
+        top: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="cat">🐈</div>
+      <div id="platform"></div>
+    </div>
+    <script>
+      const container = document.getElementById('container');
+      const cat = document.getElementById('cat');
+      const platform = document.getElementById('platform');
+      let x = 120; // Start on platform
+      let y = 100 - 24; // Platform top minus cat height (approx. 24px for emoji)
+      let vx = 0;
+      let vy = 0;
+      let state = 'stop'; // Possible states: 'stop', 'walk', 'jump'
+      const gravity = 0.15; // Downward gravity force
+      let lastDirectionChange = Date.now();
+      let facingRight = true;
+
+      // Platform properties
+      const platformX = 100;
+      const platformY = 100;
+      const platformWidth = 60;
+      const platformHeight = 10;
+
+      function setNewState() {
+        const rand = Math.random();
+        if (rand < 0.1) {
+          state = 'jump';
+          vy = -6.5; // Adjusted for max 120px jump height
+          vx = facingRight ? 2 : -2; // Horizontal velocity during jump
+        } else if (rand < 0.45) {
+          state = 'walk';
+          vx = facingRight ? 1.5 : -1.5; // Walking speed
+          vy = 0;
+        } else {
+          state = 'stop';
+          vx = 0;
+          vy = 0;
+        }
+      }
+
+      function checkPlatformCollision(newX, newY, catWidth, catHeight) {
+        // Check if cat is within platform's x-range and falling onto it
+        if (
+          newX + catWidth > platformX &&
+          newX < platformX + platformWidth &&
+          newY + catHeight > platformY &&
+          newY + catHeight <= platformY + platformHeight &&
+          vy > 0 // Cat is falling
+        ) {
+          return true;
+        }
+        return false;
+      }
+
+      function update() {
+        // Apply gravity
+        vy += gravity;
+
+        // Calculate new position
+        let newX = x + vx;
+        let newY = y + vy;
+
+        // Boundary collision detection
+        const catWidth = cat.offsetWidth;
+        const catHeight = cat.offsetHeight;
+        const maxX = 260 - catWidth;
+        const maxY = 200 - catHeight;
+
+        if (newX <= 0 || newX >= maxX) {
+          vx = -vx;
+          newX = Math.max(0, Math.min(newX, maxX));
+          facingRight = vx >= 0;
+        }
+        if (newY < 0) {
+          newY = 0;
+          vy = 0;
+        }
+        if (newY >= maxY) {
+          newY = maxY;
+          vy = 0;
+          if (state === 'jump') {
+            state = 'stop'; // End jump when hitting ground
+          }
+        }
+
+        // Platform collision detection
+        if (checkPlatformCollision(newX, newY, catWidth, catHeight)) {
+          newY = platformY - catHeight;
+          vy = 0;
+          if (state === 'jump') {
+            state = 'stop'; // End jump when landing on platform
+          }
+        }
+
+        // Limit jump height to 120px from ground or platform
+        if (state === 'jump') {
+          const baseY =
+            y >= platformY - catHeight ? platformY - catHeight : maxY;
+          if (newY < baseY - 120) {
+            newY = baseY - 120;
+            vy = 0;
+          }
+        }
+
+        // Update position
+        x = newX;
+        y = newY;
+
+        // Update cat position and orientation
+        cat.style.left = `${x}px`;
+        cat.style.top = `${y}px`;
+        cat.style.transform = `scaleX(${facingRight ? -1 : 1})`;
+
+        // State and direction change logic
+        const now = Date.now();
+        if (now - lastDirectionChange >= 1000) {
+          // 2 seconds minimum for direction change
+          if (Math.random() < 0.02) {
+            // Random state change
+            setNewState();
+            lastDirectionChange = now;
+          }
+          if (state === 'walk' || state === 'jump') {
+            if (Math.random() < 0.01) {
+              // Random direction change
+              facingRight = !facingRight;
+              vx = -vx;
+              lastDirectionChange = now;
+            }
+          }
+        }
+
+        requestAnimationFrame(update);
+      }
+
+      setNewState(); // Initial state
+      update();
+    </script>
+  </body>
+</html>

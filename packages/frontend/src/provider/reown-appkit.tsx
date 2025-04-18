@@ -14,7 +14,7 @@ const metadata = {
 
 export const networks = [sepolia] as [AppKitNetwork, ...AppKitNetwork[]];
 
-const wagmiAdapter = new WagmiAdapter({
+export const wagmiAdapter = new WagmiAdapter({
   projectId,
   networks,
   ssr: false,
@@ -25,9 +25,14 @@ createAppKit({
   networks,
   projectId,
   metadata,
+  termsConditionsUrl: '',
+  privacyPolicyUrl: '',
   features: {
     analytics: true,
+    connectMethodsOrder: ['social', 'email', 'wallet'],
+    legalCheckbox: true,
   },
+  allowUnsupportedChain: false,
 });
 
 export function ReownAppkitProvider({
