@@ -1,6 +1,6 @@
 import { Injectable, MethodNotAllowedException } from '@nestjs/common';
-import { DatabaseService } from 'src/database/database.service';
-import { getTypedData, publicClient } from 'src/lib';
+import { DatabaseService } from '../database/database.service';
+import { getTypedData, publicClient } from '../lib';
 
 @Injectable()
 export class AuthService {
