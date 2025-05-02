@@ -79,7 +79,7 @@ function RouteComponent() {
 
   return (
     <div className="p-6 flex flex-col h-full gap-6">
-      <div className="flex-grow flex items-center justify-safe-center flex-col gap-4">
+      <div className="flex-grow flex items-center-safe justify-center-safe flex-col gap-4">
         <Cat />
         <h1 className="text-3xl font-bold">CATARCHY</h1>
         <p>Ver.alpha</p>

@@ -53,8 +53,4 @@
       0.5px 0 0,
       -0.5px 0 0;
   }
-
-  .justify-safe-center {
-    justify-content: safe center;
-  }
 }
