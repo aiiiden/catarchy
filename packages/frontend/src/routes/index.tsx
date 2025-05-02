@@ -1,6 +1,6 @@
 import { Cat } from '@/components/character/cat';
 import { withFadeTransition } from '@/lib/hoc/with-fade-transition';
-import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -19,7 +19,6 @@ export const Route = createFileRoute('/')({
 });
 
 function RouteComponent() {
-  const router = useRouter();
   const [opened, setOpened] = useState<boolean>(false);
   const { open } = useAppKit();
   const { address, chainId } = useAccount();
