@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/classname';
 import { motion } from 'motion/react';
 
 export interface BottomSheetProps {

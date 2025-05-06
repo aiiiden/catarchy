@@ -39,7 +39,8 @@ export class AuthService {
       });
 
       valid = result;
-    } catch {
+    } catch (error) {
+      console.error('Error verifying signature:', error);
       valid = false;
     }
 

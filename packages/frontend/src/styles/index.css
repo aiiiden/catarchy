@@ -2,24 +2,55 @@
 @import 'tw-animate-css';
 
 @font-face {
-  font-family: 'Unifont Ex Mono';
-  font-style: normal;
-  font-weight: 400;
-  font-display: block;
-  src: url(./unifont-ex-mono.woff2) format('woff2');
+  font-family: 'UnifontExMono';
+  src: url('http://stgiga.github.io/UnifontEX/UnifontExMono.eot'); /* IE9 Compat Modes */
+  src:
+    url('http://stgiga.github.io/UnifontEX/UnifontExMono.eot?#iefix')
+      format('embedded-opentype'),
+    /* IE6-IE8 */ url('https://stgiga.github.io/UnifontEX/UnifontExMono.woff')
+      format('woff'),
+    /* Pretty Modern Browsers */
+      url('https://stgiga.github.io/UnifontEX/UnifontExMono.ttf')
+      format('truetype'),
+    /* Safari, Android, iOS */
+      url('http://stgiga.github.io/UnifontEX/UnifontExMono.woff2')
+      format('woff2'),
+    /* Super Modern Browsers */
+      url('http://stgiga.github.io/UnifontEX/UnifontExMono.svg#UnifontExMono')
+      format('svg'); /* Legacy iOS */
 }
 
 @theme {
   --color-screen: #fff;
   --color-primary: #000;
   --color-primary-light: #c0c0c0;
+
+  --color-black: #000000;
+  --color-green: #1d6914;
+  --color-cyan: #29d0d0;
+  --color-blue: #2a4bd7;
+  --color-gray-dark: #575757;
+  --color-purple: #8126c0;
+  --color-brown: #814a19;
+  --color-green-light: #a8cda5;
+  --color-blue-light: #9dafff;
+  --color-gray-light: #aaaaaa;
+  --color-red: #c81919;
+  --color-brown-light: #f5f0e0;
+  --color-orange: #ffa659;
+  --color-purple-light: #ffd7f5;
+  --color-yello: #ffee33;
+  --color-white: #ffffff;
+  --color-gray-extralight: #f3f3f3;
+
+  --background-image-cat-pattern: url(./cat-pattern.svg);
 }
 
 @layer base {
   html {
     font-size: 16px;
     font-family: 'Unifont Ex Mono', monospace;
-    color: var(--color-primary);
+    color: var(--color-black);
   }
 
   body {
@@ -52,5 +83,12 @@
     text-shadow:
       0.5px 0 0,
       -0.5px 0 0;
+  }
+
+  .bg-pattern-cat {
+    background-image: url(./cat-pattern.svg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }

@@ -1,23 +1,27 @@
-import { wagmiAdapter } from '@/provider/reown-appkit';
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { getAccount } from '@wagmi/core';
+
 import { useAccount } from 'wagmi';
 
 export const Route = createFileRoute('/main')({
   component: RouteComponent,
-  beforeLoad: async () => {
-    const account = getAccount(wagmiAdapter.wagmiConfig);
+  beforeLoad(ctx) {
+    const { auth } = ctx.context;
 
-    if (!account.isConnected) {
-      console.error('Account is not connected');
+    // TODO: Mock logic
+    if (!auth.token) {
+      console.log('Redirecting to login');
       return redirect({
         to: '/',
       });
     }
   },
+
+  loader(ctx) {
+    return ctx.context;
+  },
 });
 
 function RouteComponent() {
   const { address } = useAccount();
-  return <div>Hello "/main"! {address}</div>;
+  return <div>{address}</div>;
 }

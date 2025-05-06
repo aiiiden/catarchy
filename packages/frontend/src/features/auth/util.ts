@@ -1,15 +1,9 @@
-import { createPublicClient, http } from 'viem';
-import { sepolia } from 'viem/chains';
-
-/**
- * Web3
- */
-export const publicClient = createPublicClient({
-  chain: sepolia,
-  transport: http(),
-});
-
-export function getTypedData({ address }: { address: string }) {
+export function generateTypedData({
+  address,
+}: {
+  address: `0x${string}`;
+  nonce?: string;
+}) {
   return {
     types: {
       EIP712Domain: [
@@ -28,7 +22,9 @@ export function getTypedData({ address }: { address: string }) {
     },
     primaryType: 'Verify',
     message: {
-      from: address as `0x${string}`,
+      from: address.toLowerCase() as `0x${string}`,
+      // TODO: add nonce
+      // nonce: nonce,
     },
-  };
+  } as const;
 }

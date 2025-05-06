@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { motion } from 'motion/react';
-import { cn } from '../utils';
+import { cn } from '../classname';
 import LoadingScreen from '@/components/layout/loading-screen';
 
 export function withFadeTransition(

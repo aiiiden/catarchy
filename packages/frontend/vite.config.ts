@@ -23,4 +23,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  define: {
+    VITE_ENVIRONMENT: JSON.stringify(process.env.VITE_ENVIRONMENT),
+    VITE_REOWN_APPKIT_PROJECT_ID: JSON.stringify(
+      process.env.VITE_REOWN_APPKIT_PROJECT_ID,
+    ),
+    VITE_API_HOST: JSON.stringify(process.env.VITE_API_HOST),
+  },
 });

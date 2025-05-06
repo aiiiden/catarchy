@@ -1,94 +1,34 @@
-import { Cat } from '@/components/character/cat';
+import { LogoCat, LogoTitle } from '@/components/ui/logo';
 import { withFadeTransition } from '@/lib/hoc/with-fade-transition';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { Button } from '@/components/ui/button';
-import {
-  useAppKit,
-  useAppKitAccount,
-  useDisconnect,
-} from '@reown/appkit/react';
-import { useCallback, useEffect, useState } from 'react';
-import { useAccount, useSignTypedData } from 'wagmi';
+import LogInButton from '@/features/auth/log-in-button';
 
 export const Route = createFileRoute('/')({
   component: withFadeTransition(RouteComponent, {
     duration: 0.5,
   }),
-  beforeLoad: () => {},
 });
 
 function RouteComponent() {
-  const [opened, setOpened] = useState<boolean>(false);
-  const { open } = useAppKit();
-  const { address, chainId } = useAccount();
-  const { isConnected, status } = useAppKitAccount();
-  const { disconnect } = useDisconnect();
-  const { signTypedData, data: signature } = useSignTypedData();
-
-  useEffect(() => {
-    if (!address || !chainId) {
-      return;
-    }
-
-    if (opened && status === 'connected') {
-      signTypedData({
-        types: {
-          EIP712Domain: [
-            { name: 'name', type: 'string' },
-            { name: 'version', type: 'string' },
-          ],
-          Verify: [
-            { name: 'from', type: 'address' },
-            // TODO: add nonce
-            // { name: 'nonce', type: 'string' },
-          ],
-        },
-        domain: {
-          name: 'Catarchy',
-          version: '1.0',
-        },
-        primaryType: 'Verify',
-        message: {
-          from: address.toLowerCase() as `0x${string}`,
-          // TODO: add nonce
-          // nonce: nonce,
-        },
-      });
-    }
-  }, [status, opened, address, chainId]);
-
-  useEffect(() => {
-    if (signature) {
-      // ..
-    }
-  }, [signature]);
-
-  const handleLogin = useCallback(async () => {
-    if (isConnected) {
-      await disconnect();
-    }
-
-    setOpened(true);
-
-    await open({
-      view: 'Connect',
-    });
-  }, [isConnected]);
-
   return (
-    <div className="p-6 flex flex-col h-full gap-6">
-      <div className="flex-grow flex items-center-safe justify-center-safe flex-col gap-4">
-        <Cat />
-        <h1 className="text-3xl font-bold">CATARCHY</h1>
-        <p>Ver.alpha</p>
-        <p>{signature}</p>
-        <p>{address}</p>
+    <main className="flex flex-col h-full relative">
+      <div className="absolute inset-0 bg-cat-pattern z-0 opacity-10" />
+      <div className="relative flex-grow p-4 overflow-y-auto flex flex-col justify-center items-center">
+        <header className="space-y-4 z-10 relative">
+          <div className="space-y-4" role="img" aria-label="logo">
+            <LogoCat width={76} height={60} className="mx-auto" />
+            <LogoTitle width={64 * 2} height={10 * 2} className="mx-auto" />
+            <h1 className="sr-only">Catarchy</h1>
+          </div>
+        </header>
+
+        <p className="text-center">Ver 0.0.1</p>
       </div>
 
-      <Button className="w-full" onClick={handleLogin}>
-        Log in
-      </Button>
-    </div>
+      <footer className="bg-white z-20 px-4 pt-2 pb-5 border-t-2 border-t-gray-extralight">
+        <LogInButton />
+      </footer>
+    </main>
   );
 }
