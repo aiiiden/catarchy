@@ -49,7 +49,7 @@
 @layer base {
   html {
     font-size: 16px;
-    font-family: 'Unifont Ex Mono', monospace;
+    font-family: 'UnifontExMono', monospace;
     color: var(--color-black);
   }
 
