@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './typing.module.css';
 
 interface TypingProps {
@@ -13,48 +13,49 @@ export const Typing = ({
   children,
   speed = 80,
   startDelay = 0,
-  cursor = '|',
   onEnd,
 }: TypingProps) => {
-  const [displayed, setDisplayed] = useState('');
-  const [started, setStarted] = useState(false);
-  const [charIdx, setCharIdx] = useState(0);
-  const endCalled = useRef(false);
+  const [done, setDone] = useState(false);
+  const calledEnd = useRef(false);
 
+  // 1) onEnd + done 호출 타이머
   useEffect(() => {
-    const timer = setTimeout(() => setStarted(true), startDelay);
+    if (typeof onEnd !== 'function') return;
+    const total = startDelay + children.length * speed;
+    const timer = setTimeout(() => {
+      if (!calledEnd.current) {
+        calledEnd.current = true;
+        setDone(true);
+        onEnd();
+      }
+    }, total);
     return () => clearTimeout(timer);
-  }, [startDelay]);
+  }, [children, speed, startDelay, onEnd]);
 
-  useEffect(() => {
-    if (!started) return;
-    if (charIdx < children.length) {
-      const t = setTimeout(() => {
-        setDisplayed(children.slice(0, charIdx + 1));
-        setCharIdx((i) => i + 1);
-      }, speed);
-      return () => clearTimeout(t);
-    }
-  }, [started, charIdx, speed, children]);
-
-  useEffect(() => {
-    if (
-      started &&
-      charIdx === children.length &&
-      !endCalled.current &&
-      typeof onEnd === 'function'
-    ) {
-      endCalled.current = true;
-      onEnd();
-    }
-  }, [started, charIdx, children.length, onEnd]);
+  // 2) 애니메이션이 끝나면 그냥 문자열 렌더
+  if (done) {
+    return <p className={styles.typing}>{children}</p>;
+  }
 
   return (
-    <p className="inline-block">
-      {displayed}
-      {charIdx < children.length && (
-        <span className={styles.cursor}>{cursor}</span>
-      )}
+    <p className={styles.typing}>
+      {children.split('').map((char, i) => {
+        if (char === '\n') return <br key={i} />;
+        if (char === ' ') return <span key={i}> </span>;
+        return (
+          <span
+            key={i}
+            className={styles.letter}
+            style={{
+              animation: `${styles.fadeIn} ${speed}ms steps(1) ${
+                startDelay + i * speed
+              }ms forwards`,
+            }}
+          >
+            {char}
+          </span>
+        );
+      })}
     </p>
   );
 };

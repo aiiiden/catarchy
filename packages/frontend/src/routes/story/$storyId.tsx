@@ -90,11 +90,12 @@ const Scene2 = () => {
             <Typing
               key={i}
               speed={60}
+              startDelay={i === 0 ? 500 : 0}
               onEnd={() => {
                 if (i < lines.length - 1) {
                   setTimeout(() => {
                     setCurrentIdx(i + 1);
-                  }, 1000); // 끝난 후 1초 뒤에 다음 문장 시작
+                  }, 1000);
                 }
               }}
             >
