@@ -38,7 +38,7 @@ function RouteComponent() {
   const theme = config.theme;
 
   return (
-    <div
+    <main
       className={cn(
         'absolute inset-0 transition-all duration-500 ease-in-out',
         theme === 'light' && 'bg-white',
@@ -52,7 +52,7 @@ function RouteComponent() {
       {theme !== 'light' && (
         <img
           src="/images/cat_background.png"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0"
           alt="cat-background"
         />
       )}
@@ -65,7 +65,7 @@ function RouteComponent() {
         paragraphs={config.paragraphs}
         onNext={handleNext}
       />
-    </div>
+    </main>
   );
 }
 
