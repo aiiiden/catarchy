@@ -10,7 +10,7 @@
 .typing {
   white-space: pre-wrap;
   word-break: normal;
-  display: inline-block;
+  display: block;
 }
 
 .letter {

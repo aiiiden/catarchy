@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './typing.module.css';
+import { cn } from '@/lib/classname';
 
 interface TypingProps {
   children: string;
@@ -7,6 +8,7 @@ interface TypingProps {
   startDelay?: number;
   cursor?: string;
   onEnd?: () => void;
+  className?: HTMLElement['className'];
 }
 
 export const Typing = ({
@@ -14,6 +16,7 @@ export const Typing = ({
   speed = 80,
   startDelay = 0,
   onEnd,
+  className,
 }: TypingProps) => {
   const [done, setDone] = useState(false);
   const calledEnd = useRef(false);
@@ -34,11 +37,11 @@ export const Typing = ({
 
   // 2) 애니메이션이 끝나면 그냥 문자열 렌더
   if (done) {
-    return <p className={styles.typing}>{children}</p>;
+    return <p className={cn(styles.typing, className)}>{children}</p>;
   }
 
   return (
-    <p className={styles.typing}>
+    <p className={cn(styles.typing, className)}>
       {children.split('').map((char, i) => {
         if (char === '\n') return <br key={i} />;
         if (char === ' ') return <span key={i}> </span>;
