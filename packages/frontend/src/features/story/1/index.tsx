@@ -38,27 +38,94 @@ export const Story1 = ({
   if (state === 'pause') return null;
 
   const scenes = [
-    <Scene0 />,
-    <Scene1 />,
-    <Scene2 />,
-    <Scene3 />,
-    <Scene4 />,
-    <Scene5 />,
-    <Scene6 />,
-    <Scene7 />,
-    <Scene8 />,
-    <Scene9 />,
+    {
+      bgClassName: 'bg-white',
+      scene: <Scene0 />,
+    },
+    {
+      bgClassName: 'bg-white',
+      scene: <Scene1 />,
+    },
+    {
+      bgClassName: 'bg-white',
+      scene: <Scene2 />,
+    },
+    {
+      bgClassName: 'bg-black',
+      scene: <Scene3 />,
+    },
+    {
+      bgClassName:
+        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+      scene: <Scene4 />,
+    },
+    {
+      bgClassName:
+        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+      scene: <Scene5 />,
+    },
+    {
+      bgClassName:
+        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+      scene: <Scene6 />,
+    },
+    {
+      bgClassName:
+        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+      scene: <Scene7 />,
+    },
+    {
+      bgClassName:
+        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+      scene: <Scene8 />,
+    },
+    {
+      bgClassName:
+        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_95%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+      scene: <Scene9 />,
+    },
 
-    <Scene10 />,
-    <Scene11 />,
-    <Scene12 />,
-    <Scene13 />,
-    <Scene14 />,
-    <Scene15 />,
+    {
+      bgClassName:
+        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+      scene: <Scene10 />,
+    },
+    {
+      bgClassName:
+        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+      scene: <Scene11 />,
+    },
+    {
+      bgClassName:
+        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+      scene: <Scene12 />,
+    },
+    {
+      bgClassName:
+        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_5%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+      scene: <Scene13 />,
+    },
+    {
+      bgClassName: 'bg-black',
+      scene: <Scene14 />,
+    },
+    {
+      bgClassName: 'bg-gray-900',
+      scene: <Scene15 />,
+    },
   ];
 
   return (
-    <StoryContext.Provider value={value}>{scenes[scene]}</StoryContext.Provider>
+    <StoryContext.Provider value={value}>
+      <div
+        className={cn(
+          'absolute inset-0 transition-all duration-500 ease-in-out',
+          scenes[scene].bgClassName,
+        )}
+      >
+        {scenes[scene].scene}
+      </div>
+    </StoryContext.Provider>
   );
 };
 
@@ -88,11 +155,9 @@ const Scene0 = () => {
   }, [setScene]);
 
   return (
-    <div className="absolute inset-0 bg-white">
-      <div className="space-y-[28px] center *:text-center">
-        <p>Story #1</p>
-        <p>Born again</p>
-      </div>
+    <div className="space-y-[28px] center *:text-center">
+      <p>Story #1</p>
+      <p>Born again</p>
     </div>
   );
 };
@@ -110,7 +175,7 @@ const Scene1 = () => {
   ];
 
   return (
-    <div className="absolute inset-0 transition-all duration-500 ease-in-out bg-white">
+    <>
       <Story1.ContentGrid>
         <Story1.Top>
           <img src="/images/story1_scene1.png" className="w-[138px] mx-auto" />
@@ -121,7 +186,7 @@ const Scene1 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={10}
+                speed={40}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -142,10 +207,8 @@ const Scene1 = () => {
         </Story1.Bottom>
       </Story1.ContentGrid>
 
-      {readyToTab && (
-        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="light" />
-      )}
-    </div>
+      {readyToTab && <ReadyToTab onNext={() => setScene(2)} theme="light" />}
+    </>
   );
 };
 
@@ -161,7 +224,7 @@ const Scene2 = () => {
   ];
 
   return (
-    <div className="absolute inset-0 transition-all duration-500 ease-in-out bg-white">
+    <>
       <Story1.ContentGrid>
         <Story1.Top>
           <img src="/images/story1_scene2.png" className="w-[133px] mx-auto" />
@@ -171,7 +234,7 @@ const Scene2 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={10}
+                speed={40}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -192,10 +255,8 @@ const Scene2 = () => {
         </Story1.Bottom>
       </Story1.ContentGrid>
 
-      {readyToTab && (
-        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="light" />
-      )}
-    </div>
+      {readyToTab && <ReadyToTab onNext={() => setScene(3)} theme="light" />}
+    </>
   );
 };
 
@@ -212,7 +273,7 @@ const Scene3 = () => {
   ];
 
   return (
-    <div className="absolute inset-0 transition-all duration-500 ease-in-out bg-black">
+    <>
       <CatBackground />
 
       <Story1.ContentGrid>
@@ -224,7 +285,7 @@ const Scene3 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={10}
+                speed={40}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -245,10 +306,8 @@ const Scene3 = () => {
           </div>
         </Story1.Bottom>
       </Story1.ContentGrid>
-      {readyToTab && (
-        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
-      )}
-    </div>
+      {readyToTab && <ReadyToTab onNext={() => setScene(4)} theme="dark" />}
+    </>
   );
 };
 
@@ -261,12 +320,7 @@ const Scene4 = () => {
   const paragraphs = ['Huh...?', 'Where is this light coming from?'];
 
   return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
+    <>
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
@@ -277,7 +331,7 @@ const Scene4 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={10}
+                speed={40}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -298,10 +352,8 @@ const Scene4 = () => {
           </div>
         </Story1.Bottom>
       </Story1.ContentGrid>
-      {readyToTab && (
-        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
-      )}
-    </div>
+      {readyToTab && <ReadyToTab onNext={() => setScene(5)} theme="dark" />}
+    </>
   );
 };
 
@@ -314,12 +366,7 @@ const Scene5 = () => {
   const paragraphs = ['Who are you?'];
 
   return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
+    <>
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
@@ -339,7 +386,7 @@ const Scene5 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={10}
+                speed={40}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -360,10 +407,8 @@ const Scene5 = () => {
           </div>
         </Story1.Bottom>
       </Story1.ContentGrid>
-      {readyToTab && (
-        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
-      )}
-    </div>
+      {readyToTab && <ReadyToTab onNext={() => setScene(6)} theme="dark" />}
+    </>
   );
 };
 
@@ -378,12 +423,7 @@ const Scene6 = () => {
   ];
 
   return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
+    <>
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
@@ -403,7 +443,7 @@ const Scene6 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={10}
+                speed={40}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -424,10 +464,8 @@ const Scene6 = () => {
           </div>
         </Story1.Bottom>
       </Story1.ContentGrid>
-      {readyToTab && (
-        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
-      )}
-    </div>
+      {readyToTab && <ReadyToTab onNext={() => setScene(7)} theme="dark" />}
+    </>
   );
 };
 
@@ -440,12 +478,7 @@ const Scene7 = () => {
   const paragraphs = ['"Reborn... as a cat?', 'I... I\'m truly happy!"'];
 
   return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
+    <>
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
@@ -465,7 +498,7 @@ const Scene7 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={10}
+                speed={40}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -486,10 +519,8 @@ const Scene7 = () => {
           </div>
         </Story1.Bottom>
       </Story1.ContentGrid>
-      {readyToTab && (
-        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
-      )}
-    </div>
+      {readyToTab && <ReadyToTab onNext={() => setScene(8)} theme="dark" />}
+    </>
   );
 };
 
@@ -505,12 +536,7 @@ const Scene8 = () => {
   ];
 
   return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
+    <>
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
@@ -530,7 +556,7 @@ const Scene8 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={10}
+                speed={40}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -551,10 +577,8 @@ const Scene8 = () => {
           </div>
         </Story1.Bottom>
       </Story1.ContentGrid>
-      {readyToTab && (
-        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
-      )}
-    </div>
+      {readyToTab && <ReadyToTab onNext={() => setScene(9)} theme="dark" />}
+    </>
   );
 };
 
@@ -566,12 +590,7 @@ const Scene9 = () => {
   }, [setState]);
 
   return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_95%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
+    <>
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
@@ -586,7 +605,7 @@ const Scene9 = () => {
           />
         </Story1.Top>
       </Story1.ContentGrid>
-    </div>
+    </>
   );
 };
 
@@ -602,12 +621,7 @@ const Scene10 = () => {
   ];
 
   return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
+    <>
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
@@ -627,7 +641,7 @@ const Scene10 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={10}
+                speed={40}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -648,27 +662,20 @@ const Scene10 = () => {
           </div>
         </Story1.Bottom>
       </Story1.ContentGrid>
-      {readyToTab && (
-        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
-      )}
-    </div>
+      {readyToTab && <ReadyToTab onNext={() => setScene(11)} theme="dark" />}
+    </>
   );
 };
 
 const Scene11 = () => {
   const { setScene } = useStory1();
-
+  console.log(11);
   useEffect(() => {
     setTimeout(() => setScene(12), 500);
   }, [setScene]);
 
   return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
+    <>
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
@@ -680,7 +687,7 @@ const Scene11 = () => {
           <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
         </Story1.Top>
       </Story1.ContentGrid>
-    </div>
+    </>
   );
 };
 
@@ -692,12 +699,7 @@ const Scene12 = () => {
   }, [setScene]);
 
   return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
+    <>
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
@@ -707,7 +709,7 @@ const Scene12 = () => {
           Loading...
         </p>
       </Story1.ContentGrid>
-    </div>
+    </>
   );
 };
 
@@ -719,12 +721,7 @@ const Scene13 = () => {
   }, [setScene]);
 
   return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_5%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
+    <>
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
@@ -734,7 +731,7 @@ const Scene13 = () => {
           />
         </Story1.Top>
       </Story1.ContentGrid>
-    </div>
+    </>
   );
 };
 
@@ -745,16 +742,7 @@ const Scene14 = () => {
     setTimeout(() => setScene(15), 500);
   }, [setScene]);
 
-  return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_5%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
-      ])}
-    >
-      <CatBackground />
-    </div>
-  );
+  return <CatBackground />;
 };
 
 const Scene15 = () => {
@@ -764,14 +752,5 @@ const Scene15 = () => {
     setTimeout(() => setState('pause'), 1000);
   }, [setState]);
 
-  return (
-    <div
-      className={cn([
-        'absolute inset-0 transition-all duration-500 ease-in-out',
-        'bg-gray-800',
-      ])}
-    >
-      <CatBackground />
-    </div>
-  );
+  return <CatBackground />;
 };

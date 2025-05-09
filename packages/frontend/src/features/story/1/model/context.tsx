@@ -2,9 +2,9 @@ import { createContext, useContext } from 'react';
 
 interface StoryContextValue {
   state: 'play' | 'pause';
-  setState: React.Dispatch<React.SetStateAction<'play' | 'pause'>>;
+  setState: (state: 'play' | 'pause') => void;
   scene: number;
-  setScene: React.Dispatch<React.SetStateAction<number>>;
+  setScene: (scene: number) => void;
 }
 
 export const StoryContext = createContext<StoryContextValue | null>(null);
