@@ -1,29 +1,9 @@
 import { Typing } from '@/components/animation/typing';
 import { cn } from '@/lib/classname';
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from 'react';
-
-interface StoryContextValue {
-  state: 'play' | 'pause';
-  setState: React.Dispatch<React.SetStateAction<'play' | 'pause'>>;
-  scene: number;
-  setScene: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const StoryContext = createContext<StoryContextValue | null>(null);
-
-const useStory1 = () => {
-  const value = useContext(StoryContext);
-  if (!value) {
-    throw new Error('useStory1 must be used within a Story1 provider');
-  }
-  return value;
-};
+import { useEffect, useImperativeHandle, useState } from 'react';
+import { StoryContext, useStory1 } from './model/context';
+import { ReadyToTab } from './ui/ready-to-tab';
+import { CatBackground } from './ui/cat-background';
 
 export interface Story1Handle {
   resume(): void;
@@ -57,27 +37,45 @@ export const Story1 = ({
 
   if (state === 'pause') return null;
 
-  return (
-    <StoryContext.Provider value={value}>
-      {scene === 0 && <Scene0 />}
-      {scene === 1 && <Scene1 />}
-      {scene === 2 && <Scene2 />}
-      {scene === 3 && <Scene3 />}
-      {scene === 4 && <Scene4 />}
-      {scene === 5 && <Scene5 />}
-      {scene === 6 && <Scene6 />}
-      {scene === 7 && <Scene7 />}
-      {scene === 8 && <Scene8 />}
-      {scene === 9 && <Scene9 />}
+  const scenes = [
+    <Scene0 />,
+    <Scene1 />,
+    <Scene2 />,
+    <Scene3 />,
+    <Scene4 />,
+    <Scene5 />,
+    <Scene6 />,
+    <Scene7 />,
+    <Scene8 />,
+    <Scene9 />,
 
-      {scene === 10 && <Scene10 />}
-      {scene === 11 && <Scene11 />}
-      {scene === 12 && <Scene12 />}
-      {scene === 13 && <Scene13 />}
-      {scene === 14 && <Scene14 />}
-      {scene === 15 && <Scene15 />}
-    </StoryContext.Provider>
+    <Scene10 />,
+    <Scene11 />,
+    <Scene12 />,
+    <Scene13 />,
+    <Scene14 />,
+    <Scene15 />,
+  ];
+
+  return (
+    <StoryContext.Provider value={value}>{scenes[scene]}</StoryContext.Provider>
   );
+};
+
+Story1.ContentGrid = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
+      {children}
+    </div>
+  );
+};
+
+Story1.Top = ({ children }: { children: React.ReactNode }) => {
+  return <div className="mx-auto pb-6 mt-auto">{children}</div>;
+};
+
+Story1.Bottom = ({ children }: { children: React.ReactNode }) => {
+  return <div className="flex-center text-center">{children}</div>;
 };
 
 const Scene0 = () => {
@@ -113,11 +111,12 @@ const Scene1 = () => {
 
   return (
     <div className="absolute inset-0 transition-all duration-500 ease-in-out bg-white">
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img src="/images/story1_scene1.png" className="w-[138px] mx-auto" />
-        </div>
-        <div className="flex-center text-center">
+        </Story1.Top>
+
+        <Story1.Bottom>
           <div className="space-y-4">
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
@@ -140,14 +139,12 @@ const Scene1 = () => {
               </Typing>
             ))}
           </div>
-        </div>
-        {readyToTab && (
-          <ReadyToTab
-            onNext={() => setScene((prev) => prev + 1)}
-            theme="light"
-          />
-        )}
-      </div>
+        </Story1.Bottom>
+      </Story1.ContentGrid>
+
+      {readyToTab && (
+        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="light" />
+      )}
     </div>
   );
 };
@@ -165,15 +162,11 @@ const Scene2 = () => {
 
   return (
     <div className="absolute inset-0 transition-all duration-500 ease-in-out bg-white">
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
-          <img
-            src="/images/story1_scene2.png"
-            className="w-[133px] mx-auto"
-            alt="scene2"
-          />
-        </div>
-        <div className="flex-center text-center">
+      <Story1.ContentGrid>
+        <Story1.Top>
+          <img src="/images/story1_scene2.png" className="w-[133px] mx-auto" />
+        </Story1.Top>
+        <Story1.Bottom>
           <div className="space-y-4">
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
@@ -196,14 +189,12 @@ const Scene2 = () => {
               </Typing>
             ))}
           </div>
-        </div>
-        {readyToTab && (
-          <ReadyToTab
-            onNext={() => setScene((prev) => prev + 1)}
-            theme="light"
-          />
-        )}
-      </div>
+        </Story1.Bottom>
+      </Story1.ContentGrid>
+
+      {readyToTab && (
+        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="light" />
+      )}
     </div>
   );
 };
@@ -224,11 +215,11 @@ const Scene3 = () => {
     <div className="absolute inset-0 transition-all duration-500 ease-in-out bg-black">
       <CatBackground />
 
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img src="/images/story1_scene3.png" className="w-[138px] mx-auto" />
-        </div>
-        <div className="flex-center text-center">
+        </Story1.Top>
+        <Story1.Bottom>
           <div className="space-y-4">
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
@@ -252,14 +243,11 @@ const Scene3 = () => {
               </Typing>
             ))}
           </div>
-        </div>
-        {readyToTab && (
-          <ReadyToTab
-            onNext={() => setScene((prev) => prev + 1)}
-            theme="dark"
-          />
-        )}
-      </div>
+        </Story1.Bottom>
+      </Story1.ContentGrid>
+      {readyToTab && (
+        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
+      )}
     </div>
   );
 };
@@ -280,11 +268,11 @@ const Scene4 = () => {
       ])}
     >
       <CatBackground />
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
-        </div>
-        <div className="flex-center text-center">
+        </Story1.Top>
+        <Story1.Bottom>
           <div className="space-y-4">
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
@@ -308,14 +296,11 @@ const Scene4 = () => {
               </Typing>
             ))}
           </div>
-        </div>
-        {readyToTab && (
-          <ReadyToTab
-            onNext={() => setScene((prev) => prev + 1)}
-            theme="dark"
-          />
-        )}
-      </div>
+        </Story1.Bottom>
+      </Story1.ContentGrid>
+      {readyToTab && (
+        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
+      )}
     </div>
   );
 };
@@ -336,8 +321,8 @@ const Scene5 = () => {
       ])}
     >
       <CatBackground />
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img
             src="/images/angel_cat.png"
             className="w-[72px] mx-auto pb-[93px] floating"
@@ -348,8 +333,8 @@ const Scene5 = () => {
             className="w-[138px] mx-auto"
             alt="scene5"
           />
-        </div>
-        <div className="flex-center text-center">
+        </Story1.Top>
+        <Story1.Bottom>
           <div className="space-y-4">
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
@@ -373,14 +358,11 @@ const Scene5 = () => {
               </Typing>
             ))}
           </div>
-        </div>
-        {readyToTab && (
-          <ReadyToTab
-            onNext={() => setScene((prev) => prev + 1)}
-            theme="dark"
-          />
-        )}
-      </div>
+        </Story1.Bottom>
+      </Story1.ContentGrid>
+      {readyToTab && (
+        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
+      )}
     </div>
   );
 };
@@ -403,16 +385,16 @@ const Scene6 = () => {
       ])}
     >
       <CatBackground />
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img
             src="/images/angel_cat.png"
             className="w-[72px] mx-auto pb-[93px] floating"
             alt="angel-cat"
           />
           <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
-        </div>
-        <div className="flex-center text-center">
+        </Story1.Top>
+        <Story1.Bottom>
           <div className="space-y-4">
             <p className="text-white">
               {'<<'} Bastet {'>>'}
@@ -440,14 +422,11 @@ const Scene6 = () => {
               </Typing>
             ))}
           </div>
-        </div>
-        {readyToTab && (
-          <ReadyToTab
-            onNext={() => setScene((prev) => prev + 1)}
-            theme="dark"
-          />
-        )}
-      </div>
+        </Story1.Bottom>
+      </Story1.ContentGrid>
+      {readyToTab && (
+        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
+      )}
     </div>
   );
 };
@@ -468,16 +447,16 @@ const Scene7 = () => {
       ])}
     >
       <CatBackground />
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img
             src="/images/angel_cat.png"
             className="w-[72px] mx-auto pb-[93px] floating"
             alt="angel-cat"
           />
           <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
-        </div>
-        <div className="flex-center text-center">
+        </Story1.Top>
+        <Story1.Bottom>
           <div className="space-y-4">
             <p className="text-white">
               {'<<'} You {'>>'}
@@ -505,14 +484,11 @@ const Scene7 = () => {
               </Typing>
             ))}
           </div>
-        </div>
-        {readyToTab && (
-          <ReadyToTab
-            onNext={() => setScene((prev) => prev + 1)}
-            theme="dark"
-          />
-        )}
-      </div>
+        </Story1.Bottom>
+      </Story1.ContentGrid>
+      {readyToTab && (
+        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
+      )}
     </div>
   );
 };
@@ -536,16 +512,16 @@ const Scene8 = () => {
       ])}
     >
       <CatBackground />
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img
             src="/images/angel_cat.png"
             className="w-[72px] mx-auto pb-[93px] floating"
             alt="angel-cat"
           />
           <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
-        </div>
-        <div className="flex-center text-center">
+        </Story1.Top>
+        <Story1.Bottom>
           <div className="space-y-4">
             <p className="text-white">
               {'<<'} Bastet {'>>'}
@@ -573,14 +549,11 @@ const Scene8 = () => {
               </Typing>
             ))}
           </div>
-        </div>
-        {readyToTab && (
-          <ReadyToTab
-            onNext={() => setScene((prev) => prev + 1)}
-            theme="dark"
-          />
-        )}
-      </div>
+        </Story1.Bottom>
+      </Story1.ContentGrid>
+      {readyToTab && (
+        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
+      )}
     </div>
   );
 };
@@ -600,16 +573,19 @@ const Scene9 = () => {
       ])}
     >
       <CatBackground />
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto opacity-30">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img
             src="/images/angel_cat.png"
-            className="w-[72px] mx-auto pb-[93px] floating"
+            className="w-[72px] mx-auto pb-[93px] floating opacity-30"
             alt="angel-cat"
           />
-          <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
-        </div>
-      </div>
+          <img
+            src="/images/story1_scene4.png"
+            className="w-[138px] mx-auto opacity-30"
+          />
+        </Story1.Top>
+      </Story1.ContentGrid>
     </div>
   );
 };
@@ -633,16 +609,16 @@ const Scene10 = () => {
       ])}
     >
       <CatBackground />
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img
             src="/images/angel_cat.png"
             className="w-[72px] mx-auto pb-[93px] floating"
             alt="angel-cat"
           />
           <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
-        </div>
-        <div className="flex-center text-center">
+        </Story1.Top>
+        <Story1.Bottom>
           <div className="space-y-4">
             <p className="text-white">
               {'<<'} Bastet {'>>'}
@@ -670,14 +646,11 @@ const Scene10 = () => {
               </Typing>
             ))}
           </div>
-        </div>
-        {readyToTab && (
-          <ReadyToTab
-            onNext={() => setScene((prev) => prev + 1)}
-            theme="dark"
-          />
-        )}
-      </div>
+        </Story1.Bottom>
+      </Story1.ContentGrid>
+      {readyToTab && (
+        <ReadyToTab onNext={() => setScene((prev) => prev + 1)} theme="dark" />
+      )}
     </div>
   );
 };
@@ -697,16 +670,16 @@ const Scene11 = () => {
       ])}
     >
       <CatBackground />
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img
             src="/images/angel_cat.png"
             className="w-[72px] mx-auto pb-[93px] floating opacity-30"
             alt="angel-cat"
           />
           <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
-        </div>
-      </div>
+        </Story1.Top>
+      </Story1.ContentGrid>
     </div>
   );
 };
@@ -726,16 +699,14 @@ const Scene12 = () => {
       ])}
     >
       <CatBackground />
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
-        </div>
-        <div>
-          <p className="text-white absolute right-1/2 translate-x-1/2 bottom-1/2">
-            Loading...
-          </p>
-        </div>
-      </div>
+        </Story1.Top>
+        <p className="text-white absolute right-1/2 translate-x-1/2 bottom-1/2">
+          Loading...
+        </p>
+      </Story1.ContentGrid>
     </div>
   );
 };
@@ -755,14 +726,14 @@ const Scene13 = () => {
       ])}
     >
       <CatBackground />
-      <div className="p-[30px] inset-0 absolute pb-0 grid grid-rows-[230fr_308fr]">
-        <div className="mx-auto pb-6 mt-auto">
+      <Story1.ContentGrid>
+        <Story1.Top>
           <img
             src="/images/story1_scene4.png"
             className="w-[138px] mx-auto opacity-30"
           />
-        </div>
-      </div>
+        </Story1.Top>
+      </Story1.ContentGrid>
     </div>
   );
 };
@@ -802,42 +773,5 @@ const Scene15 = () => {
     >
       <CatBackground />
     </div>
-  );
-};
-
-const ReadyToTab = ({
-  onNext,
-  theme,
-}: {
-  onNext: () => void;
-  theme: 'light' | 'dark';
-}) => {
-  return (
-    <div
-      className="inset-0 absolute bg-transparent"
-      onClick={onNext}
-      style={{
-        animation: 'blink 1s infinite',
-      }}
-    >
-      <p
-        className={cn(
-          'absolute bottom-6 right-1/2 translate-x-1/2',
-          theme === 'light' ? 'text-black' : 'text-white',
-        )}
-      >
-        {'<<'} Tab to continue {'>>'}
-      </p>
-    </div>
-  );
-};
-
-const CatBackground = () => {
-  return (
-    <img
-      src="/images/cat_background.png"
-      className="absolute inset-0"
-      alt="cat-background"
-    />
   );
 };
