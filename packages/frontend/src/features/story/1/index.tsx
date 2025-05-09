@@ -56,57 +56,57 @@ export const Story1 = ({
     },
     {
       bgClassName:
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       scene: <Scene4 />,
     },
     {
       bgClassName:
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       scene: <Scene5 />,
     },
     {
       bgClassName:
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       scene: <Scene6 />,
     },
     {
       bgClassName:
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       scene: <Scene7 />,
     },
     {
       bgClassName:
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       scene: <Scene8 />,
     },
     {
       bgClassName:
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_95%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_95%,rgba(0,0,0,1)_100%)]',
       scene: <Scene9 />,
     },
 
     {
       bgClassName:
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       scene: <Scene10 />,
     },
     {
       bgClassName:
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       scene: <Scene11 />,
     },
     {
       bgClassName:
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       scene: <Scene12 />,
     },
     {
       bgClassName:
-        "bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_5%,rgba(0,0,0,1)_100%),url('/images/cat_background.png')]",
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_5%,rgba(0,0,0,1)_100%)]',
       scene: <Scene13 />,
     },
     {
-      bgClassName: 'bg-black',
+      bgClassName: 'bg-black transition-none',
       scene: <Scene14 />,
     },
     {
@@ -419,7 +419,7 @@ const Scene6 = () => {
   const [readyToTab, setReadyToTab] = useState(false);
 
   const paragraphs = [
-    '"I am Bastet, Godof Cats. I shall help you be reborn as a cat."',
+    '"I am Bastet, God of Cats. I shall help you be reborn as a cat."',
   ];
 
   return (
@@ -669,9 +669,9 @@ const Scene10 = () => {
 
 const Scene11 = () => {
   const { setScene } = useStory1();
-  console.log(11);
+
   useEffect(() => {
-    setTimeout(() => setScene(12), 500);
+    setTimeout(() => setScene(12), 1000);
   }, [setScene]);
 
   return (
@@ -717,7 +717,7 @@ const Scene13 = () => {
   const { setScene } = useStory1();
 
   useEffect(() => {
-    setTimeout(() => setScene(14), 500);
+    setTimeout(() => setScene(14), 1000);
   }, [setScene]);
 
   return (
