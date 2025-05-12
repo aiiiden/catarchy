@@ -5,6 +5,7 @@ import { StoryContext, useStory1 } from './model/context';
 import { ReadyToTab } from './ui/ready-to-tab';
 import { CatBackground } from './ui/cat-background';
 import SpriteImage from '@/components/ui/sprite-image';
+import { useMount } from '@/lib/hook/use-mount';
 
 export interface Story1Handle {
   resume(): void;
@@ -40,24 +41,30 @@ export const Story1 = ({
 
   const scenes = [
     {
-      bgClassName: 'bg-white',
+      bgClassName:
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_55%,rgba(255,255,255,1)_100%)]',
       scene: <Scene0 />,
     },
     {
-      bgClassName: 'bg-white',
+      bgClassName:
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_55%,rgba(255,255,255,1)_100%)]',
       scene: <Scene1 />,
     },
     {
-      bgClassName: 'bg-white',
+      bgClassName:
+        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(255,255,255,1)_55%,rgba(255,255,255,1)_100%)]',
       scene: <Scene2 />,
     },
     {
-      bgClassName: 'bg-black',
+      bgClassName:
+        'bg-[linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       scene: <Scene3 />,
     },
     {
+      // bgClassName:
+      //   'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       bgClassName:
-        'bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
+        'bg-[linear-gradient(to_bottom,rgba(0,0,0,1)_0%,rgba(0,0,0,1)_55%,rgba(0,0,0,1)_100%)]',
       scene: <Scene4 />,
     },
     {
@@ -313,6 +320,7 @@ const Scene3 = () => {
 };
 
 const Scene4 = () => {
+  const { mounted } = useMount(() => {});
   const { setScene } = useStory1();
 
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -323,6 +331,13 @@ const Scene4 = () => {
   return (
     <>
       <CatBackground />
+      <div
+        className={cn([
+          'absolute inset-0 z-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,1)_0%,#000000_55%,#000000_100%)]',
+          'opacity-0',
+          mounted && 'opacity-100 transition-opacity duration-500 ease-in-out',
+        ])}
+      />
       <Story1.ContentGrid>
         <Story1.Top>
           <SpriteImage id="story/1/3" />
@@ -359,6 +374,7 @@ const Scene4 = () => {
 };
 
 const Scene5 = () => {
+  const { mounted } = useMount(() => {});
   const { setScene } = useStory1();
 
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -373,7 +389,11 @@ const Scene5 = () => {
         <Story1.Top>
           <SpriteImage
             id="character/bastet"
-            className="floating block mx-auto mb-24"
+            className={cn([
+              'floating block mx-auto mb-24 opacity-0',
+              'transition-opacity duration-500 ease-in-out',
+              mounted && 'opacity-100',
+            ])}
           />
           <SpriteImage id="story/1/3" />
         </Story1.Top>
