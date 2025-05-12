@@ -1,61 +1,125 @@
-import { Injectable, MethodNotAllowedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { randomBytes } from 'crypto';
+import { addMinutes } from 'date-fns';
+import { verifyTypedData, Address } from 'viem';
+
 import { DatabaseService } from '../database/database.service';
-import { getTypedData, publicClient } from '../lib';
+import { getTypedData } from '../lib/web3';
+import { PostChallengeDto } from './dtos/post-challenge.dto';
+import { PostVerifyDto } from './dtos/post-verify.dto';
+import { PatchHandleDto } from './dtos/patch-handle.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  private readonly log = new Logger(AuthService.name);
 
-  async signup(signature: string, walletAddress: string, handle: string) {
-    const valid = await this.verifySignature(signature, walletAddress);
+  constructor(
+    private readonly db: DatabaseService,
+    private readonly jwt: JwtService,
+  ) {}
 
-    if (!valid) {
-      throw new MethodNotAllowedException('Failed to verify signature');
-    }
+  /* 디버그용 */
+  getAllUsers() {
+    return this.db.user.findMany({
+      select: { id: true, walletAddress: true, handle: true },
+    });
+  }
 
-    await this.databaseService.user.create({
+  /* ① Nonce 발급 */
+  async createChallenge({ walletAddress }: PostChallengeDto) {
+    const nonce = randomBytes(32).toString('hex');
+
+    const ch = await this.db.authChallenge.create({
       data: {
         walletAddress: walletAddress.toLowerCase(),
-        handle,
+        nonce,
+        expiresAt: addMinutes(new Date(), process.env.AUTH_CHAL_TTL_MIN),
       },
     });
-  }
 
-  async verifySignature(
-    signature: string,
-    walletAddress: string,
-  ): Promise<boolean> {
-    let valid = false;
-
-    const typedData = getTypedData({
-      address: walletAddress,
+    const internalTyped = getTypedData({
+      address: walletAddress.toLowerCase() as Address,
+      nonce: `0x${nonce}`,
+      issued: BigInt(Math.floor(ch.issuedAt.getTime() / 1000)),
     });
 
-    try {
-      const result = await publicClient.verifyTypedData({
-        address: walletAddress.toLowerCase() as `0x${string}`,
-        signature: signature as `0x${string}`,
-        ...typedData,
+    /* BigInt → string 치환용 replacer */
+    const jsonSafe = (obj: any) =>
+      JSON.parse(
+        JSON.stringify(obj, (_, v) =>
+          typeof v === 'bigint' ? v.toString() : v,
+        ),
+      );
+
+    return {
+      challengeId: ch.id,
+      typedData: jsonSafe(internalTyped),
+    };
+  }
+
+  /* ② 검증 + 회원가입/로그인 (단일 트랜잭션) */
+  async verify(dto: PostVerifyDto) {
+    return this.db.$transaction(async (tx) => {
+      const ch = await tx.authChallenge.findUnique({
+        where: { id: dto.challengeId },
+      });
+      if (!ch || ch.usedAt || Date.now() > +ch.expiresAt)
+        throw new ForbiddenException('Challenge invalid');
+
+      const typed = getTypedData({
+        address: dto.walletAddress.toLowerCase() as Address,
+        nonce: `0x${ch.nonce}`,
+        issued: BigInt(Math.floor(ch.issuedAt.getTime() / 1000)),
       });
 
-      valid = result;
-    } catch (error) {
-      console.error('Error verifying signature:', error);
-      valid = false;
-    }
+      const ok = await verifyTypedData({
+        domain: typed.domain,
+        types: typed.types,
+        primaryType: typed.primaryType,
+        message: typed.message,
+        address: dto.walletAddress.toLowerCase() as Address,
+        signature: dto.signature as `0x${string}`,
+      });
 
-    return valid;
+      // 사용 처리 ※ 실패/성공 동일 시도 → 중복 방어
+      await tx.authChallenge.update({
+        where: { id: ch.id },
+        data: { usedAt: new Date() },
+      });
+
+      if (!ok) throw new ForbiddenException('Signature mismatch');
+
+      const user = await tx.user.upsert({
+        where: { walletAddress: dto.walletAddress.toLowerCase() },
+        update: {},
+        create: { walletAddress: dto.walletAddress.toLowerCase() },
+        select: { id: true, walletAddress: true, handle: true },
+      });
+
+      const token = this.jwt.sign(
+        { sub: user.id, aud: String(user.id) },
+        {
+          issuer: process.env.AUTH_JWT_ISSUER,
+          expiresIn: process.env.AUTH_JWT_EXP,
+        },
+      );
+
+      this.log.debug(`login user=${user.id}`);
+      return { token, user };
+    });
   }
 
-  async getAllUsers() {
-    const users = await this.databaseService.user.findMany({
-      select: {
-        id: true,
-        handle: true,
-        walletAddress: true,
-      },
-    });
+  async updateHandle(userId: number, { handle }: PatchHandleDto) {
+    // -- optional uniqueness check (throw 409 if duplicate) --
+    const dup = await this.db.user.findUnique({ where: { handle } });
+    if (dup && dup.id !== userId)
+      throw new ForbiddenException('Handle already taken');
 
-    return users;
+    return this.db.user.update({
+      where: { id: userId },
+      data: { handle },
+      select: { id: true, walletAddress: true, handle: true },
+    });
   }
 }

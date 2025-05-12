@@ -13,6 +13,15 @@ async function bootstrap() {
     .setTitle('Catarchy API')
     .setDescription('Catarchy APIs')
     .setVersion('alpha')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        name: 'JWT',
+        in: 'header',
+      },
+      'accessToken',
+    )
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);

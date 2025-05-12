@@ -14,10 +14,71 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id            String   @id @default(uuid())
-  walletAddress String   @unique
-  handle        String   @unique @db.VarChar(15)
+model user {
+  id            Int      @id @default(autoincrement())
+  walletAddress String   @unique @db.VarChar(42)
+  handle        String?  @unique @db.VarChar(15)
   createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  cats          cat[]
+}
+
+model authChallenge {
+  id            Int      @id @default(autoincrement())
+  walletAddress String   @db.VarChar(42)
+  nonce         String   @db.VarChar(64)
+  issuedAt      DateTime @default(now())
+  expiresAt     DateTime
+  usedAt        DateTime?
+  @@index([walletAddress])
+  @@index([expiresAt])
+}
+
+model cat {
+  tokenId      BigInt          @id
+  userId       Int?
+  user         user?           @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  birthBlock   BigInt?
+  mintedAt     DateTime?
+  expression   Int
+  empathy      Int             @default(0)
+  intellect    Int             @default(0)
+  charisma     Int             @default(0)
+  willpower    Int             @default(0)
+  passion      Int             @default(0)
+  integrity    Int             @default(0)
+  instinct     Int             @default(0)
+  growth       Int             @default(0)
+  emotionScore Int             @default(100)
+  lastEmotionAt     DateTime @default(now()) // 마지막 감정 계산 시각
+  lastCareAt        DateTime @default(now()) // 마지막 Care 버튼 시각
+  
+  careEvents   careEvent[]
+  emotionLogs  catEmotionLog[]
+}
+
+model careEvent {
+  id            Int      @id @default(autoincrement())
+  tokenId       BigInt
+  caredAt       DateTime @default(now())
+  growthDelta   Int
+  emotionBefore Int
+  emotionAfter  Int
+  cat           cat      @relation(fields: [tokenId], references: [tokenId], onDelete: Cascade)
+  @@index([tokenId, caredAt])
+}
+
+model catEmotionLog {
+  id           Int      @id @default(autoincrement())
+  tokenId      BigInt
+  emotionScore Int
+  recordedAt   DateTime @default(now())
+  cat          cat      @relation(fields: [tokenId], references: [tokenId], onDelete: Cascade)
+  @@index([tokenId, recordedAt])
+}
+
+// 게임 내 환경변수 (care 쿨타임, 최대 메세지 발송 수..)
+model systemPolicy {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
 }
