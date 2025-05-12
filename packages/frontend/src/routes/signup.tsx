@@ -1,3 +1,4 @@
+import PersonalityTest from '@/features/personality-test';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/signup')({
@@ -5,5 +6,9 @@ export const Route = createFileRoute('/signup')({
 });
 
 function RouteComponent() {
-  return <div></div>;
+  return (
+    <div>
+      <PersonalityTest />
+    </div>
+  );
 }
