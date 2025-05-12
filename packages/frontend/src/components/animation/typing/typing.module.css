@@ -1,0 +1,19 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.typing {
+  white-space: pre-wrap;
+  word-break: normal;
+  display: block;
+}
+
+.letter {
+  opacity: 0;
+  display: inline;
+}

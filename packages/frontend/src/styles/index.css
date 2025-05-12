@@ -90,3 +90,36 @@
     background-position: center;
   }
 }
+
+@layer utilities {
+  .center {
+    @apply absolute right-1/2 bottom-1/2 translate-x-1/2 translate-y-1/2;
+  }
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .floating {
+    animation: float 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+}

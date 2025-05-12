@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SignupImport } from './routes/signup'
 import { Route as MainImport } from './routes/main'
 import { Route as IndexImport } from './routes/index'
+import { Route as StoryStoryIdImport } from './routes/story/$storyId'
 
 // Create/Update Routes
 
@@ -32,6 +33,12 @@ const MainRoute = MainImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StoryStoryIdRoute = StoryStoryIdImport.update({
+  id: '/story/$storyId',
+  path: '/story/$storyId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
+    '/story/$storyId': {
+      id: '/story/$storyId'
+      path: '/story/$storyId'
+      fullPath: '/story/$storyId'
+      preLoaderRoute: typeof StoryStoryIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +83,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/main': typeof MainRoute
   '/signup': typeof SignupRoute
+  '/story/$storyId': typeof StoryStoryIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/main': typeof MainRoute
   '/signup': typeof SignupRoute
+  '/story/$storyId': typeof StoryStoryIdRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +98,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/main': typeof MainRoute
   '/signup': typeof SignupRoute
+  '/story/$storyId': typeof StoryStoryIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/main' | '/signup'
+  fullPaths: '/' | '/main' | '/signup' | '/story/$storyId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/main' | '/signup'
-  id: '__root__' | '/' | '/main' | '/signup'
+  to: '/' | '/main' | '/signup' | '/story/$storyId'
+  id: '__root__' | '/' | '/main' | '/signup' | '/story/$storyId'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +114,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MainRoute: typeof MainRoute
   SignupRoute: typeof SignupRoute
+  StoryStoryIdRoute: typeof StoryStoryIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MainRoute: MainRoute,
   SignupRoute: SignupRoute,
+  StoryStoryIdRoute: StoryStoryIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +136,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/main",
-        "/signup"
+        "/signup",
+        "/story/$storyId"
       ]
     },
     "/": {
@@ -128,6 +148,9 @@ export const routeTree = rootRoute
     },
     "/signup": {
       "filePath": "signup.tsx"
+    },
+    "/story/$storyId": {
+      "filePath": "story/$storyId.tsx"
     }
   }
 }
