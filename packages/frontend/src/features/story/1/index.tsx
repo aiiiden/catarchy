@@ -4,6 +4,7 @@ import { useEffect, useImperativeHandle, useState } from 'react';
 import { StoryContext, useStory1 } from './model/context';
 import { ReadyToTab } from './ui/ready-to-tab';
 import { CatBackground } from './ui/cat-background';
+import SpriteImage from '@/components/ui/sprite-image';
 
 export interface Story1Handle {
   resume(): void;
@@ -178,7 +179,7 @@ const Scene1 = () => {
     <>
       <Story1.ContentGrid>
         <Story1.Top>
-          <img src="/images/story1_scene1.png" className="w-[138px] mx-auto" />
+          <SpriteImage id="story/1/1" />
         </Story1.Top>
 
         <Story1.Bottom>
@@ -227,7 +228,7 @@ const Scene2 = () => {
     <>
       <Story1.ContentGrid>
         <Story1.Top>
-          <img src="/images/story1_scene2.png" className="w-[133px] mx-auto" />
+          <SpriteImage id="story/1/2" />
         </Story1.Top>
         <Story1.Bottom>
           <div className="space-y-4">
@@ -278,7 +279,7 @@ const Scene3 = () => {
 
       <Story1.ContentGrid>
         <Story1.Top>
-          <img src="/images/story1_scene3.png" className="w-[138px] mx-auto" />
+          <SpriteImage id="story/1/3" />
         </Story1.Top>
         <Story1.Bottom>
           <div className="space-y-4">
@@ -324,7 +325,7 @@ const Scene4 = () => {
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
-          <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
+          <SpriteImage id="story/1/3" />
         </Story1.Top>
         <Story1.Bottom>
           <div className="space-y-4">
@@ -370,16 +371,11 @@ const Scene5 = () => {
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
-          <img
-            src="/images/angel_cat.png"
-            className="w-[72px] mx-auto pb-[93px] floating"
-            alt="angel-cat"
+          <SpriteImage
+            id="character/bastet"
+            className="floating block mx-auto mb-24"
           />
-          <img
-            src="/images/story1_scene4.png"
-            className="w-[138px] mx-auto"
-            alt="scene5"
-          />
+          <SpriteImage id="story/1/3" />
         </Story1.Top>
         <Story1.Bottom>
           <div className="space-y-4">
@@ -427,12 +423,11 @@ const Scene6 = () => {
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
-          <img
-            src="/images/angel_cat.png"
-            className="w-[72px] mx-auto pb-[93px] floating"
-            alt="angel-cat"
+          <SpriteImage
+            id="character/bastet"
+            className="floating block mx-auto mb-24"
           />
-          <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
+          <SpriteImage id="story/1/3" />
         </Story1.Top>
         <Story1.Bottom>
           <div className="space-y-4">
@@ -440,17 +435,17 @@ const Scene6 = () => {
               {'<<'} Bastet {'>>'}
             </p>
 
-            {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
+            {paragraphs.slice(0, currentIdx + 1).map((paragraph, index) => (
               <Typing
-                key={i}
+                key={index}
                 speed={40}
-                startDelay={i === 0 ? 500 : 0}
+                startDelay={index === 0 ? 500 : 0}
                 onEnd={() => {
-                  if (i < paragraphs.length - 1) {
+                  if (index < paragraphs.length - 1) {
                     setTimeout(() => {
-                      setCurrentIdx(i + 1);
+                      setCurrentIdx(index + 1);
                     }, 1000);
-                  } else if (i === paragraphs.length - 1) {
+                  } else if (index === paragraphs.length - 1) {
                     setTimeout(() => {
                       setReadyToTab(true);
                     }, 500);
@@ -458,7 +453,7 @@ const Scene6 = () => {
                 }}
                 className="text-white"
               >
-                {p}
+                {paragraph}
               </Typing>
             ))}
           </div>
@@ -482,12 +477,11 @@ const Scene7 = () => {
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
-          <img
-            src="/images/angel_cat.png"
-            className="w-[72px] mx-auto pb-[93px] floating"
-            alt="angel-cat"
+          <SpriteImage
+            id="character/bastet"
+            className="floating block mx-auto mb-24"
           />
-          <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
+          <SpriteImage id="story/1/3" />
         </Story1.Top>
         <Story1.Bottom>
           <div className="space-y-4">
@@ -540,12 +534,11 @@ const Scene8 = () => {
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
-          <img
-            src="/images/angel_cat.png"
-            className="w-[72px] mx-auto pb-[93px] floating"
-            alt="angel-cat"
+          <SpriteImage
+            id="character/bastet"
+            className="floating block mx-auto mb-24"
           />
-          <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
+          <SpriteImage id="story/1/3" />
         </Story1.Top>
         <Story1.Bottom>
           <div className="space-y-4">
@@ -594,15 +587,11 @@ const Scene9 = () => {
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
-          <img
-            src="/images/angel_cat.png"
-            className="w-[72px] mx-auto pb-[93px] floating opacity-30"
-            alt="angel-cat"
+          <SpriteImage
+            id="character/bastet"
+            className="floating block mx-auto mb-24"
           />
-          <img
-            src="/images/story1_scene4.png"
-            className="w-[138px] mx-auto opacity-30"
-          />
+          <SpriteImage id="story/1/3" />
         </Story1.Top>
       </Story1.ContentGrid>
     </>
@@ -625,12 +614,11 @@ const Scene10 = () => {
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
-          <img
-            src="/images/angel_cat.png"
-            className="w-[72px] mx-auto pb-[93px] floating"
-            alt="angel-cat"
+          <SpriteImage
+            id="character/bastet"
+            className="floating block mx-auto mb-24"
           />
-          <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
+          <SpriteImage id="story/1/3" />
         </Story1.Top>
         <Story1.Bottom>
           <div className="space-y-4">
@@ -679,12 +667,11 @@ const Scene11 = () => {
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
-          <img
-            src="/images/angel_cat.png"
-            className="w-[72px] mx-auto pb-[93px] floating opacity-30"
-            alt="angel-cat"
+          <SpriteImage
+            id="character/bastet"
+            className="floating block mx-auto mb-24"
           />
-          <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
+          <SpriteImage id="story/1/3" />
         </Story1.Top>
       </Story1.ContentGrid>
     </>
