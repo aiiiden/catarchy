@@ -1,8 +1,6 @@
 import SpriteImage from '@/components/ui/sprite-image';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import { useAccount } from 'wagmi';
-
 export const Route = createFileRoute('/main')({
   component: RouteComponent,
   beforeLoad(ctx) {
