@@ -1,3 +1,4 @@
+import SpriteImage from '@/components/ui/sprite-image';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import { useAccount } from 'wagmi';
@@ -22,6 +23,9 @@ export const Route = createFileRoute('/main')({
 });
 
 function RouteComponent() {
-  const { address } = useAccount();
-  return <div>{address}</div>;
+  return (
+    <div>
+      <SpriteImage id="story/1/1" />
+    </div>
+  );
 }

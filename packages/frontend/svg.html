@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pixel Art → RLE-Optimized Rect Converter</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 20px;
+      }
+      textarea {
+        width: 100%;
+        height: 100px;
+        font-family: monospace;
+      }
+      button,
+      input,
+      label {
+        margin: 10px 0;
+      }
+      label {
+        font-weight: bold;
+        display: block;
+        margin-top: 20px;
+      }
+      .preview {
+        border: 1px solid #ccc;
+        padding: 10px;
+        background: #f9f9f9;
+        min-height: 150px;
+        overflow: auto;
+      }
+      svg,
+      canvas,
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 10px 0;
+      }
+      .stats {
+        margin-top: 10px;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Pixel Art → RLE-Optimized Rect Converter</h1>
+
+    <label>Input Type</label>
+    <label
+      ><input type="radio" name="inputType" value="svgCode" checked /> SVG
+      Code</label
+    >
+    <label
+      ><input type="radio" name="inputType" value="file" /> SVG/PNG File</label
+    >
+
+    <div id="svgCodeInput">
+      <label for="svgInput">Paste SVG Code</label>
+      <textarea
+        id="svgInput"
+        placeholder="Paste your SVG code here…"
+      ></textarea>
+    </div>
+
+    <div id="fileInputContainer" style="display: none">
+      <label for="fileInput">Select SVG or PNG File</label>
+      <input id="fileInput" type="file" accept=".svg,image/png" /><br />
+      <label>Image Width (px) and Height (px)</label>
+      <input id="widthInput" type="number" placeholder="Width" min="1" />
+      <input id="heightInput" type="number" placeholder="Height" min="1" />
+    </div>
+
+    <label
+      ><input type="checkbox" id="pixelateToggle" checked /> Pixelate original
+      rendering</label
+    >
+    <label for="contrastSlider">Contrast adjustment</label>
+    <input type="range" id="contrastSlider" min="50" max="200" value="100" />
+
+    <button id="convert">Convert & Preview</button>
+
+    <label>Original Preview</label>
+    <div id="previewInput" class="preview"></div>
+
+    <label for="svgOutput">Converted JSON Output</label>
+    <textarea
+      id="svgOutput"
+      readonly
+      placeholder="Your optimized JSON will appear here."
+    ></textarea>
+    <button id="copyJsonButton">Copy JSON</button>
+
+    <label>Optimized Preview</label>
+    <div id="previewOutput" class="preview"></div>
+    <button id="copySvgButton">Copy SVG Code</button>
+
+    <div class="stats" id="compressionStats"></div>
+
+    <script>
+      const $svgCodeRadio = document.querySelector('input[value="svgCode"]');
+      const $fileRadio = document.querySelector('input[value="file"]');
+      const $svgCodeInput = document.getElementById('svgCodeInput');
+      const $fileInputContainer = document.getElementById('fileInputContainer');
+      const $pixelateToggle = document.getElementById('pixelateToggle');
+      const $contrastSlider = document.getElementById('contrastSlider');
+      const $previewInput = document.getElementById('previewInput');
+      const $previewOutput = document.getElementById('previewOutput');
+      const $svgOutput = document.getElementById('svgOutput');
+      const $convertButton = document.getElementById('convert');
+      const $copyJsonButton = document.getElementById('copyJsonButton');
+      const $copySvgButton = document.getElementById('copySvgButton');
+      const $svgTextArea = document.getElementById('svgInput');
+      const $fileInput = document.getElementById('fileInput');
+      const $widthInput = document.getElementById('widthInput');
+      const $heightInput = document.getElementById('heightInput');
+      const $compressionStats = document.getElementById('compressionStats');
+
+      let forcedWidth = null;
+      let forcedHeight = null;
+      let latestSvgElement = null;
+      let originalSvgLength = 0;
+
+      function toBase64(bytes) {
+        let binary = '';
+        for (let i = 0; i < bytes.length; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary);
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        $svgTextArea.value = sessionStorage.getItem('svgInput') || '';
+        $svgOutput.value = sessionStorage.getItem('svgOutput') || '';
+        $previewInput.innerHTML = sessionStorage.getItem('previewInput') || '';
+        $previewOutput.innerHTML =
+          sessionStorage.getItem('previewOutput') || '';
+        $compressionStats.textContent =
+          sessionStorage.getItem('compressionStats') || '';
+      });
+
+      document.querySelectorAll('input[name="inputType"]').forEach(($radio) => {
+        $radio.addEventListener('change', () => {
+          $svgCodeInput.style.display = $svgCodeRadio.checked ? '' : 'none';
+          $fileInputContainer.style.display = $svgCodeRadio.checked
+            ? 'none'
+            : '';
+          clearPreviews();
+        });
+      });
+
+      function clearPreviews() {
+        $previewInput.innerHTML = '';
+        $previewOutput.innerHTML = '';
+        $svgOutput.value = '';
+        $compressionStats.textContent = '';
+        sessionStorage.clear();
+      }
+
+      $convertButton.addEventListener('click', () => {
+        clearPreviews();
+        sessionStorage.setItem('svgInput', $svgTextArea.value);
+        if ($fileRadio.checked) {
+          const file = $fileInput.files[0];
+          if (!file) return alert('Please select a file.');
+          forcedWidth = parseInt($widthInput.value, 10);
+          forcedHeight = parseInt($heightInput.value, 10);
+          if (
+            isNaN(forcedWidth) ||
+            isNaN(forcedHeight) ||
+            forcedWidth < 1 ||
+            forcedHeight < 1
+          )
+            return alert('Enter valid width/height.');
+          originalSvgLength = file.size;
+          sessionStorage.setItem('originalSvgLength', originalSvgLength);
+          processFile(file);
+        } else {
+          const svgText = $svgTextArea.value.trim();
+          if (!svgText) return alert('Please paste SVG code.');
+          forcedWidth = forcedHeight = null;
+          originalSvgLength = svgText.length;
+          sessionStorage.setItem('originalSvgLength', originalSvgLength);
+          processSVG(svgText);
+        }
+      });
+
+      $copyJsonButton.addEventListener('click', () => {
+        navigator.clipboard.writeText($svgOutput.value);
+      });
+
+      $copySvgButton.addEventListener('click', () => {
+        if (!latestSvgElement) return;
+        const serializer = new XMLSerializer();
+        const svgCode = serializer.serializeToString(latestSvgElement);
+        navigator.clipboard.writeText(svgCode);
+      });
+
+      const $resetButton = document.createElement('button');
+      $resetButton.textContent = 'Reset All';
+      $resetButton.addEventListener('click', () => {
+        sessionStorage.clear();
+        location.reload();
+      });
+      document.body.appendChild($resetButton);
+
+      function processSVG(text) {
+        renderOriginal(text, false);
+        const img = new Image();
+        const url = URL.createObjectURL(
+          new Blob([text], { type: 'image/svg+xml' }),
+        );
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          processImage(img);
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          alert('Failed to load SVG.');
+        };
+        img.src = url;
+      }
+
+      function processFile(file) {
+        const isPNG = file.type === 'image/png';
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            // 자동으로 width, height input 채우기
+            $widthInput.value = Math.round(img.width);
+            $heightInput.value = Math.round(img.height);
+            renderOriginal(e.target.result, isPNG);
+            processImage(img);
+          };
+          img.onerror = () => alert('Failed to load image.');
+          img.src = isPNG
+            ? e.target.result
+            : URL.createObjectURL(
+                new Blob([e.target.result], { type: 'image/svg+xml' }),
+              );
+        };
+        isPNG ? reader.readAsDataURL(file) : reader.readAsText(file);
+      }
+
+      function renderOriginal(src, isURL) {
+        $previewInput.innerHTML = '';
+        let el;
+        if (isURL) {
+          el = document.createElement('img');
+          el.src = src;
+          el.width = forcedWidth;
+          el.height = forcedHeight;
+        } else if (src.trim().startsWith('<svg')) {
+          el = new DOMParser().parseFromString(
+            src,
+            'image/svg+xml',
+          ).documentElement;
+        } else {
+          el = document.createElement('img');
+          el.src = src;
+        }
+        el.style.imageRendering = $pixelateToggle.checked
+          ? 'pixelated'
+          : 'auto';
+        el.style.filter = `contrast(${$contrastSlider.value}%)`;
+        $previewInput.appendChild(el);
+      }
+
+      function rgbToHex(r, g, b) {
+        return (
+          '#' + [r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')
+        );
+      }
+
+      function processImage(img) {
+        const width = forcedWidth || img.width;
+        const height = forcedHeight || img.height;
+        const svg = document.createElementNS(
+          'http://www.w3.org/2000/svg',
+          'svg',
+        );
+        svg.setAttribute('width', width);
+        svg.setAttribute('height', height);
+        svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+        const rects = [];
+        const colorMap = new Map();
+        const colorList = [];
+
+        const ctx = document.createElement('canvas').getContext('2d');
+        ctx.canvas.width = width;
+        ctx.canvas.height = height;
+        ctx.imageSmoothingEnabled = !$pixelateToggle.checked;
+        ctx.filter = `contrast(${$contrastSlider.value}%)`;
+        ctx.drawImage(img, 0, 0, width, height);
+        const data = ctx.getImageData(0, 0, width, height).data;
+        const pixelMap = {};
+
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const i = (y * width + x) * 4;
+            const [r, g, b, a] = [
+              data[i],
+              data[i + 1],
+              data[i + 2],
+              data[i + 3],
+            ];
+            if (a === 0) continue;
+            pixelMap[`${x},${y}`] = rgbToHex(r, g, b);
+          }
+        }
+
+        for (let y = 0; y < height; y++) {
+          let runColor = pixelMap[`0,${y}`] || null,
+            runStart = 0;
+          for (let x = 1; x <= width; x++) {
+            const col = pixelMap[`${x},${y}`] || null;
+            if (col !== runColor) {
+              if (runColor) {
+                if (!colorMap.has(runColor)) {
+                  colorMap.set(runColor, colorList.length);
+                  colorList.push(runColor);
+                }
+                const colorIndex = colorMap.get(runColor);
+                rects.push([runStart, y, x - runStart, 1, colorIndex, 1]);
+                const rect = document.createElementNS(
+                  'http://www.w3.org/2000/svg',
+                  'rect',
+                );
+                rect.setAttribute('x', runStart);
+                rect.setAttribute('y', y);
+                rect.setAttribute('width', x - runStart);
+                rect.setAttribute('height', 1);
+                rect.setAttribute('fill', runColor);
+                svg.appendChild(rect);
+              }
+              runStart = x;
+              runColor = col;
+            }
+          }
+        }
+
+        const rectBytes = new Uint8Array(rects.length * 6);
+        rects.forEach((arr, i) => {
+          rectBytes.set(
+            arr.map((v) => Math.min(255, v)),
+            i * 6,
+          );
+        });
+        const rectBase64 = toBase64(rectBytes);
+
+        const jsonCompact = `{
+      "width": ${width},
+      "height": ${height},
+      "colors": [${colorList.map((c) => `"${c}"`).join(', ')}],
+      "rects": "${rectBase64}"
+    }`;
+
+        $svgOutput.value = jsonCompact;
+        $previewOutput.innerHTML = '';
+        $previewOutput.appendChild(svg);
+        latestSvgElement = svg;
+
+        const optimizedLength = jsonCompact.length;
+        const percent = (
+          (1 - optimizedLength / originalSvgLength) *
+          100
+        ).toFixed(1);
+        $compressionStats.textContent = `Compressed: ${optimizedLength} bytes vs. ${originalSvgLength} bytes → ${percent}% smaller`;
+
+        sessionStorage.setItem('svgOutput', jsonCompact);
+        sessionStorage.setItem('previewOutput', $previewOutput.innerHTML);
+        sessionStorage.setItem('previewInput', $previewInput.innerHTML);
+        sessionStorage.setItem(
+          'compressionStats',
+          $compressionStats.textContent,
+        );
+      }
+    </script>
+  </body>
+</html>
