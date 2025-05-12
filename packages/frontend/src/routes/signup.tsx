@@ -1,3 +1,4 @@
+import PersonalityTest from '@/features/personality-test';
 import { Story1, Story1Handle } from '@/features/story/1';
 import { createFileRoute } from '@tanstack/react-router';
 import { useRef } from 'react';
@@ -15,6 +16,7 @@ function RouteComponent() {
       <button onClick={() => storyRef.current?.resume()}>
         애니메이션 이어서 실행
       </button>
+      <PersonalityTest />
     </div>
   );
 }

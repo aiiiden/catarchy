@@ -187,7 +187,7 @@ const Scene1 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={40}
+                speed={20}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -235,7 +235,7 @@ const Scene2 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={40}
+                speed={20}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -286,7 +286,7 @@ const Scene3 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={40}
+                speed={20}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -332,7 +332,7 @@ const Scene4 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={40}
+                speed={20}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -382,7 +382,7 @@ const Scene5 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={40}
+                speed={20}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -438,7 +438,7 @@ const Scene6 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((paragraph, index) => (
               <Typing
                 key={index}
-                speed={40}
+                speed={20}
                 startDelay={index === 0 ? 500 : 0}
                 onEnd={() => {
                   if (index < paragraphs.length - 1) {
@@ -492,7 +492,7 @@ const Scene7 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={40}
+                speed={20}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -549,7 +549,7 @@ const Scene8 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={40}
+                speed={20}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -629,7 +629,7 @@ const Scene10 = () => {
             {paragraphs.slice(0, currentIdx + 1).map((p, i) => (
               <Typing
                 key={i}
-                speed={40}
+                speed={20}
                 startDelay={i === 0 ? 500 : 0}
                 onEnd={() => {
                   if (i < paragraphs.length - 1) {
@@ -690,7 +690,7 @@ const Scene12 = () => {
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
-          <img src="/images/story1_scene4.png" className="w-[138px] mx-auto" />
+          <SpriteImage id="story/1/3" />
         </Story1.Top>
         <p className="text-white absolute right-1/2 translate-x-1/2 bottom-1/2">
           Loading...
@@ -712,10 +712,7 @@ const Scene13 = () => {
       <CatBackground />
       <Story1.ContentGrid>
         <Story1.Top>
-          <img
-            src="/images/story1_scene4.png"
-            className="w-[138px] mx-auto opacity-30"
-          />
+          <SpriteImage id="story/1/3" className="opacity-30" />
         </Story1.Top>
       </Story1.ContentGrid>
     </>

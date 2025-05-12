@@ -85,8 +85,13 @@
 
   .bg-pattern-cat {
     background-image: url(./cat-pattern.svg);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
+    background-position: center;
+  }
+
+  .bg-pattern-bastet {
+    background-image: url(./bastet-pattern.svg);
+    background-repeat: repeat;
     background-position: center;
   }
 }

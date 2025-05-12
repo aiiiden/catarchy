@@ -21,7 +21,6 @@ export const Typing = ({
   const [done, setDone] = useState(false);
   const calledEnd = useRef(false);
 
-  // 1) onEnd + done 호출 타이머
   useEffect(() => {
     if (typeof onEnd !== 'function') return;
     const total = startDelay + children.length * speed;
@@ -35,7 +34,21 @@ export const Typing = ({
     return () => clearTimeout(timer);
   }, [children, speed, startDelay, onEnd]);
 
-  // 2) 애니메이션이 끝나면 그냥 문자열 렌더
+  useEffect(() => {
+    const handleClick = () => {
+      if (done) return;
+      if (typeof onEnd === 'function') {
+        calledEnd.current = true;
+        setDone(true);
+        onEnd();
+      }
+    };
+    window.addEventListener('click', handleClick);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, [done, onEnd]);
+
   if (done) {
     return <p className={cn(styles.typing, className)}>{children}</p>;
   }

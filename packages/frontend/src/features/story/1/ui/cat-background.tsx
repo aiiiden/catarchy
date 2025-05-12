@@ -1,9 +1,5 @@
 export const CatBackground = () => {
   return (
-    <img
-      src="/images/cat_background.png"
-      className="absolute inset-0"
-      alt="cat-background"
-    />
+    <div className="bg-pattern-bastet absolute inset-0 opacity-5 z-0"></div>
   );
 };
