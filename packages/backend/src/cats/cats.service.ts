@@ -76,12 +76,14 @@ export class CatsService {
       throw new BadRequestException('Care cooldown');
 
     // 감정 감소 계산
-    const hours = (Date.now() - +cat.lastEmotionAt) / 3_600_000;
+    const hours = (Date.now() - +cat.lastCareAt) / 3_600_000;
     const steps = Math.floor(hours / decayIntervalH);
-    const decayed = Math.max(0, cat.emotionScore - steps * decayValue);
 
     // 보너스 + 기록
-    const newEmotion = Math.min(100, decayed + 10);
+    const newEmotion = Math.max(
+      0,
+      Math.min(100, cat.emotionScore - steps * decayValue + 10),
+    );
     const growthDelta = 1;
 
     const [updCat, careEvent] = await this.db.$transaction([
