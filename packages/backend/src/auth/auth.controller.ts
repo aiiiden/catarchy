@@ -48,7 +48,7 @@ export class AuthController {
     },
   })
   @Get('users')
-  getAllUsers() {
+  public async getAllUsers() {
     return this.auth.getAllUsers();
   }
 
@@ -68,7 +68,7 @@ export class AuthController {
     },
   })
   @Post('challenge')
-  createChallenge(@Body() dto: PostChallengeDto) {
+  public async createChallenge(@Body() dto: PostChallengeDto) {
     return this.auth.createChallenge(dto);
   }
 
@@ -95,7 +95,7 @@ export class AuthController {
     },
   })
   @Post('verify')
-  verify(@Body() dto: PostVerifyDto) {
+  public async verify(@Body() dto: PostVerifyDto) {
     return this.auth.verify(dto);
   }
 
@@ -103,6 +103,7 @@ export class AuthController {
   /* ③ Set / change user handle                                         */
   /* ------------------------------------------------------------------ */
   @UseGuards(AuthGuard) // requires a valid JWT
+  @ApiBearerAuth('token')
   @Patch('handle')
   @ApiOperation({ summary: 'Update handle (nickname)' })
   @ApiBody({ type: PatchHandleDto })
@@ -117,7 +118,10 @@ export class AuthController {
       },
     },
   })
-  async patchHandle(@User() user: AuthUser, @Body() dto: PatchHandleDto) {
+  public async patchHandle(
+    @User() user: AuthUser,
+    @Body() dto: PatchHandleDto,
+  ) {
     return this.auth.updateHandle(user.id!, dto);
   }
 }
