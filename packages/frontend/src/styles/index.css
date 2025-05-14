@@ -57,6 +57,7 @@
     justify-content: safe center;
     align-items: safe center;
     height: 100svh;
+    overscroll-behavior: none;
   }
 
   .font-bold {

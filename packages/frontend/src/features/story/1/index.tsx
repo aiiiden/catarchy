@@ -13,8 +13,11 @@ export interface Story1Handle {
 
 export const Story1 = ({
   ref,
+  className,
 }: {
   ref: React.RefObject<Story1Handle | null>;
+  className?: string;
+  onDone?: () => void;
 }) => {
   const [state, setState] = useState<'play' | 'pause'>('play');
   const [scene, setScene] = useState(0);
@@ -129,6 +132,7 @@ export const Story1 = ({
         className={cn(
           'absolute inset-0 transition-all duration-500 ease-in-out',
           scenes[scene].bgClassName,
+          className,
         )}
       >
         {scenes[scene].scene}
@@ -320,7 +324,7 @@ const Scene3 = () => {
 };
 
 const Scene4 = () => {
-  const { mounted } = useMount(() => {});
+  const { mounted } = useMount();
   const { setScene } = useStory1();
 
   const [currentIdx, setCurrentIdx] = useState(0);

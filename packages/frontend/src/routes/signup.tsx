@@ -11,12 +11,13 @@ function RouteComponent() {
   const storyRef = useRef<Story1Handle>(null);
 
   return (
-    <div>
-      <Story1 ref={storyRef} />
-      <button onClick={() => storyRef.current?.resume()}>
-        애니메이션 이어서 실행
-      </button>
-      <PersonalityTest />
+    <div className="h-full">
+      <Story1 ref={storyRef} className="z-10" />
+      <PersonalityTest
+        onDone={() => {
+          storyRef.current?.resume();
+        }}
+      />
     </div>
   );
 }
