@@ -31,11 +31,7 @@ export function SpriteProvider() {
           }
 
           return (
-            <symbol
-              key={id}
-              id={id}
-              viewBox={`0 0 ${encoded.width} ${encoded.height}`}
-            >
+            <symbol key={id} id={id} viewBox={encoded.viewBox}>
               {elements}
             </symbol>
           );

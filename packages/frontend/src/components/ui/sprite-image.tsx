@@ -7,12 +7,14 @@ export default function SpriteImage({
   width,
   height,
   alt,
+  ref,
 }: {
   id: keyof typeof sprites;
   className?: string;
   width?: number;
   height?: number;
   alt?: string;
+  ref?: React.Ref<SVGSVGElement>;
 }) {
   if (id in sprites === false) {
     throw new Error(`Sprite with id "${id}" not found`);
@@ -36,6 +38,7 @@ export default function SpriteImage({
 
   return (
     <svg
+      ref={ref}
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label={alt ?? id}
