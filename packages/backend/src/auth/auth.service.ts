@@ -38,24 +38,7 @@ export class AuthService {
       },
     });
 
-    const internalTyped = getTypedData({
-      address: walletAddress.toLowerCase() as Address,
-      nonce: `0x${nonce}`,
-      issued: BigInt(Math.floor(ch.issuedAt.getTime() / 1000)),
-    });
-
-    /* BigInt → string 치환용 replacer */
-    const jsonSafe = (obj: any) =>
-      JSON.parse(
-        JSON.stringify(obj, (_, v) =>
-          typeof v === 'bigint' ? v.toString() : v,
-        ),
-      );
-
-    return {
-      challengeId: ch.id,
-      typedData: jsonSafe(internalTyped),
-    };
+    return ch.nonce;
   }
 
   /* ② 검증 + 회원가입/로그인 (단일 트랜잭션) */

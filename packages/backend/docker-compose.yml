@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: catarchy-postgres
+    restart: always
+    volumes:
+      - ./docker-compose/postgresql:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: johndoe
+      POSTGRES_PASSWORD: randompassword
+      POSTGRES_DB: catarchy
+  redis:
+    image: redis
+    container_name: catarchy-redis
+    ports:
+      - '6379:6379'
