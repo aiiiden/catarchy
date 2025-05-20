@@ -12,7 +12,7 @@ const buttonVariants = cva('cursor-pointer flex justify-center items-center', {
     },
     size: {
       base: 'min-h-12 px-6 rounded-md',
-      lg: 'min-h-16 px-8 rounded-lg font-bold text-lg',
+      lg: 'min-h-13 px-8 rounded-lg font-bold text-lg',
     },
   },
   defaultVariants: {
