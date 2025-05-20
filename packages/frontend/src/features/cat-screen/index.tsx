@@ -13,7 +13,7 @@ import SpriteImage from '@/components/ui/sprite-image';
  *   • Click anywhere in the container to make the cat jump.
  */
 export default function CatScreen({
-  growth = 6,
+  growth = 1,
 }: {
   growth?: 1 | 2 | 3 | 4 | 5 | 6;
 }) {
