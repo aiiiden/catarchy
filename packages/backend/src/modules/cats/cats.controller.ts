@@ -4,10 +4,8 @@ import {
   Controller,
   Get,
   Param,
-  Patch,
   Post,
   Query,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -21,12 +19,12 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { CatsService } from './cats.service';
-import { AuthGuard } from 'src/commons/guards/auth.guard';
-import { PostVirtuesDto } from './dtos/post-virtues.dto';
 import { User } from 'src/commons/decorators/user.decorator';
+import { AuthGuard } from 'src/commons/guards/auth.guard';
 import { AuthUser } from 'src/types';
+import { CatsService } from './cats.service';
 import { PostMintDto } from './dtos/post-mint.dto';
+import { PostVirtuesDto } from './dtos/post-virtues.dto';
 
 @ApiTags('cats')
 @Controller('cats')
@@ -45,7 +43,7 @@ export class CatsController {
   })
   @Post('virtues')
   public async create(@Body() dto: PostVirtuesDto, @User() user: AuthUser) {
-    return this.catService.createWithVirtues(dto, user.id!);
+    return this.catService.createWithVirtues(dto, user.id);
   }
 
   /* ─────────── ② 민트 콜백 → tokenId 업데이트 ─────────── */
@@ -58,7 +56,7 @@ export class CatsController {
       BigInt(dto.tokenId),
       BigInt(dto.birthBlock),
       dto.mintTx,
-      user.id!,
+      user.id,
     );
   }
 
@@ -76,7 +74,7 @@ export class CatsController {
   })
   @Post(':tokenId/care')
   public async care(@Param('catId') catId: number, @User() user: AuthUser) {
-    return this.catService.care(catId, user.id!);
+    return this.catService.care(catId, user.id);
   }
 
   /* ─────────── ④ 내 고양이 목록 ─────────── */
@@ -87,7 +85,7 @@ export class CatsController {
   })
   @Get('myCats')
   public async myCats(@User() user: AuthUser) {
-    return this.catService.listMyCats(user.id!);
+    return this.catService.listMyCats(user.id);
   }
 
   /* ─────────── ⑤ 히스토리 조회 ─────────── */

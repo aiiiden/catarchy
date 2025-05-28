@@ -4,7 +4,7 @@ import {
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseService } from '@providers/database/database.service';
 import { PostVirtuesDto } from './dtos/post-virtues.dto';
 
 @Injectable()

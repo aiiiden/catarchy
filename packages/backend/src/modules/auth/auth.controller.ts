@@ -1,56 +1,32 @@
 import {
   Body,
   Controller,
-  Get,
+  HttpCode,
   Patch,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOperation,
-  ApiOkResponse,
-  ApiCreatedResponse,
-  ApiBody,
   ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
 } from '@nestjs/swagger';
 
+import { User } from 'src/commons/decorators/user.decorator';
+import { AuthGuard } from 'src/commons/guards/auth.guard';
+import { AuthUser } from 'src/types';
 import { AuthService } from './auth.service';
+import { PatchHandleDto } from './dtos/patch-handle.dto';
 import { PostChallengeDto } from './dtos/post-challenge.dto';
 import { PostVerifyDto } from './dtos/post-verify.dto';
-import { PatchHandleDto } from './dtos/patch-handle.dto';
-import { AuthGuard } from 'src/commons/guards/auth.guard';
-import { User } from 'src/commons/decorators/user.decorator';
-import { AuthUser } from 'src/types';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly auth: AuthService) {}
-
-  /* ------------------------------------------------------------------ */
-  /* Debug: list every registered user                                   */
-  /* ------------------------------------------------------------------ */
-  @ApiOperation({ summary: 'List all users (debug only)' })
-  @ApiOkResponse({
-    description: 'Array of registered wallets',
-    schema: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          id: { type: 'integer', example: 1 },
-          walletAddress: { type: 'string', example: '0xAbc...' },
-          handle: { type: 'string', nullable: true },
-        },
-      },
-    },
-  })
-  @Get('users')
-  public async getAllUsers() {
-    return this.auth.getAllUsers();
-  }
 
   /* ------------------------------------------------------------------ */
   /* ① Issue a nonce challenge                                           */
@@ -94,6 +70,7 @@ export class AuthController {
       },
     },
   })
+  @HttpCode(200)
   @Post('verify')
   public async verify(@Body() dto: PostVerifyDto) {
     return this.auth.verify(dto);
@@ -122,6 +99,6 @@ export class AuthController {
     @User() user: AuthUser,
     @Body() dto: PatchHandleDto,
   ) {
-    return this.auth.updateHandle(user.id!, dto);
+    return this.auth.updateHandle(user.id, dto);
   }
 }

@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class PostVerifyDto {
-  @ApiProperty({ example: 42 })
-  @IsInt()
-  challengeId: number;
+  @ApiProperty({ example: '3489ufiahdjks' })
+  @IsString()
+  challengeId: string;
 
   @ApiProperty({ example: '0x1234…' })
   walletAddress: string;
