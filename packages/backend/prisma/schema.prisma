@@ -23,44 +23,45 @@ model user {
 }
 
 model authChallenge {
-  id            Int      @id @default(autoincrement())
-  walletAddress String   @db.VarChar(42)
-  nonce         String   @db.VarChar(64)
-  issuedAt      DateTime @default(now())
+  id            String    @id @default(cuid())
+  walletAddress String    @db.VarChar(42)
+  nonce         String    @db.VarChar(64)
+  issuedAt      DateTime  @default(now())
   expiresAt     DateTime
   usedAt        DateTime?
+
   @@index([walletAddress])
   @@index([expiresAt])
 }
 
 model cat {
-  id           Int      @id @default(autoincrement())         
-  tokenId      BigInt?  @unique                               
-  userId       Int?
-  user         user?    @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: SetNull)
+  id      Int     @id @default(autoincrement())
+  tokenId BigInt? @unique
+  userId  Int?
+  user    user?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: SetNull)
 
-  expression   Int      @default(0)
-  empathy      Int      @default(0)
-  intellect    Int      @default(0)
-  charisma     Int      @default(0)
-  willpower    Int      @default(0)
-  passion      Int      @default(0)
-  integrity    Int      @default(0)
-  instinct     Int      @default(0)
+  expression Int @default(0)
+  empathy    Int @default(0)
+  intellect  Int @default(0)
+  charisma   Int @default(0)
+  willpower  Int @default(0)
+  passion    Int @default(0)
+  integrity  Int @default(0)
+  instinct   Int @default(0)
 
-  growth       Int      @default(0)
-  emotionScore Int      @default(100)
+  growth       Int @default(0)
+  emotionScore Int @default(100)
 
   lastEmotionAt DateTime @default(now())
   lastCareAt    DateTime @default(now())
 
-  mintTx       String?   @db.VarChar(66)
-  birthBlock   BigInt?
-  mintedAt     DateTime?
+  mintTx     String?   @db.VarChar(66)
+  birthBlock BigInt?
+  mintedAt   DateTime?
 
-  createdAt    DateTime  @default(now())
-  careEvents   careEvent[]
-  emotionLogs  catEmotionLog[]
+  createdAt   DateTime        @default(now())
+  careEvents  careEvent[]
+  emotionLogs catEmotionLog[]
 }
 
 model careEvent {
@@ -71,7 +72,7 @@ model careEvent {
   growthDelta   Int
   emotionBefore Int
   emotionAfter  Int
-  
+
   @@index([catId, caredAt])
 }
 
@@ -81,6 +82,7 @@ model catEmotionLog {
   cat          cat      @relation(fields: [catId], references: [id])
   emotionScore Int
   recordedAt   DateTime @default(now())
+
   @@index([catId, recordedAt])
 }
 

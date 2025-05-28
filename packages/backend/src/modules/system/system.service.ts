@@ -1,6 +1,6 @@
 // src/system/system.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseService } from '@providers/database/database.service';
 
 @Injectable()
 export class SystemService {

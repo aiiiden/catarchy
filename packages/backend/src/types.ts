@@ -8,4 +8,4 @@ export interface JwtPayload {
   exp: number;
 }
 
-export type AuthUser = Partial<user>;
+export type AuthUser = user;

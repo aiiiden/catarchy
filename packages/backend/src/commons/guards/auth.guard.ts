@@ -4,16 +4,16 @@ import {
   CanActivate,
   ExecutionContext,
   Injectable,
-  UnauthorizedException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
+import { DatabaseService } from '@providers/database/database.service';
 import { Request } from 'express';
 
-import { DatabaseService } from 'src/database/database.service';
-import { JwtPayload } from 'src/types';
 import { user } from 'prisma/db';
+import { JwtPayload } from 'src/types';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -71,10 +71,12 @@ export class AuthGuard implements CanActivate {
   }
 
   private async loadUser(payload: JwtPayload): Promise<Partial<user>> {
-    const user = await this.databaseService.user.findUnique({
+    const user: user | null = await this.databaseService.user.findUnique({
       where: { id: payload.sub }, // sub = userId
     });
+
     if (!user) throw new NotFoundException('User not found');
+
     return user;
   }
 }

@@ -2,13 +2,13 @@ import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { randomBytes } from 'crypto';
 import { addMinutes } from 'date-fns';
-import { verifyTypedData, Address } from 'viem';
+import { Address, verifyTypedData } from 'viem';
 
-import { DatabaseService } from '../database/database.service';
-import { getTypedData } from '../lib/web3';
+import { DatabaseService } from 'src/providers/database/database.service';
+import { getTypedData } from '../../lib/web3';
+import { PatchHandleDto } from './dtos/patch-handle.dto';
 import { PostChallengeDto } from './dtos/post-challenge.dto';
 import { PostVerifyDto } from './dtos/post-verify.dto';
-import { PatchHandleDto } from './dtos/patch-handle.dto';
 
 @Injectable()
 export class AuthService {
@@ -18,13 +18,6 @@ export class AuthService {
     private readonly db: DatabaseService,
     private readonly jwt: JwtService,
   ) {}
-
-  /* 디버그용 */
-  getAllUsers() {
-    return this.db.user.findMany({
-      select: { id: true, walletAddress: true, handle: true },
-    });
-  }
 
   /* ① Nonce 발급 */
   async createChallenge({ walletAddress }: PostChallengeDto) {
