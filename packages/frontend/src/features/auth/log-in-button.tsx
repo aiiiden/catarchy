@@ -12,8 +12,8 @@ export default function LogInButton() {
   const router = useRouter();
   const account = useAppKitAccount();
   const appkit = useAppKit();
-  const { disconnectAsync } = useDisconnect();
 
+  const { disconnectAsync } = useDisconnect();
   const { connectAsync } = useWallet();
   const { signTypedDataAsync } = useSignTypedData();
 
@@ -57,7 +57,6 @@ export default function LogInButton() {
       return;
     }
 
-    console.log('accessToken', accessToken);
     setAuth({
       token: accessToken,
     });
