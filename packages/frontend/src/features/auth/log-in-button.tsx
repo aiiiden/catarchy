@@ -31,13 +31,8 @@ export default function LogInButton() {
 
     const { address } = connection;
 
-    if (!address) {
-      console.error('No address found');
-      return;
-    }
-
     const typedData = generateTypedData({
-      address,
+      address: address!,
     });
 
     const signature = await signTypedDataAsync(typedData);
@@ -48,7 +43,7 @@ export default function LogInButton() {
     }
 
     const { accessToken } = await signIn({
-      address,
+      address: address!,
       signature,
     });
 
