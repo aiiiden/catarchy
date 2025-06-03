@@ -31,7 +31,11 @@ export class AuthService {
       },
     });
 
-    return ch.nonce;
+    return {
+      nonce: ch.nonce,
+      issuedAt: ch.issuedAt.getTime(),
+      challengeId: ch.id,
+    };
   }
 
   /* ② 검증 + 회원가입/로그인 (단일 트랜잭션) */
@@ -45,7 +49,7 @@ export class AuthService {
 
       const typed = getTypedData({
         address: dto.walletAddress.toLowerCase() as Address,
-        nonce: `0x${ch.nonce}`,
+        nonce: ch.nonce,
         issued: BigInt(Math.floor(ch.issuedAt.getTime() / 1000)),
       });
 

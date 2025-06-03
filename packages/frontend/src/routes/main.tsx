@@ -50,7 +50,7 @@ function MenuButton({
 function RouteComponent() {
   return (
     <div className="h-full flex flex-col gap-0">
-      <div className="relative h-1/2 min-h-[300px] flex flex-col gap-0 border-b border-gray-light">
+      <div className="relative h-full flex flex-col gap-0 border-b border-gray-light">
         <div className="bg-pattern-cat absolute inset-0 opacity-20"></div>
         <header className="px-4 py-3.5 flex justify-center items-center">
           <SpriteImage id="logo/typo" alt="CATARCHY" />
@@ -69,30 +69,30 @@ function RouteComponent() {
       <div className="flex-grow p-4 flex flex-col justify-center">
         <div className="h-fit flex gap-4">
           <div className="border rounded-sm flex-grow">
-            <table className="w-full *:leading-3.5 [&_th]:w-20 [&_th]:text-left [&_th]:pl-1.5 [&_th]:py-1.5 [&_td]:py-px [&_td]:text-right [&_td]:px-1.5 [&_td]:overflow-auto [&_tr]:not-last:border-b [&_tr]:not-last:border-dotted [&_tr]:not-last:border-gray-light">
+            <table className="w-full *:leading-3.5 [&_th]:w-20 [&_th]:text-left [&_th]:pl-1.5 [&_th]:py-2 [&_td]:py-px [&_td]:text-right [&_td]:px-2 [&_td]:overflow-auto [&_tr]:not-last:border-b [&_tr]:not-last:border-dotted [&_tr]:not-last:border-gray-light">
               <tbody>
                 <tr>
-                  <th>🌱GROWTH</th>
+                  <th>🌱 GROWTH</th>
                   <td>12131</td>
                 </tr>
                 <tr>
-                  <th>🎂AGE</th>
+                  <th>🎂 AGE</th>
                   <td>3 ¹⁄₁₂</td>
                 </tr>
                 <tr>
-                  <th>ⓅPOINT</th>
+                  <th>Ⓟ POINT</th>
                   <td>1,005 Pt</td>
                 </tr>
                 <tr>
-                  <th>💼JOB</th>
+                  <th>💼 JOB</th>
                   <td>-</td>
                 </tr>
                 <tr>
-                  <th>😊MOOD</th>
+                  <th>😊 MOOD</th>
                   <td>HAPPY</td>
                 </tr>
                 <tr>
-                  <th>❤LOVE</th>
+                  <th>❤ LOVE</th>
                   <td>-</td>
                 </tr>
               </tbody>

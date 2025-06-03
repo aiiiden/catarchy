@@ -1,12 +1,12 @@
-import { ReownAppkitProvider } from './reown-appkit';
+import { RainbowKitProvider } from './rainbowkit';
 import { SpriteProvider } from './sprite-provider';
 import { TanstackQueryProvider } from './tanstack-query';
 
 export default function Provider({ children }: { children: React.ReactNode }) {
   return (
-    <ReownAppkitProvider>
+    <TanstackQueryProvider>
       <SpriteProvider />
-      <TanstackQueryProvider>{children}</TanstackQueryProvider>
-    </ReownAppkitProvider>
+      <RainbowKitProvider>{children}</RainbowKitProvider>
+    </TanstackQueryProvider>
   );
 }

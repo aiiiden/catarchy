@@ -30,7 +30,7 @@ function RouteComponent() {
         <p className="text-center">Ver 0.0.1</p>
       </div>
 
-      <footer className="bg-white z-20 px-4 pt-2 pb-5 border-t-2 border-t-gray-extralight">
+      <footer className="bg-white z-20 px-4 pt-2 pb-5 border-t-2 border-t-gray-extralight h-20">
         <LogInButton />
       </footer>
     </main>

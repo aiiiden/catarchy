@@ -9,6 +9,8 @@ const buttonVariants = cva('cursor-pointer flex justify-center items-center', {
     variant: {
       primary:
         'bg-primary text-white hover:bg-primary-light not-disabled:hover:text-primary disabled:bg-primary/60 disabled:opacity-20 disabled:cursor-not-allowed',
+      secondary:
+        'bg-white border border-gray-light hover:bg-gray-extralight hover:border-black',
     },
     size: {
       base: 'min-h-12 px-6 rounded-md',
