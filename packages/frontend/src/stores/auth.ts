@@ -3,7 +3,6 @@ import { persistentMap } from '@nanostores/persistent';
 
 export interface AuthState {
   token: string;
-  [key: string]: string;
 }
 
 export const localStorageKey = '@catarchy/auth/';

@@ -1,71 +1,78 @@
 import { Button } from '@/components/ui/button';
-import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
-import { useCallback } from 'react';
-import { useDisconnect, useSignTypedData } from 'wagmi';
-import useWallet from './use-wallet';
+import { getChallenge, signIn, useSignIn } from '@/requests/auth';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { use, useCallback } from 'react';
+import { useAccount, useSignTypedData } from 'wagmi';
 import { generateTypedData } from './util';
-import { signIn } from '@/requests/auth';
-import { setAuth } from '@/stores/auth';
-import { useRouter } from '@tanstack/react-router';
+import { useAuth } from '@/stores/auth';
+import { useNavigate } from '@tanstack/react-router';
 
 export default function LogInButton() {
-  const router = useRouter();
-  const account = useAppKitAccount();
-  const appkit = useAppKit();
-
-  const { disconnectAsync } = useDisconnect();
-  const { connectAsync } = useWallet();
+  const naviagate = useNavigate();
+  const { isConnected, address } = useAccount();
+  const { openConnectModal } = useConnectModal();
   const { signTypedDataAsync } = useSignTypedData();
+  const { auth, setAuth } = useAuth();
 
-  const handleClick = useCallback(async () => {
-    if (account.isConnected) {
-      await disconnectAsync();
-    }
+  const handleClick = useCallback(() => {
+    console.log('isConnected', isConnected);
+    openConnectModal?.();
+  }, [openConnectModal]);
 
-    const connection = await connectAsync();
+  const { data, mutateAsync: signIn } = useSignIn();
 
-    if (!connection) {
-      console.error('Failed to connect');
+  const handleSignMessage = useCallback(async () => {
+    const { nonce, issuedAt, challengeId } = await getChallenge({
+      walletAddress: address!,
+    });
+
+    if (!nonce) {
+      alert('Failed to get nonce');
       return;
     }
 
-    const { address } = connection;
-
-    const typedData = generateTypedData({
-      address: address!,
+    const typed = generateTypedData({
+      address: address!.toLowerCase() as `0x${string}`,
+      nonce,
+      issuedAt,
     });
 
-    const signature = await signTypedDataAsync(typedData);
+    console.log('typed', typed);
 
-    if (!signature) {
-      console.error('Failed to sign typed data');
+    const signature = await signTypedDataAsync(typed);
+
+    const { token, user } = await signIn({
+      walletAddress: address!.toLowerCase() as `0x${string}`,
+      signature: signature as `0x${string}`,
+      challengeId,
+    });
+
+    setAuth({ token });
+
+    if (!user.handle) {
+      naviagate({
+        to: '/signup',
+      });
+
       return;
     }
 
-    const { accessToken } = await signIn({
-      address: address!,
-      signature,
-    });
-
-    if (!accessToken) {
-      console.error('Failed to get access token');
-      return;
-    }
-
-    setAuth({
-      token: accessToken,
-    });
-
-    await router.invalidate();
-
-    await router.navigate({
+    naviagate({
       to: '/main',
     });
-  }, [account, appkit]);
+  }, [address]);
+
+  if (!isConnected) {
+    return (
+      <Button onClick={handleClick} className="w-full">
+        Log in
+      </Button>
+    );
+  }
 
   return (
-    <Button className="w-full font-bold text-base" onClick={handleClick}>
-      Log in
+    <Button onClick={handleSignMessage} className="w-full">
+      Sign Message
     </Button>
   );
 }

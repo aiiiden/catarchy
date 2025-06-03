@@ -1,8 +1,11 @@
 export function generateTypedData({
   address,
+  nonce,
+  issuedAt,
 }: {
   address: `0x${string}`;
-  nonce?: string;
+  nonce: string;
+  issuedAt: number;
 }) {
   return {
     types: {
@@ -12,8 +15,9 @@ export function generateTypedData({
       ],
       Verify: [
         { name: 'from', type: 'address' },
-        // TODO: add nonce
-        // { name: 'nonce', type: 'string' },
+        { name: 'purpose', type: 'string' },
+        { name: 'nonce', type: 'string' },
+        { name: 'issued', type: 'uint256' },
       ],
     },
     domain: {
@@ -23,8 +27,11 @@ export function generateTypedData({
     primaryType: 'Verify',
     message: {
       from: address.toLowerCase() as `0x${string}`,
-      // TODO: add nonce
-      // nonce: nonce,
+      purpose:
+        'We need your signature to verify that this wallet address is yours. Please sign this message to continue. This is not a transaction and will not cost you any gas.',
+      nonce: nonce,
+      issued: BigInt(Math.floor(issuedAt / 1000)),
+      // issued: BigInt(Math.floor(issuedAt / 1000)).toString(),
     },
   } as const;
 }
