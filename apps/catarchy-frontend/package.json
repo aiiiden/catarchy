@@ -1,0 +1,40 @@
+{
+  "name": "catarchy-frontend",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@elysiajs/eden": "latest",
+    "@tanstack/react-query": "^5.90.21",
+    "@tanstack/react-router": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "latest",
+    "@tanstack/router-devtools": "latest",
+    "@tanstack/router-plugin": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "elysia": "latest",
+    "eslint": "^10.0.2",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "latest",
+    "prettier-plugin-tailwindcss": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest",
+    "typescript-eslint": "^8.56.1",
+    "vite": "latest"
+  }
+}

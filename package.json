@@ -1,0 +1,7 @@
+{
+  "name": "catarchy",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ]
+}

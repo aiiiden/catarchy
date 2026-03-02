@@ -1,0 +1,7 @@
+{
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [
+    { "directory": "apps/catarchy-frontend", "changeProcessCWD": true }
+  ],
+  "cSpell.words": ["Elysia"]
+}
