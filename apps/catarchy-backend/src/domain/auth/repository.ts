@@ -48,4 +48,14 @@ export abstract class AuthRepository {
 
     return auth;
   }
+
+  static async findAuthByUserId({ userId }: { userId: string }) {
+    const [auth] = await this.db
+      .select()
+      .from(table.auth)
+      .where(and(eq(table.auth.userId, userId)))
+      .limit(1);
+
+    return auth;
+  }
 }
