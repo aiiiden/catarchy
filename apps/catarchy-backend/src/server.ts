@@ -1,14 +1,14 @@
 import { createApp } from "./app";
-import { envSchema } from "./lib/env";
+import { initEnv } from "./lib/env";
 import { initEmail } from "./infra/email/service";
 
 /**
  * Local development entry point.
  */
-const env = envSchema.parse(process.env);
+const env = initEnv(process.env);
 initEmail(env.RESEND_API_KEY);
 
-const app = createApp({ env }).listen(3000);
+const app = createApp().listen(3000);
 
 console.log(
   `🦊 Catarchy Backend is running at ${app.server?.hostname}:${app.server?.port}`,

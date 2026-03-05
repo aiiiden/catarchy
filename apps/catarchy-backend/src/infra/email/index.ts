@@ -1,8 +1,7 @@
 import Elysia from "elysia";
 import { EmailService } from "./service";
-import { type Env } from "../../lib/env";
 
-export const emailRouter = (_env: Env) =>
+export const emailRouter = () =>
   new Elysia({
     prefix: "/email",
     tags: ["Email"],

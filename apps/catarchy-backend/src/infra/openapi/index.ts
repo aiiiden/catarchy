@@ -1,9 +1,9 @@
 import { openapi } from "@elysiajs/openapi";
-import { ENVIRONMENT, type Env } from "../../lib/env";
+// import { ENVIRONMENT, getEnv } from "../../lib/env";
 
-export const openapiPlugin = (env: Env) =>
+export const openapiPlugin = () =>
   openapi({
-    enabled: env.ENVIRONMENT === ENVIRONMENT.LOCAL,
+    // enabled: getEnv().ENVIRONMENT === ENVIRONMENT.LOCAL,
     documentation: {
       info: {
         title: "Catarchy API",

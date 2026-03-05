@@ -4,10 +4,12 @@ import { AuthService } from "./service";
 import { EmailService } from "../../infra/email/service";
 import { authModel } from "./model";
 import { ExternalServiceError } from "../../lib/error";
-import { type Env } from "../../lib/env";
+import { getEnv } from "../../lib/env";
 
-export const authRouter = (env: Env) =>
-  new Elysia({
+export const authRouter = () => {
+  const env = getEnv();
+
+  return new Elysia({
     prefix: "/auth",
     tags: ["Auth"],
   })
@@ -194,3 +196,4 @@ export const authRouter = (env: Env) =>
         },
       },
     );
+};

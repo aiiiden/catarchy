@@ -1,8 +1,7 @@
 import { Elysia } from "elysia";
 import { z } from "zod";
-import { type Env } from "../../lib/env";
 
-export const healthRouter = (_env: Env) =>
+export const healthRouter = () =>
   new Elysia({ tags: ["Health"] }).get(
     "/health",
     () => ({
