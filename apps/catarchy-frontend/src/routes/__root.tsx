@@ -1,3 +1,4 @@
+import { Layout } from "@/features/common";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
@@ -5,5 +6,9 @@ export const Route = createRootRoute({
 });
 
 function RootLayout() {
-  return <Outlet />;
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
 }

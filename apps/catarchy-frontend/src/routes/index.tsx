@@ -1,4 +1,4 @@
-import { ServerStatus } from "@/features/config";
+import { Button, ImageLogo, TextLogo } from "@/features/common";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -6,10 +6,22 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const handleGetStarted = () => {
+    alert("coming soon!"); // TODO: implement actual functionality
+  };
+
   return (
-    <div>
-      <h1>Catarchy</h1>
-      <ServerStatus />
-    </div>
+    <main className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col items-center justify-center gap-4">
+        <ImageLogo size={128} hidePadding />
+        <TextLogo size={144} />
+        <p>Ver. alpha</p>
+      </div>
+      <div className="p-4">
+        <Button variant={"primary"} fullWidth onClick={handleGetStarted}>
+          Get Started
+        </Button>
+      </div>
+    </main>
   );
 }

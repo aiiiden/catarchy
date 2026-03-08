@@ -17,8 +17,11 @@
     "@elysiajs/eden": "latest",
     "@tanstack/react-query": "^5.90.21",
     "@tanstack/react-router": "latest",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "react": "latest",
     "react-dom": "latest",
+    "tailwind-merge": "^3.5.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -32,12 +35,13 @@
     "elysia": "latest",
     "eslint": "^10.0.2",
     "eslint-plugin-react-hooks": "^7.0.1",
-    "prettier": "latest",
-    "prettier-plugin-tailwindcss": "latest",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "latest",
     "typescript": "latest",
     "typescript-eslint": "^8.56.1",
     "vite": "latest",
+    "vite-plugin-svgr": "^4.5.0",
     "wrangler": "^4.70.0"
   }
 }

@@ -1,1 +1,100 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "UnifontExMono";
+  src:
+    url("/assets/fonts/UnifontExMono.woff2") format("woff2"),
+    url("/assets/fonts/UnifontExMono.woff") format("woff"),
+    url("/assets/fonts/UnifontExMono.ttf") format("truetype"),
+    url("/assets/fonts/UnifontExMono.eot") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+@theme {
+  --color-black: #000000;
+  --color-gray-500: #808080;
+  --color-gray-100: #e5e5e5;
+  --color-white: #ffffff;
+  --font-sans: "UnifontExMono", monospace;
+
+  --background-image-gradient-mono-1: url("/assets/gradient-pattern/mono-1.svg");
+  --background-image-gradient-mono-2: url("/assets/gradient-pattern/mono-2.svg");
+  --background-image-gradient-mono-3: url("/assets/gradient-pattern/mono-3.svg");
+  --background-image-gradient-mono-4: url("/assets/gradient-pattern/mono-4.svg");
+  --background-image-gradient-mono-5: url("/assets/gradient-pattern/mono-5.svg");
+  --background-image-gradient-mono-6: url("/assets/gradient-pattern/mono-6.svg");
+  --background-image-gradient-mono-7: url("/assets/gradient-pattern/mono-7.svg");
+  --background-image-gradient-mono-8: url("/assets/gradient-pattern/mono-8.svg");
+  --background-image-gradient-mono-9: url("/assets/gradient-pattern/mono-9.svg");
+}
+
+@layer base {
+  html {
+    font-size: 16px;
+  }
+  body {
+    @apply bg-gradient-mono-3 text-black antialiased;
+    font-family: var(--font-sans);
+  }
+}
+
+@layer components {
+  [class*="bg-gradient-mono-"] {
+    background-size: 3px 3px;
+    background-repeat: repeat;
+  }
+
+  .text-stroke-white {
+    text-shadow:
+      -1px -1px 0 #fff,
+      0px -1px 0 #fff,
+      1px -1px 0 #fff,
+      1px 0px 0 #fff,
+      1px 1px 0 #fff,
+      0px 1px 0 #fff,
+      -1px 1px 0 #fff,
+      -1px 0px 0 #fff,
+      -2px -2px 0 #fff,
+      -1px -2px 0 #fff,
+      0px -2px 0 #fff,
+      1px -2px 0 #fff,
+      2px -2px 0 #fff,
+      2px -1px 0 #fff,
+      2px 0px 0 #fff,
+      2px 1px 0 #fff,
+      2px 2px 0 #fff,
+      1px 2px 0 #fff,
+      0px 2px 0 #fff,
+      -1px 2px 0 #fff,
+      -2px 2px 0 #fff,
+      -2px 1px 0 #fff,
+      -2px 0px 0 #fff,
+      -2px -1px 0 #fff,
+      -3px -3px 0 #fff,
+      -2px -3px 0 #fff,
+      -1px -3px 0 #fff,
+      0px -3px 0 #fff,
+      1px -3px 0 #fff,
+      2px -3px 0 #fff,
+      3px -3px 0 #fff,
+      3px -2px 0 #fff,
+      3px -1px 0 #fff,
+      3px 0px 0 #fff,
+      3px 1px 0 #fff,
+      3px 2px 0 #fff,
+      3px 3px 0 #fff,
+      2px 3px 0 #fff,
+      1px 3px 0 #fff,
+      0px 3px 0 #fff,
+      -1px 3px 0 #fff,
+      -2px 3px 0 #fff,
+      -3px 3px 0 #fff,
+      -3px 2px 0 #fff,
+      -3px 1px 0 #fff,
+      -3px 0px 0 #fff,
+      -3px -1px 0 #fff,
+      -3px -2px 0 #fff;
+  }
+}
