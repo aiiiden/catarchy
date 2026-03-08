@@ -17,10 +17,12 @@ function Index() {
         <TextLogo size={144} />
         <p>Ver. alpha</p>
       </div>
-      <div className="p-4">
-        <Button variant={"primary"} fullWidth onClick={handleGetStarted}>
-          Get Started
-        </Button>
+      <div className="pb-safe">
+        <div className="px-4 py-2">
+          <Button variant={"primary"} fullWidth onClick={handleGetStarted}>
+            Get Started
+          </Button>
+        </div>
       </div>
     </main>
   );
