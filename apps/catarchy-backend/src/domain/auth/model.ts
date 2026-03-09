@@ -25,7 +25,10 @@ export const authModel = new Elysia({ name: "model.auth" }).model({
     message: t.String({
       description:
         "A message indicating that a verification email has already been sent",
-      examples: ["A verification email has already been sent to this address"],
+      examples: [
+        "A verification email has already been sent to this address",
+        "An account with this email already exists. Please sign in or use a different email.",
+      ],
     }),
     data: t.Object({
       waitUntil: t.Number({

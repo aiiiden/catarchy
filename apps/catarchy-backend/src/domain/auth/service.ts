@@ -1,13 +1,13 @@
-import { AuthRepository } from "./repository";
-import { EmailVerificationRepository } from "./email-verification.repository";
-import { SessionRepository } from "./session.repository";
+import bcrypt from "bcryptjs";
+import { eq } from "drizzle-orm";
 import { randomInt } from "node:crypto";
+import { getDatabase, table } from "../../infra/db";
+import { runAtomic } from "../../lib/atomic";
 import { ConflictError, ForbiddenError, NotFoundError } from "../../lib/error";
 import { UserRepository } from "../user/repository";
-import bcrypt from "bcryptjs";
-import { getDatabase, table } from "../../infra/db";
-import { eq } from "drizzle-orm";
-import { runAtomic } from "../../lib/atomic";
+import { EmailVerificationRepository } from "./email-verification.repository";
+import { AuthRepository } from "./repository";
+import { SessionRepository } from "./session.repository";
 
 export abstract class AuthService {
   // Configurations
@@ -34,13 +34,23 @@ export abstract class AuthService {
   }) {
     const expiredAt = Date.now() + this.emailCodeDuration;
 
-    const existing =
+    const [existingVerification, auth] = await Promise.all([
       await this.emailVerificationRepository.findRecentVerification({
         email,
-      });
+      }),
+      await this.authRepository.findAuthByEmail({ email }),
+    ]);
 
-    if (existing?.createdAt) {
-      const createdAtMs = new Date(existing.createdAt + "Z").getTime();
+    if (auth) {
+      throw new ConflictError(
+        "An account with this email already exists. Please sign in or use a different email.",
+      );
+    }
+
+    if (existingVerification?.createdAt) {
+      const createdAtMs = new Date(
+        existingVerification.createdAt + "Z",
+      ).getTime();
       const cooldownEnd = createdAtMs + this.emailCodeCooldown;
 
       if (Date.now() < cooldownEnd) {
