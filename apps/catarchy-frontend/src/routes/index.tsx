@@ -1,29 +1,25 @@
-import { Button, ImageLogo, TextLogo } from "@/features/common";
-import { createFileRoute } from "@tanstack/react-router";
+import { Button, ImageLogo, Scaffold, TextLogo } from "@/features/common";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
 function Index() {
-  const handleGetStarted = () => {
-    alert("coming soon!"); // TODO: implement actual functionality
-  };
-
   return (
-    <main className="flex flex-1 flex-col">
-      <div className="flex flex-1 flex-col items-center justify-center gap-4">
+    <Scaffold>
+      <Scaffold.Body className="items-center justify-center p-4">
         <ImageLogo size={128} hidePadding />
         <TextLogo size={144} />
         <p>Ver. alpha</p>
-      </div>
-      <div className="pb-safe">
-        <div className="px-4 py-2">
-          <Button variant={"primary"} fullWidth onClick={handleGetStarted}>
+      </Scaffold.Body>
+      <Scaffold.Bottom>
+        <Link to="/login">
+          <Button variant="primary" size="default" fullWidth>
             Get Started
           </Button>
-        </div>
-      </div>
-    </main>
+        </Link>
+      </Scaffold.Bottom>
+    </Scaffold>
   );
 }

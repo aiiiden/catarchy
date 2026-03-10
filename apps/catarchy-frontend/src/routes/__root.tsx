@@ -1,4 +1,4 @@
-import { Layout } from "@/features/common";
+import { KeyboardProvider } from "@/features/common";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
@@ -7,8 +7,8 @@ export const Route = createRootRoute({
 
 function RootLayout() {
   return (
-    <Layout>
+    <KeyboardProvider>
       <Outlet />
-    </Layout>
+    </KeyboardProvider>
   );
 }

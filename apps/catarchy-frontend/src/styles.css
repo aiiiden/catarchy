@@ -47,16 +47,31 @@
     padding: 0;
   }
 
-  html,
+  html {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
   body {
-    height: 100%;
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: pan-x pan-y;
+  }
+
+  #root {
+    position: fixed;
+    inset: 0;
     overflow: hidden;
   }
   html {
     font-size: 16px;
   }
   body {
-    @apply bg-gradient-mono-3 text-black antialiased;
+    @apply text-black antialiased;
     font-family: var(--font-sans);
   }
 }
