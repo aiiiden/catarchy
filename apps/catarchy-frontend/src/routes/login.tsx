@@ -15,15 +15,6 @@ function RouteComponent() {
         <form className="flex flex-col gap-4">
           <TextInput label="email" required />
           <TextInput label="password" type="password" required />
-          <TextInput label="email" required />
-          <TextInput label="email" required />
-          <TextInput label="email" required />
-          <TextInput label="email" required />
-          <TextInput label="email" required />
-          <TextInput label="email" required />
-          <TextInput label="email" required />
-          <TextInput label="email" required />
-          <TextInput label="email" required />
         </form>
       </Scaffold.Body>
       <Scaffold.Bottom sticky className="bg-white/80">
