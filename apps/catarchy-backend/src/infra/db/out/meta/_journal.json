@@ -8,6 +8,13 @@
       "when": 1772657686463,
       "tag": "0000_windy_karen_page",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1773134106906,
+      "tag": "0001_clean_chat",
+      "breakpoints": true
     }
   ]
 }
