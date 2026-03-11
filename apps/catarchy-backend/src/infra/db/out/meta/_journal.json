@@ -36,6 +36,13 @@
       "when": 1773207704677,
       "tag": "0004_mushy_pyro",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1773207892582,
+      "tag": "0005_lovely_wallop",
+      "breakpoints": true
     }
   ]
 }

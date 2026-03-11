@@ -103,7 +103,7 @@ export const cat = sqliteTable(
       .references(() => userTable.id, { onDelete: "cascade" }),
     growth: integer("growth").notNull().default(0), // non-negative
     emotion: integer("emotion").notNull().default(100), // 0~100
-    lastRaisedAt: text("last_raised_at").default(sql`(CURRENT_TIMESTAMP)`),
+    lastRaisedAt: text("last_raised_at"),
     createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
     updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
   },
