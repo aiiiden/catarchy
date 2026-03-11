@@ -101,20 +101,31 @@ export const cat = sqliteTable(
     servantId: text("servant_id")
       .notNull()
       .references(() => userTable.id, { onDelete: "cascade" }),
-    growth: integer("growth").notNull().default(0), // non-negative
-    emotion: integer("emotion").notNull().default(100), // 0~100
     lastRaisedAt: text("last_raised_at"),
     createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
+    updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
+  },
+  (t) => [unique("cat_servant_unique").on(t.servantId)],
+);
+
+/** Current stat values for a cat (cat : catStat = 1 : 1) */
+export const catStat = sqliteTable(
+  "cat_stat",
+  {
+    catId: text("cat_id")
+      .primaryKey()
+      .references(() => cat.id, { onDelete: "cascade" }),
+    growth: integer("growth").notNull().default(0),
+    emotion: integer("emotion").notNull().default(100),
     updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
   },
   (t) => [
     check("growth_positive", sql`${t.growth} >= 0`),
     check("emotion_range", sql`${t.emotion} >= 0 AND ${t.emotion} <= 100`),
-    unique("cat_servant_unique").on(t.servantId),
   ],
 );
 
-/** Log of interactions where a servant user raised a cat, tracking stat deltas (cat : raiseRecord = 1 : N, servant : raiseRecord = 1 : N) */
+/** Stat change log for cat_stat; each raise interaction appends a delta record (cat : raiseRecord = 1 : N, servant : raiseRecord = 1 : N) */
 export const raiseRecord = sqliteTable(
   "cat_raise_record",
   {
@@ -367,6 +378,10 @@ export const catRelations = relations(cat, ({ one, many }) => ({
     fields: [cat.servantId],
     references: [userTable.id],
   }),
+  stat: one(catStat, {
+    fields: [cat.id],
+    references: [catStat.catId],
+  }),
   raiseRecords: many(raiseRecord),
   personality: one(catPersonality, {
     fields: [cat.id],
@@ -377,8 +392,14 @@ export const catRelations = relations(cat, ({ one, many }) => ({
   relationshipsAsCat2: many(catRelationship, { relationName: "cat2" }),
 }));
 
+export const catStatRelations = relations(catStat, ({ one, many }) => ({
+  cat: one(cat, { fields: [catStat.catId], references: [cat.id] }),
+  raiseRecords: many(raiseRecord),
+}));
+
 export const raiseRecordRelations = relations(raiseRecord, ({ one }) => ({
   cat: one(cat, { fields: [raiseRecord.catId], references: [cat.id] }),
+  catStat: one(catStat, { fields: [raiseRecord.catId], references: [catStat.catId] }),
   servant: one(userTable, {
     fields: [raiseRecord.servantId],
     references: [userTable.id],
@@ -446,6 +467,7 @@ export const table = {
   emailVerification: emailVerificationTable,
   session: sessionTable,
   cat: cat,
+  catStat: catStat,
   raiseRecord: raiseRecord,
   catPersonality: catPersonality,
   personalityTest: personalityTest,
