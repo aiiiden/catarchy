@@ -98,7 +98,7 @@ export const cat = sqliteTable(
       .$defaultFn(() => crypto.randomUUID())
       .primaryKey(),
     name: text("name").notNull(),
-    ownerId: text("owner_id")
+    servantId: text("servant_id")
       .notNull()
       .references(() => userTable.id, { onDelete: "cascade" }),
     growth: integer("growth").notNull().default(0), // non-negative
@@ -110,7 +110,7 @@ export const cat = sqliteTable(
   (t) => [
     check("growth_positive", sql`${t.growth} >= 0`),
     check("emotion_range", sql`${t.emotion} >= 0 AND ${t.emotion} <= 100`),
-    unique("cat_owner_unique").on(t.ownerId),
+    unique("cat_servant_unique").on(t.servantId),
   ],
 );
 
@@ -363,7 +363,10 @@ export const sessionRelations = relations(sessionTable, ({ one }) => ({
 }));
 
 export const catRelations = relations(cat, ({ one, many }) => ({
-  owner: one(userTable, { fields: [cat.ownerId], references: [userTable.id] }),
+  servant: one(userTable, {
+    fields: [cat.servantId],
+    references: [userTable.id],
+  }),
   raiseRecords: many(raiseRecord),
   personality: one(catPersonality, {
     fields: [cat.id],

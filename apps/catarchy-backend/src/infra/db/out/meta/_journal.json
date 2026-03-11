@@ -22,6 +22,20 @@
       "when": 1773205454254,
       "tag": "0002_normal_gorilla_man",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1773207656152,
+      "tag": "0003_flaky_magdalene",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1773207704677,
+      "tag": "0004_mushy_pyro",
+      "breakpoints": true
     }
   ]
 }
