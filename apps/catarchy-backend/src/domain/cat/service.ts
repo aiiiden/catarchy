@@ -1,6 +1,4 @@
 import { claude } from "../../infra/ai";
-import { getDatabase } from "../../infra/db";
-import { runAtomic } from "../../lib/atomic";
 import { ConflictError, NotFoundError } from "../../lib/error";
 import { ConsensusRepository } from "../consensus/repository";
 import { CareRecordRepository } from "./care-record.repository";
@@ -11,10 +9,6 @@ import { buildCarePrompt } from "./prompts/care";
 import { CatRepository } from "./repository";
 
 export abstract class CatService {
-  private static get db() {
-    return getDatabase();
-  }
-
   private static catRepository = CatRepository;
   private static catStatRepository = CatStatRepository;
   private static careRecordRepository = CareRecordRepository;
@@ -51,14 +45,17 @@ export abstract class CatService {
     // 고양이 생성
     const newCatId = crypto.randomUUID();
 
-    const [[newCat]] = await runAtomic(this.db, [
-      this.catRepository.create({ id: newCatId, servantId: userId, name }),
-      this.catStatRepository.create({
-        catId: newCatId,
-        growth: 0,
-        emotion: 100,
-      }),
-    ]);
+    // D1 batch does not support RETURNING, so run separately
+    const [newCat] = await this.catRepository.create({
+      id: newCatId,
+      servantId: userId,
+      name,
+    });
+    await this.catStatRepository.create({
+      catId: newCatId,
+      growth: 0,
+      emotion: 100,
+    });
 
     return {
       id: newCat.id,
@@ -100,15 +97,17 @@ export abstract class CatService {
       }
     }
 
-    // 3) 스탯 업데이트 + 마지막 돌봄 시간 업데이트 (atomic batch)
-    const [[updatedCatStat]] = await runAtomic(this.db, [
-      this.catStatRepository.updateAfterCare({
-        catId: cat.id,
-        growth: catStat.growth + growthPerCare,
-        emotion: Math.min(catStat.emotion + emotionPerCare, 100),
-      }),
-      this.catRepository.updateLastCaredAt({ catId: cat.id }),
-    ]);
+    // 3) 스탯 업데이트 + 마지막 돌봄 시간 업데이트
+    // D1 batch does not support RETURNING, so run separately
+    const newGrowth = catStat.growth + growthPerCare;
+    const newEmotion = Math.min(catStat.emotion + emotionPerCare, 100);
+
+    await this.catRepository.updateLastCaredAt({ catId: cat.id });
+    const [updatedCatStat] = await this.catStatRepository.updateAfterCare({
+      catId: cat.id,
+      growth: newGrowth,
+      emotion: newEmotion,
+    });
 
     // 4) AI 메시지 생성
     const emotionState = getEmotion(catStat.emotion);
@@ -121,10 +120,19 @@ export abstract class CatService {
       personality,
     });
 
-    const { text: message } = await claude.ask({
-      maxOutputTokens: 120,
-      ...carePrompt,
-    });
+    let message = "";
+
+    try {
+      const { text } = await claude.ask({
+        maxOutputTokens: 120,
+        ...carePrompt,
+      });
+
+      message = text.trim();
+    } catch (error) {
+      console.error("Error generating care message:", error);
+      message = `${cat.name} enjoyed the care and purrs contentedly.`;
+    }
 
     // 5) 돌봄 기록 생성
     this.careRecordRepository.create({

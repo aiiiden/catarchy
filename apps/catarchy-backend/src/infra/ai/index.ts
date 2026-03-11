@@ -1,13 +1,13 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { generateText, type LanguageModel } from "ai";
 
-const MODEL_ID = "claude-haiku-4-5-20251001";
+const MODEL_ID = "claude-3-haiku-20240307";
 
 let _model: LanguageModel | null = null;
 
-export const initAI = (apiKey: string) => {
+export const initAI = (anthropicApiKey: string) => {
   if (_model) return;
-  _model = createAnthropic({ apiKey })(MODEL_ID);
+  _model = createAnthropic({ apiKey: anthropicApiKey })(MODEL_ID);
 };
 
 const getModel = (): LanguageModel => {

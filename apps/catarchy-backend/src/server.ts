@@ -1,11 +1,13 @@
 import { createApp } from "./app";
-import { initEnv } from "./lib/env";
+import { initAI } from "./infra/ai";
 import { initEmail } from "./infra/email/service";
+import { initEnv } from "./lib/env";
 
 /**
  * Local development entry point.
  */
 const env = initEnv(process.env);
+initAI(env.ANTHROPIC_API_KEY);
 initEmail(env.RESEND_API_KEY);
 
 const app = createApp().listen(3000);

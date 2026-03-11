@@ -4,6 +4,9 @@ compatibility_date = "2026-03-02"
 compatibility_flags = ["nodejs_compat"]
 account_id = "9e405c909176b2cab4c5a773ac033506"
 
+[placement]
+mode = "smart"
+
 [build]
 watch_dir = "src"
 

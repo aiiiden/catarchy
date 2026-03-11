@@ -1,11 +1,11 @@
 import { env as cfEnv } from "cloudflare:workers";
 import { CloudflareAdapter } from "elysia/adapter/cloudflare-worker";
 import { createApp } from "./app";
-import { initEnv, type CloudflareBindings } from "./lib/env";
-import { initDatabase } from "./infra/db";
-import { initKV } from "./infra/kv";
 import { initAI } from "./infra/ai";
+import { initDatabase } from "./infra/db";
 import { initEmail } from "./infra/email/service";
+import { initKV } from "./infra/kv";
+import { initEnv, type CloudflareBindings } from "./lib/env";
 
 export type { App } from "./app";
 

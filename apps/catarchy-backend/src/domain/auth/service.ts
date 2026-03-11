@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { randomInt } from "node:crypto";
 import { getDatabase, table } from "../../infra/db";
-import { runAtomic } from "../../lib/atomic";
 import { ConflictError, ForbiddenError, NotFoundError } from "../../lib/error";
 import { UserRepository } from "../user/repository";
 import { EmailVerificationRepository } from "./email-verification.repository";
@@ -154,20 +153,22 @@ export abstract class AuthService {
     const passwordHashed = bcrypt.hashSync(password, 10);
     const userId = crypto.randomUUID();
 
-    const [userResults] = await runAtomic(this.db, [
-      this.db.insert(table.user).values({ id: userId, handle }).returning(),
-      this.db.insert(table.auth).values({
-        provider: "email_password",
-        email,
-        password: passwordHashed,
-        userId,
-      }),
-      this.db
-        .delete(table.emailVerification)
-        .where(eq(table.emailVerification.email, email)),
-    ] as const);
+    // D1 batch does not support RETURNING, so run separately
+    const [newUser] = await this.db
+      .insert(table.user)
+      .values({ id: userId, handle })
+      .returning();
+    await this.db.insert(table.auth).values({
+      provider: "email_password",
+      email,
+      password: passwordHashed,
+      userId,
+    });
+    await this.db
+      .delete(table.emailVerification)
+      .where(eq(table.emailVerification.email, email));
 
-    return userResults[0];
+    return newUser;
   }
 
   static async signInWithEmailAndPassword({
