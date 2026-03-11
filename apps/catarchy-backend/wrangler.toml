@@ -12,3 +12,7 @@ binding = "DB"
 database_name = "catarchy-db"
 database_id = "4110c1df-32ba-41c0-8f04-731636300825"
 migrations_dir = "src/infra/db/out"
+
+[[kv_namespaces]]
+binding = "CONSENSUS_CACHE"
+id = "fc7ceb829d5346ad849a7b7aaf122019"

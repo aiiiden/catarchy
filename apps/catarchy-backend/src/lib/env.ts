@@ -12,6 +12,7 @@ export const envSchema = z.object({
     .transform((v) => v.split(",").map((s) => s.trim()))
     .pipe(z.array(z.url())),
   RESEND_API_KEY: z.string(),
+  ANTHROPIC_API_KEY: z.string(),
   JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
   REFRESH_JWT_SECRET: z
     .string()
@@ -22,7 +23,9 @@ export type Env = z.infer<typeof envSchema>;
 
 export type CloudflareBindings = {
   DB: D1Database;
+  CONSENSUS_CACHE: KVNamespace;
   RESEND_API_KEY: string;
+  ANTHROPIC_API_KEY: string;
   JWT_SECRET: string;
   REFRESH_JWT_SECRET: string;
 };

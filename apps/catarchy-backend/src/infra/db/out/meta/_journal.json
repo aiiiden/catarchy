@@ -5,50 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1772657686463,
-      "tag": "0000_windy_karen_page",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1773134106906,
-      "tag": "0001_clean_chat",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1773205454254,
-      "tag": "0002_normal_gorilla_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1773207656152,
-      "tag": "0003_flaky_magdalene",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1773207704677,
-      "tag": "0004_mushy_pyro",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "6",
-      "when": 1773207892582,
-      "tag": "0005_lovely_wallop",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "6",
-      "when": 1773209347298,
-      "tag": "0006_yielding_squadron_sinister",
+      "when": 1773243047000,
+      "tag": "0000_initial",
       "breakpoints": true
     }
   ]

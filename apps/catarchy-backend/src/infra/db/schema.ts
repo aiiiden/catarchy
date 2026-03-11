@@ -101,7 +101,7 @@ export const cat = sqliteTable(
     servantId: text("servant_id")
       .notNull()
       .references(() => userTable.id, { onDelete: "cascade" }),
-    lastRaisedAt: text("last_raised_at"),
+    lastCaredAt: text("last_cared_at"),
     createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
     updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
   },
@@ -125,9 +125,9 @@ export const catStat = sqliteTable(
   ],
 );
 
-/** Stat change log for cat_stat; each raise interaction appends a delta record (cat : raiseRecord = 1 : N, servant : raiseRecord = 1 : N) */
-export const raiseRecord = sqliteTable(
-  "cat_raise_record",
+/** Stat change log for cat_stat; each care interaction appends a delta record (cat : careRecord = 1 : N, servant : careRecord = 1 : N) */
+export const careRecord = sqliteTable(
+  "cat_care_record",
   {
     id: text("id")
       .$defaultFn(() => crypto.randomUUID())
@@ -141,11 +141,11 @@ export const raiseRecord = sqliteTable(
     growthDelta: integer("growth_delta").notNull(),
     emotionDelta: integer("emotion_delta").notNull(),
     message: text("message").notNull(),
-    raisedAt: text("raised_at").default(sql`(CURRENT_TIMESTAMP)`),
+    caredAt: text("cared_at").default(sql`(CURRENT_TIMESTAMP)`),
   },
   (t) => [
-    index("raise_record_cat_id_idx").on(t.catId),
-    index("raise_record_servant_id_idx").on(t.servantId),
+    index("care_record_cat_id_idx").on(t.catId),
+    index("care_record_servant_id_idx").on(t.servantId),
   ],
 );
 
@@ -244,6 +244,7 @@ export const consensusTable = sqliteTable("consensus", {
   valueType: text("value_type", {
     enum: Object.values(ConsensusValueType) as [string, ...string[]],
   }).notNull(),
+  name: text("name").notNull(),
   purpose: text("purpose").notNull(),
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
   updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
@@ -348,7 +349,7 @@ export const userRelations = relations(userTable, ({ many }) => ({
   auth: many(authTable),
   sessions: many(sessionTable),
   cats: many(cat),
-  raiseRecords: many(raiseRecord),
+  careRecords: many(careRecord),
   fcmTokens: many(fcmTokenTable),
 }));
 
@@ -382,7 +383,7 @@ export const catRelations = relations(cat, ({ one, many }) => ({
     fields: [cat.id],
     references: [catStat.catId],
   }),
-  raiseRecords: many(raiseRecord),
+  careRecords: many(careRecord),
   personality: one(catPersonality, {
     fields: [cat.id],
     references: [catPersonality.catId],
@@ -394,14 +395,17 @@ export const catRelations = relations(cat, ({ one, many }) => ({
 
 export const catStatRelations = relations(catStat, ({ one, many }) => ({
   cat: one(cat, { fields: [catStat.catId], references: [cat.id] }),
-  raiseRecords: many(raiseRecord),
+  careRecords: many(careRecord),
 }));
 
-export const raiseRecordRelations = relations(raiseRecord, ({ one }) => ({
-  cat: one(cat, { fields: [raiseRecord.catId], references: [cat.id] }),
-  catStat: one(catStat, { fields: [raiseRecord.catId], references: [catStat.catId] }),
+export const careRecordRelations = relations(careRecord, ({ one }) => ({
+  cat: one(cat, { fields: [careRecord.catId], references: [cat.id] }),
+  catStat: one(catStat, {
+    fields: [careRecord.catId],
+    references: [catStat.catId],
+  }),
   servant: one(userTable, {
-    fields: [raiseRecord.servantId],
+    fields: [careRecord.servantId],
     references: [userTable.id],
   }),
 }));
@@ -468,7 +472,7 @@ export const table = {
   session: sessionTable,
   cat: cat,
   catStat: catStat,
-  raiseRecord: raiseRecord,
+  careRecord: careRecord,
   catPersonality: catPersonality,
   personalityTest: personalityTest,
   catRelationship: catRelationship,

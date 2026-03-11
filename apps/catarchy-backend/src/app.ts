@@ -5,6 +5,7 @@ import { errorHandler } from "./plugin/error-handler";
 import { healthRouter } from "./infra/health";
 import { openapiPlugin } from "./infra/openapi";
 import { authRouter } from "./domain/auth";
+import { catRouter } from "./domain/cat";
 import { emailRouter } from "./infra/email";
 
 type CreateAppConfig = {
@@ -19,6 +20,7 @@ export const createApp = ({ adapter }: CreateAppConfig = {}) => {
     .use(cors({ origin: env.CORS_ORIGIN }))
     .use(healthRouter())
     .use(authRouter())
+    .use(catRouter())
     .use(emailRouter());
 };
 

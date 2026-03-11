@@ -12,13 +12,17 @@
     "format:check": "prettier --check .",
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply DB --local",
-    "db:migrate:prod": "wrangler d1 migrations apply DB --remote"
+    "db:migrate:prod": "wrangler d1 migrations apply DB --remote",
+    "db:seed:local": "wrangler d1 execute catarchy-db --local --file src/infra/db/seed.sql",
+    "db:seed:prod": "wrangler d1 execute catarchy-db --remote --file src/infra/db/seed.sql"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.58",
     "@elysiajs/cors": "latest",
     "@elysiajs/eden": "latest",
     "@elysiajs/jwt": "^1.4.1",
     "@elysiajs/openapi": "latest",
+    "ai": "^6.0.116",
     "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.45.1",
     "drizzle-typebox": "^0.3.3",
