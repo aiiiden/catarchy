@@ -10,49 +10,49 @@ export class AppError extends Error {
 }
 
 export class BadRequestError extends AppError {
-  constructor(message: string, data?: unknown) {
-    super(message, 400, data);
+  constructor(message?: string, data?: unknown) {
+    super(message ?? "Bad Request", 400, data);
   }
 }
 
 export class UnauthorizedError extends AppError {
-  constructor(message: string, data?: unknown) {
-    super(message, 401, data);
+  constructor(message?: string, data?: unknown) {
+    super(message ?? "Unauthorized", 401, data);
   }
 }
 
 export class ForbiddenError extends AppError {
-  constructor(message: string, data?: unknown) {
-    super(message, 403, data);
+  constructor(message?: string, data?: unknown) {
+    super(message ?? "Forbidden", 403, data);
   }
 }
 
 export class NotFoundError extends AppError {
-  constructor(message: string, data?: unknown) {
-    super(message, 404, data);
+  constructor(message?: string, data?: unknown) {
+    super(message ?? "Not Found", 404, data);
   }
 }
 
 export class ConflictError extends AppError {
-  constructor(message: string, data?: unknown) {
-    super(message, 409, data);
+  constructor(message?: string, data?: unknown) {
+    super(message ?? "Conflict", 409, data);
   }
 }
 
 export class TooManyRequestsError extends AppError {
-  constructor(message: string, data?: unknown) {
-    super(message, 429, data);
+  constructor(message?: string, data?: unknown) {
+    super(message ?? "Too Many Requests", 429, data);
   }
 }
 
 export class InternalServerError extends AppError {
-  constructor(message: string, data?: unknown) {
-    super(message, 500, data);
+  constructor(message?: string, data?: unknown) {
+    super(message ?? "Internal Server Error", 500, data);
   }
 }
 
 export class ExternalServiceError extends AppError {
-  constructor(message: string, data?: unknown) {
-    super(message, 502, data);
+  constructor(message?: string, data?: unknown) {
+    super(message ?? "External Service Error", 502, data);
   }
 }

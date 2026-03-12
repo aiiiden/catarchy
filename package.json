@@ -1,11 +1,10 @@
 {
   "name": "catarchy",
   "private": true,
-  "workspaces": [
-    "apps/*"
-  ],
   "scripts": {
     "build:types": "tsc -b apps/catarchy-backend"
   },
-  "dependencies": {}
+  "workspaces": [
+    "apps/*"
+  ]
 }

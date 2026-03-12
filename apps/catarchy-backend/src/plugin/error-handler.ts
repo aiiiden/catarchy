@@ -1,5 +1,6 @@
 import { Elysia } from "elysia";
 import { AppError } from "../lib/error";
+import { logger } from "../lib/logger";
 
 export interface CustomErrorResponse {
   message: string;
@@ -8,22 +9,20 @@ export interface CustomErrorResponse {
 
 export const errorHandler = new Elysia({ name: "errorHandler" })
   .onError(({ code, error, set }) => {
+    const requestId = (set.headers as Record<string, string>)["X-Request-Id"] ?? "unknown";
+
     if (error instanceof AppError) {
       set.status = error.code;
+      logger.error(requestId, error);
 
-      let response: CustomErrorResponse = {
-        message: error.message,
-      };
-
-      if (error.data) {
-        response["data"] = error.data;
-      }
-
+      const response: CustomErrorResponse = { message: error.message };
+      if (error.data) response.data = error.data;
       return response;
     }
 
     if (code === "VALIDATION") {
       set.status = 422;
+      logger.error(requestId, error);
       return { message: error.message };
     }
 
@@ -32,15 +31,8 @@ export const errorHandler = new Elysia({ name: "errorHandler" })
       return { message: "Not Found" };
     }
 
-    // Catch-all for unknown errors
     set.status = 500;
-
-    if (error instanceof Error) {
-      console.error("Unexpected error:", error.message, error.stack);
-    } else {
-      console.error("Unexpected error:", error);
-    }
-
+    logger.error(requestId, error);
     return { message: "Internal Server Error" };
   })
   .as("global");
