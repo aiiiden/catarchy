@@ -176,7 +176,13 @@ function CareSection() {
         </Button>
       </Scaffold.Bottom>
 
-      <dialog ref={dialogRef} className="border-round w-full max-w-80 p-6">
+      <dialog
+        ref={dialogRef}
+        className="border-round w-full max-w-80 p-6"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) closeDialog();
+        }}
+      >
         <p className="min-h-12 leading-relaxed">
           {message.slice(0, displayIndex)}
         </p>
