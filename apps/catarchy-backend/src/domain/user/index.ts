@@ -1,9 +1,9 @@
 import Elysia, { StatusMap } from "elysia";
 import { authGuard } from "../auth/guard";
-import { UserService } from "./service";
 import { userModel } from "./model";
+import { UserService } from "./service";
 
-export const useRouter = () => {
+export const userRouter = () => {
   return new Elysia({
     prefix: "/user",
     tags: ["User"],
