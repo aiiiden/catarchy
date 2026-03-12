@@ -1,10 +1,10 @@
-import Elysia, { status, StatusMap } from "elysia";
 import { jwt } from "@elysiajs/jwt";
-import { AuthService } from "./service";
+import Elysia, { status, StatusMap } from "elysia";
 import { EmailService } from "../../infra/email/service";
-import { authModel } from "./model";
-import { ExternalServiceError } from "../../lib/error";
 import { getEnv } from "../../lib/env";
+import { ExternalServiceError } from "../../lib/error";
+import { authModel } from "./model";
+import { AuthService } from "./service";
 
 export const authRouter = () => {
   const env = getEnv();
@@ -13,7 +13,7 @@ export const authRouter = () => {
     prefix: "/auth",
     tags: ["Auth"],
   })
-    .use(jwt({ name: "accessJwt", secret: env.JWT_SECRET, exp: "15m" }))
+    .use(jwt({ name: "accessJwt", secret: env.JWT_SECRET, exp: "4h" }))
     .use(jwt({ name: "refreshJwt", secret: env.REFRESH_JWT_SECRET, exp: "7d" }))
     .use(authModel)
     .decorate("authService", AuthService)
