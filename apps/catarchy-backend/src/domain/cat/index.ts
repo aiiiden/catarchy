@@ -1,5 +1,6 @@
 import Elysia, { StatusMap } from "elysia";
 import { authGuard } from "../auth/guard";
+import { CatCareService } from "./cat-care.service";
 import { catModel } from "./model";
 import { CatService } from "./service";
 
@@ -9,6 +10,7 @@ export const catRouter = () => {
     tags: ["Cat"],
   })
     .decorate("catService", CatService)
+    .decorate("catCareService", CatCareService)
     .use(catModel)
     .use(authGuard())
     .get(
@@ -41,8 +43,8 @@ export const catRouter = () => {
     )
     .post(
       "/care",
-      async ({ user, catService }) => {
-        return await catService.careForCat({ userId: user.id });
+      async ({ user, catCareService }) => {
+        return await catCareService.careForCat({ userId: user.id });
       },
       {
         response: {

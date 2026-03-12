@@ -13,8 +13,9 @@ export type { App } from "./app";
 const env = initEnv(cfEnv as Record<string, string> & CloudflareBindings);
 
 // Init Singletons
-initDatabase((cfEnv as unknown as CloudflareBindings).DB);
-initKV((cfEnv as unknown as CloudflareBindings).CONSENSUS_CACHE);
+const bindings = cfEnv as unknown as CloudflareBindings;
+initDatabase(bindings.DB);
+initKV(bindings.CONSENSUS_CACHE);
 initAI(env.ANTHROPIC_API_KEY);
 initEmail(env.RESEND_API_KEY);
 

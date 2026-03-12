@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq, isNull, or, sql } from "drizzle-orm";
 import { getDatabase, table } from "../../infra/db";
 
 export abstract class CatRepository {
@@ -27,18 +27,42 @@ export abstract class CatRepository {
     return result;
   }
 
-  static create({ id, servantId, name }: { id: string; servantId: string; name: string }) {
+  static create({
+    id,
+    servantId,
+    name,
+  }: {
+    id: string;
+    servantId: string;
+    name: string;
+  }) {
     return this.db
       .insert(table.cat)
       .values({ id, servantId, name })
       .returning();
   }
 
-  static updateLastCaredAt({ catId }: { catId: string }) {
+  /** Atomically sets last_cared_at only if cooldown has passed. Returns the updated row, or empty array if still on cooldown. */
+  static tryUpdateLastCaredAt({
+    catId,
+    cooldownHours,
+  }: {
+    catId: string;
+    cooldownHours: number;
+  }) {
     return this.db
       .update(table.cat)
       .set({ lastCaredAt: new Date().toISOString() })
-      .where(eq(table.cat.id, catId));
+      .where(
+        and(
+          eq(table.cat.id, catId),
+          or(
+            isNull(table.cat.lastCaredAt),
+            sql`datetime(${table.cat.lastCaredAt}) < datetime('now', ${`-${cooldownHours} hours`})`,
+          ),
+        ),
+      )
+      .returning({ id: table.cat.id });
   }
 
   static async findFullByServantId({ servantId }: { servantId: string }) {
