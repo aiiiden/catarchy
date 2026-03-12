@@ -16,15 +16,27 @@ export abstract class CatCareService {
 
   static async careForCat({ userId }: { userId: string }) {
     // 1) 고양이 + 스탯 + 성격 + consensus 값 병렬 조회
-    const [catFull, [cooldownHour, growthPerCare, emotionPerCare]] =
-      await Promise.all([
-        this.catRepository.findFullByServantId({ servantId: userId }),
-        Promise.all([
-          this.consensusRepository.getValue("CAT.COOLDOWN_HOUR_BETWEEN_CARE"),
-          this.consensusRepository.getValue("CAT.GROWTH_PER_CARE"),
-          this.consensusRepository.getValue("CAT.EMOTION_PER_CARE"),
-        ]),
-      ]);
+    const [
+      catFull,
+      [
+        cooldownHour,
+        growthPerCare,
+        emotionPerCare,
+        emotionDecrease,
+        emotionDecreaseFrequencyHour,
+      ],
+    ] = await Promise.all([
+      this.catRepository.findFullByServantId({ servantId: userId }),
+      Promise.all([
+        this.consensusRepository.getValue("CAT.COOLDOWN_HOUR_BETWEEN_CARE"),
+        this.consensusRepository.getValue("CAT.GROWTH_PER_CARE"),
+        this.consensusRepository.getValue("CAT.EMOTION_PER_CARE"),
+        this.consensusRepository.getValue("CAT.EMOTION_DECREASE"),
+        this.consensusRepository.getValue(
+          "CAT.EMOTION_DECREASE_FREQUENCY_HOUR",
+        ),
+      ]),
+    ]);
 
     if (!catFull) {
       throw new NotFoundError("You don't have a cat to care for.");
@@ -42,16 +54,28 @@ export abstract class CatCareService {
       throw new ConflictError("Care is on cooldown.");
     }
 
-    // 3) 스탯 업데이트
+    // 3) 누적 감정 감소 계산 (lastCaredAt 기준 경과 주기 수)
+    const neglectCycles = cat.lastCaredAt
+      ? Math.floor(
+          (Date.now() - new Date(cat.lastCaredAt).getTime()) /
+            (emotionDecreaseFrequencyHour * 60 * 60 * 1000),
+        )
+      : 0;
+    const decayAmount = neglectCycles * emotionDecrease;
+
+    // 4) 스탯 업데이트 (감소 적용 후 케어 보너스)
     const newGrowth = catStat.growth + growthPerCare;
-    const newEmotion = Math.min(catStat.emotion + emotionPerCare, 100);
+    const newEmotion = Math.min(
+      Math.max(0, catStat.emotion - decayAmount) + emotionPerCare,
+      100,
+    );
     const [updatedCatStat] = await this.catStatRepository.updateAfterCare({
       catId: cat.id,
       growth: newGrowth,
       emotion: newEmotion,
     });
 
-    // 4) AI 메시지 생성
+    // 5) AI 메시지 생성
     const emotionState = getEmotion(catStat.emotion);
     const ageGroup = getAgeGroup(catStat.growth);
 
@@ -76,7 +100,7 @@ export abstract class CatCareService {
       message = `${cat.name} enjoyed the care and purrs contentedly.`;
     }
 
-    // 5) 돌봄 기록 생성
+    // 6) 돌봄 기록 생성
     this.careRecordRepository.create({
       catId: cat.id,
       emotionDelta: emotionPerCare,

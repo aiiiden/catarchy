@@ -6,6 +6,7 @@ import { initDatabase } from "./infra/db";
 import { initEmail } from "./infra/email/service";
 import { initKV } from "./infra/kv";
 import { initEnv, type CloudflareBindings } from "./lib/env";
+import { scheduledHandler } from "./scheduled";
 
 export type { App } from "./app";
 
@@ -18,5 +19,7 @@ initDatabase(bindings.DB);
 initKV(bindings.CONSENSUS_CACHE);
 initAI(env.ANTHROPIC_API_KEY);
 initEmail(env.RESEND_API_KEY);
+
+export const scheduled = scheduledHandler;
 
 export default createApp({ adapter: CloudflareAdapter }).compile();
