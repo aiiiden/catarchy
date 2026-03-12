@@ -22,6 +22,7 @@ export abstract class CatService {
         growth: cat.stat.growth,
         emotion: cat.stat.emotion,
       },
+      lastCaredAt: cat.cat.lastCaredAt,
     };
   }
 

@@ -41,6 +41,12 @@ export const catModel = new Elysia({
         examples: [85],
       }),
     }),
+    lastCaredAt: t.Nullable(
+      t.String({
+        description: "ISO timestamp of the last care",
+        examples: ["2026-03-13T12:00:00.000Z"],
+      }),
+    ),
   }),
 
   // ── POST /cat ──────────────────────────────────────────────────────────────
