@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
 import { authRouter } from "./domain/auth";
 import { catRouter } from "./domain/cat";
+import { sandboxRouter } from "./domain/sandbox";
 import { userRouter } from "./domain/user";
 import { emailRouter } from "./infra/email";
 import { healthRouter } from "./infra/health";
@@ -23,7 +24,8 @@ export const createApp = ({ adapter }: CreateAppConfig = {}) => {
     .use(authRouter())
     .use(catRouter())
     .use(emailRouter())
-    .use(userRouter());
+    .use(userRouter())
+    .use(sandboxRouter());
 };
 
 export type App = ReturnType<typeof createApp>;

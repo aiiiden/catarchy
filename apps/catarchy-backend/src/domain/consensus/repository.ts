@@ -52,6 +52,22 @@ export abstract class ConsensusRepository {
     return parseValue(row.value, valueType) as ConsensusValue<K>;
   }
 
+  static async setValue<K extends ConsensusKey>(
+    key: K,
+    value: ConsensusValue<K>,
+  ) {
+    const db = getDatabase();
+    const raw = String(value);
+
+    await db
+      .update(table.consensus)
+      .set({ value: raw })
+      .where(eq(table.consensus.key, key));
+
+    // KV도 즉시 반영
+    await getKV().put(KV_PREFIX + key, raw, { expirationTtl: KV_TTL_SECONDS });
+  }
+
   static async invalidate(key: ConsensusKey) {
     await getKV().delete(KV_PREFIX + key);
   }
