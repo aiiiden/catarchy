@@ -14,9 +14,14 @@
     "db:migrate:local": "wrangler d1 migrations apply DB --local",
     "db:migrate:prod": "wrangler d1 migrations apply DB --remote",
     "db:seed:local": "wrangler d1 execute catarchy-db --local --file src/infra/db/seed.sql",
-    "db:seed:prod": "wrangler d1 execute catarchy-db --remote --file src/infra/db/seed.sql"
+    "db:seed:prod": "wrangler d1 execute catarchy-db --remote --file src/infra/db/seed.sql",
+    "db:reset": "bun run scripts/db-reset.ts",
+    "db:update-config": "bun run scripts/db-update-config.ts",
+    "db:delete-user": "bun run scripts/db-delete-user.ts",
+    "localflare": "localflare"
   },
   "dependencies": {
+    "@ai-sdk/alibaba": "^1.0.10",
     "@ai-sdk/anthropic": "^3.0.58",
     "@elysiajs/cors": "latest",
     "@elysiajs/eden": "latest",
@@ -35,6 +40,7 @@
     "@cloudflare/workers-types": "^4.20260301.1",
     "@types/bun": "latest",
     "drizzle-kit": "^0.31.9",
+    "localflare": "^0.4.2",
     "prettier": "latest",
     "typescript": "latest",
     "wrangler": "^4.69.0"

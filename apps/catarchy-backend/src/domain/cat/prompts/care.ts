@@ -1,11 +1,15 @@
-import type { InferSelectModel } from "drizzle-orm";
-import type { catPersonality } from "../../../infra/db/schema";
-import { AGE_DESCRIPTION, type AgeGroup } from "../constants/growth";
+import { InferSelectModel } from "drizzle-orm";
+import { catPersonality } from "../../../infra/db";
+import {
+  AGE_DESCRIPTION,
+  AgeGroup,
+  type AgeGroup as AgeGroupType,
+} from "../constants/growth";
 
 interface CarePromptParams {
   catName: string;
   mood: string;
-  ageGroup: AgeGroup;
+  ageGroup: AgeGroupType;
   personality?: InferSelectModel<typeof catPersonality> | null;
 }
 
@@ -15,43 +19,42 @@ export function buildCarePrompt({
   ageGroup,
   personality,
 }: CarePromptParams) {
+  // Determine if cat is in adult or mature stage (growth >= 240)
+  const isAdultOrMature = [
+    AgeGroup.ADULT,
+    AgeGroup.MATURE,
+    AgeGroup.SENIOR,
+  ].includes(ageGroup as AgeGroup);
+
+  const actionsDescription = isAdultOrMature
+    ? `- Describe the cat-anthro doing human-like activities and behaviors naturally based on the cat's personality.`
+    : `- Describe the cat's varied behaviors and actions naturally based on the cat's personality.`;
+
+  const examplesText = isAdultOrMature
+    ? `Examples:
+- "${catName} sits at the desk with a book and takes notes."
+- "${catName} takes a break and stretches after studying."
+- "${catName} plays a game to relax and clear the mind."`
+    : `Examples:
+- "${catName} curls up contentedly and purrs."
+- "${catName} suddenly darts across the room with energy."
+- "${catName} watches intently from the window."`;
+
   return {
-    system: `<role>You are a cat behavior simulator in Catarchy. Each cat is a spiritual clone of player, inheriting their personality traits. Player raise and care for these cats as reflections of themselves.</role>
+    system: `You are a cat behavior simulator in Catarchy.
 
-<task>When an owner cares for their cat, describe the cat's reaction in 1-2 sentences.</task>
+Describe the cat's reaction to care in only 1~2 sentence.
+- Third person
+- Short and simple. Minimize adjectives and adverbs.
+- Simple English. No idioms, slang, or uncommon words.
+- Never use the word "care" in the output.
+${actionsDescription}
 
-<rules>
-  <rule>Consider the cat's name, current mood, age group, and personality (if provided).</rule>
-  <rule>Personality is Big Five traits scored 0-100. Higher scores mean stronger expression of that trait.</rule>
-  <rule>Describe the cat's behavior in third person (e.g. "${catName} purrs softly...").</rule>
-  <rule>Produce a natural and cute description.</rule>
-  <rule>Output only the description. No other text.</rule>
-</rules>
+${examplesText}
 
-<response-language>Korean</response-language>
+Personality: Big Five (0-100). Higher = stronger.
 
-<age-info>
-  <group>${ageGroup}</group>
-  <description>${AGE_DESCRIPTION[ageGroup]}</description>
-</age-info>
-`,
-    prompt: `<cat>
-  <name>${catName}</name>
-  <mood>${mood}</mood>
-  <age-group>${ageGroup}</age-group>
-
-  ${
-    personality
-      ? `
-  <personality>
-    <openness>${personality.openness}</openness>
-    <conscientiousness>${personality.conscientiousness}</conscientiousness>
-    <extraversion>${personality.extraversion}</extraversion>
-    <agreeableness>${personality.agreeableness}</agreeableness>
-    <neuroticism>${personality.neuroticism}</neuroticism>
-  </personality>`
-      : ""
-  }
-</cat>`,
+Age: ${ageGroup} - ${AGE_DESCRIPTION[ageGroup]}`,
+    prompt: `${catName}, mood:${mood}, age:${ageGroup}${personality ? `, openness:${personality.openness} conscientiousness:${personality.conscientiousness} extraversion:${personality.extraversion} agreeableness:${personality.agreeableness} neuroticism:${personality.neuroticism}` : ""}`,
   };
 }

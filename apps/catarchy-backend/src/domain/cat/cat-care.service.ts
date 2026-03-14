@@ -1,4 +1,4 @@
-import { claude } from "../../infra/ai";
+import { ai } from "../../infra/ai";
 import { ConflictError, NotFoundError } from "../../lib/error";
 import { ConsensusRepository } from "../consensus/repository";
 import { CareRecordRepository } from "./care-record.repository";
@@ -89,10 +89,18 @@ export abstract class CatCareService {
     let message = "";
 
     try {
-      const { text } = await claude.ask({
-        maxOutputTokens: 120,
-        ...carePrompt,
-      });
+      const { text } = await ai.ask(
+        "anthropic/claude-haiku-4-5",
+        // "google/gemini-2.5-flash-lite",
+        // "xai/grok-4-fast-non-reasoning",
+        // "openai/gpt-4.1-nano",
+        // "mistral/ministral-3b-latest",
+        // "alibaba/qwen3.5-plus",
+        {
+          // maxOutputTokens: 40,
+          ...carePrompt,
+        },
+      );
 
       message = text.trim();
     } catch (error) {
@@ -101,7 +109,7 @@ export abstract class CatCareService {
     }
 
     // 6) 돌봄 기록 생성
-    this.careRecordRepository.create({
+    await this.careRecordRepository.create({
       catId: cat.id,
       emotionDelta: emotionPerCare,
       growthDelta: growthPerCare,

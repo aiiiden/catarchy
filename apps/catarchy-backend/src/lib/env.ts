@@ -5,19 +5,38 @@ export enum ENVIRONMENT {
   PRODUCTION = "production",
 }
 
-export const envSchema = z.object({
-  ENVIRONMENT: z.enum([ENVIRONMENT.LOCAL, ENVIRONMENT.PRODUCTION]),
-  CORS_ORIGIN: z
-    .string()
-    .transform((v) => v.split(",").map((s) => s.trim()))
-    .pipe(z.array(z.url())),
-  RESEND_API_KEY: z.string(),
-  ANTHROPIC_API_KEY: z.string(),
-  JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
-  REFRESH_JWT_SECRET: z
-    .string()
-    .min(32, "REFRESH_JWT_SECRET must be at least 32 characters"),
-});
+export const envSchema = z
+  .object({
+    ENVIRONMENT: z.enum([ENVIRONMENT.LOCAL, ENVIRONMENT.PRODUCTION]),
+    CORS_ORIGIN: z
+      .string()
+      .transform((v) => v.split(",").map((s) => s.trim()))
+      .pipe(z.array(z.url())),
+    RESEND_API_KEY: z.string(),
+    ANTHROPIC_API_KEY: z.string(),
+    OPENAI_API_KEY: z.string().optional(),
+    GOOGLE_AI_API_KEY: z.string().optional(),
+    MISTRAL_API_KEY: z.string().optional(),
+    ALIBABA_API_KEY: z.string().optional(),
+    XAI_API_KEY: z.string().optional(),
+    JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
+    REFRESH_JWT_SECRET: z
+      .string()
+      .min(32, "REFRESH_JWT_SECRET must be at least 32 characters"),
+  })
+  .refine(
+    (data) =>
+      data.OPENAI_API_KEY ||
+      data.GOOGLE_AI_API_KEY ||
+      data.MISTRAL_API_KEY ||
+      data.ALIBABA_API_KEY ||
+      data.XAI_API_KEY,
+    {
+      message:
+        "At least one of OPENAI_API_KEY, GOOGLE_AI_API_KEY, MISTRAL_API_KEY, ALIBABA_API_KEY, or XAI_API_KEY must be provided",
+      path: ["apiKeys"],
+    },
+  );
 
 export type Env = z.infer<typeof envSchema>;
 
@@ -26,6 +45,11 @@ export type CloudflareBindings = {
   CONSENSUS_CACHE: KVNamespace;
   RESEND_API_KEY: string;
   ANTHROPIC_API_KEY: string;
+  OPENAI_API_KEY?: string;
+  GOOGLE_AI_API_KEY?: string;
+  MISTRAL_API_KEY?: string;
+  ALIBABA_API_KEY?: string;
+  XAI_API_KEY?: string;
   JWT_SECRET: string;
   REFRESH_JWT_SECRET: string;
 };

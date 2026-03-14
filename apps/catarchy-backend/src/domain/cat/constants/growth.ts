@@ -17,8 +17,7 @@ export const AGE_GROWTH_THRESHOLDS = {
 };
 
 export const AGE_DESCRIPTION: Record<AgeGroup, string> = {
-  [AgeGroup.NEWBORN]:
-    "A newborn kitten. Can barely open its eyes. Wobbles when trying to walk and sleeps most of the day.",
+  [AgeGroup.NEWBORN]: "A newborn kitten. Can barely open its eyes.",
   [AgeGroup.KITTEN]: "A small kitten. Light and clumsy.",
   [AgeGroup.JUVENILE]: "A young cat. Agile and growing fast.",
   [AgeGroup.ADULT]: "A fully grown cat in its prime.",

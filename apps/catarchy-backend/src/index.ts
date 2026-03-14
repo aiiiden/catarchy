@@ -17,7 +17,14 @@ const env = initEnv(cfEnv as Record<string, string> & CloudflareBindings);
 const bindings = cfEnv as unknown as CloudflareBindings;
 initDatabase(bindings.DB);
 initKV(bindings.CONSENSUS_CACHE);
-initAI(env.ANTHROPIC_API_KEY);
+initAI({
+  anthropicApiKey: env.ANTHROPIC_API_KEY,
+  openaiApiKey: env.OPENAI_API_KEY,
+  googleAiApiKey: env.GOOGLE_AI_API_KEY,
+  mistralApiKey: env.MISTRAL_API_KEY,
+  xaiApiKey: env.XAI_API_KEY,
+  alibabaApiKey: env.ALIBABA_API_KEY,
+});
 initEmail(env.RESEND_API_KEY);
 
 export const scheduled = scheduledHandler;
