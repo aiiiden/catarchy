@@ -1,13 +1,23 @@
-import { createAnthropic } from "@ai-sdk/anthropic";
 import { generateText, type LanguageModel } from "ai";
+import { createAiGateway } from "ai-gateway-provider";
+import { createUnified } from "ai-gateway-provider/providers/unified";
 
-const MODEL_ID = "claude-3-haiku-20240307";
+const CF_AI_GATEWAY_ACCOUNT_ID = "9e405c909176b2cab4c5a773ac033506";
+const CF_AI_GATEWAY_NAME = "catarchy";
+const MODEL_ID = "anthropic/claude-sonnet-4-5";
 
 let _model: LanguageModel | null = null;
 
 export const initAI = (anthropicApiKey: string) => {
   if (_model) return;
-  _model = createAnthropic({ apiKey: anthropicApiKey })(MODEL_ID);
+
+  const aiGateway = createAiGateway({
+    accountId: CF_AI_GATEWAY_ACCOUNT_ID,
+    gateway: CF_AI_GATEWAY_NAME,
+  });
+  const unified = createUnified({ apiKey: anthropicApiKey });
+
+  _model = aiGateway(unified(MODEL_ID)) as LanguageModel;
 };
 
 const getModel = (): LanguageModel => {

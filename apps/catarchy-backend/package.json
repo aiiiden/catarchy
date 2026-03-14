@@ -23,6 +23,7 @@
     "@elysiajs/jwt": "^1.4.1",
     "@elysiajs/openapi": "latest",
     "ai": "^6.0.116",
+    "ai-gateway-provider": "^3.1.1",
     "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.45.1",
     "drizzle-typebox": "^0.3.3",
