@@ -1,5 +1,10 @@
 import { getAccessToken, useSignOut } from "@/features/auth";
-import { useCare, useCat, type SummonCatParams, useSummonCat } from "@/features/cat";
+import {
+  useCare,
+  useCat,
+  useSummonCat,
+  type SummonCatParams,
+} from "@/features/cat";
 import { Button, Scaffold, TextInput } from "@/features/common";
 import { useMe } from "@/features/user";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -87,11 +92,12 @@ function PlayPage() {
                 <dd className="m-0">{cat.data.stat.emotion}</dd>
               </dl>
             </section>
-
-            <CareSection />
           </>
         ) : null}
       </Scaffold.Body>
+      <Scaffold.Bottom>
+        <CareAction />
+      </Scaffold.Bottom>
     </Scaffold>
   );
 }
@@ -149,7 +155,7 @@ function SummonSection() {
   );
 }
 
-function CareSection() {
+function CareAction() {
   const care = useCare();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [message, setMessage] = useState("");
@@ -177,38 +183,40 @@ function CareSection() {
 
   useEffect(() => {
     if (!message || displayIndex >= message.length) return;
-    const timer = setTimeout(() => setDisplayIndex((i) => i + 1), 90);
+    const timer = setTimeout(() => setDisplayIndex((i) => i + 1), 50);
     return () => clearTimeout(timer);
   }, [message, displayIndex]);
 
   return (
     <>
-      <Scaffold.Bottom sticky>
-        <Button
-          variant="primary"
-          fullWidth
-          onClick={handleCare}
-          disabled={care.isPending}
-        >
-          {care.isPending ? "Caring..." : "Care"}
-        </Button>
-      </Scaffold.Bottom>
+      <Button
+        variant="primary"
+        fullWidth
+        onClick={handleCare}
+        disabled={care.isPending}
+      >
+        {care.isPending ? "Caring..." : "Care"}
+      </Button>
 
       <dialog
         ref={dialogRef}
-        className="border-round fixed top-1/2 left-1/2 w-full max-w-80 -translate-x-1/2 -translate-y-1/2 p-6"
-        onClick={(e) => {
-          if (e.target === e.currentTarget) closeDialog();
-        }}
+        className="border-round backdrop:bg-gradient-mono-8 fixed top-1/2 left-1/2 w-full max-w-80 -translate-x-1/2 -translate-y-1/2 bg-transparent focus:outline-none"
       >
-        <p className="min-h-12 leading-relaxed">
-          {message.slice(0, displayIndex)}
-        </p>
-        {displayIndex >= message.length && message.length > 0 && (
-          <button type="button" onClick={closeDialog} className="mt-3">
-            Close
-          </button>
-        )}
+        <div className="bg-white p-6">
+          <p className="min-h-12 leading-relaxed">
+            {message.slice(0, displayIndex)}
+          </p>
+          {displayIndex >= message.length && message.length > 0 && (
+            <Button
+              variant="secondary"
+              onClick={closeDialog}
+              className="mt-3"
+              fullWidth
+            >
+              Close
+            </Button>
+          )}
+        </div>
       </dialog>
     </>
   );
