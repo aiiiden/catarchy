@@ -1,6 +1,6 @@
 import type { InferSelectModel } from "drizzle-orm";
-import { AGE_DESCRIPTION, type AgeGroup } from "../constants/growth";
 import type { catPersonality } from "../../../infra/db/schema";
+import { AGE_DESCRIPTION, type AgeGroup } from "../constants/growth";
 
 interface CarePromptParams {
   catName: string;
@@ -27,6 +27,8 @@ export function buildCarePrompt({
   <rule>Produce a natural and cute description.</rule>
   <rule>Output only the description. No other text.</rule>
 </rules>
+
+<response-language>Korean</response-language>
 
 <age-info>
   <group>${ageGroup}</group>
