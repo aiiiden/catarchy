@@ -1,9 +1,12 @@
 import { getAccessToken, useSignOut } from "@/features/auth";
-import { useCare, useCat, useSummonCat } from "@/features/cat";
-import { Button, Scaffold } from "@/features/common";
+import { useCare, useCat, type SummonCatParams, useSummonCat } from "@/features/cat";
+import { Button, Scaffold, TextInput } from "@/features/common";
 import { useMe } from "@/features/user";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
 
 export const Route = createFileRoute("/play")({
   beforeLoad: () => {
@@ -94,29 +97,44 @@ function PlayPage() {
 }
 
 function SummonSection() {
-  const [name, setName] = useState("");
   const summon = useSummonCat();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    summon.mutate({ name });
+  const form = useForm<SummonCatParams>({
+    mode: "onSubmit",
+    shouldFocusError: true,
+    criteriaMode: "firstError",
+    defaultValues: { name: "" },
+    resolver: zodResolver(
+      z.object({
+        name: z.string().min(1, "Name is required").max(20),
+      }),
+    ),
+  });
+
+  const handleSubmit = (params: SummonCatParams) => {
+    summon.mutate(params);
   };
 
   return (
     <section className="border-round p-4">
       <h2 className="mb-2">Summon Your Cat</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-        <label>
-          Name
-          <input
-            type="text"
-            required
-            maxLength={20}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border-round mt-1 box-border block w-full px-2 py-1.5"
-          />
-        </label>
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="flex flex-col gap-3"
+      >
+        <Controller
+          name="name"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <TextInput
+              {...field}
+              label="Name"
+              maxLength={20}
+              required
+              error={fieldState.error?.message}
+            />
+          )}
+        />
         {summon.error && <p>{String(summon.error)}</p>}
         <Button
           type="submit"
@@ -178,7 +196,7 @@ function CareSection() {
 
       <dialog
         ref={dialogRef}
-        className="border-round w-full max-w-80 p-6"
+        className="border-round fixed top-1/2 left-1/2 w-full max-w-80 -translate-x-1/2 -translate-y-1/2 p-6"
         onClick={(e) => {
           if (e.target === e.currentTarget) closeDialog();
         }}

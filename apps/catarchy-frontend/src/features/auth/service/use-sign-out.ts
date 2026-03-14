@@ -1,11 +1,14 @@
-import { api } from "@/shared/api";
+import { api, type InferError } from "@/shared/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { clearTokens, getRefreshToken } from "../lib/auth-store";
+
+type Endpoint = (typeof api.auth)["sign-out"]["post"];
+export type SignOutError = InferError<Endpoint>;
 
 export function useSignOut() {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  return useMutation<void, SignOutError>({
     mutationFn: async () => {
       const refreshToken = getRefreshToken();
       if (!refreshToken) return;

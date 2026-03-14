@@ -69,7 +69,7 @@ async function authFetch(
 }
 
 export const api = treaty<App>(env.VITE_API_URL, {
-  fetcher: authFetch,
+  fetcher: authFetch as unknown as typeof fetch,
   onRequest(path, options) {
     const requestId = nanoid(6);
     (options.headers as Record<string, string>)["X-Request-Id"] = requestId;

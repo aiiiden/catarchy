@@ -1,6 +1,8 @@
 import { cn } from "@/shared/lib/cn";
+import { useCanGoBack, useNavigate, useRouter } from "@tanstack/react-router";
 import { forwardRef } from "react";
 import { useKeyboard } from "../hooks/use-keyboard";
+import { Button } from "./button";
 
 interface ScaffoldRootProps {
   children?: React.ReactNode;
@@ -24,6 +26,55 @@ const ScaffoldRoot = forwardRef<HTMLDivElement, ScaffoldRootProps>(
     );
   },
 );
+
+interface ScaffoldHeaderProps {
+  title?: React.ReactNode;
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+  onBack?: () => Promise<void>;
+}
+
+function ScaffoldHeader({ title, left, right, onBack }: ScaffoldHeaderProps) {
+  const navigate = useNavigate();
+  const router = useRouter();
+  const canGoBack = useCanGoBack();
+  const handleBack = async () => {
+    if (canGoBack) {
+      router.history.back();
+    }
+
+    await navigate({ to: "/" });
+
+    await onBack?.();
+  };
+
+  return (
+    <header
+      className={cn(
+        "flex items-stretch justify-between gap-0",
+        title && "bg-gradient-mono-1",
+      )}
+    >
+      <div className="aspect-square">
+        {left !== undefined ? (
+          left
+        ) : (
+          <Button variant="ghost" onClick={handleBack}>
+            ⬅
+          </Button>
+        )}
+      </div>
+
+      {title && (
+        <h1 className="text-stroke-white flex flex-1 items-center justify-center text-center">
+          {title}
+        </h1>
+      )}
+
+      <div className={cn("aspect-square w-12", !title && "flex")}>{right}</div>
+    </header>
+  );
+}
 
 function ScaffoldBody({
   className,
@@ -64,6 +115,7 @@ function ScaffoldBottom({
 }
 
 export const Scaffold = Object.assign(ScaffoldRoot, {
+  Header: ScaffoldHeader,
   Body: ScaffoldBody,
   Bottom: ScaffoldBottom,
 });

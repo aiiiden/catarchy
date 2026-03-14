@@ -13,7 +13,7 @@ export const buttonVariants = cva(
         ghost: "active:bg-gradient-mono-1",
       },
       size: {
-        default: "h-13 px-4.5 py-3",
+        default: "h-12 px-4 py-3",
         small: "h-8 p-2",
       },
       fullWidth: {

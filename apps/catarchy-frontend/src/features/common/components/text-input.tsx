@@ -18,12 +18,15 @@ const inputWrapperVariants = cva(
   },
 );
 
-export interface TextInputProps
-  extends Omit<React.ComponentPropsWithoutRef<"input">, "type"> {
+export interface TextInputProps extends Omit<
+  React.ComponentPropsWithoutRef<"input">,
+  "type"
+> {
   label?: string;
   labelProps?: Omit<LabelProps, "htmlFor" | "disabled" | "required">;
   trailing?: React.ReactNode;
   type?: "text" | "password";
+  error?: string;
 }
 
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
@@ -36,6 +39,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       disabled = false,
       required = false,
       type = "text",
+      error,
       ...rest
     },
     ref,
@@ -71,6 +75,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           />
           {trailing}
         </div>
+        {error && <p className="text text-red-500">{error}</p>}
       </div>
     );
   },
