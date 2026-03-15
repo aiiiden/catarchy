@@ -65,6 +65,8 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             type={type}
             disabled={disabled}
             required={required}
+            autoCorrect="off"
+            autoCapitalize="off"
             className={cn(
               "min-w-0 flex-1 bg-transparent text-base leading-none outline-none",
               disabled
