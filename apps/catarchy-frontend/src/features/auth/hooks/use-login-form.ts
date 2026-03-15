@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod/src/index.js";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { SignInParams } from "../service/use-sign-in";
 
 export const loginFormSchema = z.object({
   email: z
@@ -12,7 +11,7 @@ export const loginFormSchema = z.object({
 });
 
 export function useLoginForm() {
-  const form = useForm<SignInParams>({
+  const form = useForm<z.infer<typeof loginFormSchema>>({
     mode: "onSubmit",
     shouldFocusError: true,
     criteriaMode: "firstError",
