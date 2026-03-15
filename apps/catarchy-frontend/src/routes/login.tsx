@@ -5,7 +5,7 @@ import {
   useSignIn,
 } from "@/features/auth";
 import { Button, Scaffold, TextLogo } from "@/features/common";
-import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { FormProvider } from "react-hook-form";
 
 export const Route = createFileRoute("/login")({
@@ -13,12 +13,13 @@ export const Route = createFileRoute("/login")({
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const form = useLoginForm();
   const signIn = useSignIn();
   const handleSubmit = ({ email, password }: SignInParams) => {
     signIn.mutate(
       { email, password },
-      { onSuccess: () => Navigate({ to: "/play" }) },
+      { onSuccess: () => navigate({ to: "/play" }) },
     );
   };
   return (
