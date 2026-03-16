@@ -1,5 +1,5 @@
 import { isAuthenticated, useSignOut } from "@/features/auth";
-import { type SummonCatParams, useCare, useSummonCat } from "@/features/cat";
+import { type SummonCatParams, useCare, useCat, useSummonCat } from "@/features/cat";
 import {
   Button,
   GlobalLoading,
@@ -21,9 +21,8 @@ export const Route = createFileRoute("/play")({
     }
   },
   async loader() {
-    const [me, cat] = await Promise.all([
+    const [me] = await Promise.all([
       api.user.me.get(),
-      api.cat.get(),
       sleep(2), // minimum loading time
     ]);
     return { me, cat };
@@ -33,7 +32,8 @@ export const Route = createFileRoute("/play")({
 });
 
 function PlayPage() {
-  const { me, cat } = Route.useLoaderData();
+  const { me } = Route.useLoaderData();
+  const { data: cat } = useCat();
   const navigate = useNavigate();
   const signOut = useSignOut();
 
@@ -65,19 +65,19 @@ function PlayPage() {
             </section>
           )}
 
-          {cat.data === null ? (
+          {cat === null ? (
             <SummonSection />
-          ) : cat.data ? (
+          ) : cat ? (
             <>
               <section className="border-round p-4">
                 <h2 className="mb-2">Cat</h2>
                 <dl className="m-0 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
                   <dt className="underline">Name</dt>
-                  <dd className="m-0">{cat.data?.name}</dd>
+                  <dd className="m-0">{cat.name}</dd>
                   <dt className="underline">Last Cared At</dt>
                   <dd className="m-0">
-                    {"lastCaredAt" in cat.data && cat.data.lastCaredAt
-                      ? String(cat.data.lastCaredAt)
+                    {"lastCaredAt" in cat && cat.lastCaredAt
+                      ? String(cat.lastCaredAt)
                       : "Never"}
                   </dd>
                 </dl>
@@ -87,9 +87,9 @@ function PlayPage() {
                 <h2 className="mb-2">Stats</h2>
                 <dl className="m-0 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
                   <dt className="underline">Growth</dt>
-                  <dd className="m-0">{cat.data?.stat.growth}</dd>
+                  <dd className="m-0">{cat.stat.growth}</dd>
                   <dt className="underline">Emotion</dt>
-                  <dd className="m-0">{cat.data?.stat.emotion}</dd>
+                  <dd className="m-0">{cat.stat.emotion}</dd>
                 </dl>
               </section>
             </>
