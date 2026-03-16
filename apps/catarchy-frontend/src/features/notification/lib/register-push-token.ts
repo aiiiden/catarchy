@@ -9,9 +9,9 @@ export async function registerPushToken(): Promise<void> {
   const permission = await Notification.requestPermission();
   if (permission !== "granted") return;
 
-  const swRegistration = await navigator.serviceWorker.getRegistration(
-    "/firebase-messaging-sw.js",
-  );
+  const swRegistration =
+    (await navigator.serviceWorker.getRegistration("/firebase-messaging-sw.js")) ??
+    (await navigator.serviceWorker.register("/firebase-messaging-sw.js"));
 
   const token = await getToken(messaging, {
     vapidKey: env.VITE_FIREBASE_VAPID_KEY,

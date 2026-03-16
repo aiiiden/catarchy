@@ -32,7 +32,7 @@ async function getAccessToken(): Promise<string> {
 
   const now = Math.floor(Date.now() / 1000);
   const header = base64url(
-    new TextEncoder().encode(JSON.stringify({ alg: "RS256", typ: "JWT" })),
+    new TextEncoder().encode(JSON.stringify({ alg: "RS256", typ: "JWT" })).buffer as ArrayBuffer,
   );
   const payload = base64url(
     new TextEncoder().encode(
@@ -43,7 +43,7 @@ async function getAccessToken(): Promise<string> {
         exp: now + 3600,
         iat: now,
       }),
-    ),
+    ).buffer as ArrayBuffer,
   );
 
   const signingInput = `${header}.${payload}`;
@@ -58,7 +58,7 @@ async function getAccessToken(): Promise<string> {
   const signature = await crypto.subtle.sign(
     "RSASSA-PKCS1-v1_5",
     privateKey,
-    new TextEncoder().encode(signingInput),
+    new TextEncoder().encode(signingInput).buffer as ArrayBuffer,
   );
 
   const jwt = `${signingInput}.${base64url(signature)}`;
