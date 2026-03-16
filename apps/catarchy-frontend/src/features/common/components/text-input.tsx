@@ -68,7 +68,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
             autoCorrect="off"
             autoCapitalize="off"
             className={cn(
-              "min-w-0 flex-1 bg-transparent text-base leading-none outline-none",
+              "min-w-0 flex-1 bg-transparent text-base leading-none outline-none [&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_white]",
               disabled
                 ? "text-black placeholder:text-gray-500"
                 : "text-black placeholder:text-gray-500",

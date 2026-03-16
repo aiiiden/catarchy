@@ -1,21 +1,26 @@
 import {
   LoginForm,
   SignInParams,
+  isAuthenticated,
   useLoginForm,
   useSignIn,
 } from "@/features/auth";
 import { Button, Scaffold, TextLogo } from "@/features/common";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { FormProvider } from "react-hook-form";
 
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
+  loader: () => {
+    if (isAuthenticated()) throw redirect({ to: "/play", replace: true });
+  },
 });
 
 function RouteComponent() {
   const navigate = useNavigate();
   const form = useLoginForm();
   const signIn = useSignIn();
+
   const handleSubmit = ({ email, password }: SignInParams) => {
     signIn.mutate(
       { email, password },

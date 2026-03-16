@@ -5,6 +5,7 @@ export * from "./lib/auth-store";
 export * from "./components/login-form";
 
 // Hooks
+export * from "./hooks/use-auth";
 export * from "./hooks/use-login-form";
 
 // Service

@@ -1,12 +1,13 @@
-import { getAccessToken, useSignOut } from "@/features/auth";
+import { isAuthenticated, useSignOut } from "@/features/auth";
+import { useCare, useSummonCat, type SummonCatParams } from "@/features/cat";
 import {
-  useCare,
-  useCat,
-  useSummonCat,
-  type SummonCatParams,
-} from "@/features/cat";
-import { Button, Scaffold, TextInput } from "@/features/common";
-import { useMe } from "@/features/user";
+  Button,
+  GlobalLoading,
+  Scaffold,
+  TextInput,
+  sleep,
+} from "@/features/common";
+import { api } from "@/shared/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -15,17 +16,25 @@ import { z } from "zod";
 
 export const Route = createFileRoute("/play")({
   beforeLoad: () => {
-    if (!getAccessToken()) {
+    if (!isAuthenticated()) {
       throw redirect({ to: "/login" });
     }
   },
+  async loader() {
+    const [me, cat] = await Promise.all([
+      api.user.me.get(),
+      api.cat.get(),
+      sleep(2), // minimum loading time
+    ]);
+    return { me, cat };
+  },
   component: PlayPage,
+  pendingComponent: () => <GlobalLoading />,
 });
 
 function PlayPage() {
+  const { me, cat } = Route.useLoaderData();
   const navigate = useNavigate();
-  const me = useMe();
-  const cat = useCat();
   const signOut = useSignOut();
 
   const handleSignOut = () => {
@@ -34,71 +43,63 @@ function PlayPage() {
     });
   };
 
-  if (me.isLoading || cat.isLoading) {
-    return (
-      <Scaffold>
-        <Scaffold.Body>
-          <p>Loading...</p>
-        </Scaffold.Body>
-      </Scaffold>
-    );
-  }
-
   return (
-    <Scaffold>
-      <Scaffold.Body className="flex flex-col gap-4 p-4">
-        <nav className="flex justify-end">
-          <button type="button" onClick={handleSignOut}>
-            Logout
-          </button>
-        </nav>
+    <>
+      <Scaffold>
+        <Scaffold.Body className="flex flex-col gap-4 p-4">
+          <nav className="flex justify-end">
+            <button type="button" onClick={handleSignOut}>
+              Logout
+            </button>
+          </nav>
 
-        {me.data && (
-          <section className="border-round p-4">
-            <h2 className="mb-2">User</h2>
-            <dl className="m-0 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
-              <dt className="underline">Handle</dt>
-              <dd className="m-0">{me.data.handle}</dd>
-              <dt className="underline">Email</dt>
-              <dd className="m-0">{me.data.email ?? "-"}</dd>
-            </dl>
-          </section>
-        )}
-
-        {cat.data === null ? (
-          <SummonSection />
-        ) : cat.data ? (
-          <>
+          {me.data && (
             <section className="border-round p-4">
-              <h2 className="mb-2">Cat</h2>
+              <h2 className="mb-2">User</h2>
               <dl className="m-0 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
-                <dt className="underline">Name</dt>
-                <dd className="m-0">{cat.data.name}</dd>
-                <dt className="underline">Last Cared At</dt>
-                <dd className="m-0">
-                  {"lastCaredAt" in cat.data && cat.data.lastCaredAt
-                    ? String(cat.data.lastCaredAt)
-                    : "Never"}
-                </dd>
+                <dt className="underline">Handle</dt>
+                <dd className="m-0">{me.data.handle}</dd>
+                <dt className="underline">Email</dt>
+                <dd className="m-0">{me.data.email ?? "-"}</dd>
               </dl>
             </section>
+          )}
 
-            <section className="border-round p-4">
-              <h2 className="mb-2">Stats</h2>
-              <dl className="m-0 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
-                <dt className="underline">Growth</dt>
-                <dd className="m-0">{cat.data.stat.growth}</dd>
-                <dt className="underline">Emotion</dt>
-                <dd className="m-0">{cat.data.stat.emotion}</dd>
-              </dl>
-            </section>
-          </>
-        ) : null}
-      </Scaffold.Body>
-      <Scaffold.Bottom>
-        <CareAction />
-      </Scaffold.Bottom>
-    </Scaffold>
+          {cat.data === null ? (
+            <SummonSection />
+          ) : cat.data ? (
+            <>
+              <section className="border-round p-4">
+                <h2 className="mb-2">Cat</h2>
+                <dl className="m-0 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+                  <dt className="underline">Name</dt>
+                  <dd className="m-0">{cat.data?.name}</dd>
+                  <dt className="underline">Last Cared At</dt>
+                  <dd className="m-0">
+                    {"lastCaredAt" in cat.data && cat.data.lastCaredAt
+                      ? String(cat.data.lastCaredAt)
+                      : "Never"}
+                  </dd>
+                </dl>
+              </section>
+
+              <section className="border-round p-4">
+                <h2 className="mb-2">Stats</h2>
+                <dl className="m-0 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+                  <dt className="underline">Growth</dt>
+                  <dd className="m-0">{cat.data?.stat.growth}</dd>
+                  <dt className="underline">Emotion</dt>
+                  <dd className="m-0">{cat.data?.stat.emotion}</dd>
+                </dl>
+              </section>
+            </>
+          ) : null}
+        </Scaffold.Body>
+        <Scaffold.Bottom>
+          <CareAction />
+        </Scaffold.Bottom>
+      </Scaffold>
+    </>
   );
 }
 

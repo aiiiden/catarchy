@@ -1,13 +1,22 @@
+import { isAuthenticated } from "@/features/auth";
 import { Button, ImageLogo, Scaffold, TextLogo } from "@/features/common";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  loader: () => {
+    const authenticated = isAuthenticated();
+    if (authenticated) {
+      throw redirect({
+        to: "/play",
+      });
+    }
+  },
 });
 
 function Index() {
   return (
-    <Scaffold>
+    <Scaffold avoidKeyboard={false}>
       <Scaffold.Body className="items-center justify-center p-4">
         <ImageLogo size={128} hidePadding />
         <TextLogo size={144} />

@@ -25,12 +25,29 @@ export function getRefreshToken(): string | null {
   return getCookie(REFRESH_TOKEN_KEY);
 }
 
+export function isAuthenticated(): boolean {
+  return getAccessToken() !== null;
+}
+
+const listeners = new Set<() => void>();
+
+export function subscribeAuth(callback: () => void) {
+  listeners.add(callback);
+  return () => listeners.delete(callback);
+}
+
+function notifyListeners() {
+  listeners.forEach((cb) => cb());
+}
+
 export function setTokens(accessToken: string, refreshToken: string) {
   setCookie(ACCESS_TOKEN_KEY, accessToken, ACCESS_TOKEN_MAX_AGE);
   setCookie(REFRESH_TOKEN_KEY, refreshToken, REFRESH_TOKEN_MAX_AGE);
+  notifyListeners();
 }
 
 export function clearTokens() {
   deleteCookie(ACCESS_TOKEN_KEY);
   deleteCookie(REFRESH_TOKEN_KEY);
+  notifyListeners();
 }
