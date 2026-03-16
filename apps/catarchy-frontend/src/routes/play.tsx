@@ -1,5 +1,10 @@
 import { isAuthenticated, useSignOut } from "@/features/auth";
-import { type SummonCatParams, useCare, useCat, useSummonCat } from "@/features/cat";
+import {
+  type SummonCatParams,
+  useCare,
+  useCat,
+  useSummonCat,
+} from "@/features/cat";
 import {
   Button,
   GlobalLoading,
@@ -25,7 +30,7 @@ export const Route = createFileRoute("/play")({
       api.user.me.get(),
       sleep(2), // minimum loading time
     ]);
-    return { me, cat };
+    return { me };
   },
   component: PlayPage,
   pendingComponent: () => <GlobalLoading />,
