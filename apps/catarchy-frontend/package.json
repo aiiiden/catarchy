@@ -21,6 +21,7 @@
     "@tanstack/react-router": "latest",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "firebase": "^12.10.0",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.71.2",

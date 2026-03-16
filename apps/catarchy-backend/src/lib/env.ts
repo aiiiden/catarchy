@@ -23,6 +23,8 @@ export const envSchema = z
     REFRESH_JWT_SECRET: z
       .string()
       .min(32, "REFRESH_JWT_SECRET must be at least 32 characters"),
+    FIREBASE_SERVICE_ACCOUNT_EMAIL: z.string().optional(),
+    FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY: z.string().optional(),
   })
   .refine(
     (data) =>
@@ -52,6 +54,8 @@ export type CloudflareBindings = {
   XAI_API_KEY?: string;
   JWT_SECRET: string;
   REFRESH_JWT_SECRET: string;
+  FIREBASE_SERVICE_ACCOUNT_EMAIL?: string;
+  FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY?: string;
 };
 
 let _env: Env | null = null;

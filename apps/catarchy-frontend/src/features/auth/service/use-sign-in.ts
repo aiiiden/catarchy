@@ -1,3 +1,4 @@
+import { registerPushToken } from "@/features/notification";
 import {
   type InferData,
   type InferError,
@@ -18,6 +19,7 @@ export function useSignIn() {
       const { data, error } = await api.auth["sign-in-email"].post(params);
       if (error) throw error;
       setTokens(data.accessToken, data.refreshToken);
+      registerPushToken();
       return data;
     },
   });

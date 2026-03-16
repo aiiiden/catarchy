@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
 import { authRouter } from "./domain/auth";
 import { catRouter } from "./domain/cat";
+import { notificationRouter } from "./domain/notification";
 import { sandboxRouter } from "./domain/sandbox";
 import { userRouter } from "./domain/user";
 import { emailRouter } from "./infra/email";
@@ -25,6 +26,7 @@ export const createApp = ({ adapter }: CreateAppConfig = {}) => {
     .use(catRouter())
     .use(emailRouter())
     .use(userRouter())
+    .use(notificationRouter())
     .use(sandboxRouter());
 };
 
