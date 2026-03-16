@@ -24,8 +24,3 @@ migrations_dir = "src/infra/db/out"
 [[kv_namespaces]]
 binding = "CONSENSUS_CACHE"
 id = "fc7ceb829d5346ad849a7b7aaf122019"
-
-[triggers]
-crons = ["0 * * * *"]
-
-
