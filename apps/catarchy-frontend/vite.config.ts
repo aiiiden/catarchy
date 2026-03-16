@@ -44,6 +44,8 @@ export default defineConfig({
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,woff2}"],
         globIgnores: ["**/assets/fonts/**"],
+        skipWaiting: true,
+        clientsClaim: true,
       },
     }),
   ],
