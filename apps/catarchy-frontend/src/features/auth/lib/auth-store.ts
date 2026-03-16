@@ -37,7 +37,7 @@ export function subscribeAuth(callback: () => void) {
 }
 
 function notifyListeners() {
-  listeners.forEach((cb) => cb());
+  for (const cb of listeners) cb();
 }
 
 export function setTokens(accessToken: string, refreshToken: string) {

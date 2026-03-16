@@ -9,7 +9,8 @@ export interface CustomErrorResponse {
 
 export const errorHandler = new Elysia({ name: "errorHandler" })
   .onError(({ code, error, set }) => {
-    const requestId = (set.headers as Record<string, string>)["X-Request-Id"] ?? "unknown";
+    const requestId =
+      (set.headers as Record<string, string>)["X-Request-Id"] ?? "unknown";
 
     if (error instanceof AppError) {
       set.status = error.code;

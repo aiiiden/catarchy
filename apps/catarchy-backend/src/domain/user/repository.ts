@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
 import {
-  getDatabase,
-  table,
   type Database,
   type Transaction,
+  getDatabase,
+  table,
 } from "../../infra/db";
 
 type Client = Database | Transaction;
@@ -14,7 +14,7 @@ export abstract class UserRepository {
   }
 
   static async findById({ id }: { id: string }) {
-    const [user] = await this.db
+    const [user] = await UserRepository.db
       .select()
       .from(table.user)
       .where(eq(table.user.id, id))
@@ -24,7 +24,7 @@ export abstract class UserRepository {
   }
 
   static async findByHandle({ handle }: { handle: string }) {
-    const [user] = await this.db
+    const [user] = await UserRepository.db
       .select()
       .from(table.user)
       .where(eq(table.user.handle, handle))
@@ -34,7 +34,7 @@ export abstract class UserRepository {
   }
 
   static async createUser({ handle }: { handle: string }, tx?: Client) {
-    const client = tx ?? this.db;
+    const client = tx ?? UserRepository.db;
     const [user] = await client
       .insert(table.user)
       .values({

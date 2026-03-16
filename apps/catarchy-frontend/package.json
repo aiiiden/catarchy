@@ -8,9 +8,10 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "preview": "npm run build && wrangler dev",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
     "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
@@ -27,7 +28,6 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "latest",
     "@tanstack/router-devtools": "latest",
     "@tanstack/router-plugin": "latest",
@@ -35,13 +35,8 @@
     "@types/react-dom": "latest",
     "@vitejs/plugin-react": "latest",
     "elysia": "latest",
-    "eslint": "^10.0.2",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "prettier": "^3.8.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "latest",
     "typescript": "latest",
-    "typescript-eslint": "^8.56.1",
     "vite": "latest",
     "vite-plugin-pwa": "^1.2.0",
     "vite-plugin-svgr": "^4.5.0",

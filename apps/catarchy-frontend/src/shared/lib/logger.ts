@@ -28,7 +28,7 @@ export const logger = {
       if (body) {
         console.log("- BODY : ", body);
       }
-      
+
       console.groupEnd();
     },
     response({

@@ -1,5 +1,5 @@
 import { isAuthenticated, useSignOut } from "@/features/auth";
-import { useCare, useSummonCat, type SummonCatParams } from "@/features/cat";
+import { type SummonCatParams, useCare, useSummonCat } from "@/features/cat";
 import {
   Button,
   GlobalLoading,
@@ -201,7 +201,7 @@ function CareAction() {
 
       <dialog
         ref={dialogRef}
-        className="border-round backdrop:bg-gradient-mono-8 fixed top-1/2 left-1/2 w-full max-w-80 -translate-x-1/2 -translate-y-1/2 bg-transparent focus:outline-none"
+        className="-translate-x-1/2 -translate-y-1/2 fixed top-1/2 left-1/2 w-full max-w-80 border-round bg-transparent backdrop:bg-gradient-mono-8 focus:outline-none"
       >
         <div className="bg-white p-6">
           <p className="min-h-12 leading-relaxed">

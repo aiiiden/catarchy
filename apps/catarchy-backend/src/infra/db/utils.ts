@@ -1,24 +1,23 @@
 import { Kind, type TObject } from "@sinclair/typebox";
+import type { Table } from "drizzle-orm";
 import {
+  type BuildSchema,
   createInsertSchema,
   createSelectSchema,
-  type BuildSchema,
 } from "drizzle-typebox";
-import type { Table } from "drizzle-orm";
 
 type Spread<
   T extends TObject | Table,
   Mode extends "select" | "insert" | undefined,
-> =
-  T extends TObject<infer Fields>
-    ? { [K in keyof Fields]: Fields[K] }
-    : T extends Table
-      ? Mode extends "select"
-        ? BuildSchema<"select", T["_"]["columns"], undefined>["properties"]
-        : Mode extends "insert"
-          ? BuildSchema<"insert", T["_"]["columns"], undefined>["properties"]
-          : {}
-      : {};
+> = T extends TObject<infer Fields>
+  ? { [K in keyof Fields]: Fields[K] }
+  : T extends Table
+    ? Mode extends "select"
+      ? BuildSchema<"select", T["_"]["columns"], undefined>["properties"]
+      : Mode extends "insert"
+        ? BuildSchema<"insert", T["_"]["columns"], undefined>["properties"]
+        : Record<string, never>
+    : Record<string, never>;
 
 export const spread = <
   T extends TObject | Table,
@@ -28,7 +27,7 @@ export const spread = <
   mode?: Mode,
 ): Spread<T, Mode> => {
   const newSchema: Record<string, unknown> = {};
-  let table;
+  let table: TObject;
 
   switch (mode) {
     case "insert":
@@ -61,6 +60,7 @@ export const spreads = <
   mode?: Mode,
 ): { [K in keyof T]: Spread<T[K], Mode> } => {
   const newSchema: Record<string, unknown> = {};
-  for (const key of Object.keys(models)) newSchema[key] = spread(models[key], mode);
+  for (const key of Object.keys(models))
+    newSchema[key] = spread(models[key], mode);
   return newSchema as { [K in keyof T]: Spread<T[K], Mode> };
 };

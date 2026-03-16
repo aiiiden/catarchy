@@ -1,5 +1,5 @@
 import { KeyboardProvider } from "@/features/common";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { Outlet, createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
   component: RootLayout,

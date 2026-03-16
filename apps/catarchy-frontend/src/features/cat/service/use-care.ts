@@ -1,4 +1,4 @@
-import { api, type InferData, type InferError } from "@/shared/api";
+import { type InferData, type InferError, api } from "@/shared/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Endpoint = typeof api.cat.care.post;

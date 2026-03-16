@@ -1,9 +1,9 @@
 import { and, eq } from "drizzle-orm";
 import {
-  getDatabase,
-  table,
   type Database,
   type Transaction,
+  getDatabase,
+  table,
 } from "../../infra/db";
 
 type Client = Database | Transaction;
@@ -25,7 +25,7 @@ export abstract class AuthRepository {
     },
     tx?: Client,
   ) {
-    const client = tx ?? this.db;
+    const client = tx ?? AuthRepository.db;
     const [auth] = await client
       .insert(table.auth)
       .values({
@@ -40,7 +40,7 @@ export abstract class AuthRepository {
   }
 
   static async findAuthByEmail({ email }: { email: string }) {
-    const [auth] = await this.db
+    const [auth] = await AuthRepository.db
       .select()
       .from(table.auth)
       .where(and(eq(table.auth.email, email)))
@@ -50,7 +50,7 @@ export abstract class AuthRepository {
   }
 
   static async findAuthByUserId({ userId }: { userId: string }) {
-    const [auth] = await this.db
+    const [auth] = await AuthRepository.db
       .select()
       .from(table.auth)
       .where(and(eq(table.auth.userId, userId)))

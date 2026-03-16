@@ -1,12 +1,12 @@
-import Elysia, { status, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
+import Elysia, { status, t } from "elysia";
 import { getEnv } from "../../lib/env";
 
 export const authGuard = () =>
   new Elysia({ name: "auth.guard" })
     .use(jwt({ name: "accessJwt", secret: getEnv().JWT_SECRET }))
     .derive({ as: "scoped" }, async ({ accessJwt, headers }) => {
-      const authorization = headers["authorization"];
+      const authorization = headers.authorization;
       const token = authorization?.startsWith("Bearer ")
         ? authorization.slice(7)
         : null;

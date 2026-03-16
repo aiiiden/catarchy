@@ -1,4 +1,4 @@
-import { api, type InferError } from "@/shared/api";
+import { type InferError, api } from "@/shared/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { clearTokens, getRefreshToken } from "../lib/auth-store";
 

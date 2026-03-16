@@ -1,8 +1,8 @@
 import {
   type SendVerificationEmailParams,
+  type VerifyEmailCodeParams,
   useSendVerificationEmail,
   useVerifyEmailCode,
-  type VerifyEmailCodeParams,
 } from "@/features/auth";
 import { Button, Scaffold, TextInput } from "@/features/common";
 import { zodResolver } from "@hookform/resolvers/zod";

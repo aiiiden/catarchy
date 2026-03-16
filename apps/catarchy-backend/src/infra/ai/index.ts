@@ -1,6 +1,6 @@
 import { createAlibaba } from "@ai-sdk/alibaba";
-import { type GatewayModelId } from "@ai-sdk/gateway";
-import { generateText, type LanguageModel } from "ai";
+import type { GatewayModelId } from "@ai-sdk/gateway";
+import { type LanguageModel, generateText } from "ai";
 import { createAiGateway } from "ai-gateway-provider";
 import { createAnthropic } from "ai-gateway-provider/providers/anthropic";
 import { createGoogleGenerativeAI } from "ai-gateway-provider/providers/google";
@@ -14,7 +14,7 @@ const CF_AI_GATEWAY_NAME = "catarchy";
 type AiGateway = ReturnType<typeof createAiGateway>;
 
 let _aiGateway: AiGateway | null = null;
-let _providers: Record<string, (modelId: string) => LanguageModel> = {};
+const _providers: Record<string, (modelId: string) => LanguageModel> = {};
 
 export interface AiConfig {
   anthropicApiKey: string;
@@ -34,21 +34,21 @@ export const initAI = (config: AiConfig) => {
   });
 
   const anthropic = createAnthropic({ apiKey: config.anthropicApiKey });
-  _providers.anthropic = (id) => _aiGateway!(anthropic(id)) as LanguageModel;
+  _providers.anthropic = (id) => _aiGateway?.(anthropic(id)) as LanguageModel;
 
   if (config.openaiApiKey) {
     const openai = createOpenAI({ apiKey: config.openaiApiKey });
-    _providers.openai = (id) => _aiGateway!(openai(id)) as LanguageModel;
+    _providers.openai = (id) => _aiGateway?.(openai(id)) as LanguageModel;
   }
 
   if (config.googleAiApiKey) {
     const google = createGoogleGenerativeAI({ apiKey: config.googleAiApiKey });
-    _providers["google"] = (id) => _aiGateway!(google(id)) as LanguageModel;
+    _providers.google = (id) => _aiGateway?.(google(id)) as LanguageModel;
   }
 
   if (config.mistralApiKey) {
     const mistral = createMistral({ apiKey: config.mistralApiKey });
-    _providers.mistral = (id) => _aiGateway!(mistral(id)) as LanguageModel;
+    _providers.mistral = (id) => _aiGateway?.(mistral(id)) as LanguageModel;
   }
 
   if (config.alibabaApiKey) {
@@ -62,7 +62,7 @@ export const initAI = (config: AiConfig) => {
 
   if (config.xaiApiKey) {
     const xai = createXai({ apiKey: config.xaiApiKey });
-    _providers.xai = (id) => _aiGateway!(xai(id)) as LanguageModel;
+    _providers.xai = (id) => _aiGateway?.(xai(id)) as LanguageModel;
   }
 };
 

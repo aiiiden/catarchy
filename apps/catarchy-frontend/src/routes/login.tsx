@@ -1,6 +1,6 @@
 import {
   LoginForm,
-  SignInParams,
+  type SignInParams,
   isAuthenticated,
   useLoginForm,
   useSignIn,

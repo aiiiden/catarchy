@@ -1,5 +1,5 @@
-import { InferSelectModel } from "drizzle-orm";
-import { catPersonality } from "../../../infra/db";
+import type { InferSelectModel } from "drizzle-orm";
+import type { catPersonality } from "../../../infra/db";
 import {
   AGE_DESCRIPTION,
   AgeGroup,

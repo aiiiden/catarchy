@@ -7,7 +7,7 @@ export abstract class CatService {
   private static catStatRepository = CatStatRepository;
 
   static async getCatInfo({ userId }: { userId: string }) {
-    const cat = await this.catRepository.findWithStatByServantId({
+    const cat = await CatService.catRepository.findWithStatByServantId({
       servantId: userId,
     });
 
@@ -27,7 +27,7 @@ export abstract class CatService {
   }
 
   static async summonCat({ userId, name }: { userId: string; name: string }) {
-    const existingCat = await this.catRepository.findByServantId({
+    const existingCat = await CatService.catRepository.findByServantId({
       servantId: userId,
     });
 
@@ -39,12 +39,12 @@ export abstract class CatService {
     const newCatId = crypto.randomUUID();
 
     // D1 batch does not support RETURNING, so run separately
-    const [newCat] = await this.catRepository.create({
+    const [newCat] = await CatService.catRepository.create({
       id: newCatId,
       servantId: userId,
       name,
     });
-    await this.catStatRepository.create({
+    await CatService.catStatRepository.create({
       catId: newCatId,
       growth: 0,
       emotion: 100,

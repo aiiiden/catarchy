@@ -27,8 +27,8 @@ export abstract class EmailService {
     subject: string;
     html: string;
   }) {
-    const { error } = await this.client.emails.send({
-      from: this.fromAddress,
+    const { error } = await EmailService.client.emails.send({
+      from: EmailService.fromAddress,
       to,
       subject,
       html,

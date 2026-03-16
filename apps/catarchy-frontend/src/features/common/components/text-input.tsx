@@ -18,10 +18,8 @@ const inputWrapperVariants = cva(
   },
 );
 
-export interface TextInputProps extends Omit<
-  React.ComponentPropsWithoutRef<"input">,
-  "type"
-> {
+export interface TextInputProps
+  extends Omit<React.ComponentPropsWithoutRef<"input">, "type"> {
   label?: string;
   labelProps?: Omit<LabelProps, "htmlFor" | "disabled" | "required">;
   trailing?: React.ReactNode;

@@ -15,7 +15,7 @@ export abstract class SessionRepository {
     refreshToken: string;
     expiredAt: number;
   }) {
-    const [session] = await this.db
+    const [session] = await SessionRepository.db
       .insert(table.session)
       .values({ userId, refreshToken, expiredAt })
       .returning();
@@ -24,7 +24,7 @@ export abstract class SessionRepository {
   }
 
   static async findByRefreshToken(refreshToken: string) {
-    const [session] = await this.db
+    const [session] = await SessionRepository.db
       .select()
       .from(table.session)
       .where(eq(table.session.refreshToken, refreshToken))
@@ -34,12 +34,14 @@ export abstract class SessionRepository {
   }
 
   static async deleteByRefreshToken(refreshToken: string) {
-    await this.db
+    await SessionRepository.db
       .delete(table.session)
       .where(eq(table.session.refreshToken, refreshToken));
   }
 
   static async deleteByUserId(userId: string) {
-    await this.db.delete(table.session).where(eq(table.session.userId, userId));
+    await SessionRepository.db
+      .delete(table.session)
+      .where(eq(table.session.userId, userId));
   }
 }

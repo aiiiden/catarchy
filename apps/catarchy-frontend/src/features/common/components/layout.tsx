@@ -66,7 +66,7 @@ function ScaffoldHeader({ title, left, right, onBack }: ScaffoldHeaderProps) {
       </div>
 
       {title && (
-        <h1 className="text-stroke-white flex flex-1 items-center justify-center text-center">
+        <h1 className="flex flex-1 items-center justify-center text-center text-stroke-white">
           {title}
         </h1>
       )}

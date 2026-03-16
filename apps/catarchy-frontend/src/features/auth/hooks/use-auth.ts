@@ -1,7 +1,15 @@
 import { useSyncExternalStore } from "react";
-import { subscribeAuth, getAccessToken, getRefreshToken } from "../lib/auth-store";
+import {
+  getAccessToken,
+  getRefreshToken,
+  subscribeAuth,
+} from "../lib/auth-store";
 
-type AuthSnapshot = { accessToken: string | null; refreshToken: string | null; isAuthenticated: boolean };
+type AuthSnapshot = {
+  accessToken: string | null;
+  refreshToken: string | null;
+  isAuthenticated: boolean;
+};
 
 let cachedSnapshot: AuthSnapshot = {
   accessToken: null,
@@ -18,7 +26,11 @@ function getSnapshot(): AuthSnapshot {
   ) {
     return cachedSnapshot;
   }
-  cachedSnapshot = { accessToken, refreshToken, isAuthenticated: accessToken !== null };
+  cachedSnapshot = {
+    accessToken,
+    refreshToken,
+    isAuthenticated: accessToken !== null,
+  };
   return cachedSnapshot;
 }
 

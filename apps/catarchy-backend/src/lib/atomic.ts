@@ -1,5 +1,5 @@
-import type { Database } from "../infra/db";
 import type { BatchItem } from "drizzle-orm/batch";
+import type { Database } from "../infra/db";
 
 /**
  * Executes multiple queries atomically.

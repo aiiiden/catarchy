@@ -1,8 +1,8 @@
 import {
-  api,
   type InferData,
   type InferError,
   type InferInput,
+  api,
 } from "@/shared/api";
 import { useMutation } from "@tanstack/react-query";
 import { setTokens } from "../lib/auth-store";

@@ -1,9 +1,9 @@
-import { eq, and, desc, gt } from "drizzle-orm";
+import { and, desc, eq, gt } from "drizzle-orm";
 import {
-  getDatabase,
-  table,
   type Database,
   type Transaction,
+  getDatabase,
+  table,
 } from "../../infra/db";
 
 type Client = Database | Transaction;
@@ -14,7 +14,7 @@ export abstract class EmailVerificationRepository {
   }
 
   static async findRecentVerification({ email }: { email: string }) {
-    const [existing] = await this.db
+    const [existing] = await EmailVerificationRepository.db
       .select()
       .from(table.emailVerification)
       .where(
@@ -36,7 +36,7 @@ export abstract class EmailVerificationRepository {
     email: string;
     code: string;
   }) {
-    const [record] = await this.db
+    const [record] = await EmailVerificationRepository.db
       .select()
       .from(table.emailVerification)
       .where(
@@ -60,7 +60,7 @@ export abstract class EmailVerificationRepository {
     email: string;
     code: string;
   }) {
-    const [record] = await this.db
+    const [record] = await EmailVerificationRepository.db
       .select()
       .from(table.emailVerification)
       .where(
@@ -76,7 +76,7 @@ export abstract class EmailVerificationRepository {
   }
 
   static async findVerifiedEmailRecord({ email }: { email: string }) {
-    const [record] = await this.db
+    const [record] = await EmailVerificationRepository.db
       .select()
       .from(table.emailVerification)
       .where(
@@ -101,7 +101,7 @@ export abstract class EmailVerificationRepository {
     code: string;
     expiredAt: number;
   }) {
-    const [row] = await this.db
+    const [row] = await EmailVerificationRepository.db
       .insert(table.emailVerification)
       .values({
         email,
@@ -114,7 +114,7 @@ export abstract class EmailVerificationRepository {
   }
 
   static async updateVerificationAsUsed(id: string) {
-    const [row] = await this.db
+    const [row] = await EmailVerificationRepository.db
       .update(table.emailVerification)
       .set({ verified: true, updatedAt: new Date().toISOString() })
       .where(
@@ -129,13 +129,13 @@ export abstract class EmailVerificationRepository {
   }
 
   static async deleteVerificationById(id: string) {
-    await this.db
+    await EmailVerificationRepository.db
       .delete(table.emailVerification)
       .where(eq(table.emailVerification.id, id));
   }
 
   static async deleteVerificationByEmail(email: string, tx?: Client) {
-    const client = tx ?? this.db;
+    const client = tx ?? EmailVerificationRepository.db;
     await client
       .delete(table.emailVerification)
       .where(eq(table.emailVerification.email, email));

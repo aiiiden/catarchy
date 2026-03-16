@@ -1,7 +1,7 @@
+import path from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import svgr from "vite-plugin-svgr";
@@ -42,7 +42,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,woff2}"],
+        globPatterns: ["**/*.{js,cs,html,ico,png,woff2}"],
         globIgnores: ["**/assets/fonts/**"],
         skipWaiting: true,
         clientsClaim: true,

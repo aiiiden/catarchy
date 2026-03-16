@@ -12,7 +12,7 @@ export abstract class CareRecordRepository {
     emotionDelta: number;
     message: string;
   }) {
-    return this.db.insert(table.careRecord).values({
+    return CareRecordRepository.db.insert(table.careRecord).values({
       ...params,
       caredAt: new Date().toISOString(),
     });

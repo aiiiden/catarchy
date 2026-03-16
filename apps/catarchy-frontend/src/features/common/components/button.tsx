@@ -1,15 +1,15 @@
 import { cn } from "@/shared/lib/cn";
-import { cva, type VariantProps } from "class-variance-authority";
+import { type VariantProps, cva } from "class-variance-authority";
 import React from "react";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center font-sans text-base leading-5 font-medium cursor-pointer transition-opacity text-black text-stroke-white hover:inset-ring-1",
+  "inline-flex cursor-pointer items-center justify-center font-medium font-sans text-base text-black text-stroke-white leading-5 transition-opacity hover:inset-ring-1",
   {
     variants: {
       variant: {
         primary: "bg-gradient-mono-9 active:bg-gradient-mono-8",
         secondary:
-          "bg-gradient-mono-2 border border-black active:bg-gradient-mono-1",
+          "border border-black bg-gradient-mono-2 active:bg-gradient-mono-1",
         ghost: "active:bg-gradient-mono-1",
       },
       size: {
@@ -29,8 +29,7 @@ export const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends
-    React.ComponentPropsWithoutRef<"button">,
+  extends React.ComponentPropsWithoutRef<"button">,
     VariantProps<typeof buttonVariants> {
   fullWidth?: boolean;
 }

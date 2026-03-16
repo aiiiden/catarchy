@@ -62,9 +62,7 @@
       "indexes": {
         "auth_email_unique": {
           "name": "auth_email_unique",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         }
       },
@@ -72,13 +70,9 @@
         "auth_user_id_user_id_fk": {
           "name": "auth_user_id_user_id_fk",
           "tableFrom": "auth",
-          "columnsFrom": [
-            "user_id"
-          ],
+          "columnsFrom": ["user_id"],
           "tableTo": "user",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -144,16 +138,12 @@
       "indexes": {
         "care_record_cat_id_idx": {
           "name": "care_record_cat_id_idx",
-          "columns": [
-            "cat_id"
-          ],
+          "columns": ["cat_id"],
           "isUnique": false
         },
         "care_record_servant_id_idx": {
           "name": "care_record_servant_id_idx",
-          "columns": [
-            "servant_id"
-          ],
+          "columns": ["servant_id"],
           "isUnique": false
         }
       },
@@ -161,26 +151,18 @@
         "cat_care_record_cat_id_cat_id_fk": {
           "name": "cat_care_record_cat_id_cat_id_fk",
           "tableFrom": "cat_care_record",
-          "columnsFrom": [
-            "cat_id"
-          ],
+          "columnsFrom": ["cat_id"],
           "tableTo": "cat",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "cat_care_record_servant_id_user_id_fk": {
           "name": "cat_care_record_servant_id_user_id_fk",
           "tableFrom": "cat_care_record",
-          "columnsFrom": [
-            "servant_id"
-          ],
+          "columnsFrom": ["servant_id"],
           "tableTo": "user",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -240,9 +222,7 @@
       "indexes": {
         "cat_servant_unique": {
           "name": "cat_servant_unique",
-          "columns": [
-            "servant_id"
-          ],
+          "columns": ["servant_id"],
           "isUnique": true
         }
       },
@@ -250,13 +230,9 @@
         "cat_servant_id_user_id_fk": {
           "name": "cat_servant_id_user_id_fk",
           "tableFrom": "cat",
-          "columnsFrom": [
-            "servant_id"
-          ],
+          "columnsFrom": ["servant_id"],
           "tableTo": "user",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -324,13 +300,9 @@
         "cat_personality_cat_id_cat_id_fk": {
           "name": "cat_personality_cat_id_cat_id_fk",
           "tableFrom": "cat_personality",
-          "columnsFrom": [
-            "cat_id"
-          ],
+          "columnsFrom": ["cat_id"],
           "tableTo": "cat",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -411,17 +383,12 @@
       "indexes": {
         "cat_relationship_cat_id_2_idx": {
           "name": "cat_relationship_cat_id_2_idx",
-          "columns": [
-            "cat_id_2"
-          ],
+          "columns": ["cat_id_2"],
           "isUnique": false
         },
         "cat_relationship_unique": {
           "name": "cat_relationship_unique",
-          "columns": [
-            "cat_id_1",
-            "cat_id_2"
-          ],
+          "columns": ["cat_id_1", "cat_id_2"],
           "isUnique": true
         }
       },
@@ -429,26 +396,18 @@
         "cat_relationship_cat_id_1_cat_id_fk": {
           "name": "cat_relationship_cat_id_1_cat_id_fk",
           "tableFrom": "cat_relationship",
-          "columnsFrom": [
-            "cat_id_1"
-          ],
+          "columnsFrom": ["cat_id_1"],
           "tableTo": "cat",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "cat_relationship_cat_id_2_cat_id_fk": {
           "name": "cat_relationship_cat_id_2_cat_id_fk",
           "tableFrom": "cat_relationship",
-          "columnsFrom": [
-            "cat_id_2"
-          ],
+          "columnsFrom": ["cat_id_2"],
           "tableTo": "cat",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -502,13 +461,9 @@
         "cat_stat_cat_id_cat_id_fk": {
           "name": "cat_stat_cat_id_cat_id_fk",
           "tableFrom": "cat_stat",
-          "columnsFrom": [
-            "cat_id"
-          ],
+          "columnsFrom": ["cat_id"],
           "tableTo": "cat",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -563,9 +518,7 @@
       "indexes": {
         "chronicle_created_at_idx": {
           "name": "chronicle_created_at_idx",
-          "columns": [
-            "created_at"
-          ],
+          "columns": ["created_at"],
           "isUnique": false
         }
       },
@@ -694,9 +647,7 @@
       "indexes": {
         "email_verification_email_idx": {
           "name": "email_verification_email_idx",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": false
         }
       },
@@ -749,16 +700,12 @@
       "indexes": {
         "fcm_token_token_unique": {
           "name": "fcm_token_token_unique",
-          "columns": [
-            "token"
-          ],
+          "columns": ["token"],
           "isUnique": true
         },
         "fcm_token_user_id_idx": {
           "name": "fcm_token_user_id_idx",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         }
       },
@@ -766,13 +713,9 @@
         "fcm_token_user_id_user_id_fk": {
           "name": "fcm_token_user_id_user_id_fk",
           "tableFrom": "fcm_token",
-          "columnsFrom": [
-            "user_id"
-          ],
+          "columnsFrom": ["user_id"],
           "tableTo": "user",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -819,13 +762,9 @@
         "personality_test_cat_id_cat_id_fk": {
           "name": "personality_test_cat_id_cat_id_fk",
           "tableFrom": "personality_test",
-          "columnsFrom": [
-            "cat_id"
-          ],
+          "columnsFrom": ["cat_id"],
           "tableTo": "cat",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -921,16 +860,12 @@
       "indexes": {
         "proposal_status_idx": {
           "name": "proposal_status_idx",
-          "columns": [
-            "status"
-          ],
+          "columns": ["status"],
           "isUnique": false
         },
         "proposal_ends_at_idx": {
           "name": "proposal_ends_at_idx",
-          "columns": [
-            "ends_at"
-          ],
+          "columns": ["ends_at"],
           "isUnique": false
         }
       },
@@ -938,26 +873,18 @@
         "proposal_proposer_id_user_id_fk": {
           "name": "proposal_proposer_id_user_id_fk",
           "tableFrom": "proposal",
-          "columnsFrom": [
-            "proposer_id"
-          ],
+          "columnsFrom": ["proposer_id"],
           "tableTo": "user",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "set null"
         },
         "proposal_target_key_consensus_key_fk": {
           "name": "proposal_target_key_consensus_key_fk",
           "tableFrom": "proposal",
-          "columnsFrom": [
-            "target_key"
-          ],
+          "columnsFrom": ["target_key"],
           "tableTo": "consensus",
-          "columnsTo": [
-            "key"
-          ],
+          "columnsTo": ["key"],
           "onUpdate": "no action",
           "onDelete": "no action"
         }
@@ -1009,17 +936,12 @@
       "indexes": {
         "proposal_vote_user_id_idx": {
           "name": "proposal_vote_user_id_idx",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         },
         "proposal_vote_unique": {
           "name": "proposal_vote_unique",
-          "columns": [
-            "proposal_id",
-            "user_id"
-          ],
+          "columns": ["proposal_id", "user_id"],
           "isUnique": true
         }
       },
@@ -1027,26 +949,18 @@
         "proposal_vote_proposal_id_proposal_id_fk": {
           "name": "proposal_vote_proposal_id_proposal_id_fk",
           "tableFrom": "proposal_vote",
-          "columnsFrom": [
-            "proposal_id"
-          ],
+          "columnsFrom": ["proposal_id"],
           "tableTo": "proposal",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         },
         "proposal_vote_user_id_user_id_fk": {
           "name": "proposal_vote_user_id_user_id_fk",
           "tableFrom": "proposal_vote",
-          "columnsFrom": [
-            "user_id"
-          ],
+          "columnsFrom": ["user_id"],
           "tableTo": "user",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -1098,16 +1012,12 @@
       "indexes": {
         "session_refresh_token_unique": {
           "name": "session_refresh_token_unique",
-          "columns": [
-            "refresh_token"
-          ],
+          "columns": ["refresh_token"],
           "isUnique": true
         },
         "session_user_id_idx": {
           "name": "session_user_id_idx",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         }
       },
@@ -1115,13 +1025,9 @@
         "session_user_id_user_id_fk": {
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
-          "columnsFrom": [
-            "user_id"
-          ],
+          "columnsFrom": ["user_id"],
           "tableTo": "user",
-          "columnsTo": [
-            "id"
-          ],
+          "columnsTo": ["id"],
           "onUpdate": "no action",
           "onDelete": "cascade"
         }
@@ -1167,9 +1073,7 @@
       "indexes": {
         "user_handle_unique": {
           "name": "user_handle_unique",
-          "columns": [
-            "handle"
-          ],
+          "columns": ["handle"],
           "isUnique": true
         }
       },

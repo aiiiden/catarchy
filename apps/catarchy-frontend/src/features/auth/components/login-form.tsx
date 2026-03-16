@@ -1,6 +1,6 @@
 import { TextInput } from "@/features/common";
 import { Controller } from "react-hook-form";
-import { useLoginForm } from "../hooks/use-login-form";
+import type { useLoginForm } from "../hooks/use-login-form";
 
 interface LoginFormProps {
   form: ReturnType<typeof useLoginForm>;

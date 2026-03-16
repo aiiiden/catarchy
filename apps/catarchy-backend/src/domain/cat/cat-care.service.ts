@@ -26,13 +26,15 @@ export abstract class CatCareService {
         emotionDecreaseFrequencyHour,
       ],
     ] = await Promise.all([
-      this.catRepository.findFullByServantId({ servantId: userId }),
+      CatCareService.catRepository.findFullByServantId({ servantId: userId }),
       Promise.all([
-        this.consensusRepository.getValue("CAT.COOLDOWN_HOUR_BETWEEN_CARE"),
-        this.consensusRepository.getValue("CAT.GROWTH_PER_CARE"),
-        this.consensusRepository.getValue("CAT.EMOTION_PER_CARE"),
-        this.consensusRepository.getValue("CAT.EMOTION_DECREASE"),
-        this.consensusRepository.getValue(
+        CatCareService.consensusRepository.getValue(
+          "CAT.COOLDOWN_HOUR_BETWEEN_CARE",
+        ),
+        CatCareService.consensusRepository.getValue("CAT.GROWTH_PER_CARE"),
+        CatCareService.consensusRepository.getValue("CAT.EMOTION_PER_CARE"),
+        CatCareService.consensusRepository.getValue("CAT.EMOTION_DECREASE"),
+        CatCareService.consensusRepository.getValue(
           "CAT.EMOTION_DECREASE_FREQUENCY_HOUR",
         ),
       ]),
@@ -45,7 +47,7 @@ export abstract class CatCareService {
     const { cat, stat: catStat, personality } = catFull;
 
     // 2) 쿨다운 체크 + 마지막 돌봄 시간 업데이트 (atomic conditional UPDATE)
-    const updated = await this.catRepository.tryUpdateLastCaredAt({
+    const updated = await CatCareService.catRepository.tryUpdateLastCaredAt({
       catId: cat.id,
       cooldownHours: cooldownHour,
     });
@@ -69,11 +71,12 @@ export abstract class CatCareService {
       Math.max(0, catStat.emotion - decayAmount) + emotionPerCare,
       100,
     );
-    const [updatedCatStat] = await this.catStatRepository.updateAfterCare({
-      catId: cat.id,
-      growth: newGrowth,
-      emotion: newEmotion,
-    });
+    const [updatedCatStat] =
+      await CatCareService.catStatRepository.updateAfterCare({
+        catId: cat.id,
+        growth: newGrowth,
+        emotion: newEmotion,
+      });
 
     // 5) AI 메시지 생성
     const emotionState = getEmotion(catStat.emotion);
@@ -109,7 +112,7 @@ export abstract class CatCareService {
     }
 
     // 6) 돌봄 기록 생성
-    await this.careRecordRepository.create({
+    await CatCareService.careRecordRepository.create({
       catId: cat.id,
       emotionDelta: emotionPerCare,
       growthDelta: growthPerCare,

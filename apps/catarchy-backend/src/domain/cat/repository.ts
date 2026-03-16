@@ -7,7 +7,7 @@ export abstract class CatRepository {
   }
 
   static async findByServantId({ servantId }: { servantId: string }) {
-    const [cat] = await this.db
+    const [cat] = await CatRepository.db
       .select()
       .from(table.cat)
       .where(eq(table.cat.servantId, servantId))
@@ -17,7 +17,7 @@ export abstract class CatRepository {
   }
 
   static async findWithStatByServantId({ servantId }: { servantId: string }) {
-    const [result] = await this.db
+    const [result] = await CatRepository.db
       .select({ cat: table.cat, stat: table.catStat })
       .from(table.cat)
       .innerJoin(table.catStat, eq(table.cat.id, table.catStat.catId))
@@ -36,7 +36,7 @@ export abstract class CatRepository {
     servantId: string;
     name: string;
   }) {
-    return this.db
+    return CatRepository.db
       .insert(table.cat)
       .values({ id, servantId, name })
       .returning();
@@ -50,7 +50,7 @@ export abstract class CatRepository {
     catId: string;
     cooldownHours: number;
   }) {
-    return this.db
+    return CatRepository.db
       .update(table.cat)
       .set({ lastCaredAt: new Date().toISOString() })
       .where(
@@ -66,7 +66,7 @@ export abstract class CatRepository {
   }
 
   static async findFullByServantId({ servantId }: { servantId: string }) {
-    const [result] = await this.db
+    const [result] = await CatRepository.db
       .select({
         cat: table.cat,
         stat: table.catStat,

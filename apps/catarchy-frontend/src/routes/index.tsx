@@ -1,6 +1,6 @@
 import { isAuthenticated } from "@/features/auth";
 import { Button, ImageLogo, Scaffold, TextLogo } from "@/features/common";
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: Index,

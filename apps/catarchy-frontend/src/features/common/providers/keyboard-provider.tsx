@@ -109,7 +109,8 @@ export function KeyboardProvider({ children }: KeyboardProviderProps) {
           const rect = target.getBoundingClientRect();
           const visibleTop = 0;
           const visibleBottom = viewportHeight;
-          const isVisible = rect.top >= visibleTop && rect.bottom <= visibleBottom;
+          const isVisible =
+            rect.top >= visibleTop && rect.bottom <= visibleBottom;
 
           if (!isVisible) {
             target.scrollIntoView({ behavior: "smooth", block: "center" });

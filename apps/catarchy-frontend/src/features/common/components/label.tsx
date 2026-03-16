@@ -20,6 +20,7 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
     ref,
   ) => {
     return (
+      // biome-ignore lint/a11y/noLabelWithoutControl: htmlFor is passed via ...rest
       <label
         ref={ref}
         className={cn(
