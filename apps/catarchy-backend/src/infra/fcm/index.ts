@@ -69,8 +69,11 @@ async function getAccessToken(): Promise<string> {
     body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`,
   });
 
-  const { access_token } = (await res.json()) as { access_token: string };
-  return access_token;
+  const json = (await res.json()) as { access_token?: string; error?: string };
+  if (!json.access_token) {
+    throw new Error(`FCM token exchange failed: ${JSON.stringify(json)}`);
+  }
+  return json.access_token;
 }
 
 export async function sendPushNotification({
@@ -84,12 +87,13 @@ export async function sendPushNotification({
 }): Promise<void> {
   const env = getEnv();
   if (!env.FIREBASE_SERVICE_ACCOUNT_EMAIL || !env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY) {
+    console.warn("[FCM] FIREBASE_SERVICE_ACCOUNT_* env vars not set, skipping push");
     return;
   }
 
   const accessToken = await getAccessToken();
 
-  await fetch(FCM_ENDPOINT, {
+  const res = await fetch(FCM_ENDPOINT, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -99,6 +103,11 @@ export async function sendPushNotification({
       message: { token, notification: { title, body } },
     }),
   });
+
+  if (!res.ok) {
+    const err = await res.text();
+    console.error(`[FCM] send failed (${res.status}): ${err}`);
+  }
 }
 
 export async function sendPushNotificationToUser({
@@ -110,8 +119,14 @@ export async function sendPushNotificationToUser({
   title: string;
   body: string;
 }): Promise<void> {
-  if (tokens.length === 0) return;
-  await Promise.allSettled(
+  if (tokens.length === 0) {
+    console.warn("[FCM] no tokens for user, skipping push");
+    return;
+  }
+  const results = await Promise.allSettled(
     tokens.map((token) => sendPushNotification({ token, title, body })),
   );
+  for (const r of results) {
+    if (r.status === "rejected") console.error("[FCM] send error:", r.reason);
+  }
 }
