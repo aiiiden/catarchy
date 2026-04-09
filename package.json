@@ -1,10 +1,9 @@
 {
   "name": "catarchy",
   "private": true,
-  "scripts": {
-    "build:types": "tsc -b apps/catarchy-backend"
-  },
-  "workspaces": ["apps/*"],
+  "workspaces": [
+    "apps/*"
+  ],
   "devDependencies": {
     "@biomejs/biome": "^1.9.0"
   }
