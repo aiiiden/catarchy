@@ -1,0 +1,106 @@
+.input {
+  display: none;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.track {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  background-color: transparent;
+  border-radius: 0;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  transition: box-shadow 0.2s ease;
+}
+
+.track:hover {
+  box-shadow: none;
+}
+
+.track:focus {
+  outline: none;
+}
+
+.track.focused {
+  outline: none;
+}
+
+.track.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.track.disabled:hover {
+  box-shadow: none;
+}
+
+.track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
+  background: #1d1d1d;
+  pointer-events: none;
+}
+
+.progress {
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
+  background: #1d1d1d;
+  border-radius: 0;
+  pointer-events: none;
+  transition: width 0.1s ease-out;
+}
+
+.stepMarks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stepMark {
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  background: #1d1d1d;
+}
+
+.thumb {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition:
+    filter 0.2s ease,
+    transform 0.1s ease-out;
+}
+
+.thumbIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

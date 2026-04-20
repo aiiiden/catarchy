@@ -1,0 +1,39 @@
+.root {
+  position: fixed;
+  z-index: 0;
+  visibility: hidden;
+  width: max-content;
+  max-width: calc(100vw - 8px);
+}
+
+.tail {
+  position: absolute;
+  display: block;
+}
+
+/* BOTTOM: tail points up */
+.root[data-side="bottom"] .tail {
+  top: -3px;
+  left: var(--tail-offset);
+}
+
+/* TOP: tail points down */
+.root[data-side="top"] .tail {
+  bottom: -4px;
+  left: var(--tail-offset);
+  transform: scaleY(-1);
+}
+
+/* RIGHT: tail points left */
+.root[data-side="right"] .tail {
+  left: -4px;
+  top: var(--tail-offset);
+  transform: rotate(-90deg);
+}
+
+/* LEFT: tail points right */
+.root[data-side="left"] .tail {
+  right: -4px;
+  top: var(--tail-offset);
+  transform: rotate(90deg);
+}

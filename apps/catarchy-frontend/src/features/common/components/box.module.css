@@ -1,0 +1,34 @@
+.border {
+  border: 3px solid transparent;
+  overflow: auto;
+  border-image: url("../assets/border-square.svg") 3;
+  border-image-repeat: repeat !important;
+}
+
+.tight {
+  overflow: visible;
+}
+
+.light {
+  border-image: url("../assets/border-light.svg") 3;
+}
+
+.dark {
+  border-image: url("../assets/border-dark.svg") 3;
+}
+
+.dithered {
+  border-image: url("../assets/border-light-dither.svg") 3;
+}
+
+.darkDithered {
+  border-image: url("../assets/border-dark-dither.svg") 3;
+}
+
+.moreDither {
+  border-image: url("../assets/border-light-more-dither.svg") 3;
+}
+
+.darkMoreDither {
+  border-image: url("../assets/border-dark-more-dither.svg") 3;
+}

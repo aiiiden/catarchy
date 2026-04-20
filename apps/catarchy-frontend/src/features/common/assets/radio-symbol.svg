@@ -1,0 +1,43 @@
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_137_16724)">
+<path d="M14 0H6V1H14V0Z" fill="#1D1D1D"/>
+<path d="M6 1H4V2H6V1Z" fill="#1D1D1D"/>
+<path d="M14 1H6V19H14V1Z" fill="white"/>
+<path d="M16 1H14V2H16V1Z" fill="#1D1D1D"/>
+<path d="M4 2H3V3H4V2Z" fill="#1D1D1D"/>
+<path d="M6 2H4V18H6V2Z" fill="white"/>
+<path d="M16 2H14V18H16V2Z" fill="white"/>
+<path d="M17 2H16V3H17V2Z" fill="#1D1D1D"/>
+<path d="M3 3H2V4H3V3Z" fill="#1D1D1D"/>
+<path d="M4 3H3V17H4V3Z" fill="white"/>
+<path d="M17 3H16V17H17V3Z" fill="white"/>
+<path d="M18 3H17V4H18V3Z" fill="#1D1D1D"/>
+<path d="M2 4H1V6H2V4Z" fill="#1D1D1D"/>
+<path d="M3 4H2V16H3V4Z" fill="white"/>
+<path d="M18 4H17V16H18V4Z" fill="white"/>
+<path d="M19 4H18V6H19V4Z" fill="#1D1D1D"/>
+<path d="M1 6H0V14H1V6Z" fill="#1D1D1D"/>
+<path d="M2 6H1V14H2V6Z" fill="white"/>
+<path d="M19 6H18V14H19V6Z" fill="white"/>
+<path d="M20 6H19V14H20V6Z" fill="#1D1D1D"/>
+<path d="M2 14H1V16H2V14Z" fill="#1D1D1D"/>
+<path d="M19 14H18V16H19V14Z" fill="#1D1D1D"/>
+<path d="M3 16H2V17H3V16Z" fill="#1D1D1D"/>
+<path d="M18 16H17V17H18V16Z" fill="#1D1D1D"/>
+<path d="M4 17H3V18H4V17Z" fill="#1D1D1D"/>
+<path d="M17 17H16V18H17V17Z" fill="#1D1D1D"/>
+<path d="M6 18H4V19H6V18Z" fill="#1D1D1D"/>
+<path d="M16 18H14V19H16V18Z" fill="#1D1D1D"/>
+<path d="M14 19H6V20H14V19Z" fill="#1D1D1D"/>
+<path d="M12 6H8V14H12V6Z" fill="currentColor"/>
+<path d="M8 7H7V13H8V7Z" fill="currentColor"/>
+<path d="M13 7H12V13H13V7Z" fill="currentColor"/>
+<path d="M7 8H6V12H7V8Z" fill="currentColor"/>
+<path d="M14 8H13V12H14V8Z" fill="currentColor"/>
+</g>
+<defs>
+<clipPath id="clip0_137_16724">
+<rect width="20" height="20" fill="white"/>
+</clipPath>
+</defs>
+</svg>

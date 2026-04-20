@@ -1,4 +1,4 @@
-import { Bastet, Scaffold } from "@/features/common";
+import { Bastet, Scaffold, Text } from "@/features/common";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/(gate)/")({
@@ -10,9 +10,9 @@ function Index() {
   return (
     <Scaffold>
       <Scaffold.Body>
-        <div className="h-full w-full flex justify-center items-center flex-col gap-2">
+        <div className="h-full w-full flex justify-center items-center flex-col gap-4">
           <Bastet />
-          <p>Coming soon</p>
+          <Text as="p">Coming soon...</Text>
         </div>
       </Scaffold.Body>
     </Scaffold>

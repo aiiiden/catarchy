@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+@import "./color.css";
 @import "./app-shell.css";
 @import "./font-text.css";
 @import "./safe-area.css";

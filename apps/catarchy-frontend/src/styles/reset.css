@@ -2,4 +2,12 @@
   dialog[open] {
     @apply max-w-none max-h-none m-0 p-0;
   }
+
+  button {
+    @apply cursor-pointer;
+  }
+
+  button:focus:not(:focus-visible) {
+    outline: none;
+  }
 }

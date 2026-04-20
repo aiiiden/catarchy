@@ -1,0 +1,27 @@
+<svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg" shape-rendering="optimizeSpeed">
+  <path d="M2 1H7V2H8V7H7V8H2V7H1V2H2V1Z" fill="black"/>
+  <rect x="2" width="5" height="1" fill="black"/>
+  <rect x="2" y="8" width="5" height="1" fill="black"/>
+  <rect x="1" y="1" width="1" height="1" fill="black"/>
+  <rect x="7" y="1" width="1" height="1" fill="black"/>
+  <rect x="1" y="7" width="1" height="1" fill="black"/>
+  <rect x="7" y="7" width="1" height="1" fill="black"/>
+  <rect y="2" width="1" height="5" fill="black"/>
+  <rect x="8" y="2" width="1" height="5" fill="black"/>
+  <path d="M2 2H3V3H2V2Z" fill="black"/>
+  <path d="M6 2H7V3H6V2Z" fill="black"/>
+  <path d="M6 6H7V7H6V6Z" fill="black"/>
+  <path d="M2 6H3V7H2V6Z" fill="black"/>
+  <path d="M4 6H5V7H4V6Z" fill="black"/>
+  <path d="M4 2H5V3H4V2Z" fill="black"/>
+  <path d="M2 4H3V5H2V4Z" fill="black"/>
+  <path d="M6 4H7V5H6V4Z" fill="black"/>
+  <path d="M3 1H4V2H3V1Z" fill="black"/>
+  <path d="M5 1H6V2H5V1Z" fill="black"/>
+  <path d="M7 3H8V4H7V3Z" fill="black"/>
+  <path d="M7 5H8V6H7V5Z" fill="black"/>
+  <path d="M5 7H6V8H5V7Z" fill="black"/>
+  <path d="M3 7H4V8H3V7Z" fill="black"/>
+  <path d="M1 5H2V6H1V5Z" fill="black"/>
+  <path d="M1 3H2V4H1V3Z" fill="black"/>
+</svg>
