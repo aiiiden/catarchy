@@ -12,7 +12,7 @@ function Index() {
       <Scaffold.Body>
         <div className="h-full w-full flex justify-center items-center flex-col gap-4">
           <Bastet />
-          <Text as="p">Coming soon...</Text>
+          <Text as="p">Coming soon....</Text>
         </div>
       </Scaffold.Body>
     </Scaffold>
