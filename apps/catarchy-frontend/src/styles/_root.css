@@ -9,3 +9,11 @@
 @import "./background.css";
 @import "./border.css";
 @import "./reset.css";
+
+/* Body */
+
+@layer base {
+  body {
+    @apply bg-gradient-dither-1;
+  }
+}
