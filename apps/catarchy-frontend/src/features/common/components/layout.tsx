@@ -14,7 +14,7 @@ const ScaffoldRoot = forwardRef<HTMLDivElement, ScaffoldRootProps>(
     return (
       <div
         ref={ref}
-        className="relative mx-auto flex w-(--layout-max-width) flex-col overflow-y-auto overscroll-none bg-white border-x"
+        className="relative mx-auto flex w-(--layout-max-width) flex-col overflow-y-auto overscroll-none bg-white border-x border-gray-100"
         style={{
           height: avoidKeyboard ? keyboard.viewportHeight : "100dvh",
         }}
