@@ -1,0 +1,6 @@
+{
+  "search.exclude": {
+    "**/.wrangler": true,
+    "**/dist": true
+  }
+}
