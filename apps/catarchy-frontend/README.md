@@ -1,6 +1,8 @@
 # Catarchy Frontend
 
-React + Vite SPA with TanStack Router/Query, Tailwind, and type-safe API integration.
+Meow :3
+
+[catarchy.net](https://catarchy.net)
 
 ## Architecture
 
