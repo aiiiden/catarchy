@@ -13,7 +13,7 @@
 /* Body */
 
 @layer base {
-  body {
+  html {
     @apply bg-gradient-dither-1;
   }
 }
