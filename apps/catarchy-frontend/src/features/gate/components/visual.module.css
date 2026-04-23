@@ -1,0 +1,47 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 258px;
+}
+
+@keyframes flow-1 {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 1024px;
+  }
+}
+
+@keyframes flow-2 {
+  0% {
+    left: -1024px;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+.background {
+  position: absolute;
+  width: 1024px;
+  height: 258px;
+  max-width: none;
+  animation-timing-function: steps(512, end);
+  animation-iteration-count: infinite;
+  animation-duration: 20s;
+  image-rendering: pixelated;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.first {
+  left: 0;
+  animation-name: flow-1;
+}
+
+.second {
+  left: -1024px;
+  animation-name: flow-2;
+}

@@ -39,6 +39,7 @@
       text-shadow: none;
       -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: inherit;
+      letter-spacing: 0.125px;
     }
   }
 

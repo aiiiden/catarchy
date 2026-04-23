@@ -7,13 +7,13 @@ export const buttonStyles = cva(["cursor-pointer leading-none w-full"], {
   variants: {
     variant: {
       primary:
-        "bg-black text-black hover:bg-white hover:bg-gradient-dither-8! font-stroke-white active:bg-gradient-dither-7!",
+        "bg-black text-black hover:bg-white hover:bg-gradient-dither-8! font-stroke-white active:bg-gradient-dither-7! focus:bg-gradient-dither-7!",
       secondary:
-        "bg-gradient-dither-2 font-stroke-white hover:bg-gradient-dither-3 active:bg-gradient-dither-4",
+        "bg-gradient-dither-2 font-stroke-white hover:bg-gradient-dither-3 active:bg-gradient-dither-4 focus:bg-gradient-dither-4",
       outline:
-        "hover:bg-gradient-dither-1 active:bg-gradient-dither-2 font-stroke-white",
+        "hover:bg-gradient-dither-1 active:bg-gradient-dither-2 focus:bg-gradient-dither-2 font-stroke-white",
       ghost:
-        "bg-transparent hover:bg-gradient-dither-1 active:bg-gradient-dither-2 font-stroke-white",
+        "bg-transparent hover:bg-gradient-dither-1 active:bg-gradient-dither-2 focus:bg-gradient-dither-2 font-stroke-white",
     },
     size: {
       default: "px-1.75 h-7.5",

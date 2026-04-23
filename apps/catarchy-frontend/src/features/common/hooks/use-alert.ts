@@ -7,7 +7,7 @@ type AlertProps = {
   title: string;
   message?: React.ReactNode;
   confirmLabel?: string;
-  onConfirm?: () => void;
+  onConfirm?: (close: () => void) => void;
   cancelLabel?: string;
   onCancel?: () => void;
 };

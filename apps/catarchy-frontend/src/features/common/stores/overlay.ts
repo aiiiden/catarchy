@@ -32,7 +32,7 @@ export const useOverlayStore = create<OverlayStore>((set, get) => ({
     })),
   close: (id) =>
     set((s) => ({
-      overlays: s.overlays.map((o) => (o.id === id ? { ...o, closing: true } : o)),
+      overlays: s.overlays.filter((o) => o.id !== id),
     })),
   remove: (id) =>
     set((s) => ({ overlays: s.overlays.filter((o) => o.id !== id) })),

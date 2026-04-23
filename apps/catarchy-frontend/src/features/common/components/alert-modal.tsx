@@ -11,7 +11,7 @@ type AlertModalProps = {
   title: string;
   message?: React.ReactNode;
   confirmLabel?: string;
-  onConfirm?: () => void;
+  onConfirm?: (close: () => void) => void;
   cancelLabel?: string;
   onCancel?: () => void;
 };
@@ -46,7 +46,13 @@ export function AlertModal({
       }}
     >
       <div className="p-4 min-h-20 flex items-center justify-center">
-        {isMessageString ? <Text>{message}</Text> : message}
+        {isMessageString ? (
+          <Text className="text-center text-pretty leading-relaxed">
+            {message}
+          </Text>
+        ) : (
+          message
+        )}
       </div>
       <div
         className={cn([
@@ -59,7 +65,7 @@ export function AlertModal({
             {cancelLabel}
           </Button>
         )}
-        <Button type="button" onClick={onConfirm}>
+        <Button type="button" onClick={() => onConfirm?.(() => close(id))}>
           {confirmLabel}
         </Button>
       </div>

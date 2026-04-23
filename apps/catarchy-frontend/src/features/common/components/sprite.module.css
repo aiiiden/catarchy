@@ -1,0 +1,10 @@
+.container {
+  display: inline-block;
+  width: var(--container-width, auto);
+  height: var(--container-height, auto);
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: var(--sprite-from-x, 0px) 0px;
+  user-select: none;
+  -webkit-user-drag: none;
+}
