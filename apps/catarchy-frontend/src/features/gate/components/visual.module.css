@@ -27,9 +27,9 @@
   width: 1024px;
   height: 258px;
   max-width: none;
-  animation-timing-function: steps(512, end);
+  animation-timing-function: steps(256, end);
   animation-iteration-count: infinite;
-  animation-duration: 20s;
+  animation-duration: 64s;
   image-rendering: pixelated;
   pointer-events: none;
   user-select: none;
