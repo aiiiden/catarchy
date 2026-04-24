@@ -7,7 +7,7 @@ export function GateScreen() {
   const alert = useAlert();
   return (
     <Scaffold>
-      <Scaffold.Body className="justify-center gap-0">
+      <Scaffold.Body className="justify-center gap-8">
         <Header />
         <Visual />
       </Scaffold.Body>

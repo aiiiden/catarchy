@@ -3,28 +3,32 @@ import React from "react";
 import { cn } from "../lib/cn";
 import { Box } from "./box";
 
-export const buttonStyles = cva(["cursor-pointer leading-none w-full"], {
-  variants: {
-    variant: {
-      primary:
-        "bg-black text-black hover:bg-white hover:bg-gradient-dither-8! font-stroke-white active:bg-gradient-dither-7! focus:bg-gradient-dither-7!",
-      secondary:
-        "bg-gradient-dither-2 font-stroke-white hover:bg-gradient-dither-3 active:bg-gradient-dither-4 focus:bg-gradient-dither-4",
-      outline:
-        "hover:bg-gradient-dither-1 active:bg-gradient-dither-2 focus:bg-gradient-dither-2 font-stroke-white",
-      ghost:
-        "bg-transparent hover:bg-gradient-dither-1 active:bg-gradient-dither-2 focus:bg-gradient-dither-2 font-stroke-white",
+export const buttonStyles = cva(
+  ["cursor-pointer leading-none w-full justify-center items-center flex"],
+  {
+    variants: {
+      variant: {
+        primary:
+          "bg-black text-black hover:bg-white hover:bg-gradient-dither-8! font-stroke-white active:bg-gradient-dither-7! focus:bg-gradient-dither-7!",
+        secondary:
+          "bg-gradient-dither-2 font-stroke-white hover:bg-gradient-dither-3 active:bg-gradient-dither-4 focus:bg-gradient-dither-4",
+        outline:
+          "hover:bg-gradient-dither-1 active:bg-gradient-dither-2 focus:bg-gradient-dither-2 font-stroke-white",
+        ghost:
+          "bg-transparent hover:bg-gradient-dither-1 active:bg-gradient-dither-1 focus:bg-gradient-dither-1 font-stroke-white",
+      },
+      size: {
+        small: "px-1.25 h-8",
+        default: "px-1.75 h-12",
+        big: "px-3.5 h-15 min-w-14",
+      },
     },
-    size: {
-      default: "px-1.75 h-7.5",
-      big: "px-3.5 h-14 min-w-14",
+    defaultVariants: {
+      variant: "primary",
+      size: "default",
     },
   },
-  defaultVariants: {
-    variant: "primary",
-    size: "default",
-  },
-});
+);
 
 type ButtonProps = React.ComponentPropsWithoutRef<"button"> &
   VariantProps<typeof buttonStyles>;

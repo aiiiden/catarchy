@@ -36,12 +36,12 @@ export function Modal({ children, onClose, header }: ModalProps) {
         <Box rounded className="w-full" tight={Boolean(header)}>
           {header && (
             <header className="border-b pl-px pt-px pr-px">
-              <div className="flex justify-between px-2 pb-2 pt-1.5 bg-white">
-                <div className="size-4 aspect-square">{header.left}</div>
+              <div className="flex justify-between items-center px-2 pb-2 pt-1.5 bg-white">
+                <div className="size-8 aspect-square">{header.left}</div>
                 <Text as="h2" className="font-bold">
                   {header.title}
                 </Text>
-                <div className="size-4 aspect-square">{header.right}</div>
+                <div className="size-8 aspect-square">{header.right}</div>
               </div>
             </header>
           )}
