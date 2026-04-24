@@ -12,13 +12,18 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
   };
 
   const messaging = useMemo(() => {
-    const initializedApps = getApps();
-    const app = initializedApps.length > 0 ? getApp() : initializeApp(options);
-
-    return getMessaging(app);
+    if (!("serviceWorker" in navigator)) return null;
+    try {
+      const initializedApps = getApps();
+      const app = initializedApps.length > 0 ? getApp() : initializeApp(options);
+      return getMessaging(app);
+    } catch {
+      return null;
+    }
   }, []);
 
   useEffect(() => {
+    if (!messaging) return;
     const unsubscribe = onMessage(messaging, (payload) => {
       const { title, body } = payload.notification ?? {};
       if (title && Notification.permission === "granted") {
@@ -26,7 +31,7 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
       }
     });
     return unsubscribe;
-  }, []);
+  }, [messaging]);
 
   return <>{children}</>;
 }
