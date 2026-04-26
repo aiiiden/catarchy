@@ -214,11 +214,19 @@ export function SignupScreen() {
         </div>
         <div>
           <Text as="p" className="text-center py-2">
-            <a href="/terms.txt" target="_blank" className="underline">
+            <a
+              href="/terms.txt"
+              onClick={(e) => { e.preventDefault(); window.open("/terms.txt", "_blank", "noopener,noreferrer"); }}
+              className="underline"
+            >
               Terms
             </a>{" "}
             /{" "}
-            <a href="/privacy-policy.txt" target="_blank" className="underline">
+            <a
+              href="/privacy-policy.txt"
+              onClick={(e) => { e.preventDefault(); window.open("/privacy-policy.txt", "_blank", "noopener,noreferrer"); }}
+              className="underline"
+            >
               Privacy
             </a>
           </Text>
