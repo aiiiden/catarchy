@@ -140,14 +140,14 @@ export const authRouter = () => {
         cookie.accessToken.maxAge = ms(AuthService.accessTokenExp) / 1000;
         cookie.accessToken.httpOnly = true;
         cookie.accessToken.secure = isProd;
-        cookie.accessToken.sameSite = isProd ? "none" : "lax";
+        cookie.accessToken.sameSite = "lax";
         cookie.accessToken.path = "/";
 
         cookie.refreshToken.value = refreshToken;
         cookie.refreshToken.maxAge = ms(AuthService.refreshTokenExp) / 1000;
         cookie.refreshToken.httpOnly = true;
         cookie.refreshToken.secure = isProd;
-        cookie.refreshToken.sameSite = isProd ? "none" : "lax";
+        cookie.refreshToken.sameSite = "lax";
         cookie.refreshToken.path = "/";
 
         return {
@@ -213,14 +213,14 @@ export const authRouter = () => {
         cookie.accessToken.maxAge = ms(AuthService.accessTokenExp) / 1000;
         cookie.accessToken.httpOnly = true;
         cookie.accessToken.secure = isProd;
-        cookie.accessToken.sameSite = isProd ? "none" : "lax";
+        cookie.accessToken.sameSite = "lax";
         cookie.accessToken.path = "/";
 
         cookie.refreshToken.value = newRefreshToken;
         cookie.refreshToken.maxAge = ms(AuthService.refreshTokenExp) / 1000;
         cookie.refreshToken.httpOnly = true;
         cookie.refreshToken.secure = isProd;
-        cookie.refreshToken.sameSite = isProd ? "none" : "lax";
+        cookie.refreshToken.sameSite = "lax";
         cookie.refreshToken.path = "/";
 
         return { message: "Token refreshed successfully" };
