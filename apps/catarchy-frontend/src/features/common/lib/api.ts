@@ -1,6 +1,5 @@
 import type { App } from "@backend/app";
 import { treaty } from "@elysiajs/eden";
-import { env } from "./env";
 
 let isRefreshing = false;
 
@@ -13,22 +12,23 @@ const fetchWithRefresh = async (
   if (response.status !== 401) return response;
 
   if (isRefreshing) {
-    // TODO: remove after testing
-    // window.location.href = "/auth/login";
+    window.location.href = "/auth/login";
     return response;
   }
 
   isRefreshing = true;
 
   try {
-    const refreshed = await fetch(`${env.VITE_API_URL}/auth/refresh`, {
-      method: "POST",
-      credentials: "include",
-    });
+    const refreshed = await fetch(
+      `${window.location.origin}/api/auth/refresh`,
+      {
+        method: "POST",
+        credentials: "include",
+      },
+    );
 
     if (!refreshed.ok) {
-      // TODO: remove after testing
-      // window.location.href = "/auth/login";
+      window.location.href = "/auth/login";
       return response;
     }
 
@@ -38,12 +38,6 @@ const fetchWithRefresh = async (
   }
 };
 
-export const api = treaty<App>(env.VITE_API_URL, {
+export const api = treaty<App>(`${window.location.origin}/api`, {
   fetcher: fetchWithRefresh as typeof fetch,
-  onRequest(path, options) {
-    console.log("Requesting:", path, options);
-  },
-  onResponse(response) {
-    console.log("Received response:", response);
-  },
 });
