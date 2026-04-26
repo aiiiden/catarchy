@@ -3,9 +3,5 @@ export const onRequest = async (context: any) => {
   const targetPath = url.pathname.replace("/api", "");
   const targetUrl = `https://api.catarchy.net${targetPath}${url.search}`;
 
-  return fetch(targetUrl, {
-    method: context.request.method,
-    headers: context.request.headers,
-    body: context.request.body,
-  });
+  return fetch(new Request(targetUrl, context.request));
 };
