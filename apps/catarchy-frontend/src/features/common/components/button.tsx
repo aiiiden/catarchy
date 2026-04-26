@@ -46,6 +46,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           variant === "ghost" && "border-none!",
           disabled && "opacity-20",
         ])}
+        disabled={disabled}
         containerClassName={buttonStyles({ variant, size })}
         rounded={variant !== "ghost"}
         {...props}
