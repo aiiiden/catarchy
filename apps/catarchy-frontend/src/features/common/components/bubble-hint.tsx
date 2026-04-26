@@ -40,8 +40,9 @@ export const BubbleHint = React.forwardRef<HTMLDivElement, BubbleHintProps>(
 
         const rect = target.getBoundingClientRect();
         const rootRect = root.getBoundingClientRect();
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
+        const vp = window.visualViewport;
+        const vw = vp ? vp.width : window.innerWidth;
+        const vh = vp ? vp.height : window.innerHeight;
 
         const spaceTop = rect.top;
         const spaceBottom = vh - rect.bottom;
