@@ -125,6 +125,9 @@ export const BubbleHint = React.forwardRef<HTMLDivElement, BubbleHintProps>(
 
       document.addEventListener("scroll", update, true);
       window.addEventListener("resize", update);
+      window.visualViewport?.addEventListener("resize", update);
+      window.visualViewport?.addEventListener("scroll", update);
+
       update();
 
       return () => {
@@ -132,6 +135,8 @@ export const BubbleHint = React.forwardRef<HTMLDivElement, BubbleHintProps>(
         mo.disconnect();
         document.removeEventListener("scroll", update, true);
         window.removeEventListener("resize", update);
+        window.visualViewport?.removeEventListener("resize", update);
+        window.visualViewport?.removeEventListener("scroll", update);
       };
     }, [targetRef, preferredSide]);
 
