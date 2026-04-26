@@ -5,11 +5,11 @@ import { getEnv } from "../../lib/env";
 export const authGuard = () =>
   new Elysia({ name: "auth.guard" })
     .use(jwt({ name: "accessJwt", secret: getEnv().JWT_SECRET }))
-    .derive({ as: "scoped" }, async ({ accessJwt, headers }) => {
+    .derive({ as: "scoped" }, async ({ accessJwt, headers, cookie }) => {
       const authorization = headers.authorization;
       const token = authorization?.startsWith("Bearer ")
         ? authorization.slice(7)
-        : null;
+        : (cookie as Record<string, { value: string }>).accessToken?.value ?? null;
 
       if (!token) {
         return status(401, { message: "Unauthorized" });

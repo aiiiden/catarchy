@@ -1,25 +1,28 @@
 import { create } from "zustand";
 
-export type ToastVariant = "info" | "success" | "error" | "warning";
+import type React from "react";
 
 export type Toast = {
   id: string;
-  message: string;
-  variant?: ToastVariant;
+  message: React.ReactNode;
   duration?: number;
 };
 
 type ToastStore = {
   toasts: Toast[];
-  push: (toast: Omit<Toast, "id">) => string;
+  push: (toast: Omit<Toast, "id"> & { id?: string }) => string;
   dismiss: (id: string) => void;
 };
 
 export const useToastStore = create<ToastStore>((set) => ({
   toasts: [],
-  push: (toast) => {
-    const id = crypto.randomUUID();
-    set((s) => ({ toasts: [...s.toasts, { ...toast, id }] }));
+  push: ({ id: givenId, ...toast }) => {
+    const id = givenId ?? crypto.randomUUID();
+    set((s) => ({
+      toasts: s.toasts.some((t) => t.id === id)
+        ? s.toasts
+        : [...s.toasts, { ...toast, id }],
+    }));
     return id;
   },
   dismiss: (id) =>

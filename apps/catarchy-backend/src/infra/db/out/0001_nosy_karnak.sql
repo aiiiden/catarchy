@@ -1,0 +1,1 @@
+ALTER TABLE `session` ADD `absolute_expired_at` integer NOT NULL DEFAULT 0;

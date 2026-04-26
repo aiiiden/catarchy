@@ -4,7 +4,9 @@ import { cn } from "../lib/cn";
 import { Box } from "./box";
 
 export const buttonStyles = cva(
-  ["cursor-pointer leading-none w-full justify-center items-center flex"],
+  [
+    "cursor-pointer leading-none w-full h-full justify-center items-center flex select-none",
+  ],
   {
     variants: {
       variant: {
@@ -18,9 +20,9 @@ export const buttonStyles = cva(
           "bg-transparent hover:bg-gradient-dither-1 active:bg-gradient-dither-1 focus:bg-gradient-dither-1 font-stroke-white",
       },
       size: {
-        small: "px-1.25 h-8",
-        default: "px-1.75 h-12",
-        big: "px-3.5 h-15 min-w-14",
+        small: "px-1.25 min-h-8",
+        default: "px-1.75 min-h-10",
+        big: "px-3.5 min-h-12 min-w-14 text-lg",
       },
     },
     defaultVariants: {
@@ -34,13 +36,16 @@ type ButtonProps = React.ComponentPropsWithoutRef<"button"> &
   VariantProps<typeof buttonStyles>;
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, ...props }, ref) => {
+  ({ className, variant, size, disabled, ...props }, ref) => {
     return (
       <Box
         as="button"
-        aria-busy
         ref={ref}
-        className={cn([className, variant === "ghost" && "border-none!"])}
+        className={cn([
+          className,
+          variant === "ghost" && "border-none!",
+          disabled && "opacity-20",
+        ])}
         containerClassName={buttonStyles({ variant, size })}
         rounded={variant !== "ghost"}
         {...props}

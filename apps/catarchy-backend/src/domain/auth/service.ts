@@ -1,6 +1,6 @@
-import { randomInt } from "node:crypto";
 import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
+import ms from "ms";
+import { randomInt } from "node:crypto";
 import { getDatabase, table } from "../../infra/db";
 import { ConflictError, ForbiddenError, NotFoundError } from "../../lib/error";
 import { UserRepository } from "../user/repository";
@@ -10,8 +10,12 @@ import { SessionRepository } from "./session.repository";
 
 export abstract class AuthService {
   // Configurations
-  static emailCodeDuration: number = 15 * 60 * 1000; // 15 minutes
-  static emailCodeCooldown: number = 15 * 1000; // 15 seconds
+  static readonly emailCodeDuration = "15m"; // 15 minutes
+  static readonly emailCodeCooldown = "15m"; // 15 minutes
+
+  static readonly accessTokenExp = "15m";
+  static readonly refreshTokenExp = "7d";
+  static readonly absoluteSessionExp = "90d";
 
   // database (transaction)
   private static get db() {
@@ -31,7 +35,7 @@ export abstract class AuthService {
     code: string;
     email: string;
   }) {
-    const expiredAt = Date.now() + AuthService.emailCodeDuration;
+    const expiredAt = Date.now() + ms(AuthService.emailCodeDuration);
 
     const [existingVerification, auth] = await Promise.all([
       await AuthService.emailVerificationRepository.findRecentVerification({
@@ -50,7 +54,7 @@ export abstract class AuthService {
       const createdAtMs = new Date(
         `${existingVerification.createdAt}Z`,
       ).getTime();
-      const cooldownEnd = createdAtMs + AuthService.emailCodeCooldown;
+      const cooldownEnd = createdAtMs + ms(AuthService.emailCodeCooldown);
 
       if (Date.now() < cooldownEnd) {
         throw new ConflictError(
@@ -117,6 +121,79 @@ export abstract class AuthService {
     return true;
   }
 
+  static async addResetPasswordVerificationRecord({
+    code,
+    email,
+  }: {
+    code: string;
+    email: string;
+  }) {
+    const expiredAt = Date.now() + ms(AuthService.emailCodeDuration);
+
+    const [existingVerification, auth] = await Promise.all([
+      AuthService.emailVerificationRepository.findRecentVerification({ email }),
+      AuthService.authRepository.findAuthByEmail({ email }),
+    ]);
+
+    if (!auth) {
+      throw new NotFoundError("No account found with this email address.");
+    }
+
+    if (existingVerification?.createdAt) {
+      const createdAtMs = new Date(
+        `${existingVerification.createdAt}Z`,
+      ).getTime();
+      const cooldownEnd = createdAtMs + ms(AuthService.emailCodeCooldown);
+
+      if (Date.now() < cooldownEnd) {
+        throw new ConflictError(
+          "A verification code has already been sent to this email. Please wait before requesting a new one.",
+          { waitUntil: cooldownEnd },
+        );
+      }
+    }
+
+    const verification =
+      await AuthService.emailVerificationRepository.createEmailVerification({
+        email,
+        code,
+        expiredAt,
+      });
+
+    return verification;
+  }
+
+  static async resetPassword({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) {
+    const verified =
+      await AuthService.emailVerificationRepository.findVerifiedEmailRecord({
+        email,
+      });
+
+    if (!verified) {
+      throw new ForbiddenError(
+        "Email has not been verified. Please verify your email before resetting your password.",
+      );
+    }
+
+    const auth = await AuthService.authRepository.findAuthByEmail({ email });
+
+    if (!auth) {
+      throw new NotFoundError("No account found with this email address.");
+    }
+
+    const passwordHashed = bcrypt.hashSync(password, 10);
+    await AuthService.authRepository.updatePassword({ email, passwordHashed });
+    await AuthService.emailVerificationRepository.deleteVerificationByEmail(
+      email,
+    );
+  }
+
   static async deleteVerification(id: string) {
     await AuthService.emailVerificationRepository.deleteVerificationById(id);
   }
@@ -136,7 +213,9 @@ export abstract class AuthService {
       });
 
     if (!verified) {
-      throw new ForbiddenError("Email has not been verified.");
+      throw new ForbiddenError(
+        "Email has not been verified. Please verify your email before signing up.",
+      );
     }
 
     const existingAuth = await AuthService.authRepository.findAuthByEmail({
@@ -144,7 +223,9 @@ export abstract class AuthService {
     });
 
     if (existingAuth) {
-      throw new ConflictError("An account with this email already exists.");
+      throw new ConflictError("An account with this email already exists.", {
+        conflicted: "email",
+      });
     }
 
     const existingHandle = await AuthService.userRepository.findByHandle({
@@ -152,7 +233,9 @@ export abstract class AuthService {
     });
 
     if (existingHandle) {
-      throw new ConflictError("Handle already taken.");
+      throw new ConflictError("Handle already taken.", {
+        conflicted: "handle",
+      });
     }
 
     const passwordHashed = bcrypt.hashSync(password, 10);
@@ -163,15 +246,17 @@ export abstract class AuthService {
       .insert(table.user)
       .values({ id: userId, handle })
       .returning();
+
     await AuthService.db.insert(table.auth).values({
       provider: "email_password",
       email,
       password: passwordHashed,
       userId,
     });
-    await AuthService.db
-      .delete(table.emailVerification)
-      .where(eq(table.emailVerification.email, email));
+
+    await AuthService.emailVerificationRepository.deleteVerificationByEmail(
+      email,
+    );
 
     return newUser;
   }
@@ -225,14 +310,15 @@ export abstract class AuthService {
     return AuthService.userRepository.findById({ id });
   }
 
-  static readonly refreshTokenDuration = 7 * 24 * 60 * 60 * 1000; // 7 days
-
   static async createSession(userId: string, refreshToken: string) {
-    const expiredAt = Date.now() + AuthService.refreshTokenDuration;
+    const now = Date.now();
+    const expiredAt = now + ms(AuthService.refreshTokenExp);
+    const absoluteExpiredAt = now + ms(AuthService.absoluteSessionExp);
     return AuthService.sessionRepository.createSession({
       userId,
       refreshToken,
       expiredAt,
+      absoluteExpiredAt,
     });
   }
 
@@ -240,13 +326,15 @@ export abstract class AuthService {
     oldRefreshToken: string,
     newRefreshToken: string,
     userId: string,
+    absoluteExpiredAt: number,
   ) {
-    const expiredAt = Date.now() + AuthService.refreshTokenDuration;
+    const expiredAt = Date.now() + ms(AuthService.refreshTokenExp);
     await AuthService.sessionRepository.deleteByRefreshToken(oldRefreshToken);
     return AuthService.sessionRepository.createSession({
       userId,
       refreshToken: newRefreshToken,
       expiredAt,
+      absoluteExpiredAt,
     });
   }
 
@@ -255,7 +343,9 @@ export abstract class AuthService {
       await AuthService.sessionRepository.findByRefreshToken(refreshToken);
 
     if (!session) return null;
-    if (Date.now() > session.expiredAt) {
+
+    const now = Date.now();
+    if (now > session.absoluteExpiredAt || now > session.expiredAt) {
       await AuthService.sessionRepository.deleteByRefreshToken(refreshToken);
       return null;
     }

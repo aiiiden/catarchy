@@ -151,13 +151,6 @@ export const authModel = new Elysia({ name: "model.auth" }).model({
     handle: t.String({
       description: "The handle of the signed-in user",
     }),
-    accessToken: t.String({
-      description:
-        "JWT access token (15min) to use in Authorization: Bearer <token> header",
-    }),
-    refreshToken: t.String({
-      description: "JWT refresh token (7d) to obtain new access tokens",
-    }),
   }),
   "auth.sign-in-email.not-found": t.Object({
     message: t.String({
@@ -175,17 +168,10 @@ export const authModel = new Elysia({ name: "model.auth" }).model({
       examples: ["This email is registered with a different sign-in method."],
     }),
   }),
-  "auth.refresh.body": t.Object({
-    refreshToken: t.String({
-      description: "The refresh token obtained from sign-in",
-    }),
-  }),
   "auth.refresh.response": t.Object({
-    accessToken: t.String({
-      description: "New JWT access token (15min)",
-    }),
-    refreshToken: t.String({
-      description: "New rotated JWT refresh token (7d)",
+    message: t.String({
+      description: "A message confirming successful token refresh",
+      examples: ["Token refreshed successfully"],
     }),
   }),
   "auth.refresh.unauthorized": t.Object({
@@ -195,15 +181,85 @@ export const authModel = new Elysia({ name: "model.auth" }).model({
       examples: ["Invalid or expired refresh token"],
     }),
   }),
-  "auth.sign-out.body": t.Object({
-    refreshToken: t.String({
-      description: "The refresh token to invalidate",
-    }),
-  }),
   "auth.sign-out.response": t.Object({
     message: t.String({
       description: "A message confirming successful sign out",
       examples: ["Signed out successfully"],
+    }),
+  }),
+  "auth.send-reset-password-email.body": t.Object({
+    email: t.String({
+      format: "email",
+      error: "Invalid email address format",
+      examples: ["user@example.com"],
+      description: "The email address to send the password reset code to",
+    }),
+  }),
+  "auth.send-reset-password-email.response": t.Object({
+    message: t.String({
+      description: "A message confirming that the reset code was sent",
+      examples: ["Password reset email sent successfully"],
+    }),
+    expiredAt: t.Number({
+      description: "The timestamp at which the reset code expires",
+      examples: [1772639822606],
+    }),
+  }),
+  "auth.send-reset-password-email.not-found": t.Object({
+    message: t.String({
+      description: "A message indicating no account exists with this email",
+      examples: ["No account found with this email address."],
+    }),
+  }),
+  "auth.send-reset-password-email.conflict": t.Object({
+    message: t.String({
+      description: "A message indicating a reset code was recently sent",
+      examples: [
+        "A verification code has already been sent to this email. Please wait before requesting a new one.",
+      ],
+    }),
+    data: t.Object({
+      waitUntil: t.Number({
+        description: "The timestamp until which the user must wait",
+        examples: [1772639822606],
+      }),
+    }),
+  }),
+  "auth.send-reset-password-email.bad-gateway": t.Object({
+    message: t.String({
+      description: "A message indicating the email service failed",
+      examples: ["Failed to send password reset email"],
+    }),
+  }),
+  "auth.reset-password.body": t.Object({
+    email: t.String({
+      format: "email",
+      error: "Invalid email address format",
+      examples: ["user@example.com"],
+      description: "The email address associated with the account",
+    }),
+    password: t.String({
+      minLength: 8,
+      error: "Password must be at least 8 characters",
+      description: "The new password",
+    }),
+  }),
+  "auth.reset-password.response": t.Object({
+    message: t.String({
+      description: "A message confirming the password was reset",
+      examples: ["Password reset successfully"],
+    }),
+  }),
+  "auth.reset-password.forbidden": t.Object({
+    message: t.String({
+      description: "A message indicating the email has not been verified",
+      examples: ["Email has not been verified."],
+    }),
+  }),
+  "auth.reset-password.not-found": t.Object({
+    message: t.String({
+      description: "A message indicating no account exists with this email",
+      examples: ["No account found with this email address."],
     }),
   }),
 });

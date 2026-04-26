@@ -10,14 +10,16 @@ export abstract class SessionRepository {
     userId,
     refreshToken,
     expiredAt,
+    absoluteExpiredAt,
   }: {
     userId: string;
     refreshToken: string;
     expiredAt: number;
+    absoluteExpiredAt: number;
   }) {
     const [session] = await SessionRepository.db
       .insert(table.session)
-      .values({ userId, refreshToken, expiredAt })
+      .values({ userId, refreshToken, expiredAt, absoluteExpiredAt })
       .returning();
 
     return session;

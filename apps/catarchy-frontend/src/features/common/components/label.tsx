@@ -13,7 +13,7 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
     return (
       <label ref={ref} className={cn("leading-3", className)} {...props}>
         {isChildrenString ? (
-          <Text className="text-xs leading-none">{children}</Text>
+          <Text className="text-sm leading-none">{children}</Text>
         ) : (
           children
         )}

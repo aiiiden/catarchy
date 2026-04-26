@@ -83,7 +83,6 @@ export abstract class EmailVerificationRepository {
         and(
           eq(table.emailVerification.email, email),
           eq(table.emailVerification.verified, true),
-          gt(table.emailVerification.expiredAt, Date.now()),
         ),
       )
       .orderBy(desc(table.emailVerification.createdAt))

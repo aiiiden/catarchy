@@ -14,7 +14,7 @@ const ScaffoldRoot = forwardRef<HTMLDivElement, ScaffoldRootProps>(
     return (
       <div
         ref={ref}
-        className="relative mx-auto flex w-(--layout-max-width) flex-col overflow-y-auto overscroll-none bg-white"
+        className="mx-auto flex w-(--layout-max-width) flex-col overflow-hidden bg-white transition-[height] duration-300 ease-out"
         style={{
           height: avoidKeyboard ? keyboard.viewportHeight : "100dvh",
         }}
@@ -45,7 +45,7 @@ function ScaffoldHeader({
         className,
       )}
     >
-      <div className="aspect-square w-8">{left}</div>
+      <div className="size-8">{left}</div>
 
       {title && (
         <h1 className="flex flex-1 items-center justify-center text-center">
@@ -53,7 +53,7 @@ function ScaffoldHeader({
         </h1>
       )}
 
-      <div className={cn("aspect-square w-8")}>{right}</div>
+      <div className={cn("size-8")}>{right}</div>
     </header>
   );
 }
@@ -66,7 +66,12 @@ function ScaffoldBody({
   children?: React.ReactNode;
 }) {
   return (
-    <div className={cn("flex flex-1 flex-col gap-4", className)}>
+    <div
+      className={cn(
+        "flex flex-1 flex-col gap-4 overflow-y-auto overscroll-none",
+        className,
+      )}
+    >
       {children}
     </div>
   );

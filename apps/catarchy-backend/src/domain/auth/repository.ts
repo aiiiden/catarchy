@@ -49,6 +49,19 @@ export abstract class AuthRepository {
     return auth;
   }
 
+  static async updatePassword({
+    email,
+    passwordHashed,
+  }: {
+    email: string;
+    passwordHashed: string;
+  }) {
+    await AuthRepository.db
+      .update(table.auth)
+      .set({ password: passwordHashed })
+      .where(eq(table.auth.email, email));
+  }
+
   static async findAuthByUserId({ userId }: { userId: string }) {
     const [auth] = await AuthRepository.db
       .select()

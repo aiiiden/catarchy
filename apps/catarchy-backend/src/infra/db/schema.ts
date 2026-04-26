@@ -64,6 +64,7 @@ export const sessionTable = sqliteTable(
       .references(() => userTable.id, { onDelete: "cascade" }),
     refreshToken: text("refresh_token").notNull().unique(),
     expiredAt: integer("expired_at").notNull(),
+    absoluteExpiredAt: integer("absolute_expired_at").notNull(),
     createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
   },
   (t) => [index("session_user_id_idx").on(t.userId)],

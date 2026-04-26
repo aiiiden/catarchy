@@ -118,6 +118,7 @@ export const BubbleHint = React.forwardRef<HTMLDivElement, BubbleHintProps>(
 
       const ro = new ResizeObserver(update);
       ro.observe(target);
+      if (rootRef.current) ro.observe(rootRef.current);
 
       const mo = new MutationObserver(update);
       mo.observe(target, { attributes: true, attributeFilter: ["style"] });

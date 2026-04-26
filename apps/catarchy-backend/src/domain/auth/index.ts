@@ -1,7 +1,8 @@
 import { jwt } from "@elysiajs/jwt";
-import Elysia, { status, StatusMap } from "elysia";
+import Elysia, { status, StatusMap, t } from "elysia";
+import ms from "ms";
 import { EmailService } from "../../infra/email/service";
-import { getEnv } from "../../lib/env";
+import { ENVIRONMENT, getEnv } from "../../lib/env";
 import { ExternalServiceError } from "../../lib/error";
 import { authModel } from "./model";
 import { AuthService } from "./service";
@@ -13,8 +14,20 @@ export const authRouter = () => {
     prefix: "/auth",
     tags: ["Auth"],
   })
-    .use(jwt({ name: "accessJwt", secret: env.JWT_SECRET, exp: "4h" }))
-    .use(jwt({ name: "refreshJwt", secret: env.REFRESH_JWT_SECRET, exp: "7d" }))
+    .use(
+      jwt({
+        name: "accessJwt",
+        secret: env.JWT_SECRET,
+        exp: AuthService.accessTokenExp,
+      }),
+    )
+    .use(
+      jwt({
+        name: "refreshJwt",
+        secret: env.REFRESH_JWT_SECRET,
+        exp: AuthService.refreshTokenExp,
+      }),
+    )
     .use(authModel)
     .decorate("authService", AuthService)
     .decorate("emailService", EmailService)
@@ -35,7 +48,7 @@ export const authRouter = () => {
           await emailService.sendMail({
             to: email,
             subject: `${code} Verify your email for Catarchy`,
-            html: `Please verify your email using the following code: <strong>${code}</strong>. This code will expire in ${emailCodeDuration / 60000} minutes.`,
+            html: `Please verify your email using the following code: <strong>${code}</strong>. This code will expire in ${ms(emailCodeDuration) / 60000} minutes.`,
           });
         } catch (error) {
           if (error instanceof ExternalServiceError) {
@@ -107,8 +120,9 @@ export const authRouter = () => {
     )
     .post(
       "/sign-in-email",
-      async ({ body, authService, accessJwt, refreshJwt }) => {
+      async ({ body, cookie, authService, accessJwt, refreshJwt }) => {
         const { email, password } = body;
+        const isProd = env.ENVIRONMENT === ENVIRONMENT.PRODUCTION;
 
         const user = await authService.signInWithEmailAndPassword({
           email,
@@ -122,16 +136,32 @@ export const authRouter = () => {
 
         await authService.createSession(user.id, refreshToken);
 
+        cookie.accessToken.value = accessToken;
+        cookie.accessToken.maxAge = ms(AuthService.accessTokenExp) / 1000;
+        cookie.accessToken.httpOnly = true;
+        cookie.accessToken.secure = isProd;
+        cookie.accessToken.sameSite = isProd ? "none" : "lax";
+        cookie.accessToken.path = "/";
+
+        cookie.refreshToken.value = refreshToken;
+        cookie.refreshToken.maxAge = ms(AuthService.refreshTokenExp) / 1000;
+        cookie.refreshToken.httpOnly = true;
+        cookie.refreshToken.secure = isProd;
+        cookie.refreshToken.sameSite = isProd ? "none" : "lax";
+        cookie.refreshToken.path = "/";
+
         return {
           message: "Signed in successfully",
           userId: user.id,
           handle: user.handle,
-          accessToken,
-          refreshToken,
         };
       },
       {
         body: "auth.sign-in-email.body",
+        cookie: t.Cookie({
+          accessToken: t.Optional(t.String()),
+          refreshToken: t.Optional(t.String()),
+        }),
         response: {
           [StatusMap.OK]: "auth.sign-in-email.response",
           [StatusMap["Not Found"]]: "auth.sign-in-email.not-found",
@@ -141,8 +171,13 @@ export const authRouter = () => {
     )
     .post(
       "/refresh",
-      async ({ body, authService, accessJwt, refreshJwt }) => {
-        const { refreshToken: oldRefreshToken } = body;
+      async ({ cookie, authService, accessJwt, refreshJwt }) => {
+        const isProd = env.ENVIRONMENT === ENVIRONMENT.PRODUCTION;
+        const oldRefreshToken = cookie.refreshToken.value;
+
+        if (!oldRefreshToken) {
+          return status(401, { message: "Invalid or expired refresh token" });
+        }
 
         // 1. JWT 서명 검증
         const payload = await refreshJwt.verify(oldRefreshToken);
@@ -171,12 +206,30 @@ export const authRouter = () => {
           oldRefreshToken,
           newRefreshToken,
           user.id,
+          session.absoluteExpiredAt,
         );
 
-        return { accessToken, refreshToken: newRefreshToken };
+        cookie.accessToken.value = accessToken;
+        cookie.accessToken.maxAge = ms(AuthService.accessTokenExp) / 1000;
+        cookie.accessToken.httpOnly = true;
+        cookie.accessToken.secure = isProd;
+        cookie.accessToken.sameSite = isProd ? "none" : "lax";
+        cookie.accessToken.path = "/";
+
+        cookie.refreshToken.value = newRefreshToken;
+        cookie.refreshToken.maxAge = ms(AuthService.refreshTokenExp) / 1000;
+        cookie.refreshToken.httpOnly = true;
+        cookie.refreshToken.secure = isProd;
+        cookie.refreshToken.sameSite = isProd ? "none" : "lax";
+        cookie.refreshToken.path = "/";
+
+        return { message: "Token refreshed successfully" };
       },
       {
-        body: "auth.refresh.body",
+        cookie: t.Cookie({
+          accessToken: t.Optional(t.String()),
+          refreshToken: t.Optional(t.String()),
+        }),
         response: {
           [StatusMap.OK]: "auth.refresh.response",
           [StatusMap.Unauthorized]: "auth.refresh.unauthorized",
@@ -185,14 +238,81 @@ export const authRouter = () => {
     )
     .post(
       "/sign-out",
-      async ({ body, authService }) => {
-        await authService.deleteSession(body.refreshToken);
+      async ({ cookie, authService }) => {
+        const refreshToken = cookie.refreshToken.value;
+        if (refreshToken) {
+          await authService.deleteSession(refreshToken);
+        }
+        cookie.accessToken.remove();
+        cookie.refreshToken.remove();
         return { message: "Signed out successfully" };
       },
       {
-        body: "auth.sign-out.body",
+        cookie: t.Cookie({
+          accessToken: t.Optional(t.String()),
+          refreshToken: t.Optional(t.String()),
+        }),
         response: {
           [StatusMap.OK]: "auth.sign-out.response",
+        },
+      },
+    )
+    .post(
+      "/send-reset-password-email",
+      async ({ body, authService, emailService }) => {
+        const { email } = body;
+
+        const code = authService.generateCode();
+        const emailCodeDuration = authService.emailCodeDuration;
+
+        const verification =
+          await authService.addResetPasswordVerificationRecord({ email, code });
+
+        try {
+          await emailService.sendMail({
+            to: email,
+            subject: `${code} Reset your Catarchy password`,
+            html: `Reset your password using the following code: <strong>${code}</strong>. This code will expire in ${ms(emailCodeDuration) / 60000} minutes.`,
+          });
+        } catch (error) {
+          if (error instanceof ExternalServiceError) {
+            await authService.deleteVerification(verification.id);
+          }
+
+          throw error;
+        }
+
+        return {
+          message: "Password reset email sent successfully",
+          expiredAt: verification.expiredAt,
+        };
+      },
+      {
+        body: "auth.send-reset-password-email.body",
+        response: {
+          [StatusMap.OK]: "auth.send-reset-password-email.response",
+          [StatusMap["Not Found"]]: "auth.send-reset-password-email.not-found",
+          [StatusMap.Conflict]: "auth.send-reset-password-email.conflict",
+          [StatusMap["Bad Gateway"]]:
+            "auth.send-reset-password-email.bad-gateway",
+        },
+      },
+    )
+    .post(
+      "/reset-password",
+      async ({ body, authService }) => {
+        const { email, password } = body;
+
+        await authService.resetPassword({ email, password });
+
+        return { message: "Password reset successfully" };
+      },
+      {
+        body: "auth.reset-password.body",
+        response: {
+          [StatusMap.OK]: "auth.reset-password.response",
+          [StatusMap.Forbidden]: "auth.reset-password.forbidden",
+          [StatusMap["Not Found"]]: "auth.reset-password.not-found",
         },
       },
     );

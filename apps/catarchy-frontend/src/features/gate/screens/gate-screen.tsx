@@ -1,10 +1,10 @@
-import { Button, Scaffold, useAlert } from "@/features/common";
+import { Button, Scaffold } from "@/features/common";
 
+import { Link } from "@tanstack/react-router";
 import { Header } from "../components/header";
 import { Visual } from "../components/visual";
 
 export function GateScreen() {
-  const alert = useAlert();
   return (
     <Scaffold>
       <Scaffold.Body className="justify-center gap-8">
@@ -12,22 +12,9 @@ export function GateScreen() {
         <Visual />
       </Scaffold.Body>
       <Scaffold.Bottom>
-        <Button
-          size="big"
-          onClick={() =>
-            alert.open({
-              id: "coming-soon",
-              title: "Coming Soon",
-              message: "Will be available soon",
-              confirmLabel: "OK",
-              onConfirm(close) {
-                close();
-              },
-            })
-          }
-        >
-          Start
-        </Button>
+        <Link to="/auth/login">
+          <Button size="big">Start</Button>
+        </Link>
       </Scaffold.Bottom>
     </Scaffold>
   );

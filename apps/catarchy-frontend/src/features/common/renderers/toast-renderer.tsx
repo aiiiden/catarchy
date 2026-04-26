@@ -1,9 +1,19 @@
+import type React from "react";
 import { useEffect } from "react";
+import { ToastItem } from "../components/toast";
 import { useToastStore } from "../stores/toast";
 
 const DEFAULT_DURATION = 3000;
 
-function ToastEntry({ id, duration }: { id: string; message: string; variant?: string; duration?: number }) {
+function ToastEntry({
+  id,
+  message,
+  duration,
+}: {
+  id: string;
+  message: React.ReactNode;
+  duration?: number;
+}) {
   const dismiss = useToastStore((s) => s.dismiss);
 
   useEffect(() => {
@@ -11,17 +21,19 @@ function ToastEntry({ id, duration }: { id: string; message: string; variant?: s
     return () => clearTimeout(timer);
   }, [id, duration, dismiss]);
 
-  return null;
+  return <ToastItem id={id} message={message} onDismiss={() => dismiss(id)} />;
 }
 
 export function ToastRenderer() {
   const toasts = useToastStore((s) => s.toasts);
 
   return (
-    <>
-      {toasts.map((toast) => (
-        <ToastEntry key={toast.id} {...toast} />
-      ))}
-    </>
+    <div className="fixed top-0 left-0 right-0 flex justify-center pointer-events-none">
+      <div className="z-50 p-4 max-w-(--layout-max-width) w-full flex flex-col gap-2">
+        {toasts.map((toast) => (
+          <ToastEntry key={toast.id} {...toast} />
+        ))}
+      </div>
+    </div>
   );
 }
