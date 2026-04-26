@@ -117,27 +117,34 @@ export const BubbleHint = React.forwardRef<HTMLDivElement, BubbleHintProps>(
         root.style.setProperty("visibility", "visible");
       }
 
-      const ro = new ResizeObserver(update);
+      let rafId = 0;
+      function scheduleUpdate() {
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(update);
+      }
+
+      const ro = new ResizeObserver(scheduleUpdate);
       ro.observe(target);
       if (rootRef.current) ro.observe(rootRef.current);
 
-      const mo = new MutationObserver(update);
+      const mo = new MutationObserver(scheduleUpdate);
       mo.observe(target, { attributes: true, attributeFilter: ["style"] });
 
-      document.addEventListener("scroll", update, true);
-      window.addEventListener("resize", update);
-      window.visualViewport?.addEventListener("resize", update);
-      window.visualViewport?.addEventListener("scroll", update);
+      document.addEventListener("scroll", scheduleUpdate, true);
+      window.addEventListener("resize", scheduleUpdate);
+      window.visualViewport?.addEventListener("resize", scheduleUpdate);
+      window.visualViewport?.addEventListener("scroll", scheduleUpdate);
 
       update();
 
       return () => {
+        cancelAnimationFrame(rafId);
         ro.disconnect();
         mo.disconnect();
-        document.removeEventListener("scroll", update, true);
-        window.removeEventListener("resize", update);
-        window.visualViewport?.removeEventListener("resize", update);
-        window.visualViewport?.removeEventListener("scroll", update);
+        document.removeEventListener("scroll", scheduleUpdate, true);
+        window.removeEventListener("resize", scheduleUpdate);
+        window.visualViewport?.removeEventListener("resize", scheduleUpdate);
+        window.visualViewport?.removeEventListener("scroll", scheduleUpdate);
       };
     }, [targetRef, preferredSide]);
 
