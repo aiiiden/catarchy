@@ -224,7 +224,7 @@ export function SignupScreen() {
           </Text>
         </div>
       </Scaffold.Body>
-      <Scaffold.Bottom>
+      <Scaffold.Bottom sticky>
         <div className="grid grid-cols-2 gap-2">
           <Button
             size="big"

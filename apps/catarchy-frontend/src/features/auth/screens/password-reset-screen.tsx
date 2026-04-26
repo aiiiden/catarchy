@@ -168,7 +168,7 @@ export function PasswordResetScreen() {
             />
           </div>
         </Scaffold.Body>
-        <Scaffold.Bottom>
+        <Scaffold.Bottom sticky>
           <Button
             disabled={!emailPasswordForm.formState.isValid}
             onClick={emailPasswordForm.handleSubmit(resetPassword)}
