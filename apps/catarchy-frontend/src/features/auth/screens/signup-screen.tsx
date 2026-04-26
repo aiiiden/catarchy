@@ -183,7 +183,7 @@ export function SignupScreen() {
   };
 
   return (
-    <Scaffold>
+    <Scaffold avoidKeyboard>
       <Scaffold.Header title="Sign Up" left={<HeaderBackButton />} />
       <Scaffold.Body>
         <div className="flex flex-col justify-center-safe flex-1">

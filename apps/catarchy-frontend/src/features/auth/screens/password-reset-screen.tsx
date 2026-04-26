@@ -155,7 +155,7 @@ export function PasswordResetScreen() {
 
   return (
     <FormProvider {...emailPasswordForm}>
-      <Scaffold>
+      <Scaffold avoidKeyboard>
         <Scaffold.Header title="Password Reset" left={<HeaderBackButton />} />
         <Scaffold.Body className="justify-center-safe">
           <div className="p-4">
