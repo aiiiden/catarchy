@@ -67,7 +67,7 @@ export function LoginScreen() {
               </Button>
             </Link>
             <Button
-              disabled={!form.formState.isValid}
+              disabled={!form.formState.isValid || form.formState.isSubmitting}
               size="big"
               onClick={form.handleSubmit(login)}
             >
