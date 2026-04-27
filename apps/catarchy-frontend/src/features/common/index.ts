@@ -35,6 +35,7 @@ export * from "./hooks/use-bottom-sheet";
 export * from "./hooks/use-count-down";
 export * from "./hooks/use-keyboard";
 export * from "./hooks/use-modal";
+export * from "./hooks/use-platform";
 export * from "./hooks/use-toast";
 
 // Providers

@@ -18,7 +18,13 @@ type BottomSheetProps = {
 
 const DURATION = 250;
 
-export function BottomSheet({ children, onClose, onDimClick, header, isClosing }: BottomSheetProps) {
+export function BottomSheet({
+  children,
+  onClose,
+  onDimClick,
+  header,
+  isClosing,
+}: BottomSheetProps) {
   const [visible, setVisible] = useState(false);
   const closing = useRef(false);
 
@@ -43,7 +49,7 @@ export function BottomSheet({ children, onClose, onDimClick, header, isClosing }
   return (
     <>
       <div
-        className="fixed inset-0 bg-gradient-dither-3 z-10 transition-opacity ease-in-out cursor-pointer"
+        className="fixed inset-0 bg-gradient-dither-6 z-10 transition-opacity ease-in-out cursor-pointer"
         onClick={onDimClick ?? startClose}
         style={{
           transitionDuration: `${DURATION}ms`,
@@ -84,7 +90,9 @@ export function BottomSheet({ children, onClose, onDimClick, header, isClosing }
               </div>
             </header>
           )}
-          {children}
+          <div className="max-h-[calc(100dvh-32px)] flex flex-col">
+            {children}
+          </div>
         </div>
       </div>
     </>
