@@ -14,7 +14,7 @@ export function HandleGuide() {
             <Text>4~15 characters</Text>
           </li>
           <li className="marker:size-4">
-            <Text>Only letters, numbers, and underscores</Text>
+            <Text>Only lowercase letters, numbers, and underscores</Text>
           </li>
         </ul>
       </div>

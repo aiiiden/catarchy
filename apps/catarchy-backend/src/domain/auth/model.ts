@@ -95,11 +95,11 @@ export const authModel = new Elysia({ name: "model.auth" }).model({
       description: "The password for the new account",
     }),
     handle: t.String({
-      minLength: 2,
-      maxLength: 32,
-      pattern: "^[a-zA-Z0-9_]+$",
+      minLength: 4,
+      maxLength: 15,
+      pattern: "^[a-z0-9_]+$",
       error:
-        "Handle must be 2-32 characters and contain only letters, numbers, or underscores",
+        "Handle must be 4-15 characters and contain only letters, numbers, or underscores",
       examples: ["catlover42"],
       description: "Unique username handle",
     }),

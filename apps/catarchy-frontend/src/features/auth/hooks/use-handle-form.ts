@@ -8,8 +8,8 @@ export const handleFormSchema = z.object({
     .min(4, "Handle must be at least 4 characters")
     .max(15, "Handle must be at most 15 characters")
     .regex(
-      /^[a-zA-Z0-9_]+$/,
-      "Handle can only contain letters, numbers, and underscores",
+      /^[a-z0-9_]+$/,
+      "Handle can only contain lowercase letters, numbers, and underscores",
     ),
 });
 
