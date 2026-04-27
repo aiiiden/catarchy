@@ -5,7 +5,7 @@ export function PWAGuide({ onClose }: { onClose?: () => void }) {
   const { os } = usePlatform();
 
   return (
-    <article className="flex flex-col gap-2 overflow-hidden h-full">
+    <article className="flex flex-col gap-2 overflow-hidden h-full pb-safe">
       <div className="flex-1 overflow-y-auto h-full p-4 flex flex-col gap-4">
         <Text as="p" className="leading-snug text-center">
           Catarchy is a Progressive Web App (PWA). <br />
