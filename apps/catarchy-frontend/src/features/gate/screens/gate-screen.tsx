@@ -15,7 +15,7 @@ export function GateScreen() {
   const { os } = usePlatform();
   const bottomSheet = useBottomSheet();
 
-  const handleStart = async () => {
+  const handleStart = () => {
     if (os === "ios" || os === "android") {
       bottomSheet.open({
         id: "welcome",
@@ -32,7 +32,7 @@ export function GateScreen() {
       return;
     }
 
-    await router.navigate({ to: "/auth/login" });
+    router.navigate({ to: "/auth/login" });
   };
 
   return (
