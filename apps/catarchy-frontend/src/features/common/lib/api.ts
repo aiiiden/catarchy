@@ -9,7 +9,21 @@ const fetchWithRefresh = async (
 ) => {
   const response = await fetch(input, { ...init, credentials: "include" });
 
-  if (response.status !== 401) return response;
+  const normalized =
+    response.headers.get("content-type")?.startsWith("text/plain") &&
+    response.headers.get("transfer-encoding") === "chunked"
+      ? new Response(response.body, {
+          status: response.status,
+          statusText: response.statusText,
+          headers: (() => {
+            const h = new Headers(response.headers);
+            h.set("content-type", "application/json");
+            return h;
+          })(),
+        })
+      : response;
+
+  if (normalized.status !== 401) return normalized;
 
   if (isRefreshing) {
     window.location.href = "/auth/login";

@@ -54,68 +54,89 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/pp': typeof PpRoute
+  '/toc': typeof TocRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/password-reset': typeof AuthPasswordResetRoute
   '/auth/register': typeof AuthRegisterRoute
   '/': typeof gateIndexRoute
   '/play/': typeof PlayIndexRoute
-  '/toc': typeof TocRoute
-  '/pp': typeof PpRoute
 }
 export interface FileRoutesByTo {
+  '/pp': typeof PpRoute
+  '/toc': typeof TocRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/password-reset': typeof AuthPasswordResetRoute
   '/auth/register': typeof AuthRegisterRoute
   '/': typeof gateIndexRoute
   '/play': typeof PlayIndexRoute
-  '/toc': typeof TocRoute
-  '/pp': typeof PpRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/pp': typeof PpRoute
+  '/toc': typeof TocRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/password-reset': typeof AuthPasswordResetRoute
   '/auth/register': typeof AuthRegisterRoute
   '/(gate)/': typeof gateIndexRoute
   '/play/': typeof PlayIndexRoute
-  '/toc': typeof TocRoute
-  '/pp': typeof PpRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/pp'
+    | '/toc'
     | '/auth/login'
     | '/auth/password-reset'
     | '/auth/register'
     | '/'
     | '/play/'
-    | '/toc'
-    | '/pp'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth/login' | '/auth/password-reset' | '/auth/register' | '/' | '/play' | '/toc' | '/pp'
+  to:
+    | '/pp'
+    | '/toc'
+    | '/auth/login'
+    | '/auth/password-reset'
+    | '/auth/register'
+    | '/'
+    | '/play'
   id:
     | '__root__'
+    | '/pp'
+    | '/toc'
     | '/auth/login'
     | '/auth/password-reset'
     | '/auth/register'
     | '/(gate)/'
     | '/play/'
-    | '/toc'
-    | '/pp'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  PpRoute: typeof PpRoute
+  TocRoute: typeof TocRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthPasswordResetRoute: typeof AuthPasswordResetRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   gateIndexRoute: typeof gateIndexRoute
   PlayIndexRoute: typeof PlayIndexRoute
-  TocRoute: typeof TocRoute
-  PpRoute: typeof PpRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/toc': {
+      id: '/toc'
+      path: '/toc'
+      fullPath: '/toc'
+      preLoaderRoute: typeof TocRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pp': {
+      id: '/pp'
+      path: '/pp'
+      fullPath: '/pp'
+      preLoaderRoute: typeof PpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/': {
       id: '/play/'
       path: '/play'
@@ -151,31 +172,17 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/toc': {
-      id: '/toc'
-      path: '/toc'
-      fullPath: '/toc'
-      preLoaderRoute: typeof TocRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pp': {
-      id: '/pp'
-      path: '/pp'
-      fullPath: '/pp'
-      preLoaderRoute: typeof PpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  PpRoute: PpRoute,
+  TocRoute: TocRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthPasswordResetRoute: AuthPasswordResetRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   gateIndexRoute: gateIndexRoute,
   PlayIndexRoute: PlayIndexRoute,
-  TocRoute: TocRoute,
-  PpRoute: PpRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
