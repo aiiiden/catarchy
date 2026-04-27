@@ -12,11 +12,11 @@ import { Visual } from "../components/visual";
 
 export function GateScreen() {
   const router = useRouter();
-  const { os } = usePlatform();
+  const { os, isPWA } = usePlatform();
   const bottomSheet = useBottomSheet();
 
   const handleStart = async () => {
-    if (os === "ios" || os === "android") {
+    if (!isPWA && (os === "ios" || os === "android")) {
       bottomSheet.open({
         id: "welcome",
         component: (

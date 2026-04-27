@@ -42,5 +42,9 @@ export function usePlatform() {
     browser = "unknown";
   }
 
-  return { os, browser };
+  const isPWA =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (navigator as any).standalone === true;
+
+  return { os, browser, isPWA };
 }
