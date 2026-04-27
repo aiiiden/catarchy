@@ -5,7 +5,7 @@ import {
   usePlatform,
 } from "@/features/common";
 
-import { Link, useRouter } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { Header } from "../components/header";
 import { PWAGuide } from "../components/pwa-guide";
 import { Visual } from "../components/visual";
@@ -15,7 +15,7 @@ export function GateScreen() {
   const { os } = usePlatform();
   const bottomSheet = useBottomSheet();
 
-  const handleStart = () => {
+  const handleStart = async () => {
     if (os === "ios" || os === "android") {
       bottomSheet.open({
         id: "welcome",
@@ -32,7 +32,7 @@ export function GateScreen() {
       return;
     }
 
-    router.navigate({ to: "/auth/login" });
+    await router.navigate({ to: "/auth/login" });
   };
 
   return (
@@ -42,11 +42,9 @@ export function GateScreen() {
         <Visual />
       </Scaffold.Body>
       <Scaffold.Bottom>
-        <Link to="/auth/login">
-          <Button size="big" onClick={handleStart}>
-            Start
-          </Button>
-        </Link>
+        <Button size="big" onClick={handleStart}>
+          Start
+        </Button>
       </Scaffold.Bottom>
     </Scaffold>
   );
