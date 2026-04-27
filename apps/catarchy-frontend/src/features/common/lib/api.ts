@@ -3,27 +3,27 @@ import { treaty } from "@elysiajs/eden";
 
 let isRefreshing = false;
 
+const normalizeContentType = (response: Response) =>
+  response.headers.get("content-type")?.startsWith("text/plain") &&
+  response.headers.get("transfer-encoding") === "chunked"
+    ? new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: (() => {
+          const h = new Headers(response.headers);
+          h.set("content-type", "application/json");
+          return h;
+        })(),
+      })
+    : response;
+
 const fetchWithRefresh = async (
   input: RequestInfo | URL,
   init?: RequestInit,
 ) => {
   const response = await fetch(input, { ...init, credentials: "include" });
 
-  const normalized =
-    response.headers.get("content-type")?.startsWith("text/plain") &&
-    response.headers.get("transfer-encoding") === "chunked"
-      ? new Response(response.body, {
-          status: response.status,
-          statusText: response.statusText,
-          headers: (() => {
-            const h = new Headers(response.headers);
-            h.set("content-type", "application/json");
-            return h;
-          })(),
-        })
-      : response;
-
-  if (normalized.status !== 401) return normalized;
+  if (response.status !== 401) return normalizeContentType(response);
 
   if (isRefreshing) {
     window.location.href = "/auth/login";
@@ -46,7 +46,9 @@ const fetchWithRefresh = async (
       return response;
     }
 
-    return fetch(input, { ...init, credentials: "include" });
+    return normalizeContentType(
+      await fetch(input, { ...init, credentials: "include" }),
+    );
   } finally {
     isRefreshing = false;
   }
