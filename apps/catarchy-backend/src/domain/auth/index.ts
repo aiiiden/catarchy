@@ -236,6 +236,39 @@ export const authRouter = () => {
         },
       },
     )
+    .get(
+      "/check",
+      async ({ accessJwt, headers, cookie }) => {
+        const authorization = headers.authorization;
+        const token = authorization?.startsWith("Bearer ")
+          ? authorization.slice(7)
+          : (cookie as Record<string, { value: string }>).accessToken?.value ?? null;
+
+        if (!token) {
+          return status(401, { message: "Unauthorized" });
+        }
+
+        const payload = await accessJwt.verify(token);
+        if (!payload || !payload.sub) {
+          return status(401, { message: "Unauthorized" });
+        }
+
+        return {
+          ok: true,
+          userId: payload.sub as string,
+          handle: payload.handle as string,
+        };
+      },
+      {
+        cookie: t.Cookie({
+          accessToken: t.Optional(t.String()),
+        }),
+        response: {
+          [StatusMap.OK]: "auth.check.response",
+          [StatusMap.Unauthorized]: "auth.check.unauthorized",
+        },
+      },
+    )
     .post(
       "/sign-out",
       async ({ cookie, authService }) => {

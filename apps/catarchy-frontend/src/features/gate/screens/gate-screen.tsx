@@ -37,7 +37,7 @@ export function GateScreen() {
 
   return (
     <Scaffold>
-      <Scaffold.Body className="justify-center gap-8">
+      <Scaffold.Body className="justify-center-safe gap-8">
         <Header />
         <Visual />
       </Scaffold.Body>

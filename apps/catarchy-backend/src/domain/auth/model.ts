@@ -187,6 +187,24 @@ export const authModel = new Elysia({ name: "model.auth" }).model({
       examples: ["Signed out successfully"],
     }),
   }),
+  "auth.check.response": t.Object({
+    ok: t.Boolean({
+      description: "Whether the user is authenticated",
+      examples: [true],
+    }),
+    userId: t.String({
+      description: "The ID of the authenticated user",
+    }),
+    handle: t.String({
+      description: "The handle of the authenticated user",
+    }),
+  }),
+  "auth.check.unauthorized": t.Object({
+    message: t.String({
+      description: "A message indicating the user is not authenticated",
+      examples: ["Unauthorized"],
+    }),
+  }),
   "auth.send-reset-password-email.body": t.Object({
     email: t.String({
       format: "email",

@@ -21,6 +21,7 @@
     "files.associations": {
       "*.css": "tailwindcss",
     },
+    "liveServer.settings.multiRootWorkspaceName": "frontend",
   },
   "extensions": {
     "recommendations": ["fronterior.biome-monorepo"],

@@ -51,7 +51,6 @@ export const Sprite = forwardRef(function Sprite<
   }: SpriteProps<TagName>,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) {
-  console.log("Rendering Sprite", texture);
   const id = useId();
   const {
     frameSize = { w: width, h: height },
