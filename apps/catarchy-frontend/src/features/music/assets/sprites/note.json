@@ -1,0 +1,29 @@
+{
+  "tags": [
+    {
+      "name": "note",
+      "from": 0,
+      "to": 1,
+      "loop": true,
+      "direction": "forward"
+    }
+  ],
+  "frames": [
+    {
+      "id": "note-1",
+      "x": 0,
+      "y": 0,
+      "duration": 600
+    },
+    {
+      "id": "note-2",
+      "x": 12,
+      "y": 0,
+      "duration": 600
+    }
+  ],
+  "frameSize": {
+    "w": 12,
+    "h": 12
+  }
+}

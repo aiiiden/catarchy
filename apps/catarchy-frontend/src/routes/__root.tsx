@@ -1,3 +1,4 @@
+import { MusicDrawer } from "@/features/music/components/music-drawer";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import {
   AlertRenderer,
@@ -18,6 +19,7 @@ function RootLayout() {
       <AlertRenderer />
       <BottomSheetRenderer />
       <ToastRenderer />
+      <MusicDrawer />
     </>
   );
 }

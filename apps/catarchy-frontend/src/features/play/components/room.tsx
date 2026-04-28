@@ -1,25 +1,40 @@
 import { CatCharacter } from "@/features/cat";
+import { BubbleHint, Text } from "@/features/common";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const ROOM_W = 286; // w-71.5 × 4px
 const ROOM_H = 200; // h-50 × 4px
 const CAT_SIZE = 64; // 32 × 2
 const SPEED = 90; // px/sec (walking)
-const JUMP_HEIGHT = 100; // px
+const JUMP_HEIGHT = 140; // px
 const JUMP_DURATION = 920; // ms — controls gravity via physics
-const JUMP_INTERVAL_MIN = 4000; // ms
-const JUMP_INTERVAL_MAX = 9000; // ms
+const DEFAULT_JUMP_INTERVAL_MIN = 4000; // ms
+const DEFAULT_JUMP_INTERVAL_MAX = 20000; // ms
 // derived: g = 8h / T² (symmetric parabola, peak at T/2)
 const GRAVITY = (8 * JUMP_HEIGHT) / (JUMP_DURATION / 1000) ** 2;
 const GROUND_Y = ROOM_H - CAT_SIZE;
 
-export function Room() {
-  const [pos, setPos] = useState({ x: (ROOM_W - CAT_SIZE) / 2, y: GROUND_Y });
-  const [facingLeft, setFacingLeft] = useState(true);
+interface RoomProps {
+  jumpIntervalMin?: number;
+  jumpIntervalMax?: number;
+}
+
+export function Room({
+  jumpIntervalMin = DEFAULT_JUMP_INTERVAL_MIN,
+  jumpIntervalMax = DEFAULT_JUMP_INTERVAL_MAX,
+}: RoomProps = {}) {
   const [isMoving, setIsMoving] = useState(false);
   const [isJumping, setIsJumping] = useState(false);
+  const characterRef = useRef<HTMLDivElement>(null);
 
-  const posRef = useRef(pos);
+  const jumpIntervalMinRef = useRef(jumpIntervalMin);
+  const jumpIntervalMaxRef = useRef(jumpIntervalMax);
+  jumpIntervalMinRef.current = jumpIntervalMin;
+  jumpIntervalMaxRef.current = jumpIntervalMax;
+
+  const catDivRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef({ x: (ROOM_W - CAT_SIZE) / 2, y: GROUND_Y });
+  const facingLeftRef = useRef(true);
   const velRef = useRef({ x: 0, y: 0 });
   const isJumpingRef = useRef(false);
   const jumpCountRef = useRef(0);
@@ -29,13 +44,19 @@ export function Room() {
   const idleTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const jumpTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
+  const applyTransform = useCallback((x: number, y: number, fl: boolean) => {
+    const el = catDivRef.current;
+    if (!el) return;
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
+    el.style.transform = `scaleX(${fl ? 1 : -1})`;
+  }, []);
+
   const scheduleNewTarget = useCallback(() => {
     clearTimeout(idleTimerRef.current);
     idleTimerRef.current = setTimeout(
       () => {
-        const margin = 8;
-        targetXRef.current =
-          margin + Math.random() * (ROOM_W - CAT_SIZE - margin * 2);
+        targetXRef.current = Math.random() * (ROOM_W - CAT_SIZE);
       },
       400 + Math.random() * 1800,
     );
@@ -61,8 +82,11 @@ export function Room() {
     targetXRef.current = null;
     setIsMoving(false);
     setIsJumping(true);
-    if (vx !== 0) setFacingLeft(vx < 0);
-  }, []);
+    if (vx !== 0) {
+      facingLeftRef.current = vx < 0;
+      applyTransform(posRef.current.x, posRef.current.y, facingLeftRef.current);
+    }
+  }, [applyTransform]);
 
   const scheduleRandomJump = useCallback(() => {
     clearTimeout(jumpTimerRef.current);
@@ -71,12 +95,14 @@ export function Room() {
         triggerJump();
         scheduleRandomJump();
       },
-      JUMP_INTERVAL_MIN +
-        Math.random() * (JUMP_INTERVAL_MAX - JUMP_INTERVAL_MIN),
+      jumpIntervalMinRef.current +
+        Math.random() *
+          (jumpIntervalMaxRef.current - jumpIntervalMinRef.current),
     );
   }, [triggerJump]);
 
   useEffect(() => {
+    applyTransform(posRef.current.x, posRef.current.y, facingLeftRef.current);
     scheduleNewTarget();
     scheduleRandomJump();
 
@@ -95,11 +121,11 @@ export function Room() {
         if (nx < 0) {
           nx = 0;
           velRef.current.x = Math.abs(velRef.current.x);
-          setFacingLeft(false);
+          facingLeftRef.current = false;
         } else if (nx > ROOM_W - CAT_SIZE) {
           nx = ROOM_W - CAT_SIZE;
           velRef.current.x = -Math.abs(velRef.current.x);
-          setFacingLeft(true);
+          facingLeftRef.current = true;
         }
 
         if (ny >= GROUND_Y) {
@@ -107,12 +133,12 @@ export function Room() {
           velRef.current = { x: 0, y: 0 };
           isJumpingRef.current = false;
           jumpCountRef.current = 0;
+          applyTransform(nx, GROUND_Y, facingLeftRef.current);
           setIsJumping(false);
-          setPos({ x: nx, y: GROUND_Y });
           scheduleNewTarget();
         } else {
           posRef.current = { x: nx, y: ny };
-          setPos({ x: nx, y: ny });
+          applyTransform(nx, ny, facingLeftRef.current);
         }
       } else {
         const targetX = targetXRef.current;
@@ -128,9 +154,10 @@ export function Room() {
           } else {
             const move = Math.min(SPEED * dt, dist);
             const nx = curr.x + Math.sign(dx) * move;
+            const fl = dx < 0;
             posRef.current = { x: nx, y: GROUND_Y };
-            setPos({ x: nx, y: GROUND_Y });
-            setFacingLeft(dx < 0);
+            facingLeftRef.current = fl;
+            applyTransform(nx, GROUND_Y, fl);
             setIsMoving(true);
           }
         }
@@ -145,7 +172,7 @@ export function Room() {
       clearTimeout(idleTimerRef.current);
       clearTimeout(jumpTimerRef.current);
     };
-  }, [scheduleNewTarget, scheduleRandomJump]);
+  }, [scheduleNewTarget, scheduleRandomJump, applyTransform]);
 
   const handleClick = useCallback(() => {
     triggerJump();
@@ -153,19 +180,16 @@ export function Room() {
 
   return (
     <div className="w-71.5 h-50 relative" onClick={handleClick}>
-      <div
-        style={{
-          position: "absolute",
-          left: pos.x,
-          top: pos.y,
-          transform: `scaleX(${facingLeft ? 1 : -1})`,
-        }}
-      >
+      <div ref={catDivRef} style={{ position: "absolute" }}>
         <CatCharacter
+          ref={characterRef}
           age="adult"
           tag={isMoving || isJumping ? "walk" : "default"}
         />
       </div>
+      <BubbleHint targetRef={characterRef} preferredSide="top" offset={-20}>
+        <Text>:3</Text>
+      </BubbleHint>
     </div>
   );
 }
