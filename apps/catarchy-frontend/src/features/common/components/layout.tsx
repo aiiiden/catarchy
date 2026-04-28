@@ -42,6 +42,8 @@ function ScaffoldHeader({
   right,
   className,
 }: ScaffoldHeaderProps) {
+  const isTitleString = typeof title === "string";
+
   return (
     <header
       className={cn(
@@ -51,11 +53,16 @@ function ScaffoldHeader({
     >
       <div className="size-8">{left}</div>
 
-      {title && (
-        <h1 className="flex flex-1 items-center justify-center text-center">
-          {title}
-        </h1>
-      )}
+      {title &&
+        (isTitleString ? (
+          <h1 className="flex flex-1 items-center justify-center text-center">
+            {title}
+          </h1>
+        ) : (
+          <div className="flex flex-1 items-center justify-center text-center">
+            {title}
+          </div>
+        ))}
 
       <div className={cn("size-8")}>{right}</div>
     </header>

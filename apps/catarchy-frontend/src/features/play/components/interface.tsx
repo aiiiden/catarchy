@@ -7,7 +7,7 @@ export function Interface() {
     <div className="border w-[288px] h-59 bg-white">
       <div className="border-b h-9 flex justify-between">
         <div className="flex items-center">
-          <div className="size-9 flex justify-center items-center border-r">
+          <div className="size-9 flex justify-center items-center border-r select-none">
             😊
           </div>
           {/* <div className="px-2 h-9 border-r flex justify-center items-center">
