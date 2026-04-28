@@ -22,8 +22,14 @@ const fetchWithRefresh = async (
   init?: RequestInit,
 ) => {
   const response = await fetch(input, { ...init, credentials: "include" });
+  const isCheckEndpoint =
+    typeof input === "string" && input.endsWith("/auth/check");
 
   if (response.status !== 401) return normalizeContentType(response);
+
+  if (isCheckEndpoint) {
+    return response;
+  }
 
   if (isRefreshing) {
     window.location.href = "/auth/login";
