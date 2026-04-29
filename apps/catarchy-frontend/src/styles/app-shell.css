@@ -8,7 +8,7 @@
     @apply fixed inset-0 z-[9999] hidden items-center justify-center bg-white text-center text-black text-base;
   }
 
-  @media (orientation: landscape) {
+  @media (orientation: landscape) and (pointer: coarse) {
     #root::after {
       @apply flex;
     }
