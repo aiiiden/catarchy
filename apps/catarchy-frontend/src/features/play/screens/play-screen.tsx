@@ -1,4 +1,4 @@
-import { api, LogoText, Scaffold, Text } from "@/features/common";
+import { api, Button, LogoText, Scaffold, Text } from "@/features/common";
 import { useMe } from "@/features/user/services/useMe";
 import { useRouter } from "@tanstack/react-router";
 import { Interface } from "../components/interface";
@@ -32,6 +32,9 @@ export function PlayScreen() {
           </div>
         </div>
       </Scaffold.Body>
+      <Scaffold.Bottom sticky>
+        <Button disabled>Check</Button>
+      </Scaffold.Bottom>
     </Scaffold>
   );
 }
