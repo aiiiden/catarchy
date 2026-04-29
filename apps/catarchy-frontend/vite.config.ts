@@ -46,7 +46,6 @@ export default defineConfig(({ mode }) => {
         workbox: {
           globPatterns: ["**/*.{js,css,html,ico,png,woff2}"],
           globIgnores: ["**/assets/fonts/**"],
-          skipWaiting: true,
           clientsClaim: true,
         },
       }),
