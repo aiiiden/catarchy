@@ -3,6 +3,17 @@
     @apply fixed inset-0 overflow-hidden;
   }
 
+  #root::after {
+    content: "Please rotate your device 😸";
+    @apply fixed inset-0 z-[9999] hidden items-center justify-center bg-white text-center text-black text-base;
+  }
+
+  @media (orientation: landscape) {
+    #root::after {
+      @apply flex;
+    }
+  }
+
   html {
     @apply fixed inset-0 overflow-hidden overscroll-none text-base;
   }
