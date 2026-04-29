@@ -9,9 +9,9 @@ export function UpdateAlert() {
     if (!needsUpdate) return;
     toast.push(
       <UpdateAlertContent
-        onUpdate={() => {
+        onUpdate={async () => {
           toast.dismiss("update-available");
-          update();
+          await update();
         }}
         onLater={() => toast.dismiss("update-available")}
       />,

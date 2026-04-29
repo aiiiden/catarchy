@@ -12,6 +12,9 @@ export function usePwaUpdate() {
 
   return {
     needsUpdate: needRefresh,
-    update: () => updateServiceWorker(true),
+    update: () => {
+      updateServiceWorker(true);
+      location.reload();
+    },
   };
 }
