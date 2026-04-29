@@ -2,6 +2,7 @@ import { jwt } from "@elysiajs/jwt";
 import Elysia, { status, StatusMap, t } from "elysia";
 import ms from "ms";
 import { EmailService } from "../../infra/email/service";
+import { setAuthCookie } from "../../lib/cookie";
 import { ENVIRONMENT, getEnv } from "../../lib/env";
 import { ExternalServiceError } from "../../lib/error";
 import { authModel } from "./model";
@@ -9,6 +10,7 @@ import { AuthService } from "./service";
 
 export const authRouter = () => {
   const env = getEnv();
+  const isProd = env.ENVIRONMENT === ENVIRONMENT.PRODUCTION;
 
   return new Elysia({
     prefix: "/auth",
@@ -122,7 +124,6 @@ export const authRouter = () => {
       "/sign-in-email",
       async ({ body, cookie, authService, accessJwt, refreshJwt }) => {
         const { email, password } = body;
-        const isProd = env.ENVIRONMENT === ENVIRONMENT.PRODUCTION;
 
         const user = await authService.signInWithEmailAndPassword({
           email,
@@ -136,19 +137,18 @@ export const authRouter = () => {
 
         await authService.createSession(user.id, refreshToken);
 
-        cookie.accessToken.value = accessToken;
-        cookie.accessToken.maxAge = ms(AuthService.accessTokenExp) / 1000;
-        cookie.accessToken.httpOnly = true;
-        cookie.accessToken.secure = isProd;
-        cookie.accessToken.sameSite = "lax";
-        cookie.accessToken.path = "/";
-
-        cookie.refreshToken.value = refreshToken;
-        cookie.refreshToken.maxAge = ms(AuthService.refreshTokenExp) / 1000;
-        cookie.refreshToken.httpOnly = true;
-        cookie.refreshToken.secure = isProd;
-        cookie.refreshToken.sameSite = "lax";
-        cookie.refreshToken.path = "/";
+        setAuthCookie(
+          cookie.accessToken,
+          accessToken,
+          ms(AuthService.accessTokenExp) / 1000,
+          isProd,
+        );
+        setAuthCookie(
+          cookie.refreshToken,
+          refreshToken,
+          ms(AuthService.refreshTokenExp) / 1000,
+          isProd,
+        );
 
         return {
           message: "Signed in successfully",
@@ -172,7 +172,6 @@ export const authRouter = () => {
     .post(
       "/refresh",
       async ({ cookie, authService, accessJwt, refreshJwt }) => {
-        const isProd = env.ENVIRONMENT === ENVIRONMENT.PRODUCTION;
         const oldRefreshToken = cookie.refreshToken.value;
 
         if (!oldRefreshToken) {
@@ -209,19 +208,18 @@ export const authRouter = () => {
           session.absoluteExpiredAt,
         );
 
-        cookie.accessToken.value = accessToken;
-        cookie.accessToken.maxAge = ms(AuthService.accessTokenExp) / 1000;
-        cookie.accessToken.httpOnly = true;
-        cookie.accessToken.secure = isProd;
-        cookie.accessToken.sameSite = "lax";
-        cookie.accessToken.path = "/";
-
-        cookie.refreshToken.value = newRefreshToken;
-        cookie.refreshToken.maxAge = ms(AuthService.refreshTokenExp) / 1000;
-        cookie.refreshToken.httpOnly = true;
-        cookie.refreshToken.secure = isProd;
-        cookie.refreshToken.sameSite = "lax";
-        cookie.refreshToken.path = "/";
+        setAuthCookie(
+          cookie.accessToken,
+          accessToken,
+          ms(AuthService.accessTokenExp) / 1000,
+          isProd,
+        );
+        setAuthCookie(
+          cookie.refreshToken,
+          newRefreshToken,
+          ms(AuthService.refreshTokenExp) / 1000,
+          isProd,
+        );
 
         return { message: "Token refreshed successfully" };
       },
@@ -242,7 +240,8 @@ export const authRouter = () => {
         const authorization = headers.authorization;
         const token = authorization?.startsWith("Bearer ")
           ? authorization.slice(7)
-          : (cookie as Record<string, { value: string }>).accessToken?.value ?? null;
+          : ((cookie as Record<string, { value: string }>).accessToken?.value ??
+            null);
 
         if (!token) {
           return status(401, { message: "Unauthorized" });

@@ -27,10 +27,6 @@ const fetchWithRefresh = async (
 
   if (response.status !== 401) return normalizeContentType(response);
 
-  if (isCheckEndpoint) {
-    return response;
-  }
-
   if (isRefreshing) {
     window.location.href = "/auth/login";
     return response;
@@ -46,6 +42,10 @@ const fetchWithRefresh = async (
         credentials: "include",
       },
     );
+
+    if (isCheckEndpoint) {
+      return response;
+    }
 
     if (!refreshed.ok) {
       window.location.href = "/auth/login";

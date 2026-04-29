@@ -9,7 +9,8 @@ export const authGuard = () =>
       const authorization = headers.authorization;
       const token = authorization?.startsWith("Bearer ")
         ? authorization.slice(7)
-        : (cookie as Record<string, { value: string }>).accessToken?.value ?? null;
+        : ((cookie as Record<string, { value: string }>).accessToken?.value ??
+          null);
 
       if (!token) {
         return status(401, { message: "Unauthorized" });
