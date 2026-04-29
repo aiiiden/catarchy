@@ -33,6 +33,7 @@ export * from "./renderers/modal-renderer";
 export * from "./renderers/toast-renderer";
 
 // Hooks
+export * from "../config/hooks/use-pwa-update";
 export * from "./hooks/use-alert";
 export * from "./hooks/use-bottom-sheet";
 export * from "./hooks/use-count-down";

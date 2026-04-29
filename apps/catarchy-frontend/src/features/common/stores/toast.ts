@@ -6,6 +6,7 @@ export type Toast = {
   id: string;
   message: React.ReactNode;
   duration?: number;
+  hasCloseButton?: boolean;
 };
 
 type ToastStore = {

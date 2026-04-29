@@ -4,6 +4,7 @@ import { useToastStore } from "../stores/toast";
 type ToastOptions = {
   id?: string;
   duration?: number;
+  hasCloseButton?: boolean;
 };
 
 export function useToast() {

@@ -9,19 +9,22 @@ function ToastEntry({
   id,
   message,
   duration,
+  hasCloseButton,
 }: {
   id: string;
   message: React.ReactNode;
   duration?: number;
+  hasCloseButton?: boolean;
 }) {
   const dismiss = useToastStore((s) => s.dismiss);
 
   useEffect(() => {
+    if (duration === Infinity) return;
     const timer = setTimeout(() => dismiss(id), duration ?? DEFAULT_DURATION);
     return () => clearTimeout(timer);
   }, [id, duration, dismiss]);
 
-  return <ToastItem id={id} message={message} onDismiss={() => dismiss(id)} />;
+  return <ToastItem id={id} message={message} hasCloseButton={hasCloseButton} onDismiss={() => dismiss(id)} />;
 }
 
 export function ToastRenderer() {

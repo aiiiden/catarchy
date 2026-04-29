@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
       react(),
       tailwindcss(),
       VitePWA({
-        registerType: "autoUpdate",
+        registerType: "prompt",
         manifest: {
           name: "Catarchy",
           short_name: "Catarchy",
