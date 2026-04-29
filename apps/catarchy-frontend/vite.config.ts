@@ -10,61 +10,61 @@ import svgr from "vite-plugin-svgr";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   return {
-  plugins: [
-    svgr({
-      include: "**/*.svg?react",
-    }),
-    tanstackRouter({
-      target: "react",
-      autoCodeSplitting: true,
-    }),
-    react(),
-    tailwindcss(),
-    VitePWA({
-      registerType: "autoUpdate",
-      manifest: {
-        name: "Catarchy",
-        short_name: "Catarchy",
-        description: "Catarchy App",
-        theme_color: "#ffffff",
-        background_color: "#ffffff",
-        display: "standalone",
-        orientation: "portrait",
-        icons: [
-          {
-            src: "/icons/icon-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            src: "/icons/icon-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
-        ],
-      },
-      workbox: {
-        globPatterns: ["**/*.{js,cs,html,ico,png,woff2}"],
-        globIgnores: ["**/assets/fonts/**"],
-        skipWaiting: true,
-        clientsClaim: true,
-      },
-    }),
-  ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-  server: {
-    port: 5173,
-    proxy: {
-      "/api": {
-        target: env.VITE_API_URL,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-        changeOrigin: true,
+    plugins: [
+      svgr({
+        include: "**/*.svg?react",
+      }),
+      tanstackRouter({
+        target: "react",
+        autoCodeSplitting: true,
+      }),
+      react(),
+      tailwindcss(),
+      VitePWA({
+        registerType: "autoUpdate",
+        manifest: {
+          name: "Catarchy",
+          short_name: "Catarchy",
+          description: "Catarchy App",
+          theme_color: "#ffffff",
+          background_color: "#ffffff",
+          display: "standalone",
+          orientation: "portrait",
+          icons: [
+            {
+              src: "/icons/icon-192x192.png",
+              sizes: "192x192",
+              type: "image/png",
+            },
+            {
+              src: "/icons/icon-512x512.png",
+              sizes: "512x512",
+              type: "image/png",
+            },
+          ],
+        },
+        workbox: {
+          globPatterns: ["**/*.{js,css,html,ico,png,woff2}"],
+          globIgnores: ["**/assets/fonts/**"],
+          skipWaiting: true,
+          clientsClaim: true,
+        },
+      }),
+    ],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
       },
     },
-  },
+    server: {
+      port: 5173,
+      proxy: {
+        "/api": {
+          target: env.VITE_API_URL,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+          changeOrigin: true,
+        },
+      },
+    },
   };
 });
