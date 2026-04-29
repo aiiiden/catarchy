@@ -11,7 +11,7 @@ export function MusicDrawer() {
       as="aside"
       rounded
       className={cn([
-        "fixed top-4 bottom-[calc(1rem+var(--safe-area-inset-bottom))] overflow-visible! w-[calc(100%-1rem)] transition-[left] duration-300 ease-[steps(16,jump-end)]",
+        "fixed top-[calc(1rem+var(--safe-area-inset-top))] bottom-[calc(1rem+var(--safe-area-inset-bottom))] overflow-visible! w-[calc(100%-1rem-var(--safe-area-inset-left)-var(--safe-area-inset-right))] transition-[left] duration-300 ease-[steps(16,jump-end)]",
         isOpen ? "left-8" : "left-full",
       ])}
       containerClassName="w-full h-full py-4 pl-4 pr-7.5 relative overflow-visible! flex flex-col gap-4"
