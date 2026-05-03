@@ -3,20 +3,22 @@
   top: calc(1rem + var(--safe-area-inset-top));
   bottom: calc(1rem + var(--safe-area-inset-bottom));
   overflow: visible !important;
-  width: calc(
-    100% - 1rem - var(--safe-area-inset-left) - var(--safe-area-inset-right)
+  width: min(
+    calc(100% - 1rem - var(--safe-area-inset-left) - var(--safe-area-inset-right)),
+    360px
   );
-  transition-property: left;
+  right: calc(1rem + var(--safe-area-inset-right));
+  transition-property: transform;
   transition-duration: 300ms;
   transition-timing-function: steps(8, jump-end);
 }
 
 .drawerOpen {
-  left: 2rem;
+  transform: translateX(1.5rem);
 }
 
 .drawerClosed {
-  left: 100%;
+  transform: translateX(calc(100% + 1rem + var(--safe-area-inset-right)));
 }
 
 .container {
@@ -25,7 +27,7 @@
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 1rem;
-  padding-right: 1.875rem;
+  padding-right: 1.25rem;
   position: relative;
   overflow: visible !important;
   display: flex;

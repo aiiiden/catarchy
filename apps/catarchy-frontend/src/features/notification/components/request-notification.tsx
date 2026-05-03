@@ -8,7 +8,7 @@ export function RequestNotificationPermission({
   onDeny?: () => void;
 }) {
   return (
-    <article className={cn([styles.container, "pb-safe"])}>
+    <article className={cn([styles.container])}>
       <header className={styles.header}>
         <h2>Enable Notifications</h2>
       </header>
