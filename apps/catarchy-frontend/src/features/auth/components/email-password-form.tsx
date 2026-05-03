@@ -45,7 +45,7 @@ export function EmailPasswordForm({
               {...form.register("email")}
               trailingSlot={
                 verifyUntil !== null && (
-                  <button
+                  <Button native
                     type="button"
                     onClick={() => {
                       form.reset();
@@ -53,7 +53,7 @@ export function EmailPasswordForm({
                     }}
                   >
                     ⨂
-                  </button>
+                  </Button>
                 )
               }
             />

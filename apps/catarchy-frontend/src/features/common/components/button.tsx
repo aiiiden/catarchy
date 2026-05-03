@@ -9,13 +9,25 @@ type ButtonSize = "small" | "default" | "big";
 type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  native?: boolean;
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant = "primary", size = "default", disabled, ...props },
+    { className, variant = "primary", size = "default", disabled, native, ...props },
     ref,
   ) => {
+    if (native) {
+      return (
+        <button
+          ref={ref}
+          className={className}
+          disabled={disabled}
+          {...props}
+        />
+      );
+    }
+
     return (
       <Box
         as="button"

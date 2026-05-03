@@ -1,4 +1,4 @@
-import { Field, Text, TextInput } from "@/features/common";
+import { Button, Field, Text, TextInput } from "@/features/common";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useEmailLoginFormContext } from "../hooks/use-email-login-form";
@@ -19,9 +19,9 @@ export function EmailLoginForm() {
           placeholder="meow@example.com"
           trailingSlot={
             didEmailFilled && (
-              <button type="button" onClick={() => form.resetField("email")}>
+              <Button native type="button" onClick={() => form.resetField("email")}>
                 ⨂
-              </button>
+              </Button>
             )
           }
         />
@@ -33,12 +33,12 @@ export function EmailLoginForm() {
             type={passwordVisible ? "text" : "password"}
             placeholder="***********"
             trailingSlot={
-              <button
+              <Button native
                 type="button"
                 onClick={() => setPasswordVisible((visible) => !visible)}
               >
                 {passwordVisible ? "🔓" : "🔒"}
-              </button>
+              </Button>
             }
           />
         </Field>

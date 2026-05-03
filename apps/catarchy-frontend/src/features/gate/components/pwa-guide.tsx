@@ -52,13 +52,13 @@ function IosGuide() {
             <a href={safariUrl} className={styles.btnLink}>
               Open in Safari
             </a>
-            <button
+            <Button native
               onClick={copyToClipboard}
               className={styles.btnLink}
               disabled={copied}
             >
               {copied ? "URL Copied" : "Copy URL"}
-            </button>
+            </Button>
           </div>
         </div>
       )}

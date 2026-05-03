@@ -1,3 +1,4 @@
+import { PowerOffButton } from "@/features/auth";
 import { api, Button, LogoText, Scaffold } from "@/features/common";
 import { useMe } from "@/features/user/services/useMe";
 import { useRouter } from "@tanstack/react-router";
@@ -20,11 +21,7 @@ export function PlayScreen() {
       <Scaffold.Header
         title={<LogoText />}
         className={styles.headerNoBorder}
-        right={
-          <button className={styles.powerBtn} onClick={handleLogout}>
-            ⏻
-          </button>
-        }
+        right={<PowerOffButton />}
       />
       <Scaffold.Body className={styles.body}>
         <div className={styles.content}>

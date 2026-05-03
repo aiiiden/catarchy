@@ -1,4 +1,4 @@
-import { cn, Text, usePwaUpdate, useToast } from "@/features/common";
+import { Button, cn, Text, usePwaUpdate, useToast } from "@/features/common";
 import { useEffect } from "react";
 import styles from "./update-alert.module.css";
 
@@ -38,12 +38,12 @@ function UpdateAlertContent({
     <div className={styles.root}>
       <Text>Update available! Please refresh the page.</Text>
       <div className={styles.actions}>
-        <button className={cn(styles.btn, styles.btnLater)} onClick={onLater}>
+        <Button native className={cn(styles.btn, styles.btnLater)} onClick={onLater}>
           <Text boxTrim>Later</Text>
-        </button>
-        <button className={cn(styles.btn, styles.btnUpdate)} onClick={onUpdate}>
+        </Button>
+        <Button native className={cn(styles.btn, styles.btnUpdate)} onClick={onUpdate}>
           <Text boxTrim>Update</Text>
-        </button>
+        </Button>
       </div>
     </div>
   );

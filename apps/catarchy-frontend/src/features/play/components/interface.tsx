@@ -1,4 +1,4 @@
-import { Text, useToast } from "@/features/common";
+import { Button, Text, useToast } from "@/features/common";
 import { Room } from "./room";
 import styles from "./interface.module.css";
 
@@ -13,12 +13,12 @@ export function Interface() {
             00:00:00
           </div> */}
         </div>
-        <button
+        <Button native
           onClick={() => toast.push("Settings coming soon!")}
           className={styles.settingsBtn}
         >
           <Text>🔧</Text>
-        </button>
+        </Button>
       </div>
       <Room />
     </div>

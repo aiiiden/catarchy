@@ -2,6 +2,7 @@ import type React from "react";
 import XIcon from "../assets/x-icon.svg?react";
 import { cn } from "../lib/cn";
 import { Box } from "./box";
+import { Button } from "./button";
 import styles from "./toast.module.css";
 import { Text } from "./text";
 
@@ -31,9 +32,9 @@ export function ToastItem({
           {isMessageString ? <Text>{message}</Text> : message}
         </div>
         {hasCloseButton && (
-          <button className={styles.closeButton} onClick={onDismiss}>
+          <Button native className={styles.closeButton} onClick={onDismiss}>
             <XIcon />
-          </button>
+          </Button>
         )}
       </div>
     </Box>
