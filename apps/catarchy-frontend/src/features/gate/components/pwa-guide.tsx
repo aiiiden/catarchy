@@ -18,7 +18,7 @@ export function PWAGuide({ onClose }: { onClose?: () => void }) {
       </div>
       <div className={styles.footer}>
         <Button size="big" onClick={onClose}>
-          Close
+          I will do it later
         </Button>
       </div>
     </article>
@@ -52,7 +52,8 @@ function IosGuide() {
             <a href={safariUrl} className={styles.btnLink}>
               Open in Safari
             </a>
-            <Button native
+            <Button
+              native
               onClick={copyToClipboard}
               className={styles.btnLink}
               disabled={copied}

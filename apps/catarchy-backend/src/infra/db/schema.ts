@@ -35,7 +35,7 @@ export const authTable = sqliteTable("auth", {
   updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-/** Temporary email verification codes issued during registration or login */
+/** Temporary email verification codes issued during registration or sign-in */
 export const emailVerificationTable = sqliteTable(
   "email_verification",
   {

@@ -133,12 +133,12 @@ export function SignupScreen() {
           id: "signup-error",
           title: "Error",
           message:
-            "An account with this email already exists. Please use a different email or log in to your existing account.",
+            "An account with this email already exists. Please use a different email or sign in to your existing account.",
           confirmLabel: "OK",
           onConfirm(close) {
             close();
             router.navigate({
-              to: "/auth/login",
+              to: "/auth/sign-in",
             });
           },
         });
@@ -167,12 +167,12 @@ export function SignupScreen() {
 
     const { message } = data;
 
-    toast.push(message || "Account created successfully. You can now log in.", {
+    toast.push(message || "Account created successfully. You can now sign in.", {
       id: "signup-success",
     });
 
     router.navigate({
-      to: "/auth/login",
+      to: "/auth/sign-in",
       search: (s) => ({ ...s, email: emailPasswordForm.getValues("email") }),
     });
   };

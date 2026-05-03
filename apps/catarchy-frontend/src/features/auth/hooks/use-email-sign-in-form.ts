@@ -2,12 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFormContext } from "react-hook-form";
 import { z } from "zod";
 
-export const emailLoginFormSchema = z.object({
+export const emailSignInFormSchema = z.object({
   email: z.email("Invalid email address"),
   password: z.string().min(1, "Password is required"),
 });
 
-export function useEmailLoginForm({
+export function useEmailSignInForm({
   defaultEmail = "",
 }: { defaultEmail?: string } = {}) {
   const form = useForm({
@@ -15,7 +15,7 @@ export function useEmailLoginForm({
       email: defaultEmail,
       password: "",
     },
-    resolver: zodResolver(emailLoginFormSchema),
+    resolver: zodResolver(emailSignInFormSchema),
   });
 
   return {
@@ -23,6 +23,6 @@ export function useEmailLoginForm({
   };
 }
 
-export const useEmailLoginFormContext = useFormContext<
-  z.infer<typeof emailLoginFormSchema>
+export const useEmailSignInFormContext = useFormContext<
+  z.infer<typeof emailSignInFormSchema>
 >;

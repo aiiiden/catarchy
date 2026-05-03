@@ -1,5 +1,4 @@
 import {
-  api,
   Button,
   HeaderBackButton,
   Scaffold,
@@ -8,24 +7,26 @@ import {
 import { Link, useRouter, useSearch } from "@tanstack/react-router";
 import { FormProvider } from "react-hook-form";
 import z from "zod";
-import { EmailLoginForm } from "../components/email-login-form";
+import { EmailSignInForm } from "../components/email-sign-in-form";
 import {
-  emailLoginFormSchema,
-  useEmailLoginForm,
-} from "../hooks/use-email-login-form";
-import styles from "./login-screen.module.css";
+  emailSignInFormSchema,
+  useEmailSignInForm,
+} from "../hooks/use-email-sign-in-form";
 
-export function LoginScreen() {
+import { useMutation } from "@tanstack/react-query";
+import { signInWithEmailOptions } from "../services/sign-in";
+import styles from "./sign-in-screen.module.css";
+
+export function SignInScreen() {
   const router = useRouter();
   const toast = useToast();
-  const { email } = useSearch({ from: "/auth/login" });
-  const { form } = useEmailLoginForm({ defaultEmail: email });
+  const { email } = useSearch({ from: "/auth/sign-in" });
+  const { form } = useEmailSignInForm({ defaultEmail: email });
+  const options = signInWithEmailOptions();
+  const mutation = useMutation(options);
 
-  const login = async (formData: z.infer<typeof emailLoginFormSchema>) => {
-    const { data, error } = await api.auth["sign-in-email"].post({
-      email: formData.email,
-      password: formData.password,
-    });
+  const signIn = async (formData: z.infer<typeof emailSignInFormSchema>) => {
+    const { data, error } = await mutation.mutateAsync(formData);
 
     if (error) {
       toast.push(
@@ -54,10 +55,10 @@ export function LoginScreen() {
   return (
     <FormProvider {...form}>
       <Scaffold avoidKeyboard>
-        <Scaffold.Header title="Login" left={<HeaderBackButton />} />
+        <Scaffold.Header title="Sign In" left={<HeaderBackButton />} />
         <Scaffold.Body className={styles.bodyCentered}>
           <div className={styles.bodyContent}>
-            <EmailLoginForm />
+            <EmailSignInForm />
           </div>
         </Scaffold.Body>
         <Scaffold.Bottom sticky>
@@ -70,9 +71,10 @@ export function LoginScreen() {
             <Button
               disabled={!form.formState.isValid || form.formState.isSubmitting}
               size="big"
-              onClick={form.handleSubmit(login)}
+              onClick={form.handleSubmit(signIn)}
             >
-              Login
+              {/* Sign In */}
+              {mutation.isPending ? "Signing In..." : "Sign In"}
             </Button>
           </div>
         </Scaffold.Bottom>

@@ -28,7 +28,7 @@ const fetchWithRefresh = async (
   if (response.status !== 401) return normalizeContentType(response);
 
   if (isRefreshing) {
-    window.location.href = "/auth/login";
+    window.location.href = "/auth/sign-in";
     return response;
   }
 
@@ -48,7 +48,7 @@ const fetchWithRefresh = async (
     }
 
     if (!refreshed.ok) {
-      window.location.href = "/auth/login";
+      window.location.href = "/auth/sign-in";
       return response;
     }
 

@@ -4,13 +4,16 @@ import {
   KeyboardProvider,
   TanstackQueryProvider,
 } from "./features/common";
+import { NotificationProvider } from "./features/notification";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <EnvProvider>
       <FirebaseProvider>
         <TanstackQueryProvider>
-          <KeyboardProvider>{children}</KeyboardProvider>
+          <NotificationProvider>
+            <KeyboardProvider>{children}</KeyboardProvider>
+          </NotificationProvider>
         </TanstackQueryProvider>
       </FirebaseProvider>
     </EnvProvider>

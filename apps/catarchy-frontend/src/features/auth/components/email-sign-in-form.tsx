@@ -1,11 +1,11 @@
 import { Button, Field, Text, TextInput } from "@/features/common";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { useEmailLoginFormContext } from "../hooks/use-email-login-form";
-import styles from "./email-login-form.module.css";
+import { useEmailSignInFormContext } from "../hooks/use-email-sign-in-form";
+import styles from "./email-sign-in-form.module.css";
 
-export function EmailLoginForm() {
-  const form = useEmailLoginFormContext();
+export function EmailSignInForm() {
+  const form = useEmailSignInFormContext();
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
   const didEmailFilled = Boolean(form.watch("email"));

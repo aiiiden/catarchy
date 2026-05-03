@@ -24,7 +24,7 @@ export function GateScreen() {
           <PWAGuide
             onClose={async () => {
               bottomSheet.close("welcome");
-              await router.navigate({ to: "/auth/login" });
+              await router.navigate({ to: "/auth/sign-in" });
             }}
           />
         ),
@@ -33,7 +33,7 @@ export function GateScreen() {
       return;
     }
 
-    await router.navigate({ to: "/auth/login" });
+    await router.navigate({ to: "/auth/sign-in" });
   };
 
   return (

@@ -1,12 +1,10 @@
 import {
-  api,
   Button,
   HeaderBackButton,
   Scaffold,
   useToast,
 } from "@/features/common";
 import { useRouter } from "@tanstack/react-router";
-import { useState } from "react";
 import { FormProvider } from "react-hook-form";
 import z from "zod";
 import { EmailPasswordForm } from "../components/email-password-form";
@@ -14,14 +12,32 @@ import {
   emailPasswordSchema,
   useEmailPasswordForm,
 } from "../hooks/use-email-password-form";
+
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import {
+  resetPasswordOptions,
+  sendResetEmailOptions,
+  verifyResetCodeOptions,
+} from "../services/password-reset";
 import styles from "./password-reset-screen.module.css";
 
 export function PasswordResetScreen() {
   const router = useRouter();
   const toast = useToast();
-  const { form: emailPasswordForm } = useEmailPasswordForm();
+
+  // Local state
   const [verifyUntil, setVerifyUntil] = useState<Date | null>(null);
 
+  // Form state
+  const { form: emailPasswordForm } = useEmailPasswordForm();
+
+  // Mutations
+  const sendResetEmailMutation = useMutation(sendResetEmailOptions());
+  const verifyResetCodeMutation = useMutation(verifyResetCodeOptions());
+  const resetPasswordMutation = useMutation(resetPasswordOptions());
+
+  // Handlers
   const handleRequestVerificationEmail = async () => {
     const email = emailPasswordForm.getValues("email");
 
@@ -33,9 +49,23 @@ export function PasswordResetScreen() {
       return;
     }
 
-    const { data, error } = await api.auth["send-reset-password-email"].post({
+    const { data, error } = await sendResetEmailMutation.mutateAsync({
       email: emailPasswordForm.getValues("email"),
     });
+
+    // Conflicted
+    if (error?.status === 409) {
+      const { waitUntil } = error.value.data;
+      setVerifyUntil(new Date(waitUntil));
+      toast.push(
+        "A verification email has already been sent. Please check your inbox and enter the code here.",
+        {
+          id: "verification-email-already-sent",
+        },
+      );
+      emailPasswordForm.clearErrors("email");
+      return;
+    }
 
     if (error) {
       emailPasswordForm.setError("email", {
@@ -66,7 +96,7 @@ export function PasswordResetScreen() {
   };
 
   const handleVerifyEmail = async () => {
-    const { data, error } = await api.auth["verify-email-code"].patch({
+    const { data, error } = await verifyResetCodeMutation.mutateAsync({
       email: emailPasswordForm.getValues("email"),
       code: emailPasswordForm.getValues("code"),
     });
@@ -108,10 +138,10 @@ export function PasswordResetScreen() {
     await handleRequestVerificationEmail();
   };
 
-  const resetPassword = async (
+  const handleResetPassword = async (
     formData: z.infer<typeof emailPasswordSchema>,
   ) => {
-    const { data, error } = await api.auth["reset-password"].post({
+    const { data, error } = await resetPasswordMutation.mutateAsync({
       email: formData.email,
       password: formData.password,
     });
@@ -138,7 +168,7 @@ export function PasswordResetScreen() {
     }
 
     toast.push(
-      "Password reset successfully. You can now log in with your new password.",
+      "Password reset successfully. You can now sign in with your new password.",
       {
         id: "password-reset-success",
       },
@@ -149,7 +179,7 @@ export function PasswordResetScreen() {
     setVerifyUntil(null);
 
     await router.navigate({
-      to: "/auth/login",
+      to: "/auth/sign-in",
       search: (old) => ({ ...old, email: formData.email }),
     });
   };
@@ -171,10 +201,15 @@ export function PasswordResetScreen() {
         </Scaffold.Body>
         <Scaffold.Bottom sticky>
           <Button
-            disabled={!emailPasswordForm.formState.isValid}
-            onClick={emailPasswordForm.handleSubmit(resetPassword)}
+            disabled={
+              !emailPasswordForm.formState.isValid ||
+              resetPasswordMutation.isPending
+            }
+            onClick={emailPasswordForm.handleSubmit(handleResetPassword)}
           >
-            Reset Password
+            {resetPasswordMutation.isPending
+              ? "Resetting..."
+              : "Reset Password"}
           </Button>
         </Scaffold.Bottom>
       </Scaffold>
