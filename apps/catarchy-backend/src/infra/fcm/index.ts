@@ -98,6 +98,7 @@ export async function sendPushNotification({
   const message: Record<string, unknown> = {
     token,
     webpush: {
+      headers: { Urgency: "high" },
       notification: { title, body, icon: "/icons/icon-192x192.png" },
       ...(url && { fcm_options: { link: url } }),
     },
