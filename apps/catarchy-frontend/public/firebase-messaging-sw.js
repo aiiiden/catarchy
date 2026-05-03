@@ -1,3 +1,22 @@
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const url = event.notification.data?.url;
+  if (!url) return;
+
+  event.stopImmediatePropagation();
+  event.waitUntil(
+    clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((windowClients) => {
+        const existing = windowClients.find(
+          (c) => c.url === url && "focus" in c,
+        );
+        if (existing) return existing.focus();
+        return clients.openWindow(url);
+      }),
+  );
+});
+
 importScripts(
   "https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js",
 );
@@ -23,20 +42,4 @@ messaging.onBackgroundMessage((payload) => {
     icon: "/icons/icon-192x192.png",
     data: { url },
   });
-});
-
-self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
-  const url = event.notification.data?.url;
-  if (!url) return;
-
-  event.waitUntil(
-    clients
-      .matchAll({ type: "window", includeUncontrolled: true })
-      .then((windowClients) => {
-        const existing = windowClients.find((c) => c.url === url && "focus" in c);
-        if (existing) return existing.focus();
-        return clients.openWindow(url);
-      }),
-  );
 });
