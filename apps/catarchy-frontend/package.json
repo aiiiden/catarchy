@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "bun --version && vite build",
     "typecheck": "tsc --noEmit",
     "preview": "npm run build && wrangler dev",
     "lint": "biome check .",
