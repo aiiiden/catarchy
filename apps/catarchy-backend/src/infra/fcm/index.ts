@@ -97,7 +97,11 @@ export async function sendPushNotification({
 
   const message: Record<string, unknown> = {
     token,
-    data: { title, body, ...(url && { url }) },
+    webpush: {
+      notification: { title, body, icon: "/icons/icon-192x192.png" },
+      ...(url && { fcm_options: { link: url } }),
+    },
+    ...(url && { data: { url } }),
   };
 
   const res = await fetch(FCM_ENDPOINT, {

@@ -3,43 +3,18 @@ self.addEventListener("activate", (event) =>
   event.waitUntil(clients.claim()),
 );
 
-self.addEventListener("push", (event) => {
-  if (!event.data) return;
+importScripts(
+  "https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js",
+);
+importScripts(
+  "https://www.gstatic.com/firebasejs/11.0.0/firebase-messaging-compat.js",
+);
 
-  let data = {};
-  try {
-    const payload = event.data.json();
-    data = payload.data ?? payload;
-  } catch {
-    return;
-  }
-
-  const { title, body, url } = data;
-  if (!title) return;
-
-  event.waitUntil(
-    self.registration.showNotification(title, {
-      body,
-      icon: "/icons/icon-192x192.png",
-      data: { url },
-    }),
-  );
+firebase.initializeApp({
+  apiKey: "AIzaSyBsr73zFRUOVtsHutsb-3QatSH092K9pa8",
+  projectId: "catarchy-general",
+  messagingSenderId: "1061953933956",
+  appId: "1:1061953933956:web:3272eabbfad4776c9a68d1",
 });
 
-self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
-  const url = event.notification.data?.url;
-  if (!url) return;
-
-  event.waitUntil(
-    clients
-      .matchAll({ type: "window", includeUncontrolled: true })
-      .then((windowClients) => {
-        const existing = windowClients.find(
-          (c) => c.url === url && "focus" in c,
-        );
-        if (existing) return existing.focus();
-        return clients.openWindow(url);
-      }),
-  );
-});
+firebase.messaging();
