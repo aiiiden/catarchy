@@ -27,6 +27,13 @@ export function NotificationProvider({
   }, []);
 
   useEffect(() => {
+    if (!messaging || Notification.permission !== "granted") return;
+    getToken(messaging, { vapidKey: env.VITE_FIREBASE_VAPID_KEY })
+      .then((token) => { if (token) setIsRegistered(true); })
+      .catch(() => {});
+  }, [messaging]);
+
+  useEffect(() => {
     if (!messaging) return;
     return onMessage(messaging, (payload) => {
       const { title, body, url } = payload.data ?? {};

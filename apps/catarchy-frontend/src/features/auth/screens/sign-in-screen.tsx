@@ -53,45 +53,38 @@ export function SignInScreen() {
 
     const { message } = data;
 
-    if (!notification.isRegistered) {
-      bottomSheet.open({
-        id: "request-notification-permission",
-        component: (
-          <RequestNotificationPermission
-            onAllow={async () => {
-              try {
-                await notification.register();
-                bottomSheet.close("request-notification-permission");
-
-                await router.navigate({
-                  to: "/play",
-                });
-              } catch (error: unknown) {
-                if (error instanceof Error) {
-                  toast.push(
-                    error.message ||
-                      "Failed to register for notifications. Please try again later or contact support.",
-                  );
-                }
-              }
-            }}
-            onDeny={() => {
-              toast.push(message);
-              bottomSheet.close("request-notification-permission");
-              router.navigate({
-                to: "/play",
-              });
-            }}
-          />
-        ),
-      });
-
+    if (notification.permissionState === "granted") {
+      await notification.register();
+      toast.push(message);
+      await router.navigate({ to: "/play" });
       return;
     }
 
-    toast.push(message);
-    await router.navigate({
-      to: "/play",
+    bottomSheet.open({
+      id: "request-notification-permission",
+      component: (
+        <RequestNotificationPermission
+          onAllow={async () => {
+            try {
+              await notification.register();
+              bottomSheet.close("request-notification-permission");
+              await router.navigate({ to: "/play" });
+            } catch (error: unknown) {
+              if (error instanceof Error) {
+                toast.push(
+                  error.message ||
+                    "Failed to register for notifications. Please try again later or contact support.",
+                );
+              }
+            }
+          }}
+          onDeny={() => {
+            toast.push(message);
+            bottomSheet.close("request-notification-permission");
+            router.navigate({ to: "/play" });
+          }}
+        />
+      ),
     });
   };
 
