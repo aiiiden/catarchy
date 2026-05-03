@@ -5,7 +5,7 @@
   overflow: visible !important;
   width: min(
     calc(100% - 1rem - var(--safe-area-inset-left) - var(--safe-area-inset-right)),
-    360px
+    340px
   );
   right: calc(1rem + var(--safe-area-inset-right));
   transition-property: transform;
