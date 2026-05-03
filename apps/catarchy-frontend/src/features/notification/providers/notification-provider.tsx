@@ -4,7 +4,7 @@ import {
   PermissionState,
 } from "@/features/notification/hooks/use-notification";
 import { getApp, getApps } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken } from "firebase/messaging";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 export function NotificationProvider({
@@ -31,22 +31,6 @@ export function NotificationProvider({
     getToken(messaging, { vapidKey: env.VITE_FIREBASE_VAPID_KEY })
       .then((token) => { if (token) setIsRegistered(true); })
       .catch(() => {});
-  }, [messaging]);
-
-  useEffect(() => {
-    if (!messaging) return;
-    return onMessage(messaging, (payload) => {
-      const { title, body, url } = payload.data ?? {};
-      if (!title || Notification.permission !== "granted") return;
-
-      const notification = new Notification(title, {
-        body,
-        icon: "/icons/icon-192x192.png",
-      });
-      if (url) {
-        notification.onclick = () => window.open(url, "_blank");
-      }
-    });
   }, [messaging]);
 
   const register = useCallback(async (): Promise<boolean> => {
