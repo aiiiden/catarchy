@@ -99,7 +99,7 @@ export async function sendPushNotification({
     token,
     webpush: {
       headers: { Urgency: "high" },
-      notification: { title, body, icon: "/icons/icon-192x192.png" },
+      notification: { title, body, icon: "/icons/icon-192x192.png", require_interaction: true },
       ...(url && { fcm_options: { link: url } }),
     },
     ...(url && { data: { url } }),
