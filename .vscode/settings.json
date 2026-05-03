@@ -4,7 +4,9 @@
     { "directory": "apps/catarchy-frontend", "changeProcessCWD": true }
   ],
   "cSpell.words": ["Elysia", "catarchy"],
-  "tailwindCSS.experimental.configFile": "apps/catarchy-frontend/src/styles/_root.css",
+  "files.associations": {
+    "*.jsonc": "jsonc"
+  },
   "search.exclude": {
     "**/.wrangler": true
   }
