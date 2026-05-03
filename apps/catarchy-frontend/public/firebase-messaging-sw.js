@@ -1,7 +1,5 @@
 self.addEventListener("install", () => self.skipWaiting());
-self.addEventListener("activate", (event) =>
-  event.waitUntil(clients.claim()),
-);
+self.addEventListener("activate", (event) => event.waitUntil(clients.claim()));
 
 importScripts(
   "https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js",
@@ -15,6 +13,27 @@ firebase.initializeApp({
   projectId: "catarchy-general",
   messagingSenderId: "1061953933956",
   appId: "1:1061953933956:web:3272eabbfad4776c9a68d1",
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+
+  const fcmMsg = event.notification.data?.FCM_MSG;
+  const url = fcmMsg?.fcmOptions?.link ?? fcmMsg?.data?.url;
+  if (!url) return;
+
+  event.stopImmediatePropagation();
+  event.waitUntil(
+    clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((windowClients) => {
+        const existing = windowClients.find(
+          (c) => c.url === url && "focus" in c,
+        );
+        if (existing) return existing.focus();
+        return clients.openWindow(url);
+      }),
+  );
 });
 
 firebase.messaging();
