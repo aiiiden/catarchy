@@ -54,7 +54,11 @@ export function SignInScreen() {
     const { message } = data;
 
     if (notification.permissionState === "granted") {
-      await notification.register();
+      try {
+        await notification.register();
+      } catch {
+        // Ignore notification registration errors and proceed with navigation
+      }
       toast.push(message);
       await router.navigate({ to: "/play" });
       return;
