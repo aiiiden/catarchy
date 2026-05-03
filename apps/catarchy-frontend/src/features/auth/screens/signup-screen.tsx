@@ -1,7 +1,6 @@
 import {
   api,
   Button,
-  cn,
   HeaderBackButton,
   Scaffold,
   Text,
@@ -20,6 +19,7 @@ import {
   useEmailPasswordForm,
 } from "../hooks/use-email-password-form";
 import { handleFormSchema, useHandleForm } from "../hooks/use-handle-form";
+import styles from "./signup-screen.module.css";
 
 export function SignupScreen() {
   const toast = useToast();
@@ -186,10 +186,11 @@ export function SignupScreen() {
     <Scaffold avoidKeyboard>
       <Scaffold.Header title="Sign Up" left={<HeaderBackButton />} />
       <Scaffold.Body>
-        <div className="flex flex-col justify-center-safe flex-1">
+        <div className={styles.bodyInner}>
           <FormProvider {...emailPasswordForm}>
             <div
-              className={cn(["p-4", !emailPasswordSet ? "block" : "hidden"])}
+              className={styles.formSection}
+              style={{ display: emailPasswordSet ? "none" : undefined }}
             >
               <EmailPasswordForm
                 verifyUntil={verifyUntil}
@@ -202,10 +203,8 @@ export function SignupScreen() {
           </FormProvider>
           <FormProvider {...handleForm}>
             <div
-              className={cn([
-                "p-4 flex flex-col gap-5",
-                !emailPasswordSet && "hidden",
-              ])}
+              className={styles.handleSection}
+              style={{ display: emailPasswordSet ? undefined : "none" }}
             >
               <HandleGuide />
               <HandleForm />
@@ -213,19 +212,19 @@ export function SignupScreen() {
           </FormProvider>
         </div>
         <div>
-          <Text as="p" className="text-center py-2">
-            <Link to="/toc" className="underline">
+          <Text as="p" className={styles.terms}>
+            <Link to="/toc" className={styles.termsLink}>
               Terms
             </Link>{" "}
             /{" "}
-            <Link to="/pp" className="underline">
+            <Link to="/pp" className={styles.termsLink}>
               Privacy
             </Link>
           </Text>
         </div>
       </Scaffold.Body>
       <Scaffold.Bottom sticky>
-        <div className="grid grid-cols-2 gap-2">
+        <div className={styles.actions}>
           <Button
             size="big"
             variant={"outline"}
@@ -235,7 +234,7 @@ export function SignupScreen() {
           </Button>
           <Button
             size="big"
-            className={cn([emailPasswordSet && "hidden"])}
+            style={{ display: emailPasswordSet ? "none" : undefined }}
             disabled={
               !emailPasswordForm.formState.isValid ||
               emailPasswordForm.formState.isSubmitting
@@ -246,7 +245,7 @@ export function SignupScreen() {
           </Button>
           <Button
             size="big"
-            className={cn([!emailPasswordSet && "hidden"])}
+            style={{ display: emailPasswordSet ? undefined : "none" }}
             disabled={
               !emailPasswordForm.formState.isValid ||
               emailPasswordForm.formState.isSubmitting

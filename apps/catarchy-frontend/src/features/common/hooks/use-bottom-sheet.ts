@@ -15,7 +15,12 @@ export function useBottomSheet() {
 
   return {
     open: ({ id, component, header, onDimClick }: BottomSheetOpenProps) =>
-      open({ id, type: "bottom-sheet", component, props: { header, onDimClick } }),
+      open({
+        id,
+        type: "bottom-sheet",
+        component,
+        props: { header, onDimClick },
+      }),
     close,
   };
 }

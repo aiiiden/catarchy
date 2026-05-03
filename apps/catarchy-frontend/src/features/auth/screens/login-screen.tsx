@@ -13,6 +13,7 @@ import {
   emailLoginFormSchema,
   useEmailLoginForm,
 } from "../hooks/use-email-login-form";
+import styles from "./login-screen.module.css";
 
 export function LoginScreen() {
   const router = useRouter();
@@ -54,13 +55,13 @@ export function LoginScreen() {
     <FormProvider {...form}>
       <Scaffold avoidKeyboard>
         <Scaffold.Header title="Login" left={<HeaderBackButton />} />
-        <Scaffold.Body className="justify-center-safe">
-          <div className="p-4">
+        <Scaffold.Body className={styles.bodyCentered}>
+          <div className={styles.bodyContent}>
             <EmailLoginForm />
           </div>
         </Scaffold.Body>
         <Scaffold.Bottom sticky>
-          <div className="grid grid-cols-2 gap-2">
+          <div className={styles.actions}>
             <Link to="/auth/register">
               <Button variant="outline" size="big">
                 Sign Up

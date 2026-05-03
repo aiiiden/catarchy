@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "modern-normalize";
 
 @import "./color.css";
 @import "./app-shell.css";

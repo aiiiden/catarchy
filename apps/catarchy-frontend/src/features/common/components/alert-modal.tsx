@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "../lib/cn";
 import { useOverlayStore } from "../stores/overlay";
+import styles from "./alert-modal.module.css";
 import { Button } from "./button";
 import { Modal } from "./modal";
 import { ModalCloseButton } from "./modal-close-button";
@@ -45,23 +46,21 @@ export function AlertModal({
         right: <ModalCloseButton onClick={handleCancel} />,
       }}
     >
-      <div className="p-4 min-h-20 flex items-center justify-center">
+      <div className={styles.body}>
         {isMessageString ? (
-          <Text className="text-center text-pretty leading-relaxed">
-            {message}
-          </Text>
+          <Text className={styles.message}>{message}</Text>
         ) : (
           message
         )}
       </div>
       <div
-        className={cn([
-          "grid gap-2 p-2",
-          hasCancel ? "grid-cols-2" : "grid-cols-1",
-        ])}
+        className={cn(
+          styles.actions,
+          hasCancel ? styles.actionsDouble : styles.actionsSingle,
+        )}
       >
         {hasCancel && (
-          <Button variant={"outline"} type="button" onClick={handleCancel}>
+          <Button variant="outline" type="button" onClick={handleCancel}>
             {cancelLabel}
           </Button>
         )}

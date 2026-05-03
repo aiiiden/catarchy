@@ -1,0 +1,30 @@
+.container {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  pointer-events: auto;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+}
+
+.message {
+  padding-left: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  flex: 1;
+}
+
+.messagePadded {
+  padding-right: 0.25rem;
+}
+
+.messageNoClose {
+  padding-right: 0.5rem;
+}
+
+.closeButton {
+  padding: 0.5rem;
+  flex-shrink: 0;
+}

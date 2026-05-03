@@ -1,13 +1,14 @@
-import { Button, sleep, Text, usePlatform } from "@/features/common";
+import { Button, cn, sleep, Text, usePlatform } from "@/features/common";
 import { useState } from "react";
+import styles from "./pwa-guide.module.css";
 
 export function PWAGuide({ onClose }: { onClose?: () => void }) {
   const { os } = usePlatform();
 
   return (
-    <article className="flex flex-col gap-2 overflow-hidden h-full pb-safe">
-      <div className="flex-1 overflow-y-auto h-full p-4 flex flex-col gap-4">
-        <Text as="p" className="leading-snug text-center">
+    <article className={cn(styles.root, "pb-safe")}>
+      <div className={styles.scrollArea}>
+        <Text as="p" className={styles.description}>
           Catarchy is a Progressive Web App (PWA). <br />
           For the best experience, <br />
           try adding this app to your home screen!
@@ -15,17 +16,14 @@ export function PWAGuide({ onClose }: { onClose?: () => void }) {
         {os === "ios" && <IosGuide />}
         {os === "android" && <AndroidGuide />}
       </div>
-      <div className="px-4 py-2">
-        <Button size={"big"} onClick={onClose}>
+      <div className={styles.footer}>
+        <Button size="big" onClick={onClose}>
           Close
         </Button>
       </div>
     </article>
   );
 }
-
-const btnClass =
-  "w-fit inline-block border px-1 border-dashed hover:border-solid active:border-solid focus:border-solid";
 
 function IosGuide() {
   const { browser } = usePlatform();
@@ -44,19 +42,19 @@ function IosGuide() {
   const n = isSafari ? ["①", "②", "③"] : ["①", "②", "③", "④"];
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className={styles.guideSection}>
       {!isSafari && (
-        <div className="flex flex-col gap-1">
-          <Text as="p" className="leading-snug">
+        <div className={styles.guideSection}>
+          <Text as="p" className={styles.step}>
             {n[0]} Open this page in Safari
           </Text>
-          <div className="flex gap-2 justify-center">
-            <a href={safariUrl} className={btnClass}>
+          <div className={styles.copyRow}>
+            <a href={safariUrl} className={styles.btnLink}>
               Open in Safari
             </a>
             <button
               onClick={copyToClipboard}
-              className={btnClass}
+              className={styles.btnLink}
               disabled={copied}
             >
               {copied ? "URL Copied" : "Copy URL"}
@@ -64,13 +62,13 @@ function IosGuide() {
           </div>
         </div>
       )}
-      <Text as="p" className="leading-snug">
+      <Text as="p" className={styles.step}>
         {isSafari ? n[0] : n[1]} Tap the Share button at the bottom
       </Text>
-      <Text as="p" className="leading-snug">
+      <Text as="p" className={styles.step}>
         {isSafari ? n[1] : n[2]} Tap &quot;Add to Home Screen&quot;
       </Text>
-      <Text as="p" className="leading-snug">
+      <Text as="p" className={styles.step}>
         {isSafari ? n[2] : n[3]} Open Catarchy
       </Text>
     </div>
@@ -79,17 +77,17 @@ function IosGuide() {
 
 function AndroidGuide() {
   return (
-    <div className="flex flex-col gap-1">
-      <Text as="p" className="leading-snug">
+    <div className={styles.guideSection}>
+      <Text as="p" className={styles.step}>
         ① Tap the menu (&bull;&bull;&bull;) at the top right
       </Text>
-      <Text as="p" className="leading-snug">
+      <Text as="p" className={styles.step}>
         ② Tap &quot;Add to Home Screen&quot; or &quot;Install App&quot;
       </Text>
-      <Text as="p" className="leading-snug">
+      <Text as="p" className={styles.step}>
         ③ Tap &quot;Add&quot; / &quot;Install&quot;
       </Text>
-      <Text as="p" className="leading-snug">
+      <Text as="p" className={styles.step}>
         ④ Open Catarchy
       </Text>
     </div>

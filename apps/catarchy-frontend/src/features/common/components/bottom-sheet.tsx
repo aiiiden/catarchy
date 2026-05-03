@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import BorderEdge from "../assets/bottom-sheet-border-edge.svg?react";
+import { cn } from "../lib/cn";
+import styles from "./bottom-sheet.module.css";
 import { Text } from "./text";
 
 export type BottomSheetHeader = {
@@ -49,7 +51,7 @@ export function BottomSheet({
   return (
     <>
       <div
-        className="fixed inset-0 bg-gradient-dither-6 z-10 transition-opacity ease-in-out cursor-pointer"
+        className={styles.dim}
         onClick={onDimClick ?? startClose}
         style={{
           transitionDuration: `${DURATION}ms`,
@@ -58,25 +60,25 @@ export function BottomSheet({
         }}
       />
       <div
-        className="fixed z-20 inset-x-0 bottom-0 mx-auto max-w-(--layout-max-width) transition-transform ease-in-out"
+        className={styles.sheet}
         style={{
           transitionDuration: `${DURATION}ms`,
           transform: visible ? "translateY(0)" : "translateY(100%)",
           transitionTimingFunction: "steps(8, end)",
         }}
       >
-        <div className="w-full" onClick={startClose}>
-          <div className="flex items-start w-full">
+        <div className={styles.sheetHandle} onClick={startClose}>
+          <div className={styles.sheetHandleEdges}>
             <BorderEdge />
-            <div className="h-2.5 bg-white border-t flex-1" />
-            <BorderEdge className="transform scale-x-[-1]" />
+            <div className={styles.sheetHandleBar} />
+            <BorderEdge className={styles.sheetHandleEdgeMirror} />
           </div>
         </div>
-        <div className="bg-white border-x">
+        <div className={styles.body}>
           {header && (
-            <header className="px-4 pb-2 border-b">
-              <div className="flex items-center justify-between">
-                <div className="size-4 relative">{header.left}</div>
+            <header className={styles.header}>
+              <div className={styles.headerInner}>
+                <div className={styles.headerSide}>{header.left}</div>
                 <div>
                   {isTitleString ? (
                     <Text as="h1" boxTrim className="font-bold">
@@ -86,13 +88,11 @@ export function BottomSheet({
                     header.title
                   )}
                 </div>
-                <div className="size-4 relative">{header.right}</div>
+                <div className={styles.headerSide}>{header.right}</div>
               </div>
             </header>
           )}
-          <div className="max-h-[calc(100dvh-32px)] flex flex-col">
-            {children}
-          </div>
+          <div className={styles.content}>{children}</div>
         </div>
       </div>
     </>

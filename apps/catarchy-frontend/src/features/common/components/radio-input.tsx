@@ -1,6 +1,7 @@
 import React from "react";
 import RadioSymbol from "../assets/radio-symbol.svg?react";
 import { cn } from "../lib/cn";
+import styles from "./radio-input.module.css";
 import { Text } from "./text";
 
 export interface RadioInputProps extends Omit<
@@ -32,26 +33,25 @@ export const RadioInput = React.forwardRef<HTMLInputElement, RadioInputProps>(
     const generatedId = React.useId();
     const inputId = id ?? generatedId;
     const inputRef = React.useRef<HTMLInputElement>(null);
+
     const fallbackAriaLabel =
       typeof name === "string" && name.length > 0
         ? `${name} option`
         : "Radio option";
-    const onState = checkedIndicator ?? <RadioSymbol className="text-black" />;
+    const onState = checkedIndicator ?? (
+      <RadioSymbol style={{ color: "var(--color-black)" }} />
+    );
     const offState = uncheckedIndicator ?? (
-      <RadioSymbol className="text-white" />
+      <RadioSymbol style={{ color: "var(--color-white)" }} />
     );
 
     const setInputRefs = (node: HTMLInputElement | null) => {
       inputRef.current = node;
-
       if (typeof ref === "function") {
         ref(node);
         return;
       }
-
-      if (ref) {
-        ref.current = node;
-      }
+      if (ref) ref.current = node;
     };
 
     const handleIndicatorClick = () => {
@@ -62,8 +62,8 @@ export const RadioInput = React.forwardRef<HTMLInputElement, RadioInputProps>(
     return (
       <div
         className={cn(
-          "inline-flex items-center gap-1.5 select-none",
-          disabled ? "cursor-not-allowed opacity-50" : "cursor-default",
+          styles.root,
+          disabled ? styles.disabled : styles.cursorDefault,
           className,
         )}
       >
@@ -74,7 +74,7 @@ export const RadioInput = React.forwardRef<HTMLInputElement, RadioInputProps>(
           name={name}
           disabled={disabled}
           aria-label={ariaLabel ?? (label ? undefined : fallbackAriaLabel)}
-          className="peer sr-only"
+          className={styles.input}
           {...props}
         />
 
@@ -82,24 +82,20 @@ export const RadioInput = React.forwardRef<HTMLInputElement, RadioInputProps>(
           onClick={handleIndicatorClick}
           aria-hidden="true"
           className={cn(
-            "inline-flex size-5 items-center justify-center peer-focus-visible:outline-1 peer-focus-visible:outline-black peer-checked:[&_.radio-off]:hidden peer-checked:[&_.radio-on]:inline-flex",
-            !disabled && "cursor-pointer",
+            styles.indicator,
+            !disabled && styles.clickable,
             indicatorClassName,
           )}
         >
-          <span className="radio-off inline-flex">{offState}</span>
-          <span className="radio-on hidden">{onState}</span>
+          <span className={styles.off}>{offState}</span>
+          <span className={styles.on}>{onState}</span>
         </span>
 
-        {typeof label === "string" ? (
-          <Text as="label" htmlFor={inputId} className="cursor-pointer">
+        {label != null && (
+          <Text as="label" htmlFor={inputId} className={styles.labelText}>
             {label}
           </Text>
-        ) : label != null ? (
-          <Text as="label" htmlFor={inputId} className="cursor-pointer">
-            {label}
-          </Text>
-        ) : null}
+        )}
       </div>
     );
   },

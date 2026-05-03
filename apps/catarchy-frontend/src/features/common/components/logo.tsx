@@ -10,5 +10,11 @@ export function LogoText({
   desc?: string;
   descId?: string;
 }) {
-  return <TextLogoImage className={cn(["text-black", className])} {...props} />;
+  return (
+    <TextLogoImage
+      className={cn([className])}
+      style={{ color: "var(--color-black)" }}
+      {...props}
+    />
+  );
 }

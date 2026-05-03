@@ -1,3 +1,7 @@
+.bgWhite {
+  background-color: var(--color-white);
+}
+
 .border {
   border: 3px solid transparent;
   overflow: auto;
@@ -9,26 +13,41 @@
   overflow: visible;
 }
 
-.light {
+.tightContainer {
+  background-color: transparent;
+  position: relative;
+  z-index: 2;
+  margin: -2px;
+  width: calc(100% + 4px);
+  min-height: calc(100% + 4px);
+}
+
+.border[data-border-variant="light"] {
   border-image: url("../assets/border-light.svg") 3;
+  border-image-repeat: repeat !important;
 }
 
-.dark {
+.border[data-border-variant="dark"] {
   border-image: url("../assets/border-dark.svg") 3;
+  border-image-repeat: repeat !important;
 }
 
-.dithered {
+.border[data-border-variant="dithered"] {
   border-image: url("../assets/border-light-dither.svg") 3;
+  border-image-repeat: repeat !important;
 }
 
-.darkDithered {
+.border[data-border-variant="dark-dithered"] {
   border-image: url("../assets/border-dark-dither.svg") 3;
+  border-image-repeat: repeat !important;
 }
 
-.moreDither {
+.border[data-border-variant="more-dither"] {
   border-image: url("../assets/border-light-more-dither.svg") 3;
+  border-image-repeat: repeat !important;
 }
 
-.darkMoreDither {
+.border[data-border-variant="dark-more-dither"] {
   border-image: url("../assets/border-dark-more-dither.svg") 3;
+  border-image-repeat: repeat !important;
 }

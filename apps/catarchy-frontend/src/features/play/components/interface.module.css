@@ -1,0 +1,45 @@
+.root {
+  border: 1px solid currentColor;
+  width: 288px;
+  height: 14.75rem;
+  background-color: var(--color-white);
+}
+
+.toolbar {
+  border-bottom: 1px solid currentColor;
+  height: 2.25rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+}
+
+.emojiBtn {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid currentColor;
+  user-select: none;
+}
+
+.settingsBtn {
+  background-color: var(--color-black);
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--color-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid var(--color-black);
+  border-bottom: 1px solid var(--color-black);
+}
+
+.settingsBtn:hover {
+  background-color: var(--color-white);
+  color: var(--color-black);
+}

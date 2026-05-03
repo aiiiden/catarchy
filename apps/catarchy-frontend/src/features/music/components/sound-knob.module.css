@@ -1,0 +1,12 @@
+.root {
+  width: 1.5rem;
+  height: 3rem;
+  position: relative;
+}
+
+.sprite {
+  position: absolute;
+  top: 50%;
+  left: 0.4375rem;
+  transform: translateY(-50%);
+}

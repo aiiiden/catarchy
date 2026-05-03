@@ -1,0 +1,94 @@
+.container {
+  cursor: pointer;
+  line-height: 1;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  user-select: none;
+  background-color: var(--color-white);
+}
+
+/* primary */
+.container[data-variant="primary"] {
+  background-color: var(--color-black);
+}
+.container[data-variant="primary"]:hover {
+  background-image: var(--bg-dither-8);
+  background-size: 3px 3px;
+  background-repeat: repeat;
+}
+.container[data-variant="primary"]:active,
+.container[data-variant="primary"]:focus {
+  background-image: var(--bg-dither-7);
+  background-size: 3px 3px;
+  background-repeat: repeat;
+}
+
+/* secondary */
+.container[data-variant="secondary"] {
+  background-image: var(--bg-dither-2);
+  background-size: 3px 3px;
+  background-repeat: repeat;
+}
+.container[data-variant="secondary"]:hover {
+  background-image: var(--bg-dither-3);
+}
+.container[data-variant="secondary"]:active,
+.container[data-variant="secondary"]:focus {
+  background-image: var(--bg-dither-4);
+}
+
+/* outline */
+.container[data-variant="outline"]:hover {
+  background-image: var(--bg-dither-1);
+  background-size: 3px 3px;
+  background-repeat: repeat;
+}
+.container[data-variant="outline"]:active,
+.container[data-variant="outline"]:focus {
+  background-image: var(--bg-dither-2);
+  background-size: 3px 3px;
+  background-repeat: repeat;
+}
+
+/* ghost */
+.container[data-variant="ghost"] {
+  background-color: transparent;
+}
+.container[data-variant="ghost"]:hover {
+  background-image: var(--bg-dither-1);
+  background-size: 3px 3px;
+  background-repeat: repeat;
+}
+.container[data-variant="ghost"]:active,
+.container[data-variant="ghost"]:focus {
+  background-image: var(--bg-dither-1);
+  background-size: 3px 3px;
+  background-repeat: repeat;
+}
+
+/* sizes */
+.container[data-size="small"] {
+  padding-inline: 5px;
+  min-height: 2rem;
+}
+.container[data-size="default"] {
+  padding-inline: 7px;
+  min-height: 2.5rem;
+}
+.container[data-size="big"] {
+  padding-inline: 14px;
+  min-height: 3rem;
+  min-width: 3.5rem;
+  font-size: 1.125rem;
+}
+
+.noBorder {
+  border: none !important;
+}
+
+.disabled {
+  opacity: 0.2;
+}

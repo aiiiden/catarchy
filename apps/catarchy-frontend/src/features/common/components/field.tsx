@@ -1,4 +1,5 @@
 import React, { useId } from "react";
+import styles from "./field.module.css";
 import { BubbleHint } from "./bubble-hint";
 import { Label, LabelProps } from "./label";
 import { Text } from "./text";
@@ -42,7 +43,7 @@ export function Field({
   });
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className={styles.root}>
       {label && (
         <Label htmlFor={inputId} required={required} {...labelProps}>
           {label}
@@ -62,7 +63,7 @@ export function Field({
           background="black"
           preferredSide="bottom"
           offset={4}
-          className="z-0"
+          className={styles.bubbleHint}
         >
           <Text>⚠ {error}</Text>
         </BubbleHint>

@@ -1,0 +1,72 @@
+.dim {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  cursor: pointer;
+  background-image: var(--bg-dither-6);
+  background-size: 3px 3px;
+  background-repeat: repeat;
+  transition-property: opacity;
+  transition-timing-function: steps(8, end);
+}
+
+.sheet {
+  position: fixed;
+  z-index: 20;
+  inset-inline: 0;
+  bottom: 0;
+  margin-inline: auto;
+  max-width: var(--layout-max-width);
+  transition-property: transform;
+  transition-timing-function: steps(8, end);
+}
+
+.sheetHandle {
+  width: 100%;
+}
+
+.sheetHandleEdges {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.sheetHandleBar {
+  height: 0.625rem;
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-black);
+  flex: 1;
+}
+
+.sheetHandleEdgeMirror {
+  transform: scaleX(-1);
+}
+
+.body {
+  background-color: var(--color-white);
+  border-inline: 1px solid var(--color-black);
+}
+
+.header {
+  padding-inline: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-black);
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerSide {
+  width: 1rem;
+  height: 1rem;
+  position: relative;
+}
+
+.content {
+  max-height: calc(100dvh - 32px);
+  display: flex;
+  flex-direction: column;
+}

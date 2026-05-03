@@ -12,7 +12,8 @@ export function useToast() {
   const dismiss = useToastStore((s) => s.dismiss);
 
   return {
-    push: (message: React.ReactNode, options?: ToastOptions) => push({ message, ...options }),
+    push: (message: React.ReactNode, options?: ToastOptions) =>
+      push({ message, ...options }),
     dismiss,
   };
 }

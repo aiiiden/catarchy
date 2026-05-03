@@ -1,6 +1,7 @@
 import { forwardRef } from "react";
 import { useKeyboard } from "../hooks/use-keyboard";
 import { cn } from "../lib/cn";
+import styles from "./layout.module.css";
 
 interface ScaffoldRootProps {
   children?: React.ReactNode;
@@ -15,10 +16,7 @@ const ScaffoldRoot = forwardRef<HTMLDivElement, ScaffoldRootProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "mx-auto flex w-(--layout-max-width) flex-col overflow-hidden bg-white transition-[height] duration-300 ease-out",
-          className,
-        )}
+        className={cn(styles.root, className)}
         style={{
           height: avoidKeyboard ? keyboard.viewportHeight : "100dvh",
         }}
@@ -45,26 +43,17 @@ function ScaffoldHeader({
   const isTitleString = typeof title === "string";
 
   return (
-    <header
-      className={cn(
-        "flex items-center justify-between gap-2 border-b border-black h-12 p-2",
-        className,
-      )}
-    >
-      <div className="size-8">{left}</div>
+    <header className={cn(styles.header, className)}>
+      <div className={styles.headerIcon}>{left}</div>
 
       {title &&
         (isTitleString ? (
-          <h1 className="flex flex-1 items-center justify-center text-center">
-            {title}
-          </h1>
+          <h1 className={styles.headerTitle}>{title}</h1>
         ) : (
-          <div className="flex flex-1 items-center justify-center text-center">
-            {title}
-          </div>
+          <div className={styles.headerTitle}>{title}</div>
         ))}
 
-      <div className={cn("size-8")}>{right}</div>
+      <div className={styles.headerIcon}>{right}</div>
     </header>
   );
 }
@@ -76,16 +65,7 @@ function ScaffoldBody({
   className?: string;
   children?: React.ReactNode;
 }) {
-  return (
-    <div
-      className={cn(
-        "flex flex-1 flex-col gap-4 overflow-y-auto overscroll-none",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
+  return <div className={cn(styles.body, className)}>{children}</div>;
 }
 
 function ScaffoldBottom({
@@ -102,12 +82,12 @@ function ScaffoldBottom({
   return (
     <div
       className={cn(
-        sticky && "sticky bottom-0 bg-white",
-        keyboard.isOpen ? "" : "pb-safe",
+        sticky && styles.bottom,
+        !keyboard.isOpen && "pb-safe",
         className,
       )}
     >
-      <div className="px-4 py-2">{children}</div>
+      <div className={styles.bottomInner}>{children}</div>
     </div>
   );
 }

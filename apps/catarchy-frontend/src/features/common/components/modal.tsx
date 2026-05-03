@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
+import { cn } from "../lib/cn";
 import { Box } from "./box";
+import styles from "./modal.module.css";
 import { Text } from "./text";
 
 export type ModalHeader = {
@@ -30,25 +32,25 @@ export function Modal({ children, onClose, header }: ModalProps) {
       ref={ref}
       onClose={onClose}
       onClick={handleClick}
-      className="outline-none border-none backdrop:bg-transparent backdrop:bg-gradient-dither-3 bg-transparent w-(--layout-max-width) left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
+      className={styles.dialog}
     >
-      <div className="p-4">
-        <Box rounded className="w-full" tight={Boolean(header)}>
+      <div className={styles.padding}>
+        <Box rounded className={styles.wFull} tight={Boolean(header)}>
           {header && (
-            <header className="border-b pl-px pt-px pr-px">
-              <div className="flex justify-between items-center px-2 pb-2 pt-1.5 bg-white">
-                <div className="size-8 aspect-square">{header.left}</div>
+            <header className={styles.header}>
+              <div className={styles.headerInner}>
+                <div className={styles.headerIcon}>{header.left}</div>
                 <Text as="h2" className="font-bold">
                   {header.title}
                 </Text>
-                <div className="size-8 aspect-square">{header.right}</div>
+                <div className={styles.headerIcon}>{header.right}</div>
               </div>
             </header>
           )}
           {!header && children}
           {header && (
-            <div className="px-px pb-px">
-              <div className="bg-white">{children}</div>
+            <div className={styles.bodyWrapper}>
+              <div className={styles.bodyInner}>{children}</div>
             </div>
           )}
         </Box>

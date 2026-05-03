@@ -15,7 +15,8 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
     if (!("serviceWorker" in navigator)) return null;
     try {
       const initializedApps = getApps();
-      const app = initializedApps.length > 0 ? getApp() : initializeApp(options);
+      const app =
+        initializedApps.length > 0 ? getApp() : initializeApp(options);
       return getMessaging(app);
     } catch {
       return null;

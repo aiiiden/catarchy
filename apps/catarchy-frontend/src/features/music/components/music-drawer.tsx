@@ -2,6 +2,7 @@ import { Box, cn, Text } from "@/features/common";
 import { useState } from "react";
 import { SoundKnob } from "./sound-knob";
 import { SoundCloudEmbed } from "./soundcloud-embed";
+import styles from "./music-drawer.module.css";
 
 export function MusicDrawer() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,22 +11,22 @@ export function MusicDrawer() {
     <Box
       as="aside"
       rounded
-      className={cn([
-        "fixed top-[calc(1rem+var(--safe-area-inset-top))] bottom-[calc(1rem+var(--safe-area-inset-bottom))] overflow-visible! w-[calc(100%-1rem-var(--safe-area-inset-left)-var(--safe-area-inset-right))] transition-[left] duration-300 ease-[steps(8,jump-end)]",
-        isOpen ? "left-8" : "left-full",
-      ])}
-      containerClassName="w-full h-full py-4 pl-4 pr-7.5 relative overflow-visible! flex flex-col gap-4"
+      className={cn(
+        styles.drawer,
+        isOpen ? styles.drawerOpen : styles.drawerClosed,
+      )}
+      containerClassName={styles.container}
     >
       <SoundKnob
-        className="absolute -left-6.5 top-1/2 -translate-y-1/2 z-50"
+        className={styles.knob}
         onClick={() => setIsOpen((prev) => !prev)}
       />
       <header>
-        <Text as="h2" className="font-stroke-white text-center">
+        <Text as="h2" className={cn("font-stroke-white", styles.title)}>
           ♩ ♪ ♫ Music Box ♫ ♪ ♩
         </Text>
       </header>
-      <div className="flex-1 h-full pb-3">
+      <div className={styles.embedWrapper}>
         <SoundCloudEmbed
           url="https://api.soundcloud.com/playlists/2224108670"
           height="100%"

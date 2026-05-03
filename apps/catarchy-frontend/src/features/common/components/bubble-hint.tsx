@@ -86,12 +86,10 @@ export const BubbleHint = React.forwardRef<HTMLDivElement, BubbleHintProps>(
           y = targetCy - rootRect.height / 2;
         }
 
-        // clamp to viewport with 4px margin
         const MARGIN = 4;
         x = Math.max(MARGIN, Math.min(x, vw - rootRect.width - MARGIN));
         y = Math.max(MARGIN, Math.min(y, vh - rootRect.height - MARGIN));
 
-        // tail offset: point toward target center, clamped within bubble bounds
         const TAIL_SIZE = 7;
         const TAIL_EDGE_PAD = 4;
         const rawTailX = targetCx - x - 3;
@@ -107,9 +105,6 @@ export const BubbleHint = React.forwardRef<HTMLDivElement, BubbleHintProps>(
         const tailOffsetX = `${clampedTailX}px`;
         const tailOffsetY = `${clampedTailY}px`;
 
-        // position: fixed is relative to the layout viewport, but all
-        // coordinates above are relative to the visual viewport.
-        // Add visualViewport offset to convert between the two.
         const vpOffsetLeft = vp?.offsetLeft ?? 0;
         const vpOffsetTop = vp?.offsetTop ?? 0;
 
@@ -140,10 +135,11 @@ export const BubbleHint = React.forwardRef<HTMLDivElement, BubbleHintProps>(
         <Tail color={background} className={styles.tail} />
         <Box
           rounded
-          containerClassName={cn([
-            "px-2 py-1",
-            background === "black" && "bg-black text-white",
-          ])}
+          isDark={background === "black"}
+          containerClassName={cn(
+            styles.container,
+            background === "black" && styles.containerDark,
+          )}
         >
           {children}
         </Box>

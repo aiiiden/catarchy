@@ -1,5 +1,6 @@
 import { HeaderBackButton, Scaffold } from "@/features/common";
 import { createFileRoute } from "@tanstack/react-router";
+import styles from "./document.module.css";
 
 export const Route = createFileRoute("/toc")({
   component: RouteComponent,
@@ -131,9 +132,7 @@ function RouteComponent() {
     <Scaffold>
       <Scaffold.Header title="Terms of Service" left={<HeaderBackButton />} />
       <Scaffold.Body>
-        <pre className="p-4 text-base whitespace-pre-wrap break-words overflow-x-hidden font-[inherit] leading-relaxed">
-          {content}
-        </pre>
+        <pre className={styles.pre}>{content}</pre>
       </Scaffold.Body>
     </Scaffold>
   );

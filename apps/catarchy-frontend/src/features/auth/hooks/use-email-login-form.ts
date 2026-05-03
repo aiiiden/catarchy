@@ -7,7 +7,9 @@ export const emailLoginFormSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-export function useEmailLoginForm({ defaultEmail = "" }: { defaultEmail?: string } = {}) {
+export function useEmailLoginForm({
+  defaultEmail = "",
+}: { defaultEmail?: string } = {}) {
   const form = useForm({
     defaultValues: {
       email: defaultEmail,

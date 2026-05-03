@@ -9,6 +9,7 @@ import { useRouter } from "@tanstack/react-router";
 import { Header } from "../components/header";
 import { PWAGuide } from "../components/pwa-guide";
 import { Visual } from "../components/visual";
+import styles from "./gate-screen.module.css";
 
 export function GateScreen() {
   const router = useRouter();
@@ -37,7 +38,7 @@ export function GateScreen() {
 
   return (
     <Scaffold>
-      <Scaffold.Body className="justify-center-safe gap-8">
+      <Scaffold.Body className={styles.body}>
         <Header />
         <Visual />
       </Scaffold.Body>

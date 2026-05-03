@@ -1,7 +1,8 @@
-import { api, Button, LogoText, Scaffold, Text } from "@/features/common";
+import { api, Button, LogoText, Scaffold } from "@/features/common";
 import { useMe } from "@/features/user/services/useMe";
 import { useRouter } from "@tanstack/react-router";
 import { Interface } from "../components/interface";
+import styles from "./play-screen.module.css";
 
 export function PlayScreen() {
   const router = useRouter();
@@ -15,19 +16,19 @@ export function PlayScreen() {
   };
 
   return (
-    <Scaffold className="bg-gradient-pattern-cat">
+    <Scaffold className="bg-pattern-cat">
       <Scaffold.Header
         title={<LogoText />}
-        className="border-none"
+        className={styles.headerNoBorder}
         right={
-          <button className="size-8" onClick={handleLogout}>
-            <Text boxTrim>⏻</Text>
+          <button className={styles.powerBtn} onClick={handleLogout}>
+            ⏻
           </button>
         }
       />
-      <Scaffold.Body className="justify-center-safe">
-        <div className="p-4 flex flex-col gap-4">
-          <div className="flex justify-center">
+      <Scaffold.Body className={styles.body}>
+        <div className={styles.content}>
+          <div className={styles.centerFlex}>
             <Interface />
           </div>
         </div>

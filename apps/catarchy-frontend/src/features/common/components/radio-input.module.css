@@ -1,0 +1,63 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  user-select: none;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.cursorDefault {
+  cursor: default;
+}
+
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.indicator {
+  display: inline-flex;
+  width: 1.25rem;
+  height: 1.25rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.off {
+  display: inline-flex;
+}
+
+.on {
+  display: none;
+}
+
+.input:focus-visible ~ .indicator {
+  outline: 1px solid var(--color-black);
+}
+
+.input:checked ~ .indicator .off {
+  display: none;
+}
+
+.input:checked ~ .indicator .on {
+  display: inline-flex;
+}
+
+.labelText {
+  cursor: pointer;
+}

@@ -1,25 +1,59 @@
-@theme {
-  --background-image-gradient-dither-1: url("/assets/gradient-pattern/mono-1.svg");
-  --background-image-gradient-dither-2: url("/assets/gradient-pattern/mono-2.svg");
-  --background-image-gradient-dither-3: url("/assets/gradient-pattern/mono-3.svg");
-  --background-image-gradient-dither-4: url("/assets/gradient-pattern/mono-4.svg");
-  --background-image-gradient-dither-5: url("/assets/gradient-pattern/mono-5.svg");
-  --background-image-gradient-dither-6: url("/assets/gradient-pattern/mono-6.svg");
-  --background-image-gradient-dither-7: url("/assets/gradient-pattern/mono-7.svg");
-  --background-image-gradient-dither-8: url("/assets/gradient-pattern/mono-8.svg");
-  --background-image-gradient-dither-9: url("/assets/gradient-pattern/mono-9.svg");
-
-  --background-image-gradient-pattern-cat: url("/assets/image-pattern/cat.svg");
+:root {
+  --bg-dither-1: url("/assets/gradient-pattern/mono-1.svg");
+  --bg-dither-2: url("/assets/gradient-pattern/mono-2.svg");
+  --bg-dither-3: url("/assets/gradient-pattern/mono-3.svg");
+  --bg-dither-4: url("/assets/gradient-pattern/mono-4.svg");
+  --bg-dither-5: url("/assets/gradient-pattern/mono-5.svg");
+  --bg-dither-6: url("/assets/gradient-pattern/mono-6.svg");
+  --bg-dither-7: url("/assets/gradient-pattern/mono-7.svg");
+  --bg-dither-8: url("/assets/gradient-pattern/mono-8.svg");
+  --bg-dither-9: url("/assets/gradient-pattern/mono-9.svg");
+  --bg-pattern-cat: url("/assets/image-pattern/cat.svg");
 }
 
-@layer components {
-  [class*="bg-gradient-dither-"] {
-    background-size: 3px 3px;
-    background-repeat: repeat;
-  }
+.bg-dither-1,
+.bg-dither-2,
+.bg-dither-3,
+.bg-dither-4,
+.bg-dither-5,
+.bg-dither-6,
+.bg-dither-7,
+.bg-dither-8,
+.bg-dither-9 {
+  background-size: 3px 3px;
+  background-repeat: repeat;
+}
 
-  [class*="bg-gradient-pattern-"] {
-    background-size: 16px 16px;
-    background-repeat: repeat;
-  }
+.bg-dither-1 {
+  background-image: var(--bg-dither-1);
+}
+.bg-dither-2 {
+  background-image: var(--bg-dither-2);
+}
+.bg-dither-3 {
+  background-image: var(--bg-dither-3);
+}
+.bg-dither-4 {
+  background-image: var(--bg-dither-4);
+}
+.bg-dither-5 {
+  background-image: var(--bg-dither-5);
+}
+.bg-dither-6 {
+  background-image: var(--bg-dither-6);
+}
+.bg-dither-7 {
+  background-image: var(--bg-dither-7);
+}
+.bg-dither-8 {
+  background-image: var(--bg-dither-8);
+}
+.bg-dither-9 {
+  background-image: var(--bg-dither-9);
+}
+
+.bg-pattern-cat {
+  background-image: var(--bg-pattern-cat);
+  background-size: 16px 16px;
+  background-repeat: repeat;
 }

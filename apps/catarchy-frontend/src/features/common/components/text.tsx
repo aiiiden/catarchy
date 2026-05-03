@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "../lib/cn";
+import styles from "./text.module.css";
 
 type TextTag =
   | "i"
@@ -31,7 +32,7 @@ export const Text = React.forwardRef(
     return (
       <Tag
         className={cn([
-          "leading-none select-none",
+          styles.root,
           boxTrim && (as ?? "span") !== "span" && "text-box-trim",
           className,
         ])}

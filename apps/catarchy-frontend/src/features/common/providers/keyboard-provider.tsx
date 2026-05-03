@@ -19,7 +19,8 @@ export function KeyboardProvider({ children }: KeyboardProviderProps) {
   const [state, setState] = useState(() => {
     const vv = typeof window !== "undefined" ? window.visualViewport : null;
     return {
-      viewportHeight: vv?.height ?? (typeof window !== "undefined" ? window.innerHeight : 0),
+      viewportHeight:
+        vv?.height ?? (typeof window !== "undefined" ? window.innerHeight : 0),
       viewportOffsetTop: vv?.offsetTop ?? 0,
     };
   });
@@ -66,7 +67,8 @@ export function KeyboardProvider({ children }: KeyboardProviderProps) {
         const isKeyboardOpen = keyboardHeight > 100;
         if (isKeyboardOpen) {
           const rect = target.getBoundingClientRect();
-          const isVisible = rect.top >= 0 && rect.bottom <= lastHeightRef.current;
+          const isVisible =
+            rect.top >= 0 && rect.bottom <= lastHeightRef.current;
           if (!isVisible) {
             target.scrollIntoView({ behavior: "smooth", block: "center" });
           }

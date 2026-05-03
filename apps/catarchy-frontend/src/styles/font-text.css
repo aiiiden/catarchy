@@ -10,43 +10,37 @@
   font-display: block;
 }
 
-@theme {
+:root {
   --font-sans: "UnifontExMono", monospace;
-  --font-weight-*: initial;
 }
 
-@utility text-box-trim {
+.text-box-trim {
   text-box-trim: trim-both;
   text-box-edge: text;
 }
 
-/* Redefine */
-@layer base {
-  .font-bold {
-    text-shadow:
-      -1px -1px 0 inherit,
-      0px -1px 0 inherit,
-      1px -1px 0 inherit,
-      1px 0px 0 inherit,
-      1px 1px 0 inherit,
-      0px 1px 0 inherit,
-      -1px 1px 0 inherit,
-      -1px 0px 0 inherit;
-  }
+.font-bold {
+  text-shadow:
+    -1px -1px 0 inherit,
+    0px -1px 0 inherit,
+    1px -1px 0 inherit,
+    1px 0px 0 inherit,
+    1px 1px 0 inherit,
+    0px 1px 0 inherit,
+    -1px 1px 0 inherit,
+    -1px 0px 0 inherit;
+}
 
-  @supports (-webkit-text-stroke: 1px currentColor) {
-    .font-bold {
-      text-shadow: none;
-      -webkit-text-stroke-width: 1px;
-      -webkit-text-stroke-color: inherit;
-      letter-spacing: 0.125px;
-    }
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .font-bold {
+    text-shadow: none;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: inherit;
+    letter-spacing: 0.125px;
   }
 }
 
-/* Define font-stroke-white */
-
-@utility font-stroke-white {
+.font-stroke-white {
   text-shadow:
     -2px -2px 0 #fff,
     -1px -2px 0 #fff,
@@ -72,37 +66,37 @@
     0px 2px 0 #fff,
     1px 2px 0 #fff,
     2px 2px 0 #fff;
-
-  &.text-sm {
-    text-rendering: geometricPrecision;
-    text-shadow:
-      0.825px 0.825px 0 #fff,
-      0px 0.825px 0 #fff,
-      -0.825px 0.825px 0 #fff,
-      -0.825px 0px 0 #fff,
-      -0.825px -0.825px 0 #fff,
-      0px -0.825px 0 #fff,
-      0.825px -0.825px 0 #fff,
-      0.825px 0px 0 #fff,
-      0.825px 0.825px 0 #fff,
-      0px 0.825px 0 #fff,
-      -0.825px 0.825px 0 #fff,
-      -0.825px 0px 0 #fff,
-      -0.825px -0.825px 0 #fff,
-      0px -0.825px 0 #fff,
-      0.825px -0.825px 0 #fff,
-      0.825px 0px 0 #fff,
-      0.825px 0.825px 0 #fff,
-      0px 0.825px 0 #fff,
-      -0.825px 0.825px 0 #fff,
-      -0.825px 0px 0 #fff,
-      -0.825px -0.825px 0 #fff,
-      0px -0.825px 0 #fff,
-      0.825px -0.825px 0 #fff;
-  }
 }
 
-@utility font-stroke-black {
+.font-stroke-white.text-sm {
+  text-rendering: geometricPrecision;
+  text-shadow:
+    0.825px 0.825px 0 #fff,
+    0px 0.825px 0 #fff,
+    -0.825px 0.825px 0 #fff,
+    -0.825px 0px 0 #fff,
+    -0.825px -0.825px 0 #fff,
+    0px -0.825px 0 #fff,
+    0.825px -0.825px 0 #fff,
+    0.825px 0px 0 #fff,
+    0.825px 0.825px 0 #fff,
+    0px 0.825px 0 #fff,
+    -0.825px 0.825px 0 #fff,
+    -0.825px 0px 0 #fff,
+    -0.825px -0.825px 0 #fff,
+    0px -0.825px 0 #fff,
+    0.825px -0.825px 0 #fff,
+    0.825px 0px 0 #fff,
+    0.825px 0.825px 0 #fff,
+    0px 0.825px 0 #fff,
+    -0.825px 0.825px 0 #fff,
+    -0.825px 0px 0 #fff,
+    -0.825px -0.825px 0 #fff,
+    0px -0.825px 0 #fff,
+    0.825px -0.825px 0 #fff;
+}
+
+.font-stroke-black {
   text-shadow:
     -2px -2px 0 #000,
     -1px -2px 0 #000,

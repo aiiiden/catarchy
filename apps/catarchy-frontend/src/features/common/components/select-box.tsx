@@ -2,6 +2,7 @@ import React, { useEffect, useId, useRef, useState } from "react";
 import SelectTriangle from "../assets/select-triangle.svg?react";
 import { cn } from "../lib/cn";
 import { Box } from "./box";
+import styles from "./select-box.module.css";
 import { Text } from "./text";
 
 export interface SelectOption<V extends string = string> {
@@ -57,7 +58,7 @@ export function SelectBox<V extends string = string>({
   const displayLabel = selectedOption ? (
     resolveLabel(selectedOption.label, false)
   ) : placeholder ? (
-    <Text className="text-gray-500">{placeholder}</Text>
+    <Text className={styles.placeholder}>{placeholder}</Text>
   ) : null;
 
   function openList() {
@@ -112,7 +113,6 @@ export function SelectBox<V extends string = string>({
     }
   }
 
-  // Determine drop direction after dropdown renders
   useEffect(() => {
     if (!open || !triggerWrapRef.current || !listRef.current) return;
     const triggerRect = triggerWrapRef.current.getBoundingClientRect();
@@ -123,7 +123,6 @@ export function SelectBox<V extends string = string>({
     setPositioned(true);
   }, [open]);
 
-  // Close on outside click
   useEffect(() => {
     if (!open) return;
     function onPointerDown(e: PointerEvent) {
@@ -139,8 +138,8 @@ export function SelectBox<V extends string = string>({
   }, [open]);
 
   return (
-    <div className={cn("relative", className)}>
-      <div ref={triggerWrapRef} className="relative">
+    <div className={cn(styles.root, className)}>
+      <div ref={triggerWrapRef} className={styles.triggerWrap}>
         <div
           role="combobox"
           aria-expanded={open}
@@ -153,24 +152,19 @@ export function SelectBox<V extends string = string>({
           tabIndex={disabled ? -1 : 0}
           onClick={() => (open ? closeList() : openList())}
           onKeyDown={handleKeyDown}
-          className={cn("outline-none", !disabled && "cursor-pointer")}
+          className={cn(styles.combobox, !disabled && styles.comboboxClickable)}
         >
           <Box
             rounded
-            className="h-9"
-            containerClassName={cn(
-              "px-2 flex items-center gap-1 select-none h-full",
-              disabled && "bg-gradient-dither-3",
-            )}
+            className={styles.triggerWrapper}
+            containerClassName={cn(styles.trigger, disabled && "bg-dither-3")}
           >
-            <span className="flex-1 text-base leading-none min-w-0 truncate">
-              {displayLabel}
-            </span>
+            <span className={styles.triggerLabel}>{displayLabel}</span>
             <SelectTriangle
               className={cn(
-                "shrink-0",
-                open && "rotate-180",
-                disabled && "text-gray-500",
+                styles.triggerIcon,
+                open && styles.triggerIconOpen,
+                disabled && styles.triggerIconDisabled,
               )}
             />
           </Box>
@@ -184,14 +178,14 @@ export function SelectBox<V extends string = string>({
             id={listId}
             role="listbox"
             className={cn(
-              "absolute min-w-full z-10 py-px",
-              !positioned && "invisible",
-              dropLeft ? "right-0" : "left-0",
-              dropUp ? "bottom-[calc(100%+4px)]" : "top-[calc(100%+4px)]",
+              styles.dropdown,
+              !positioned && styles.dropdownInvisible,
+              dropLeft ? styles.dropdownLeft : styles.dropdownRight,
+              dropUp ? styles.dropdownUp : styles.dropdownDown,
               optionContentClassName,
             )}
           >
-            <div className="bg-white">
+            <div className={styles.dropdownInner}>
               {visibleOptions.map((option, index) => (
                 <div
                   key={option.value}
@@ -205,17 +199,19 @@ export function SelectBox<V extends string = string>({
                   }}
                   onMouseEnter={() => !option.disabled && setActiveIndex(index)}
                   className={cn(
-                    "px-2 py-1.5 cursor-pointer not-last:border-b",
+                    styles.option,
                     index === activeIndex &&
                       !option.disabled &&
-                      "bg-gradient-dither-2 font-stroke-white active:bg-gradient-dither-1",
-                    option.disabled && "cursor-not-allowed",
+                      cn(styles.optionActive, "font-stroke-white"),
+                    option.disabled && styles.optionDisabled,
                   )}
                 >
                   {typeof option.label === "string" ? (
                     <Text
                       as={option.disabled ? "s" : "span"}
-                      className={cn([option.disabled && "text-gray-500"])}
+                      className={cn(
+                        option.disabled && styles.optionDisabledText,
+                      )}
                     >
                       {option.label}
                     </Text>

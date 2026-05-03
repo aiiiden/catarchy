@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "../lib/cn";
+import styles from "./label.module.css";
 import { Text } from "./text";
 
 export interface LabelProps extends React.ComponentPropsWithoutRef<"label"> {
@@ -11,13 +12,13 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
     const isChildrenString = typeof children === "string";
 
     return (
-      <label ref={ref} className={cn("leading-3", className)} {...props}>
+      <label ref={ref} className={cn(styles.label, className)} {...props}>
         {isChildrenString ? (
-          <Text className="text-sm leading-none">{children}</Text>
+          <Text className={styles.labelText}>{children}</Text>
         ) : (
           children
         )}
-        {required && <Text className="text-xs leading-none ml-0.5">*</Text>}
+        {required && <Text className={styles.requiredMark}>*</Text>}
       </label>
     );
   },

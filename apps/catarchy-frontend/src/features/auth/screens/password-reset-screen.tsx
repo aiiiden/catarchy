@@ -14,6 +14,7 @@ import {
   emailPasswordSchema,
   useEmailPasswordForm,
 } from "../hooks/use-email-password-form";
+import styles from "./password-reset-screen.module.css";
 
 export function PasswordResetScreen() {
   const router = useRouter();
@@ -157,8 +158,8 @@ export function PasswordResetScreen() {
     <FormProvider {...emailPasswordForm}>
       <Scaffold avoidKeyboard>
         <Scaffold.Header title="Password Reset" left={<HeaderBackButton />} />
-        <Scaffold.Body className="justify-center-safe">
-          <div className="p-4">
+        <Scaffold.Body className={styles.bodyCentered}>
+          <div className={styles.bodyContent}>
             <EmailPasswordForm
               verifyUntil={verifyUntil}
               onVerifyEmail={handleVerifyEmail}

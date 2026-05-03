@@ -2,6 +2,8 @@ import { cn, Sprite } from "@/features/common";
 import KnobImage from "../assets/knob.svg?react";
 import noteKeyframes from "../assets/sprites/note.json";
 import noteTexture from "../assets/sprites/note.svg";
+import styles from "./sound-knob.module.css";
+
 export function SoundKnob({
   className,
   onClick,
@@ -10,10 +12,10 @@ export function SoundKnob({
   className?: string;
 }) {
   return (
-    <button className={cn(["w-6 h-12 relative", className])} onClick={onClick}>
+    <button className={cn(styles.root, className)} onClick={onClick}>
       <KnobImage width={24} height={48} />
       <Sprite
-        className="absolute top-1/2 left-1.75 -translate-y-1/2"
+        className={styles.sprite}
         texture={noteTexture}
         width={12}
         height={12}

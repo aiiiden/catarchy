@@ -1,0 +1,27 @@
+.body {
+  padding: 1rem;
+  min-height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message {
+  text-align: center;
+  text-wrap: pretty;
+  line-height: 1.625;
+}
+
+.actions {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.actionsDouble {
+  grid-template-columns: 1fr 1fr;
+}
+
+.actionsSingle {
+  grid-template-columns: 1fr;
+}

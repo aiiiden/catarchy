@@ -6,22 +6,22 @@ import styles from "./visual.module.css";
 export function Visual() {
   return (
     <div>
-      <div className={cn(["overflow-hidden", styles.container])}>
+      <div className={styles.container}>
         <img
           src={Background}
           alt="Gate Background"
           width={1024}
           height={258}
-          className={cn([styles.background, styles.first])}
+          className={cn(styles.background, styles.first)}
         />
         <img
           src={Background}
           alt="Gate Background"
           width={1024}
           height={258}
-          className={cn([styles.background, styles.second])}
+          className={cn(styles.background, styles.second)}
         />
-        <div className="absolute top-20 left-1/2 -translate-x-1/2">
+        <div className={styles.catChar}>
           <CatCharacter tag="walk" age="adult" />
         </div>
       </div>

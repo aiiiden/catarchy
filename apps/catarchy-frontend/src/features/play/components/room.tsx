@@ -1,6 +1,7 @@
 import { CatCharacter } from "@/features/cat";
 import { BubbleHint, Text } from "@/features/common";
 import { useCallback, useEffect, useRef, useState } from "react";
+import styles from "./room.module.css";
 
 const ROOM_W = 286; // w-71.5 × 4px
 const ROOM_H = 200; // h-50 × 4px
@@ -179,7 +180,7 @@ export function Room({
   }, [triggerJump]);
 
   return (
-    <div className="w-71.5 h-50 relative" onClick={handleClick}>
+    <div className={styles.room} onClick={handleClick}>
       <div ref={catDivRef} style={{ position: "absolute" }}>
         <CatCharacter
           ref={characterRef}

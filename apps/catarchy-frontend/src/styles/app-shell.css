@@ -1,24 +1,45 @@
-@layer base {
-  #root {
-    @apply fixed inset-0 overflow-hidden;
-  }
+#root {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
 
+#root::after {
+  content: "Please rotate your device 😸";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-white);
+  text-align: center;
+  color: var(--color-black);
+  font-size: 1rem;
+}
+
+@media (orientation: landscape) and (pointer: coarse) {
   #root::after {
-    content: "Please rotate your device 😸";
-    @apply fixed inset-0 z-[9999] hidden items-center justify-center bg-white text-center text-black text-base;
+    display: flex;
   }
+}
 
-  @media (orientation: landscape) and (pointer: coarse) {
-    #root::after {
-      @apply flex;
-    }
-  }
+html {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  font-size: 1rem;
+}
 
-  html {
-    @apply fixed inset-0 overflow-hidden overscroll-none text-base;
-  }
-
-  body {
-    @apply fixed inset-0 overflow-hidden overscroll-none touch-pan-x touch-pan-y  text-black antialiased font-sans;
-  }
+body {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: pan-x pan-y;
+  color: var(--color-black);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-sans);
 }

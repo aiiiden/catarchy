@@ -1,0 +1,20 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.passwordSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.forgotLink {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.linkText {
+  font-size: 0.875rem;
+}

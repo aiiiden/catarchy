@@ -1,6 +1,7 @@
 import React from "react";
 import CheckboxSymbol from "../assets/checkbox-symbol.svg?react";
 import { cn } from "../lib/cn";
+import styles from "./checkbox-input.module.css";
 import { Text } from "./text";
 
 export interface CheckboxInputProps extends Omit<
@@ -41,23 +42,19 @@ export const CheckboxInput = React.forwardRef<
         ? `${name} checkbox`
         : "Checkbox";
     const onState = checkedIndicator ?? (
-      <CheckboxSymbol className="text-black" />
+      <CheckboxSymbol style={{ color: "var(--color-black)" }} />
     );
     const offState = uncheckedIndicator ?? (
-      <CheckboxSymbol className="text-white" />
+      <CheckboxSymbol style={{ color: "var(--color-white)" }} />
     );
 
     const setInputRefs = (node: HTMLInputElement | null) => {
       inputRef.current = node;
-
       if (typeof ref === "function") {
         ref(node);
         return;
       }
-
-      if (ref) {
-        ref.current = node;
-      }
+      if (ref) ref.current = node;
     };
 
     const handleIndicatorClick = () => {
@@ -68,8 +65,8 @@ export const CheckboxInput = React.forwardRef<
     return (
       <div
         className={cn(
-          "inline-flex items-center gap-1.5 select-none",
-          disabled ? "cursor-not-allowed opacity-50" : "cursor-default",
+          styles.root,
+          disabled ? styles.disabled : styles.cursorDefault,
           className,
         )}
       >
@@ -80,7 +77,7 @@ export const CheckboxInput = React.forwardRef<
           name={name}
           disabled={disabled}
           aria-label={ariaLabel ?? (label ? undefined : fallbackAriaLabel)}
-          className="peer sr-only"
+          className={styles.input}
           {...props}
         />
 
@@ -88,24 +85,20 @@ export const CheckboxInput = React.forwardRef<
           onClick={handleIndicatorClick}
           aria-hidden="true"
           className={cn(
-            "inline-flex size-5 items-center justify-center peer-focus-visible:outline-1 peer-focus-visible:outline-black peer-checked:[&_.checkbox-off]:hidden peer-checked:[&_.checkbox-on]:inline-flex",
-            !disabled && "cursor-pointer",
+            styles.indicator,
+            !disabled && styles.clickable,
             indicatorClassName,
           )}
         >
-          <span className="checkbox-off inline-flex">{offState}</span>
-          <span className="checkbox-on hidden">{onState}</span>
+          <span className={styles.off}>{offState}</span>
+          <span className={styles.on}>{onState}</span>
         </span>
 
-        {typeof label === "string" ? (
-          <Text as="label" htmlFor={inputId} className="cursor-pointer">
+        {label != null && (
+          <Text as="label" htmlFor={inputId} className={styles.labelText}>
             {label}
           </Text>
-        ) : label != null ? (
-          <Text as="label" htmlFor={inputId} className="cursor-pointer">
-            {label}
-          </Text>
-        ) : null}
+        )}
       </div>
     );
   },

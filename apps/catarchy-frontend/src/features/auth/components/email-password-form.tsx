@@ -6,6 +6,7 @@ import {
   useCountDown,
 } from "@/features/common";
 import { useEmailPasswordFormContext } from "../hooks/use-email-password-form";
+import styles from "./email-password-form.module.css";
 
 export function EmailPasswordForm({
   verifyUntil,
@@ -35,10 +36,10 @@ export function EmailPasswordForm({
     .padStart(2, "0")}`;
 
   return (
-    <form className="flex flex-col gap-4">
+    <form className={styles.form}>
       <Field label="E-mail" error={form.formState.errors.email?.message}>
-        <div className="flex gap-2 items-center">
-          <div className="flex-1">
+        <div className={styles.inputRow}>
+          <div className={styles.inputFlex}>
             <TextInput
               readOnly={verifyUntil !== null}
               {...form.register("email")}
@@ -68,8 +69,8 @@ export function EmailPasswordForm({
 
       {verifyUntil && (
         <Field label="Code" error={form.formState.errors.code?.message}>
-          <div className="flex gap-2 items-center">
-            <div className="flex-1">
+          <div className={styles.inputRow}>
+            <div className={styles.inputFlex}>
               <TextInput
                 type={emailVerified ? "password" : "text"}
                 readOnly={emailVerified}

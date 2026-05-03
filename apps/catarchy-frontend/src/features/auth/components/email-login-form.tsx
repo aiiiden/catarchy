@@ -2,6 +2,7 @@ import { Field, Text, TextInput } from "@/features/common";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useEmailLoginFormContext } from "../hooks/use-email-login-form";
+import styles from "./email-login-form.module.css";
 
 export function EmailLoginForm() {
   const form = useEmailLoginFormContext();
@@ -10,7 +11,7 @@ export function EmailLoginForm() {
   const didEmailFilled = Boolean(form.watch("email"));
 
   return (
-    <form className="flex flex-col gap-4">
+    <form className={styles.form}>
       <Field label="E-mail" error={form.formState.errors.email?.message}>
         <TextInput
           {...form.register("email")}
@@ -25,7 +26,7 @@ export function EmailLoginForm() {
           }
         />
       </Field>
-      <div className="flex flex-col gap-1">
+      <div className={styles.passwordSection}>
         <Field label="Password" error={form.formState.errors.password?.message}>
           <TextInput
             {...form.register("password")}
@@ -41,9 +42,9 @@ export function EmailLoginForm() {
             }
           />
         </Field>
-        <div className="flex justify-end">
+        <div className={styles.forgotLink}>
           <Link to="/auth/password-reset">
-            <Text className="text-sm">Forgot Password?</Text>
+            <Text className={styles.linkText}>Forgot Password?</Text>
           </Link>
         </div>
       </div>

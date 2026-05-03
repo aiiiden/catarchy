@@ -6,6 +6,16 @@
   max-width: calc(100vw - 8px);
 }
 
+.container {
+  padding-inline: 0.5rem;
+  padding-block: 0.25rem;
+}
+
+.containerDark {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
 .tail {
   position: absolute;
   display: block;

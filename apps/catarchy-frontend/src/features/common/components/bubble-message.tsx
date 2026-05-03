@@ -2,6 +2,7 @@ import React from "react";
 import Tail from "../assets/bubble-tail.svg?react";
 import { cn } from "../lib/cn";
 import { Box } from "./box";
+import styles from "./bubble-message.module.css";
 
 export interface BubbleMessageProps extends React.ComponentPropsWithoutRef<"div"> {
   children?: React.ReactNode;
@@ -16,14 +17,15 @@ export const BubbleMessage = React.forwardRef<
     <Box
       ref={ref}
       rounded
-      className={cn(["relative overflow-visible!", className])}
-      containerClassName={cn([
-        "bg-white px-2 py-1",
-        background === "black" && "bg-black text-white",
-      ])}
+      isDark={background === "black"}
+      className={cn(styles.root, className)}
+      containerClassName={cn(
+        styles.container,
+        background === "black" && styles.containerDark,
+      )}
       {...props}
     >
-      <Tail color={background} className="absolute -top-1.5 left-0" />
+      <Tail color={background} className={styles.tail} />
       {children}
     </Box>
   );

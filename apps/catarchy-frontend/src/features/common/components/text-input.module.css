@@ -1,0 +1,65 @@
+.wrapper {
+  height: 2.875rem;
+}
+
+.container {
+  padding-inline: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.container:has(:disabled) {
+  background-image: var(--bg-dither-3);
+  background-size: 3px 3px;
+  background-repeat: repeat;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.input {
+  height: 2.375rem;
+  appearance: none;
+  background-color: transparent;
+  width: 100%;
+  min-width: 0;
+  line-height: 0;
+  font-size: 1rem;
+  outline: none;
+  font-family: inherit;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+  color: var(--color-gray-100);
+  text-shadow:
+    -2px -2px 0 #fff,
+    -1px -2px 0 #fff,
+    0px -2px 0 #fff,
+    1px -2px 0 #fff,
+    2px -2px 0 #fff,
+    -2px -1px 0 #fff,
+    -1px -1px 0 #fff,
+    0px -1px 0 #fff,
+    1px -1px 0 #fff,
+    2px -1px 0 #fff,
+    -2px 0px 0 #fff,
+    -1px 0px 0 #fff,
+    1px 0px 0 #fff,
+    2px 0px 0 #fff,
+    -2px 1px 0 #fff,
+    -1px 1px 0 #fff,
+    0px 1px 0 #fff,
+    1px 1px 0 #fff,
+    2px 1px 0 #fff,
+    -2px 2px 0 #fff,
+    -1px 2px 0 #fff,
+    0px 2px 0 #fff,
+    1px 2px 0 #fff,
+    2px 2px 0 #fff;
+}

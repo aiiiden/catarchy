@@ -1,0 +1,11 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-block: 1rem;
+  align-items: center;
+}
+
+.subtitle {
+  text-align: center;
+}

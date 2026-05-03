@@ -1,0 +1,13 @@
+.bodyContent {
+  padding: 1rem;
+}
+
+.bodyCentered {
+  justify-content: safe center;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}

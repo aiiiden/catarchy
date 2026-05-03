@@ -17,6 +17,8 @@ export type BoxProps<T extends React.ElementType = "div"> = AsProp<T> &
     style?: React.CSSProperties;
     containerStyle?: React.CSSProperties;
     containerRef?: BoxRef<T>;
+    ditherLevel?: number;
+    isDark?: boolean;
 
     /**
      * if true, the background becomes transparent and the inner padding is reduced by -2px.
@@ -36,6 +38,17 @@ function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
   }
 }
 
+function computeBorderVariant(
+  ditherLevel: number,
+  isDark: boolean,
+  rounded: boolean,
+): string | undefined {
+  if (!rounded) return undefined;
+  if (ditherLevel === 0) return isDark ? "dark" : "light";
+  if (ditherLevel <= 3) return isDark ? "dark-dithered" : "dithered";
+  return isDark || ditherLevel > 7 ? "dark-more-dither" : "more-dither";
+}
+
 function BoxInner(
   {
     as,
@@ -47,43 +60,19 @@ function BoxInner(
     style,
     containerStyle,
     tight = false,
+    ditherLevel = 0,
+    isDark = false,
     ...rest
   }: BoxProps<React.ElementType>,
   ref: React.ForwardedRef<unknown>,
 ) {
   const Component = (as ?? "div") as React.ElementType;
-
-  const ditherMatch = containerClassName?.match(
-    /(?<![a-z]:)bg-gradient-dither-(\d+)/,
-  );
-  const ditherLevel = ditherMatch ? parseInt(ditherMatch[1]) : 0;
-
-  const isDark =
-    /\bbg-black\b/.test(containerClassName ?? "") || ditherLevel > 7;
-  const borderDithered = ditherLevel > 0;
-
-  const borderStyle = !rounded
-    ? undefined
-    : !borderDithered
-      ? isDark
-        ? styles.dark
-        : styles.light
-      : ditherLevel > 3
-        ? isDark
-          ? styles.darkMoreDither
-          : styles.moreDither
-        : isDark
-          ? styles.darkDithered
-          : styles.dithered;
+  const borderVariant = computeBorderVariant(ditherLevel, isDark, rounded);
 
   return (
     <div
-      className={cn([
-        styles.border,
-        borderStyle,
-        tight && styles.tight,
-        className,
-      ])}
+      data-border-variant={borderVariant}
+      className={cn([styles.border, tight && styles.tight, className])}
       style={style}
     >
       <Component
@@ -93,9 +82,8 @@ function BoxInner(
         }}
         style={{ ...containerStyle }}
         className={cn(
-          "bg-white",
-          tight &&
-            "bg-transparent relative z-2 -m-0.5 w-[calc(100%+4px)] min-h-[calc(100%+4px)]",
+          styles.bgWhite,
+          tight && styles.tightContainer,
           containerClassName,
         )}
         {...rest}
