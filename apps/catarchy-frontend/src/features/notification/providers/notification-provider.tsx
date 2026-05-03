@@ -29,14 +29,13 @@ export function NotificationProvider({
   useEffect(() => {
     if (!messaging) return;
     return onMessage(messaging, (payload) => {
-      const { title, body } = payload.notification ?? {};
+      const { title, body, url } = payload.data ?? {};
       if (!title || Notification.permission !== "granted") return;
 
       const notification = new Notification(title, {
         body,
         icon: "/icons/icon-192x192.png",
       });
-      const url = payload.data?.url;
       if (url) {
         notification.onclick = () => window.open(url, "_blank");
       }

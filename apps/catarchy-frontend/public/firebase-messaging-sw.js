@@ -15,13 +15,13 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  const { title, body } = payload.notification ?? {};
+  const { title, body, url } = payload.data ?? {};
   if (!title) return;
 
   self.registration.showNotification(title, {
     body,
     icon: "/icons/icon-192x192.png",
-    data: { url: payload.data?.url },
+    data: { url },
   });
 });
 

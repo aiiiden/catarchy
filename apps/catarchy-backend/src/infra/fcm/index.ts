@@ -97,8 +97,7 @@ export async function sendPushNotification({
 
   const message: Record<string, unknown> = {
     token,
-    notification: { title, body },
-    ...(url && { data: { url }, webpush: { fcm_options: { link: url } } }),
+    data: { title, body, ...(url && { url }) },
   };
 
   const res = await fetch(FCM_ENDPOINT, {
