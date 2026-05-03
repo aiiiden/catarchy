@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { getDatabase, table } from "../../infra/db";
 import { ConsensusValueType } from "../../infra/db/schema";
-import { getKV } from "../../infra/kv";
+import { cache } from "../../infra/cache";
 import { NotFoundError } from "../../lib/error";
 import {
   CONSENSUS_DEFINITIONS,
@@ -9,8 +9,7 @@ import {
   type ConsensusValue,
 } from "./definitions";
 
-const KV_PREFIX = "consensus:";
-const KV_TTL_SECONDS = 60 * 60; // 1 hour
+const PREFIX = "consensus:";
 
 function parseValue(
   raw: string,
@@ -30,14 +29,13 @@ export abstract class ConsensusRepository {
   static async getValue<K extends ConsensusKey>(
     key: K,
   ): Promise<ConsensusValue<K>> {
-    const kv = getKV();
     const valueType = CONSENSUS_DEFINITIONS[key];
 
-    const cached = await kv.get(KV_PREFIX + key);
-    if (cached !== null)
+    const cacheKey = PREFIX + key;
+    const cached = cache.get(cacheKey);
+    if (cached !== undefined)
       return parseValue(cached, valueType) as ConsensusValue<K>;
 
-    // KV miss → D1 fallback
     const db = getDatabase();
     const [row] = await db
       .select({ value: table.consensus.value })
@@ -48,7 +46,7 @@ export abstract class ConsensusRepository {
     if (!row)
       throw new NotFoundError(`Consensus key "${key}" not found in database.`);
 
-    await kv.put(KV_PREFIX + key, row.value, { expirationTtl: KV_TTL_SECONDS });
+    cache.set(cacheKey, row.value);
     return parseValue(row.value, valueType) as ConsensusValue<K>;
   }
 
@@ -64,11 +62,10 @@ export abstract class ConsensusRepository {
       .set({ value: raw })
       .where(eq(table.consensus.key, key));
 
-    // KV도 즉시 반영
-    await getKV().put(KV_PREFIX + key, raw, { expirationTtl: KV_TTL_SECONDS });
+    cache.set(PREFIX + key, raw);
   }
 
-  static async invalidate(key: ConsensusKey) {
-    await getKV().delete(KV_PREFIX + key);
+  static invalidate(key: ConsensusKey) {
+    cache.delete(PREFIX + key);
   }
 }

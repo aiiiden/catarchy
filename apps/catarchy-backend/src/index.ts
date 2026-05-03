@@ -4,7 +4,6 @@ import { createApp } from "./app";
 import { initAI } from "./infra/ai";
 import { initDatabase } from "./infra/db";
 import { initEmail } from "./infra/email/service";
-import { initKV } from "./infra/kv";
 import { type CloudflareBindings, initEnv } from "./lib/env";
 import { scheduledHandler } from "./scheduled";
 
@@ -16,7 +15,6 @@ const env = initEnv(cfEnv as Record<string, string> & CloudflareBindings);
 // Init Singletons
 const bindings = cfEnv as unknown as CloudflareBindings;
 initDatabase(bindings.DB);
-initKV(bindings.CONSENSUS_CACHE);
 initAI({
   anthropicApiKey: env.ANTHROPIC_API_KEY,
   openaiApiKey: env.OPENAI_API_KEY,

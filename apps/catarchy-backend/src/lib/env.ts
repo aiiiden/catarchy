@@ -44,7 +44,6 @@ export type Env = z.infer<typeof envSchema>;
 
 export type CloudflareBindings = {
   DB: D1Database;
-  CONSENSUS_CACHE: KVNamespace;
   RESEND_API_KEY: string;
   ANTHROPIC_API_KEY: string;
   OPENAI_API_KEY?: string;
