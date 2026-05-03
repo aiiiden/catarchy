@@ -2,6 +2,7 @@ import {
   Button,
   HeaderBackButton,
   Scaffold,
+  useBottomSheet,
   useToast,
 } from "@/features/common";
 import { Link, useRouter, useSearch } from "@tanstack/react-router";
@@ -12,6 +13,11 @@ import {
   emailSignInFormSchema,
   useEmailSignInForm,
 } from "../hooks/use-email-sign-in-form";
+
+import {
+  RequestNotificationPermission,
+  useNotification,
+} from "@/features/notification";
 
 import { useMutation } from "@tanstack/react-query";
 import { signInWithEmailOptions } from "../services/sign-in";
@@ -24,6 +30,8 @@ export function SignInScreen() {
   const { form } = useEmailSignInForm({ defaultEmail: email });
   const options = signInWithEmailOptions();
   const mutation = useMutation(options);
+  const notification = useNotification();
+  const bottomSheet = useBottomSheet();
 
   const signIn = async (formData: z.infer<typeof emailSignInFormSchema>) => {
     const { data, error } = await mutation.mutateAsync(formData);
@@ -45,8 +53,43 @@ export function SignInScreen() {
 
     const { message } = data;
 
-    toast.push(message);
+    if (!notification.isRegistered) {
+      bottomSheet.open({
+        id: "request-notification-permission",
+        component: (
+          <RequestNotificationPermission
+            onAllow={async () => {
+              try {
+                await notification.register();
+                bottomSheet.close("request-notification-permission");
 
+                await router.navigate({
+                  to: "/play",
+                });
+              } catch (error: unknown) {
+                if (error instanceof Error) {
+                  toast.push(
+                    error.message ||
+                      "Failed to register for notifications. Please try again later or contact support.",
+                  );
+                }
+              }
+            }}
+            onDeny={() => {
+              toast.push(message);
+              bottomSheet.close("request-notification-permission");
+              router.navigate({
+                to: "/play",
+              });
+            }}
+          />
+        ),
+      });
+
+      return;
+    }
+
+    toast.push(message);
     await router.navigate({
       to: "/play",
     });

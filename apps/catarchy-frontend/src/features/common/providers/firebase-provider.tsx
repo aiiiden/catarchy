@@ -1,7 +1,6 @@
 import { env } from "@/features/common/lib/env";
-import { FirebaseOptions, getApp, getApps, initializeApp } from "firebase/app";
-import { getMessaging, onMessage } from "firebase/messaging";
-import { useEffect, useMemo } from "react";
+import { FirebaseOptions, getApps, initializeApp } from "firebase/app";
+import { useMemo } from "react";
 
 export function FirebaseProvider({ children }: { children: React.ReactNode }) {
   const options: FirebaseOptions = {
@@ -11,28 +10,9 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
     appId: env.VITE_FIREBASE_APP_ID,
   };
 
-  const messaging = useMemo(() => {
-    if (!("serviceWorker" in navigator)) return null;
-    try {
-      const initializedApps = getApps();
-      const app =
-        initializedApps.length > 0 ? getApp() : initializeApp(options);
-      return getMessaging(app);
-    } catch {
-      return null;
-    }
+  useMemo(() => {
+    if (getApps().length === 0) initializeApp(options);
   }, []);
-
-  useEffect(() => {
-    if (!messaging) return;
-    const unsubscribe = onMessage(messaging, (payload) => {
-      const { title, body } = payload.notification ?? {};
-      if (title && Notification.permission === "granted") {
-        new Notification(title, { body, icon: "/icons/icon-192x192.png" });
-      }
-    });
-    return unsubscribe;
-  }, [messaging]);
 
   return <>{children}</>;
 }

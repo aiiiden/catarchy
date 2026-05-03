@@ -80,10 +80,12 @@ export async function sendPushNotification({
   token,
   title,
   body,
+  url,
 }: {
   token: string;
   title: string;
   body: string;
+  url?: string;
 }): Promise<void> {
   const env = getEnv();
   if (!env.FIREBASE_SERVICE_ACCOUNT_EMAIL || !env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY) {
@@ -93,15 +95,19 @@ export async function sendPushNotification({
 
   const accessToken = await getAccessToken();
 
+  const message: Record<string, unknown> = {
+    token,
+    notification: { title, body },
+    ...(url && { data: { url }, webpush: { fcm_options: { link: url } } }),
+  };
+
   const res = await fetch(FCM_ENDPOINT, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      message: { token, notification: { title, body } },
-    }),
+    body: JSON.stringify({ message }),
   });
 
   if (!res.ok) {
@@ -114,17 +120,19 @@ export async function sendPushNotificationToUser({
   tokens,
   title,
   body,
+  url,
 }: {
   tokens: string[];
   title: string;
   body: string;
+  url?: string;
 }): Promise<void> {
   if (tokens.length === 0) {
     console.warn("[FCM] no tokens for user, skipping push");
     return;
   }
   const results = await Promise.allSettled(
-    tokens.map((token) => sendPushNotification({ token, title, body })),
+    tokens.map((token) => sendPushNotification({ token, title, body, url })),
   );
   for (const r of results) {
     if (r.status === "rejected") console.error("[FCM] send error:", r.reason);

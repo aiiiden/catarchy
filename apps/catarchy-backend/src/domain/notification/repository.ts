@@ -34,4 +34,8 @@ export abstract class NotificationRepository {
       .from(table.fcmToken)
       .where(eq(table.fcmToken.userId, userId));
   }
+
+  static async findAllTokens() {
+    return NotificationRepository.db.select().from(table.fcmToken);
+  }
 }
