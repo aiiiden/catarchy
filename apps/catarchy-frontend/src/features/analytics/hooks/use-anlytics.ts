@@ -12,11 +12,12 @@ export function useAnalytics() {
   const isLocal = import.meta.env.DEV;
 
   function logEvent(eventName: string, properties?: AnalyticsProperties) {
-    ReactGA.event(eventName, properties);
-
     if (isLocal) {
       logger(eventName, properties);
+      return;
     }
+
+    ReactGA.event(eventName, properties);
   }
 
   function view({
@@ -26,13 +27,13 @@ export function useAnalytics() {
     eventName: string;
     properties?: AnalyticsProperties;
   }) {
+    if (isLocal) {
+      logger(`view_${eventName}`, properties);
+      return;
+    }
     ReactGA.event(`view_${eventName}`, {
       from_page: properties?.fromPage,
     });
-
-    if (isLocal) {
-      logger(`view_${eventName}`, properties);
-    }
   }
 
   function click({
@@ -42,13 +43,13 @@ export function useAnalytics() {
     eventName: string;
     properties?: AnalyticsProperties;
   }) {
+    if (isLocal) {
+      logger(`click_${eventName}`, properties);
+      return;
+    }
     ReactGA.event(`click_${eventName}`, {
       from_page: properties?.fromPage,
     });
-
-    if (isLocal) {
-      logger(`click_${eventName}`, properties);
-    }
   }
 
   function pageView({
