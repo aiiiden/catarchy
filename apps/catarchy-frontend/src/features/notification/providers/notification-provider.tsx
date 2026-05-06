@@ -4,32 +4,62 @@ import {
   PermissionState,
 } from "@/features/notification/hooks/use-notification";
 import { getApp, getApps } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  getMessaging,
+  getToken,
+  isSupported,
+  onMessage,
+  type Messaging,
+} from "firebase/messaging";
+import { useCallback, useEffect, useState } from "react";
 
 export function NotificationProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [permissionState, setPermissionState] = useState<PermissionState>(() =>
-    "Notification" in window ? Notification.permission : "denied",
+  const [permissionState, setPermissionState] = useState<PermissionState>(
+    () => {
+      if (typeof Notification === "undefined") return "denied";
+      return Notification.permission;
+    },
   );
   const [isRegistered, setIsRegistered] = useState(false);
 
-  const messaging = useMemo(() => {
-    if (!("serviceWorker" in navigator) || getApps().length === 0) return null;
-    try {
-      return getMessaging(getApp());
-    } catch {
-      return null;
-    }
+  const [messaging, setMessaging] = useState<Messaging | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!("serviceWorker" in navigator)) return;
+    if (typeof Notification === "undefined") return;
+
+    isSupported()
+      .then((supported) => {
+        if (!supported || cancelled) return;
+        if (getApps().length === 0) return;
+        const app = getApp();
+        const instance = getMessaging(app);
+        if (!cancelled) setMessaging(instance);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
+    if (typeof Notification === "undefined") return;
     if (!messaging || Notification.permission !== "granted") return;
-    getToken(messaging, { vapidKey: env.VITE_FIREBASE_VAPID_KEY })
-      .then((token) => { if (token) setIsRegistered(true); })
+    navigator.serviceWorker.ready
+      .then((registration) =>
+        getToken(messaging, {
+          vapidKey: env.VITE_FIREBASE_VAPID_KEY,
+          serviceWorkerRegistration: registration,
+        }),
+      )
+      .then((token) => {
+        if (token) setIsRegistered(true);
+      })
       .catch(() => {});
   }, [messaging]);
 
@@ -39,7 +69,8 @@ export function NotificationProvider({
       const title = payload.notification?.title;
       const body = payload.notification?.body;
       const url = payload.data?.url;
-      if (!title || Notification.permission !== "granted") return;
+      if (!title || typeof Notification === "undefined") return;
+      if (Notification.permission !== "granted") return;
 
       const notification = new Notification(title, {
         body,
@@ -56,6 +87,8 @@ export function NotificationProvider({
       return false;
     if (!messaging) return false;
 
+    if (typeof Notification === "undefined") return false;
+
     let permission = Notification.permission;
 
     if (permission === "default") {
@@ -66,8 +99,10 @@ export function NotificationProvider({
 
     if (permission !== "granted") return false;
 
+    const registration = await navigator.serviceWorker.ready;
     const token = await getToken(messaging, {
       vapidKey: env.VITE_FIREBASE_VAPID_KEY,
+      serviceWorkerRegistration: registration,
     });
     await api.notification.token.post({ token });
     setIsRegistered(true);

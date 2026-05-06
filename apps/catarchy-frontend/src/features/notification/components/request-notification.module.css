@@ -2,7 +2,7 @@
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1rem;
-  padding-bottom: var(--safe-area-inset-bottom, 1rem);
+  padding-bottom: calc(var(--safe-area-inset-bottom, 1rem) + 1rem);
   display: flex;
   flex-direction: column;
   gap: 1rem;

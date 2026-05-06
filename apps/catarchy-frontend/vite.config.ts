@@ -19,6 +19,9 @@ export default defineConfig(({ mode }) => {
       }),
       react(),
       VitePWA({
+        strategies: "injectManifest",
+        srcDir: "src",
+        filename: "sw.ts",
         registerType: "prompt",
         manifest: {
           name: "Catarchy",
@@ -41,10 +44,9 @@ export default defineConfig(({ mode }) => {
             },
           ],
         },
-        workbox: {
+        injectManifest: {
           globPatterns: ["**/*.{js,css,html,ico,png,woff2}"],
           globIgnores: ["**/assets/fonts/**"],
-          clientsClaim: true,
         },
       }),
     ],
