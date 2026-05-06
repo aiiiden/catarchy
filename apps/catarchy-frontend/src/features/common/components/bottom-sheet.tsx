@@ -1,6 +1,6 @@
+import { LogView } from "@/features/analytics";
 import React, { useEffect, useRef, useState } from "react";
 import BorderEdge from "../assets/bottom-sheet-border-edge.svg?react";
-import { cn } from "../lib/cn";
 import styles from "./bottom-sheet.module.css";
 import { Text } from "./text";
 
@@ -92,7 +92,9 @@ export function BottomSheet({
               </div>
             </header>
           )}
-          <div className={styles.content}>{children}</div>
+          <LogView eventName="bottom_sheet">
+            <div className={styles.content}>{children}</div>
+          </LogView>
         </div>
       </div>
     </>

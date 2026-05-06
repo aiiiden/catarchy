@@ -1,3 +1,4 @@
+import { LogClick } from "@/features/analytics";
 import { CatCharacter } from "@/features/cat";
 import { BubbleHint, Text } from "@/features/common";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -180,17 +181,19 @@ export function Room({
   }, [triggerJump]);
 
   return (
-    <div className={styles.room} onClick={handleClick}>
-      <div ref={catDivRef} style={{ position: "absolute" }}>
-        <CatCharacter
-          ref={characterRef}
-          age="adult"
-          tag={isMoving || isJumping ? "walk" : "default"}
-        />
+    <LogClick eventName="jump">
+      <div className={styles.room} onClick={handleClick}>
+        <div ref={catDivRef} style={{ position: "absolute" }}>
+          <CatCharacter
+            ref={characterRef}
+            age="adult"
+            tag={isMoving || isJumping ? "walk" : "default"}
+          />
+        </div>
+        <BubbleHint targetRef={characterRef} preferredSide="top" offset={-20}>
+          <Text>:3</Text>
+        </BubbleHint>
       </div>
-      <BubbleHint targetRef={characterRef} preferredSide="top" offset={-20}>
-        <Text>:3</Text>
-      </BubbleHint>
-    </div>
+    </LogClick>
   );
 }

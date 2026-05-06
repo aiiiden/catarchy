@@ -1,3 +1,4 @@
+import { LogClick } from "@/features/analytics";
 import {
   api,
   Button,
@@ -167,9 +168,12 @@ export function SignupScreen() {
 
     const { message } = data;
 
-    toast.push(message || "Account created successfully. You can now sign in.", {
-      id: "signup-success",
-    });
+    toast.push(
+      message || "Account created successfully. You can now sign in.",
+      {
+        id: "signup-success",
+      },
+    );
 
     router.navigate({
       to: "/auth/sign-in",
@@ -225,35 +229,41 @@ export function SignupScreen() {
       </Scaffold.Body>
       <Scaffold.Bottom sticky>
         <div className={styles.actions}>
-          <Button
-            size="big"
-            variant={"outline"}
-            onClick={() => router.history.back()}
-          >
-            Back
-          </Button>
-          <Button
-            size="big"
-            style={{ display: emailPasswordSet ? "none" : undefined }}
-            disabled={
-              !emailPasswordForm.formState.isValid ||
-              emailPasswordForm.formState.isSubmitting
-            }
-            onClick={() => setEmailPasswordSet(true)}
-          >
-            Next
-          </Button>
-          <Button
-            size="big"
-            style={{ display: emailPasswordSet ? undefined : "none" }}
-            disabled={
-              !emailPasswordForm.formState.isValid ||
-              emailPasswordForm.formState.isSubmitting
-            }
-            onClick={handleForm.handleSubmit(handleSignUp)}
-          >
-            Sign Up
-          </Button>
+          <LogClick eventName="signup_back">
+            <Button
+              size="big"
+              variant={"outline"}
+              onClick={() => router.history.back()}
+            >
+              Back
+            </Button>
+          </LogClick>
+          <LogClick eventName="signup_next">
+            <Button
+              size="big"
+              style={{ display: emailPasswordSet ? "none" : undefined }}
+              disabled={
+                !emailPasswordForm.formState.isValid ||
+                emailPasswordForm.formState.isSubmitting
+              }
+              onClick={() => setEmailPasswordSet(true)}
+            >
+              Next
+            </Button>
+          </LogClick>
+          <LogClick eventName="signup_submit">
+            <Button
+              size="big"
+              style={{ display: emailPasswordSet ? undefined : "none" }}
+              disabled={
+                !emailPasswordForm.formState.isValid ||
+                emailPasswordForm.formState.isSubmitting
+              }
+              onClick={handleForm.handleSubmit(handleSignUp)}
+            >
+              Sign Up
+            </Button>
+          </LogClick>
         </div>
       </Scaffold.Bottom>
     </Scaffold>

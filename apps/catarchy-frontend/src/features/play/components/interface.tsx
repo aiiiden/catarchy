@@ -1,6 +1,7 @@
+import { LogClick } from "@/features/analytics";
 import { Button, Text, useToast } from "@/features/common";
-import { Room } from "./room";
 import styles from "./interface.module.css";
+import { Room } from "./room";
 
 export function Interface() {
   const toast = useToast();
@@ -13,12 +14,15 @@ export function Interface() {
             00:00:00
           </div> */}
         </div>
-        <Button native
-          onClick={() => toast.push("Settings coming soon!")}
-          className={styles.settingsBtn}
-        >
-          <Text>🔧</Text>
-        </Button>
+        <LogClick eventName="game_settings">
+          <Button
+            native
+            onClick={() => toast.push("Settings coming soon!")}
+            className={styles.settingsBtn}
+          >
+            <Text>🔧</Text>
+          </Button>
+        </LogClick>
       </div>
       <Room />
     </div>

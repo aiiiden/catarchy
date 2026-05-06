@@ -1,5 +1,7 @@
+import { PageViewTracker } from "@/features/analytics";
 import { UpdateAlert } from "@/features/config";
 import { MusicDrawer } from "@/features/music/components/music-drawer";
+import type { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import {
   AlertRenderer,
@@ -7,7 +9,6 @@ import {
   ModalRenderer,
   ToastRenderer,
 } from "../features/common";
-import type { QueryClient } from "@tanstack/react-query";
 
 interface RouterContext {
   queryClient: QueryClient;
@@ -20,6 +21,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 function RootLayout() {
   return (
     <>
+      <PageViewTracker />
       <Outlet />
       <ModalRenderer />
       <AlertRenderer />

@@ -1,3 +1,4 @@
+import { LogClick } from "@/features/analytics";
 import { Button, useAlert } from "@/features/common";
 import { useMutation } from "@tanstack/react-query";
 import { useRouteContext, useRouter } from "@tanstack/react-router";
@@ -38,8 +39,10 @@ export function PowerOffButton({
   };
 
   return (
-    <Button native className={styles.powerBtn} onClick={handleClick}>
-      ⏻
-    </Button>
+    <LogClick eventName="power_off">
+      <Button native className={styles.powerBtn} onClick={handleClick}>
+        ⏻
+      </Button>
+    </LogClick>
   );
 }

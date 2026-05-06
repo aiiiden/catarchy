@@ -5,6 +5,7 @@ import {
   usePlatform,
 } from "@/features/common";
 
+import { LogClick } from "@/features/analytics";
 import { useRouter } from "@tanstack/react-router";
 import { Header } from "../components/header";
 import { PWAGuide } from "../components/pwa-guide";
@@ -43,9 +44,11 @@ export function GateScreen() {
         <Visual />
       </Scaffold.Body>
       <Scaffold.Bottom>
-        <Button size="big" onClick={handleStart}>
-          Start
-        </Button>
+        <LogClick eventName="gate_start">
+          <Button size="big" onClick={handleStart}>
+            Start
+          </Button>
+        </LogClick>
       </Scaffold.Bottom>
     </Scaffold>
   );

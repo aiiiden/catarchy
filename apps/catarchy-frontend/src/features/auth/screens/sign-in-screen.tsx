@@ -1,3 +1,4 @@
+import { LogClick } from "@/features/analytics";
 import {
   Button,
   HeaderBackButton,
@@ -103,19 +104,25 @@ export function SignInScreen() {
         </Scaffold.Body>
         <Scaffold.Bottom sticky>
           <div className={styles.actions}>
-            <Link to="/auth/register">
-              <Button variant="outline" size="big">
-                Sign Up
+            <LogClick eventName="sign_up_from_signin">
+              <Link to="/auth/register">
+                <Button variant="outline" size="big">
+                  Sign Up
+                </Button>
+              </Link>
+            </LogClick>
+            <LogClick eventName="sign_in">
+              <Button
+                disabled={
+                  !form.formState.isValid || form.formState.isSubmitting
+                }
+                size="big"
+                onClick={form.handleSubmit(signIn)}
+              >
+                {/* Sign In */}
+                {mutation.isPending ? "Signing In..." : "Sign In"}
               </Button>
-            </Link>
-            <Button
-              disabled={!form.formState.isValid || form.formState.isSubmitting}
-              size="big"
-              onClick={form.handleSubmit(signIn)}
-            >
-              {/* Sign In */}
-              {mutation.isPending ? "Signing In..." : "Sign In"}
-            </Button>
+            </LogClick>
           </div>
         </Scaffold.Bottom>
       </Scaffold>

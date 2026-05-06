@@ -1,3 +1,4 @@
+import { LogClick } from "@/features/analytics";
 import { Button, Field, Text, TextInput } from "@/features/common";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
@@ -19,9 +20,15 @@ export function EmailSignInForm() {
           placeholder="meow@example.com"
           trailingSlot={
             didEmailFilled && (
-              <Button native type="button" onClick={() => form.resetField("email")}>
-                ⨂
-              </Button>
+              <LogClick eventName="clear_email">
+                <Button
+                  native
+                  type="button"
+                  onClick={() => form.resetField("email")}
+                >
+                  ⨂
+                </Button>
+              </LogClick>
             )
           }
         />
@@ -33,7 +40,8 @@ export function EmailSignInForm() {
             type={passwordVisible ? "text" : "password"}
             placeholder="***********"
             trailingSlot={
-              <Button native
+              <Button
+                native
                 type="button"
                 onClick={() => setPasswordVisible((visible) => !visible)}
               >
@@ -43,9 +51,11 @@ export function EmailSignInForm() {
           />
         </Field>
         <div className={styles.forgotLink}>
-          <Link to="/auth/password-reset">
-            <Text className={styles.linkText}>Forgot Password?</Text>
-          </Link>
+          <LogClick eventName="forgot_password">
+            <Link to="/auth/password-reset">
+              <Text className={styles.linkText}>Forgot Password?</Text>
+            </Link>
+          </LogClick>
         </div>
       </div>
     </form>

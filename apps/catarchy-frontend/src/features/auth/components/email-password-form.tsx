@@ -1,3 +1,4 @@
+import { LogClick } from "@/features/analytics";
 import {
   Button,
   Field,
@@ -45,24 +46,29 @@ export function EmailPasswordForm({
               {...form.register("email")}
               trailingSlot={
                 verifyUntil !== null && (
-                  <Button native
-                    type="button"
-                    onClick={() => {
-                      form.reset();
-                      onResetEmail();
-                    }}
-                  >
-                    ⨂
-                  </Button>
+                  <LogClick eventName="reset_email">
+                    <Button
+                      native
+                      type="button"
+                      onClick={() => {
+                        form.reset();
+                        onResetEmail();
+                      }}
+                    >
+                      ⨂
+                    </Button>
+                  </LogClick>
                 )
               }
             />
           </div>
 
           {!verifyUntil && (
-            <Button type="button" onClick={onVerifyEmailRequested}>
-              Send Code
-            </Button>
+            <LogClick eventName="send-verification-code">
+              <Button type="button" onClick={onVerifyEmailRequested}>
+                Send Code
+              </Button>
+            </LogClick>
           )}
         </div>
       </Field>
@@ -87,18 +93,22 @@ export function EmailPasswordForm({
               />
             </div>
             {!emailVerified && remainSeconds === 0 && (
-              <Button
-                type="button"
-                variant={"outline"}
-                onClick={onResendVerificationEmail}
-              >
-                Resend
-              </Button>
+              <LogClick eventName="resend_verification_code">
+                <Button
+                  type="button"
+                  variant={"outline"}
+                  onClick={onResendVerificationEmail}
+                >
+                  Resend
+                </Button>
+              </LogClick>
             )}
             {!emailVerified && remainSeconds > 0 && (
-              <Button type="button" onClick={onVerifyEmail}>
-                Verify
-              </Button>
+              <LogClick eventName="verify_email_code">
+                <Button type="button" onClick={onVerifyEmail}>
+                  Verify
+                </Button>
+              </LogClick>
             )}
           </div>
         </Field>

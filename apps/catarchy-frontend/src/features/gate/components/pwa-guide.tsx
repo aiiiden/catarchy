@@ -1,3 +1,4 @@
+import { LogClick } from "@/features/analytics";
 import { Button, cn, sleep, Text, usePlatform } from "@/features/common";
 import { useState } from "react";
 import styles from "./pwa-guide.module.css";
@@ -17,9 +18,11 @@ export function PWAGuide({ onClose }: { onClose?: () => void }) {
         {os === "android" && <AndroidGuide />}
       </div>
       <div className={styles.footer}>
-        <Button size="big" onClick={onClose}>
-          I will do it later
-        </Button>
+        <LogClick eventName="pwa_guide_later">
+          <Button size="big" onClick={onClose}>
+            I will do it later
+          </Button>
+        </LogClick>
       </div>
     </article>
   );
@@ -52,14 +55,16 @@ function IosGuide() {
             <a href={safariUrl} className={styles.btnLink}>
               Open in Safari
             </a>
-            <Button
-              native
-              onClick={copyToClipboard}
-              className={styles.btnLink}
-              disabled={copied}
-            >
-              {copied ? "URL Copied" : "Copy URL"}
-            </Button>
+            <LogClick eventName="pwa_copy_url">
+              <Button
+                native
+                onClick={copyToClipboard}
+                className={styles.btnLink}
+                disabled={copied}
+              >
+                {copied ? "URL Copied" : "Copy URL"}
+              </Button>
+            </LogClick>
           </div>
         </div>
       )}

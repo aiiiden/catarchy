@@ -1,3 +1,4 @@
+import { LogClick } from "@/features/analytics";
 import {
   Button,
   HeaderBackButton,
@@ -200,17 +201,19 @@ export function PasswordResetScreen() {
           </div>
         </Scaffold.Body>
         <Scaffold.Bottom sticky>
-          <Button
-            disabled={
-              !emailPasswordForm.formState.isValid ||
-              resetPasswordMutation.isPending
-            }
-            onClick={emailPasswordForm.handleSubmit(handleResetPassword)}
-          >
-            {resetPasswordMutation.isPending
-              ? "Resetting..."
-              : "Reset Password"}
-          </Button>
+          <LogClick eventName="reset_password">
+            <Button
+              disabled={
+                !emailPasswordForm.formState.isValid ||
+                resetPasswordMutation.isPending
+              }
+              onClick={emailPasswordForm.handleSubmit(handleResetPassword)}
+            >
+              {resetPasswordMutation.isPending
+                ? "Resetting..."
+                : "Reset Password"}
+            </Button>
+          </LogClick>
         </Scaffold.Bottom>
       </Scaffold>
     </FormProvider>

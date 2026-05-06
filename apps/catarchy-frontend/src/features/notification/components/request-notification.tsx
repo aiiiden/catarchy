@@ -1,3 +1,4 @@
+import { LogClick } from "@/features/analytics";
 import { Button, cn } from "@/features/common";
 import styles from "./request-notification.module.css";
 export function RequestNotificationPermission({
@@ -21,10 +22,14 @@ export function RequestNotificationPermission({
       </div>
 
       <div className={styles.footer}>
-        <Button variant="outline" onClick={onDeny}>
-          No, thanks
-        </Button>
-        <Button onClick={onAllow}>OK</Button>
+        <LogClick eventName="notification_deny">
+          <Button variant="outline" onClick={onDeny}>
+            No, thanks
+          </Button>
+        </LogClick>
+        <LogClick eventName="notification_allow">
+          <Button onClick={onAllow}>OK</Button>
+        </LogClick>
       </div>
     </article>
   );

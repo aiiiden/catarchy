@@ -4,7 +4,9 @@
   bottom: calc(1rem + var(--safe-area-inset-bottom));
   overflow: visible !important;
   width: min(
-    calc(100% - 1rem - var(--safe-area-inset-left) - var(--safe-area-inset-right)),
+    calc(
+      100% - 1rem - var(--safe-area-inset-left) - var(--safe-area-inset-right)
+    ),
     340px
   );
   right: calc(1rem + var(--safe-area-inset-right));
@@ -37,7 +39,7 @@
 
 .knob {
   position: absolute;
-  left: -1.625rem;
+  left: -2.625rem;
   top: 50%;
   transform: translateY(-50%);
   z-index: 50;

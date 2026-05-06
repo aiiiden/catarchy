@@ -1,3 +1,4 @@
+import { AnalyticsProvider } from "./features/analytics";
 import {
   EnvProvider,
   FirebaseProvider,
@@ -10,11 +11,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <EnvProvider>
       <FirebaseProvider>
-        <TanstackQueryProvider>
-          <NotificationProvider>
-            <KeyboardProvider>{children}</KeyboardProvider>
-          </NotificationProvider>
-        </TanstackQueryProvider>
+        <AnalyticsProvider>
+          <TanstackQueryProvider>
+            <NotificationProvider>
+              <KeyboardProvider>{children}</KeyboardProvider>
+            </NotificationProvider>
+          </TanstackQueryProvider>
+        </AnalyticsProvider>
       </FirebaseProvider>
     </EnvProvider>
   );
