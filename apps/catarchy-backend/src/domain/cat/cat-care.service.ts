@@ -1,8 +1,6 @@
 import { ai } from "../../infra/ai";
-import { sendPushNotificationToUser } from "../../infra/fcm";
 import { ConflictError, NotFoundError } from "../../lib/error";
 import { ConsensusRepository } from "../consensus/repository";
-import { NotificationRepository } from "../notification/repository";
 import { CareRecordRepository } from "./care-record.repository";
 import { CatStatRepository } from "./cat-stat.repository";
 import { getEmotion } from "./constants/emotion";
@@ -15,7 +13,6 @@ export abstract class CatCareService {
   private static catStatRepository = CatStatRepository;
   private static careRecordRepository = CareRecordRepository;
   private static consensusRepository = ConsensusRepository;
-  private static notificationRepository = NotificationRepository;
 
   static async careForCat({ userId }: { userId: string }) {
     // 1) 고양이 + 스탯 + 성격 + consensus 값 병렬 조회
@@ -114,11 +111,6 @@ export abstract class CatCareService {
       message = `${cat.name} enjoyed the care and purrs contentedly.`;
     }
 
-    // 6) 돌봄 기록 생성 + 푸시 알림 발송 (병렬)
-    const fcmTokens =
-      await CatCareService.notificationRepository.findTokensByUserId({
-        userId,
-      });
     await Promise.all([
       CatCareService.careRecordRepository.create({
         catId: cat.id,
@@ -126,11 +118,6 @@ export abstract class CatCareService {
         growthDelta: growthPerCare,
         servantId: userId,
         message,
-      }),
-      sendPushNotificationToUser({
-        tokens: fcmTokens.map((t) => t.token),
-        title: cat.name,
-        body: message,
       }),
     ]);
 
