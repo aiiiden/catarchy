@@ -1,12 +1,11 @@
 import { PowerOffButton } from "@/features/auth";
-import { Button, LogoText, Scaffold } from "@/features/common";
-import { useMe } from "@/features/user/services/useMe";
+import { LogoText, Scaffold } from "@/features/common";
+
+import { CareButton } from "../components/care-button";
 import { Interface } from "../components/interface";
 import styles from "./play-screen.module.css";
 
 export function PlayScreen() {
-  const { data } = useMe();
-
   return (
     <Scaffold className="bg-pattern-cat">
       <Scaffold.Header
@@ -22,7 +21,7 @@ export function PlayScreen() {
         </div>
       </Scaffold.Body>
       <Scaffold.Bottom sticky>
-        <Button disabled>Check</Button>
+        <CareButton />
       </Scaffold.Bottom>
     </Scaffold>
   );

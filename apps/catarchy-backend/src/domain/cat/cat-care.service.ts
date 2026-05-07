@@ -82,8 +82,8 @@ export abstract class CatCareService {
       });
 
     // 5) AI 메시지 생성
-    const emotionState = getEmotion(catStat.emotion);
-    const ageGroup = getAgeGroup(catStat.growth);
+    const emotionState = getEmotion(newEmotion);
+    const ageGroup = getAgeGroup(newGrowth);
 
     const carePrompt = buildCarePrompt({
       catName: cat.name,
@@ -115,7 +115,10 @@ export abstract class CatCareService {
     }
 
     // 6) 돌봄 기록 생성 + 푸시 알림 발송 (병렬)
-    const fcmTokens = await CatCareService.notificationRepository.findTokensByUserId({ userId });
+    const fcmTokens =
+      await CatCareService.notificationRepository.findTokensByUserId({
+        userId,
+      });
     await Promise.all([
       CatCareService.careRecordRepository.create({
         catId: cat.id,
@@ -132,8 +135,15 @@ export abstract class CatCareService {
     ]);
 
     return {
-      growth: updatedCatStat.growth,
-      emotion: updatedCatStat.emotion,
+      growth: {
+        age: getAgeGroup(updatedCatStat.growth),
+        value: updatedCatStat.growth,
+      },
+      emotion: {
+        value: updatedCatStat.emotion,
+        emoji: emotionState.emoji,
+        level: emotionState.level,
+      },
       message,
     };
   }

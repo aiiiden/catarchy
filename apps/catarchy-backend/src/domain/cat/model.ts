@@ -1,4 +1,5 @@
 import Elysia, { t } from "elysia";
+import { AgeGroup } from "./constants/growth";
 
 export const catModel = new Elysia({
   name: "model.cat",
@@ -32,13 +33,14 @@ export const catModel = new Elysia({
       examples: ["Mochi"],
     }),
     stat: t.Object({
-      growth: t.Number({
-        description: "Current growth points",
-        examples: [120],
+      growth: t.Object({
+        age: t.Enum(AgeGroup, { description: "Age group of the cat", examples: ["KITTEN"] }),
+        value: t.Number({ description: "Current growth points", examples: [120] }),
       }),
-      emotion: t.Number({
-        description: "Current emotion score (0-100)",
-        examples: [85],
+      emotion: t.Object({
+        value: t.Number({ description: "Current emotion score (0-100)", examples: [85] }),
+        emoji: t.String({ description: "Emoji representing the emotion level", examples: ["😄"] }),
+        level: t.String({ description: "Emotion level label", examples: ["happy"] }),
       }),
     }),
     lastCaredAt: t.Nullable(
@@ -79,13 +81,14 @@ export const catModel = new Elysia({
   // ── POST /cat/care ─────────────────────────────────────────────────────────
 
   "cat.care.response": t.Object({
-    growth: t.Number({
-      description: "Updated growth points after care",
-      examples: [130],
+    growth: t.Object({
+      age: t.Enum(AgeGroup, { description: "Age group of the cat after care", examples: ["KITTEN"] }),
+      value: t.Number({ description: "Updated growth points after care", examples: [130] }),
     }),
-    emotion: t.Number({
-      description: "Updated emotion score after care",
-      examples: [90],
+    emotion: t.Object({
+      value: t.Number({ description: "Updated emotion score after care (0-100)", examples: [90] }),
+      emoji: t.String({ description: "Emoji representing the emotion level", examples: ["😄"] }),
+      level: t.String({ description: "Emotion level label", examples: ["happy"] }),
     }),
     message: t.String({
       description: "AI-generated description of the cat's reaction",
