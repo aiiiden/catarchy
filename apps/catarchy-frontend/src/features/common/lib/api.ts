@@ -1,7 +1,7 @@
 import type { App } from "@backend/app";
 import { treaty } from "@elysiajs/eden";
 
-let isRefreshing = false;
+let refreshPromise: Promise<boolean> | null = null;
 
 const normalizeContentType = (response: Response) =>
   response.headers.get("content-type")?.startsWith("text/plain") &&
@@ -27,37 +27,28 @@ const fetchWithRefresh = async (
 
   if (response.status !== 401) return normalizeContentType(response);
 
-  if (isRefreshing) {
+  if (!refreshPromise && !isCheckEndpoint) {
+    refreshPromise = fetch(`${window.location.origin}/api/auth/refresh`, {
+      method: "POST",
+      credentials: "include",
+    })
+      .then((res) => res.ok)
+      .catch(() => false)
+      .finally(() => {
+        refreshPromise = null;
+      });
+  }
+
+  const refreshed = await refreshPromise;
+
+  if (!refreshed) {
     window.location.href = "/auth/sign-in";
-    return response;
+    return response; // for type consistency
   }
 
-  isRefreshing = true;
-
-  try {
-    const refreshed = await fetch(
-      `${window.location.origin}/api/auth/refresh`,
-      {
-        method: "POST",
-        credentials: "include",
-      },
-    );
-
-    if (isCheckEndpoint) {
-      return response;
-    }
-
-    if (!refreshed.ok) {
-      window.location.href = "/auth/sign-in";
-      return response;
-    }
-
-    return normalizeContentType(
-      await fetch(input, { ...init, credentials: "include" }),
-    );
-  } finally {
-    isRefreshing = false;
-  }
+  return normalizeContentType(
+    await fetch(input, { ...init, credentials: "include" }),
+  );
 };
 
 export const api = treaty<App>(`${window.location.origin}/api`, {

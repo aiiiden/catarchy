@@ -1,4 +1,4 @@
-import { checkTokenOptions } from "@/features/auth/services/token-state";
+import { checkSessionOptions } from "@/features/auth/services/session";
 import { GateScreen } from "@/features/gate";
 
 import { createFileRoute, redirect } from "@tanstack/react-router";
@@ -6,12 +6,18 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/(gate)/")({
   component: GateScreen,
   async beforeLoad({ context: { queryClient } }) {
-    const { data } = await queryClient.ensureQueryData(checkTokenOptions());
+    try {
+      const session = await queryClient.ensureQueryData(checkSessionOptions());
 
-    if (data?.ok) {
-      throw redirect({
-        to: "/play",
-      });
+      console.log(session);
+
+      if (session?.ok) {
+        throw redirect({
+          to: "/play",
+        });
+      }
+    } catch (error) {
+      // no-op, allow access to gate screen
     }
   },
 });
