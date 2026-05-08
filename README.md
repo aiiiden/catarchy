@@ -31,6 +31,6 @@ cd apps/catarchy-backend && npx wrangler deploy
 
 ## URLs
 
-- Frontend: https://catarchy-frontend.hjjam100.workers.dev
-- Backend: https://catarchy-backend.hjjam100.workers.dev
-- Docs: https://catarchy-backend.hjjam100.workers.dev/openapi
+- Frontend: http://catarchy.net
+- Backend: http://api.catarchy.net
+- Docs: (Local backend url)/openapi
