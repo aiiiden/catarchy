@@ -19,6 +19,11 @@ export function StreamText<T extends TextTag = "span">({
   characterDuration = 50,
   ...textProps
 }: StreamTextProps<T>) {
+  if (text.length === 0) {
+    onStreamEnd?.();
+    return null;
+  }
+
   const splitted = text.split("").map((char, index) => {
     return char === "\n" ? (
       <br

@@ -24,6 +24,7 @@ export function StatusReportModal({
         <StreamText
           as="p"
           text={message ?? "..."}
+          className={styles.reportText}
           onStreamEnd={() => setStreamEnd(true)}
         />
       </div>

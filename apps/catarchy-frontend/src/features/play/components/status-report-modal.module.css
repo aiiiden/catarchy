@@ -15,7 +15,11 @@
   width: fit-content;
   padding: 4px 8px;
   margin: 0 auto;
-} 
+}
+
+.reportText {
+  line-height: 1.2;
+}
 
 .footer {
     padding: 8px;

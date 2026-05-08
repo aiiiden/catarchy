@@ -80,6 +80,15 @@ export const catModel = new Elysia({
 
   // ── POST /cat/care ─────────────────────────────────────────────────────────
 
+  "cat.care.body": t.Object({
+    localDateTime: t.Optional(
+      t.String({
+        description: "User's local datetime",
+        examples: ["2026-05-08 09:30:00"],
+      }),
+    ),
+  }),
+
   "cat.care.response": t.Object({
     growth: t.Object({
       age: t.Enum(AgeGroup, { description: "Age group of the cat after care", examples: ["KITTEN"] }),

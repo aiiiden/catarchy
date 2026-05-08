@@ -22,6 +22,7 @@ initAI({
   mistralApiKey: env.MISTRAL_API_KEY,
   xaiApiKey: env.XAI_API_KEY,
   alibabaApiKey: env.ALIBABA_API_KEY,
+  deepseekApiKey: env.DEEPSEEK_API_KEY,
 });
 initEmail(env.RESEND_API_KEY);
 

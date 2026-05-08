@@ -18,7 +18,15 @@ export abstract class CatCareService {
   private static consensusRepository = ConsensusRepository;
   private static notificationRepository = NotificationRepository;
 
-  static async careForCat({ userId }: { userId: string }) {
+  static async careForCat({
+    userId,
+    promptConfig,
+  }: {
+    userId: string;
+    promptConfig?: {
+      localDateTime?: string;
+    };
+  }) {
     // 1) get cat, cat stat, and consensus values needed for care logic in parallel
     const [
       catFull,
@@ -91,20 +99,22 @@ export abstract class CatCareService {
       mood: emotionState.level,
       ageGroup,
       personality,
+      ...promptConfig,
     });
 
     let message = "";
 
     try {
       const { text } = await ai.ask(
-        "anthropic/claude-haiku-4-5",
-        // "google/gemini-2.5-flash-lite",
+        // "anthropic/claude-haiku-4-5",
         // "xai/grok-4-fast-non-reasoning",
-        // "openai/gpt-4.1-nano",
-        // "mistral/ministral-3b-latest",
-        // "alibaba/qwen3.5-plus",
+        // "xai/grok-4.3",
+        "openai/gpt-4.1-nano",
+        // "deepseek/deepseek-v4-flash",
+        // "google/gemini-2.5-flash",
         {
-          // maxOutputTokens: 40,
+          maxOutputTokens: 40,
+          temperature: 1.5,
           ...carePrompt,
         },
       );

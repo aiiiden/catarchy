@@ -43,10 +43,14 @@ export const catRouter = () => {
     )
     .post(
       "/care",
-      async ({ user, catCareService }) => {
-        return await catCareService.careForCat({ userId: user.id });
+      async ({ user, catCareService, body }) => {
+        return await catCareService.careForCat({
+          userId: user.id,
+          promptConfig: { localDateTime: body.localDateTime },
+        });
       },
       {
+        body: "cat.care.body",
         response: {
           [StatusMap.OK]: "cat.care.response",
           [StatusMap["Not Found"]]: "cat.not-found",

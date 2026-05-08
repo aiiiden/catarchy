@@ -8,7 +8,9 @@ type ApiResponse = Awaited<ReturnType<typeof api.cat.care.post>>["data"];
 type ApiError = Awaited<ReturnType<typeof api.cat.care.post>>["error"];
 
 export async function careForCat() {
-  const { data, error } = await api.cat.care.post();
+  const { data, error } = await api.cat.care.post({
+    localDateTime: new Date().toLocaleString("sv"),
+  });
 
   if (error) {
     throw error;

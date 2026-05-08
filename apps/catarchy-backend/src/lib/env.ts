@@ -17,6 +17,7 @@ export const envSchema = z
     OPENAI_API_KEY: z.string().optional(),
     GOOGLE_AI_API_KEY: z.string().optional(),
     MISTRAL_API_KEY: z.string().optional(),
+    DEEPSEEK_API_KEY: z.string().optional(),
     ALIBABA_API_KEY: z.string().optional(),
     XAI_API_KEY: z.string().optional(),
     JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
@@ -31,11 +32,12 @@ export const envSchema = z
       data.OPENAI_API_KEY ||
       data.GOOGLE_AI_API_KEY ||
       data.MISTRAL_API_KEY ||
+      data.DEEPSEEK_API_KEY ||
       data.ALIBABA_API_KEY ||
       data.XAI_API_KEY,
     {
       message:
-        "At least one of OPENAI_API_KEY, GOOGLE_AI_API_KEY, MISTRAL_API_KEY, ALIBABA_API_KEY, or XAI_API_KEY must be provided",
+        "At least one of OPENAI_API_KEY, GOOGLE_AI_API_KEY, MISTRAL_API_KEY, DEEPSEEK_API_KEY, ALIBABA_API_KEY, or XAI_API_KEY must be provided",
       path: ["apiKeys"],
     },
   );
@@ -49,6 +51,7 @@ export type CloudflareBindings = {
   OPENAI_API_KEY?: string;
   GOOGLE_AI_API_KEY?: string;
   MISTRAL_API_KEY?: string;
+  DEEPSEEK_API_KEY?: string;
   ALIBABA_API_KEY?: string;
   XAI_API_KEY?: string;
   JWT_SECRET: string;

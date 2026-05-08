@@ -3,6 +3,7 @@ import type { GatewayModelId } from "@ai-sdk/gateway";
 import { type LanguageModel, generateText } from "ai";
 import { createAiGateway } from "ai-gateway-provider";
 import { createAnthropic } from "ai-gateway-provider/providers/anthropic";
+import { createDeepSeek } from "ai-gateway-provider/providers/deepseek";
 import { createGoogleGenerativeAI } from "ai-gateway-provider/providers/google";
 import { createMistral } from "ai-gateway-provider/providers/mistral";
 import { createOpenAI } from "ai-gateway-provider/providers/openai";
@@ -23,6 +24,7 @@ export interface AiConfig {
   mistralApiKey?: string;
   alibabaApiKey?: string;
   xaiApiKey?: string;
+  deepseekApiKey?: string;
 }
 
 export const initAI = (config: AiConfig) => {
@@ -63,6 +65,11 @@ export const initAI = (config: AiConfig) => {
   if (config.xaiApiKey) {
     const xai = createXai({ apiKey: config.xaiApiKey });
     _providers.xai = (id) => _aiGateway?.(xai(id)) as LanguageModel;
+  }
+
+  if (config.deepseekApiKey) {
+    const deepseek = createDeepSeek({ apiKey: config.deepseekApiKey });
+    _providers.deepseek = (id) => _aiGateway?.(deepseek(id)) as LanguageModel;
   }
 };
 
