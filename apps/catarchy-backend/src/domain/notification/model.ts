@@ -16,13 +16,4 @@ export const notificationModel = new Elysia({
     createdAt: t.Nullable(t.String()),
     updatedAt: t.Nullable(t.String()),
   }),
-  "notification.sandbox-broadcast.body": t.Object({
-    title: t.String(),
-    body: t.String(),
-    url: t.Optional(t.String({ description: "URL to open when notification is clicked" })),
-  }),
-  "notification.sandbox-broadcast.response": t.Object({
-    total: t.Number(),
-    failed: t.Number(),
-  }),
 });

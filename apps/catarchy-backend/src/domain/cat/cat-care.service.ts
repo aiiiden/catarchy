@@ -1,6 +1,9 @@
 import { ai } from "../../infra/ai";
+import { sendPushNotification } from "../../infra/fcm";
 import { ConflictError, NotFoundError } from "../../lib/error";
+import { logger } from "../../lib/logger";
 import { ConsensusRepository } from "../consensus/repository";
+import { NotificationRepository } from "../notification/repository";
 import { CareRecordRepository } from "./care-record.repository";
 import { CatStatRepository } from "./cat-stat.repository";
 import { getEmotion } from "./constants/emotion";
@@ -13,9 +16,10 @@ export abstract class CatCareService {
   private static catStatRepository = CatStatRepository;
   private static careRecordRepository = CareRecordRepository;
   private static consensusRepository = ConsensusRepository;
+  private static notificationRepository = NotificationRepository;
 
   static async careForCat({ userId }: { userId: string }) {
-    // 1) 고양이 + 스탯 + 성격 + consensus 값 병렬 조회
+    // 1) get cat, cat stat, and consensus values needed for care logic in parallel
     const [
       catFull,
       [
@@ -46,7 +50,7 @@ export abstract class CatCareService {
 
     const { cat, stat: catStat, personality } = catFull;
 
-    // 2) 쿨다운 체크 + 마지막 돌봄 시간 업데이트 (atomic conditional UPDATE)
+    // 2) check care cooldown and atomically update last cared time. If still on cooldown, throw error
     const updated = await CatCareService.catRepository.tryUpdateLastCaredAt({
       catId: cat.id,
       cooldownHours: cooldownHour,
@@ -56,7 +60,7 @@ export abstract class CatCareService {
       throw new ConflictError("Care is on cooldown.");
     }
 
-    // 3) 누적 감정 감소 계산 (lastCaredAt 기준 경과 주기 수)
+    // 3) calculate emotion decay from last cared time, apply decay and care increment to get new stat
     const neglectCycles = cat.lastCaredAt
       ? Math.floor(
           (Date.now() - new Date(cat.lastCaredAt).getTime()) /
@@ -65,7 +69,7 @@ export abstract class CatCareService {
       : 0;
     const decayAmount = neglectCycles * emotionDecrease;
 
-    // 4) 스탯 업데이트 (감소 적용 후 케어 보너스)
+    // 4) update cat stat with increment and decay, get new stat
     const newGrowth = catStat.growth + growthPerCare;
     const newEmotion = Math.min(
       Math.max(0, catStat.emotion - decayAmount) + emotionPerCare,
@@ -78,7 +82,7 @@ export abstract class CatCareService {
         emotion: newEmotion,
       });
 
-    // 5) AI 메시지 생성
+    // 5) generate care message with LLM
     const emotionState = getEmotion(newEmotion);
     const ageGroup = getAgeGroup(newGrowth);
 
@@ -133,5 +137,49 @@ export abstract class CatCareService {
       },
       message,
     };
+  }
+
+  /**
+   * *Only for cron job
+   */
+  static async remindCare() {
+    const cooldownHours = await this.consensusRepository.getValue(
+      "CAT.COOLDOWN_HOUR_BETWEEN_CARE",
+    );
+
+    const threshold = new Date(
+      Date.now() - cooldownHours * 60 * 60 * 1000,
+    ).toISOString();
+
+    const cats = await this.catRepository.findAllCareOverdueWithFCM({
+      threshold,
+    });
+
+    let failedList: string[] = [];
+
+    await Promise.all(
+      cats.map(async (cat) => {
+        const { success } = await sendPushNotification({
+          token: cat.fcmToken,
+          title: "Your cat needs care!",
+          body: `Your cat ${cat.name} hasn't been cared for in a while. Please take care of your cat!`,
+          url: "/play",
+        });
+
+        if (!success) {
+          failedList.push(cat.fcmToken);
+        }
+      }),
+    );
+
+    logger.info(
+      `Sent care reminder to ${cats.length} cats, ${failedList.length} failed.`,
+    );
+
+    if (failedList.length > 0) {
+      await this.notificationRepository.deleteFcmTokens({
+        tokens: failedList,
+      });
+    }
   }
 }

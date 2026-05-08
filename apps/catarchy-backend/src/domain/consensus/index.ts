@@ -2,20 +2,19 @@ import Elysia, { StatusMap } from "elysia";
 import { authGuard } from "../auth/guard";
 import type { ConsensusKey } from "./definitions";
 import { consensusModel } from "./model";
-import { ConsensusRepository } from "./repository";
+import { ConsensusService } from "./service";
 
 export const consensusRouter = () => {
   return new Elysia({
     prefix: "/consensus",
     tags: ["Consensus"],
   })
-    .decorate("consensusRepository", ConsensusRepository)
     .use(consensusModel)
     .use(authGuard())
     .get(
       "/",
-      async ({ consensusRepository }) => {
-        return await consensusRepository.getAllValues();
+      async () => {
+        return await ConsensusService.getAll();
       },
       {
         response: {
@@ -25,8 +24,8 @@ export const consensusRouter = () => {
     )
     .get(
       "/:key",
-      async ({ consensusRepository, params }) => {
-        return await consensusRepository.getValueWithMeta(params.key as ConsensusKey);
+      async ({ params }) => {
+        return await ConsensusService.getOne(params.key as ConsensusKey);
       },
       {
         params: "consensus.one.params",

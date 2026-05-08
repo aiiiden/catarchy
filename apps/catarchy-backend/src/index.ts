@@ -25,6 +25,9 @@ initAI({
 });
 initEmail(env.RESEND_API_KEY);
 
-export const scheduled = scheduledHandler;
+const app = createApp({ adapter: CloudflareAdapter }).compile();
 
-export default createApp({ adapter: CloudflareAdapter }).compile();
+export default {
+  fetch: app.fetch.bind(app),
+  scheduled: scheduledHandler,
+};

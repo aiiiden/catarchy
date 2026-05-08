@@ -34,18 +34,5 @@ export const notificationRouter = () => {
       {
         body: "notification.register-token.body",
       },
-    )
-    .post(
-      "/sandbox/broadcast",
-      async ({ notificationService, body }) => {
-        return notificationService.broadcastToAll(body);
-      },
-      {
-        body: "notification.sandbox-broadcast.body",
-        response: {
-          [StatusMap.OK]: "notification.sandbox-broadcast.response",
-        },
-        detail: { tags: ["Sandbox"] },
-      },
     );
 };

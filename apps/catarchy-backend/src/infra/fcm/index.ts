@@ -32,7 +32,8 @@ async function getAccessToken(): Promise<string> {
 
   const now = Math.floor(Date.now() / 1000);
   const header = base64url(
-    new TextEncoder().encode(JSON.stringify({ alg: "RS256", typ: "JWT" })).buffer as ArrayBuffer,
+    new TextEncoder().encode(JSON.stringify({ alg: "RS256", typ: "JWT" }))
+      .buffer as ArrayBuffer,
   );
   const payload = base64url(
     new TextEncoder().encode(
@@ -86,20 +87,19 @@ export async function sendPushNotification({
   title: string;
   body: string;
   url?: string;
-}): Promise<void> {
-  const env = getEnv();
-  if (!env.FIREBASE_SERVICE_ACCOUNT_EMAIL || !env.FIREBASE_SERVICE_ACCOUNT_PRIVATE_KEY) {
-    console.warn("[FCM] FIREBASE_SERVICE_ACCOUNT_* env vars not set, skipping push");
-    return;
-  }
-
+}) {
   const accessToken = await getAccessToken();
 
   const message: Record<string, unknown> = {
     token,
     webpush: {
       headers: { Urgency: "high" },
-      notification: { title, body, icon: "/icons/icon-192x192.png", require_interaction: true },
+      notification: {
+        title,
+        body,
+        icon: "/icons/icon-192x192.png",
+        require_interaction: true,
+      },
       ...(url && { fcm_options: { link: url } }),
     },
     ...(url && { data: { url } }),
@@ -114,13 +114,13 @@ export async function sendPushNotification({
     body: JSON.stringify({ message }),
   });
 
-  if (!res.ok) {
-    const err = await res.text();
-    console.error(`[FCM] send failed (${res.status}): ${err}`);
-  }
+  return {
+    success: res.ok,
+    error: res.ok ? undefined : await res.text(),
+  };
 }
 
-export async function sendPushNotificationToUser({
+export async function sendMultiplePushNotification({
   tokens,
   title,
   body,
@@ -130,15 +130,15 @@ export async function sendPushNotificationToUser({
   title: string;
   body: string;
   url?: string;
-}): Promise<void> {
-  if (tokens.length === 0) {
-    console.warn("[FCM] no tokens for user, skipping push");
-    return;
-  }
+}) {
   const results = await Promise.allSettled(
     tokens.map((token) => sendPushNotification({ token, title, body, url })),
   );
-  for (const r of results) {
-    if (r.status === "rejected") console.error("[FCM] send error:", r.reason);
-  }
+
+  const failed = results.filter((r) => r.status === "rejected");
+
+  return {
+    total: tokens.length,
+    failed,
+  };
 }

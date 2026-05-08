@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { getDatabase, table } from "../../infra/db";
 
 export abstract class NotificationRepository {
@@ -9,7 +9,10 @@ export abstract class NotificationRepository {
   static async upsertFcmToken({
     userId,
     token,
-  }: { userId: string; token: string }) {
+  }: {
+    userId: string;
+    token: string;
+  }) {
     const [row] = await NotificationRepository.db
       .insert(table.fcmToken)
       .values({ userId, token })
@@ -26,6 +29,12 @@ export abstract class NotificationRepository {
     await NotificationRepository.db
       .delete(table.fcmToken)
       .where(eq(table.fcmToken.token, token));
+  }
+
+  static async deleteFcmTokens({ tokens }: { tokens: string[] }) {
+    await NotificationRepository.db
+      .delete(table.fcmToken)
+      .where(inArray(table.fcmToken.token, tokens));
   }
 
   static async findTokensByUserId({ userId }: { userId: string }) {
