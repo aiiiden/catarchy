@@ -7,9 +7,19 @@ export type ApiResponse = Awaited<
 export type ApiError = Awaited<ReturnType<typeof api.auth.check.get>>["error"];
 
 export async function checkSession() {
-  const { data, error } = await api.auth.check.get();
-  if (error) throw error;
-  return data;
+  const firstAttempt = await api.auth.check.get();
+
+  if (!firstAttempt.error) return firstAttempt.data;
+
+  try {
+    await refreshToken();
+  } catch {
+    throw firstAttempt.error;
+  }
+
+  const secondAttempt = await api.auth.check.get();
+  if (secondAttempt.error) throw secondAttempt.error;
+  return secondAttempt.data;
 }
 
 export async function refreshToken() {

@@ -3,6 +3,22 @@ import { treaty } from "@elysiajs/eden";
 
 let refreshPromise: Promise<boolean> | null = null;
 
+const getPathname = (input: RequestInfo | URL) => {
+  if (typeof input === "string") {
+    return new URL(input, window.location.origin).pathname;
+  }
+
+  if (input instanceof URL) {
+    return input.pathname;
+  }
+
+  if (input instanceof Request) {
+    return new URL(input.url, window.location.origin).pathname;
+  }
+
+  return "";
+};
+
 const normalizeContentType = (response: Response) =>
   response.headers.get("content-type")?.startsWith("text/plain") &&
   response.headers.get("transfer-encoding") === "chunked"
@@ -22,12 +38,15 @@ const fetchWithRefresh = async (
   init?: RequestInit,
 ) => {
   const response = await fetch(input, { ...init, credentials: "include" });
-  const isCheckEndpoint =
-    typeof input === "string" && input.endsWith("/auth/check");
+  const isCheckEndpoint = getPathname(input).endsWith("/auth/check");
 
   if (response.status !== 401) return normalizeContentType(response);
 
-  if (!refreshPromise && !isCheckEndpoint) {
+  if (isCheckEndpoint) {
+    return normalizeContentType(response);
+  }
+
+  if (!refreshPromise) {
     refreshPromise = fetch(`${window.location.origin}/api/auth/refresh`, {
       method: "POST",
       credentials: "include",
@@ -42,7 +61,9 @@ const fetchWithRefresh = async (
   const refreshed = await refreshPromise;
 
   if (!refreshed) {
-    window.location.href = "/auth/sign-in";
+    if (window.location.pathname !== "/") {
+      window.location.href = "/";
+    }
     return response; // for type consistency
   }
 
