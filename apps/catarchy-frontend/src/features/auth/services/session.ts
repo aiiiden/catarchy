@@ -11,11 +11,7 @@ export async function checkSession() {
 
   if (!firstAttempt.error) return firstAttempt.data;
 
-  try {
-    await refreshToken();
-  } catch {
-    throw firstAttempt.error;
-  }
+  await refreshToken();
 
   const secondAttempt = await api.auth.check.get();
   if (secondAttempt.error) throw secondAttempt.error;
