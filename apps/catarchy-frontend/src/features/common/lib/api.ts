@@ -39,10 +39,11 @@ const fetchWithRefresh = async (
 ) => {
   const response = await fetch(input, { ...init, credentials: "include" });
   const isCheckEndpoint = getPathname(input).endsWith("/auth/check");
+  const isRefreshEndpoint = getPathname(input).endsWith("/auth/refresh");
 
   if (response.status !== 401) return normalizeContentType(response);
 
-  if (isCheckEndpoint) {
+  if (isRefreshEndpoint || isCheckEndpoint) {
     return normalizeContentType(response);
   }
 

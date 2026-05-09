@@ -244,7 +244,7 @@ export const authRouter = () => {
             null);
 
         if (!token) {
-          return status(400, { message: "No token provided" });
+          return status(401, { message: "Unauthorized" });
         }
 
         const payload = await accessJwt.verify(token);
@@ -265,7 +265,6 @@ export const authRouter = () => {
         response: {
           [StatusMap.OK]: "auth.check.response",
           [StatusMap.Unauthorized]: "auth.check.unauthorized",
-          [StatusMap["Bad Request"]]: "auth.check.no-token-provided",
         },
       },
     )
