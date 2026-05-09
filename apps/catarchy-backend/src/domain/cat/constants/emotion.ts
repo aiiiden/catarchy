@@ -18,6 +18,32 @@ export const EMOTION_EMOJIS = {
   [EmotionLevel.Happy]: "😄",
 } as const;
 
+export function calculateNewEmotion({
+  currentEmotion,
+  lastCaredAt,
+  emotionPerCare,
+  emotionDecrease,
+  emotionDecreaseFrequencyHour,
+}: {
+  currentEmotion: number;
+  lastCaredAt: string | null;
+  emotionPerCare: number;
+  emotionDecrease: number;
+  emotionDecreaseFrequencyHour: number;
+}): number {
+  const neglectCycles = lastCaredAt
+    ? Math.floor(
+        (Date.now() - new Date(lastCaredAt).getTime()) /
+          (emotionDecreaseFrequencyHour * 60 * 60 * 1000),
+      )
+    : 0;
+  const decayAmount = neglectCycles * emotionDecrease;
+  return Math.min(
+    Math.max(0, currentEmotion - decayAmount) + emotionPerCare,
+    100,
+  );
+}
+
 export function getEmotion(emotion: number) {
   let level: EmotionLevel;
 

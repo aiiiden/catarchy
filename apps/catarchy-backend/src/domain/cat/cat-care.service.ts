@@ -6,7 +6,7 @@ import { ConsensusRepository } from "../consensus/repository";
 import { NotificationRepository } from "../notification/repository";
 import { CareRecordRepository } from "./care-record.repository";
 import { CatStatRepository } from "./cat-stat.repository";
-import { getEmotion } from "./constants/emotion";
+import { calculateNewEmotion, getEmotion } from "./constants/emotion";
 import { getAgeGroup } from "./constants/growth";
 import { buildCarePrompt } from "./prompts/care";
 import { CatRepository } from "./repository";
@@ -68,21 +68,15 @@ export abstract class CatCareService {
       throw new ConflictError("Care is on cooldown.");
     }
 
-    // 3) calculate emotion decay from last cared time, apply decay and care increment to get new stat
-    const neglectCycles = cat.lastCaredAt
-      ? Math.floor(
-          (Date.now() - new Date(cat.lastCaredAt).getTime()) /
-            (emotionDecreaseFrequencyHour * 60 * 60 * 1000),
-        )
-      : 0;
-    const decayAmount = neglectCycles * emotionDecrease;
-
-    // 4) update cat stat with increment and decay, get new stat
+    // 3+4) calculate new stat with decay and care increment
     const newGrowth = catStat.growth + growthPerCare;
-    const newEmotion = Math.min(
-      Math.max(0, catStat.emotion - decayAmount) + emotionPerCare,
-      100,
-    );
+    const newEmotion = calculateNewEmotion({
+      currentEmotion: catStat.emotion,
+      lastCaredAt: cat.lastCaredAt,
+      emotionPerCare,
+      emotionDecrease,
+      emotionDecreaseFrequencyHour,
+    });
     const [updatedCatStat] =
       await CatCareService.catStatRepository.updateAfterCare({
         catId: cat.id,
@@ -153,12 +147,12 @@ export abstract class CatCareService {
    * *Only for cron job
    */
   static async remindCare() {
-    const cooldownHours = await this.consensusRepository.getValue(
-      "CAT.COOLDOWN_HOUR_BETWEEN_CARE",
+    const frequencyHours = await this.consensusRepository.getValue(
+      "CAT.EMOTION_DECREASE_FREQUENCY_HOUR",
     );
 
     const threshold = new Date(
-      Date.now() - cooldownHours * 60 * 60 * 1000,
+      Date.now() - frequencyHours * 60 * 60 * 1000,
     ).toISOString();
 
     const cats = await this.catRepository.findAllCareOverdueWithFCM({
