@@ -1,4 +1,4 @@
-import { checkSessionOptions } from "@/features/auth/services/session";
+import { ApiResponse, checkSessionOptions } from "@/features/auth";
 import { GateScreen } from "@/features/gate";
 
 import { createFileRoute, redirect } from "@tanstack/react-router";
@@ -6,7 +6,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/(gate)/")({
   component: GateScreen,
   async beforeLoad({ context: { queryClient } }) {
-    let session;
+    let session: ApiResponse = null;
 
     try {
       session = await queryClient.ensureQueryData(checkSessionOptions());
