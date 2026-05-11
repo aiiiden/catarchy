@@ -1,6 +1,5 @@
 import { LogClick } from "@/features/analytics";
 import {
-  api,
   Button,
   HeaderBackButton,
   Scaffold,
@@ -8,6 +7,8 @@ import {
   useAlert,
   useToast,
 } from "@/features/common";
+import { ServerError } from "@/features/common/lib/error";
+import { useMutation } from "@tanstack/react-query";
 import { Link, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
@@ -20,14 +21,76 @@ import {
   useEmailPasswordForm,
 } from "../hooks/use-email-password-form";
 import { handleFormSchema, useHandleForm } from "../hooks/use-handle-form";
+import {
+  sendVerificationEmailOptions,
+  verifyEmailCodeOptions,
+} from "../services/email-verification";
+import { isSignUpConflictError, signUpOptions } from "../services/sign-up";
 import styles from "./signup-screen.module.css";
 
 export function SignupScreen() {
   const toast = useToast();
   const alert = useAlert();
   const router = useRouter();
+
   const { form: emailPasswordForm } = useEmailPasswordForm();
+
+  const sendVerificationEmail = useMutation({
+    ...sendVerificationEmailOptions(),
+    onError(error) {
+      if (error instanceof ServerError) {
+        emailPasswordForm.setError("email", { message: error.message });
+      }
+    },
+  });
+
+  const signupWithEmail = useMutation({
+    ...signUpOptions(),
+    onError(error) {
+      if (!(error instanceof ServerError)) return;
+
+      if (error.code === 403) {
+        handleForm.setError("handle", { message: error.message });
+        return;
+      }
+
+      if (isSignUpConflictError(error)) {
+        if (error.data?.conflicted === "email") {
+          alert.open({
+            id: "signup-error",
+            title: "Error",
+            message:
+              "An account with this email already exists. Please use a different email or sign in to your existing account.",
+            confirmLabel: "OK",
+            onConfirm(close) {
+              close();
+              router.navigate({ to: "/auth/sign-in" });
+            },
+          });
+          return;
+        }
+        handleForm.setError("handle", { message: error.message });
+        return;
+      }
+
+      toast.push(error.message, { id: "signup-error" });
+    },
+  });
+
+  const verifyEmailMutation = useMutation({
+    ...verifyEmailCodeOptions(),
+    onError(error) {
+      if (error instanceof ServerError) {
+        emailPasswordForm.setError("code", {
+          message:
+            "Invalid verification code. Please check the code and try again.",
+        });
+      }
+    },
+  });
+
   const { form: handleForm } = useHandleForm();
+
   const [verifyUntil, setVerifyUntil] = useState<Date | null>(null);
   const [emailPasswordSet, setEmailPasswordSet] = useState(false);
 
@@ -42,24 +105,11 @@ export function SignupScreen() {
       return;
     }
 
-    const { data, error } = await api.auth["send-verification-email"].post({
-      email: emailPasswordForm.getValues("email"),
+    const data = await sendVerificationEmail.mutateAsync({
+      email,
     });
 
-    if (error) {
-      emailPasswordForm.setError("email", {
-        message:
-          error.value.message ||
-          "Unexpected error occurred. Please try again later or contact support.",
-      });
-      return;
-    }
-
     if (!data) {
-      emailPasswordForm.setError("email", {
-        message:
-          "An unexpected error occurred. Please try again later or contact support.",
-      });
       return;
     }
 
@@ -75,26 +125,12 @@ export function SignupScreen() {
   };
 
   const handleVerifyEmail = async () => {
-    const { data, error } = await api.auth["verify-email-code"].patch({
+    const data = await verifyEmailMutation.mutateAsync({
       email: emailPasswordForm.getValues("email"),
       code: emailPasswordForm.getValues("code"),
     });
 
-    if (error) {
-      emailPasswordForm.setError("code", {
-        message:
-          error.value.message ||
-          "Unexpected error occurred. Please try again later or contact support.",
-      });
-      return;
-    }
-
     if (!data) {
-      emailPasswordForm.setError("code", {
-        message:
-          "Invalid verification code. Please check the code and try again.",
-      });
-
       return;
     }
 
@@ -109,67 +145,14 @@ export function SignupScreen() {
   const handleSignUp = async (
     handleFormData: z.infer<typeof handleFormSchema>,
   ) => {
-    const { data, error } = await api.auth["sign-up-email"].post({
+    const data = await signupWithEmail.mutateAsync({
       email: emailPasswordForm.getValues("email"),
       password: emailPasswordForm.getValues("password"),
       handle: handleFormData.handle,
     });
 
-    // Email is not verified
-    if (error?.status === 403) {
-      handleForm.setError("handle", {
-        message: error.value.message,
-      });
-      return;
-    }
-
-    // Handle already exists
-    if (error?.status === 409) {
-      const errorValue = error.value as {
-        message: string;
-        data: { conflicted: "email" | "handle" };
-      };
-      if (errorValue.data.conflicted === "email") {
-        alert.open({
-          id: "signup-error",
-          title: "Error",
-          message:
-            "An account with this email already exists. Please use a different email or sign in to your existing account.",
-          confirmLabel: "OK",
-          onConfirm(close) {
-            close();
-            router.navigate({
-              to: "/auth/sign-in",
-            });
-          },
-        });
-        return;
-      }
-
-      handleForm.setError("handle", {
-        message: errorValue.message,
-      });
-      return;
-    }
-
-    if (!data) {
-      alert.open({
-        id: "signup-error",
-        title: "Error",
-        message:
-          "An unexpected error occurred. Please try again later or contact support.",
-        confirmLabel: "OK",
-        onConfirm(close) {
-          close();
-        },
-      });
-      return;
-    }
-
-    const { message } = data;
-
     toast.push(
-      message || "Account created successfully. You can now sign in.",
+      data?.message || "Account created successfully. You can now sign in.",
       {
         id: "signup-success",
       },

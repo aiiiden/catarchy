@@ -72,6 +72,9 @@ export const authRouter = () => {
           [StatusMap.Conflict]: "auth.send-verification-email.conflict",
           [StatusMap["Bad Gateway"]]:
             "auth.send-verification-email.bad-gateway",
+          [StatusMap["Unprocessable Content"]]: t.Object({
+            message: t.String(),
+          }),
         },
       },
     )
@@ -92,6 +95,9 @@ export const authRouter = () => {
           [StatusMap.OK]: "auth.verify-email-code.response",
           [StatusMap["Not Found"]]: "auth.verify-email-code.not-found",
           [StatusMap.Conflict]: "auth.verify-email-code.conflict",
+          [StatusMap["Unprocessable Content"]]: t.Object({
+            message: t.String(),
+          }),
         },
       },
     )
@@ -117,6 +123,9 @@ export const authRouter = () => {
           [StatusMap.OK]: "auth.sign-up-email.response",
           [StatusMap.Forbidden]: "auth.sign-up-email.forbidden",
           [StatusMap.Conflict]: "auth.sign-up-email.conflict",
+          [StatusMap["Unprocessable Content"]]: t.Object({
+            message: t.String(),
+          }),
         },
       },
     )
@@ -166,6 +175,9 @@ export const authRouter = () => {
           [StatusMap.OK]: "auth.sign-in-email.response",
           [StatusMap["Not Found"]]: "auth.sign-in-email.not-found",
           [StatusMap.Forbidden]: "auth.sign-in-email.forbidden",
+          [StatusMap["Unprocessable Content"]]: t.Object({
+            message: t.String(),
+          }),
         },
       },
     )
@@ -327,6 +339,9 @@ export const authRouter = () => {
           [StatusMap.Conflict]: "auth.send-reset-password-email.conflict",
           [StatusMap["Bad Gateway"]]:
             "auth.send-reset-password-email.bad-gateway",
+          [StatusMap["Unprocessable Content"]]: t.Object({
+            message: t.String(),
+          }),
         },
       },
     )
@@ -345,6 +360,9 @@ export const authRouter = () => {
           [StatusMap.OK]: "auth.reset-password.response",
           [StatusMap.Forbidden]: "auth.reset-password.forbidden",
           [StatusMap["Not Found"]]: "auth.reset-password.not-found",
+          [StatusMap["Unprocessable Content"]]: t.Object({
+            message: t.String(),
+          }),
         },
       },
     );
