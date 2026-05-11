@@ -1,4 +1,4 @@
-import Elysia, { StatusMap } from "elysia";
+import Elysia, { StatusMap, t } from "elysia";
 import { authGuard } from "../auth/guard";
 import { notificationModel } from "./model";
 import { NotificationService } from "./service";
@@ -23,6 +23,9 @@ export const notificationRouter = () => {
         body: "notification.register-token.body",
         response: {
           [StatusMap.OK]: "notification.register-token.response",
+          [StatusMap["Unprocessable Content"]]: t.Object({
+            message: t.String(),
+          }),
         },
       },
     )
@@ -33,6 +36,11 @@ export const notificationRouter = () => {
       },
       {
         body: "notification.register-token.body",
+        response: {
+          [StatusMap["Unprocessable Content"]]: t.Object({
+            message: t.String(),
+          }),
+        },
       },
     );
 };

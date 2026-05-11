@@ -1,8 +1,9 @@
-import { api, env } from "@/features/common";
+import { env } from "@/features/common";
 import {
   NotificationContext,
   PermissionState,
 } from "@/features/notification/hooks/use-notification";
+import { useMutation } from "@tanstack/react-query";
 import { getApp, getApps } from "firebase/app";
 import {
   getMessaging,
@@ -12,6 +13,7 @@ import {
   type Messaging,
 } from "firebase/messaging";
 import { useCallback, useEffect, useState } from "react";
+import { registerFcmTokenOptions } from "../services/notification";
 
 export function NotificationProvider({
   children,
@@ -24,6 +26,9 @@ export function NotificationProvider({
       return Notification.permission;
     },
   );
+
+  const registerFcmToken = useMutation(registerFcmTokenOptions());
+
   const [isRegistered, setIsRegistered] = useState(false);
 
   const [messaging, setMessaging] = useState<Messaging | null>(null);
@@ -100,11 +105,14 @@ export function NotificationProvider({
     if (permission !== "granted") return false;
 
     const registration = await navigator.serviceWorker.ready;
+
     const token = await getToken(messaging, {
       vapidKey: env.VITE_FIREBASE_VAPID_KEY,
       serviceWorkerRegistration: registration,
     });
-    await api.notification.token.post({ token });
+
+    await registerFcmToken.mutateAsync({ token });
+
     setIsRegistered(true);
 
     return true;

@@ -126,6 +126,9 @@ export const authModel = new Elysia({ name: "model.auth" }).model({
         "A message indicating that the handle or email is already taken",
       examples: ["Handle already taken"],
     }),
+    data: t.Object({
+      conflicted: t.Union([t.Literal("email"), t.Literal("handle")]),
+    }),
   }),
   "auth.sign-in-email.body": t.Object({
     email: t.String({
