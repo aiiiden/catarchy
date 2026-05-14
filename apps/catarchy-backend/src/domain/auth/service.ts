@@ -247,7 +247,7 @@ export abstract class AuthService {
 
     await this.emailVerificationRepository.deleteVerificationByEmail(email);
 
-    return { id: userId };
+    return { id: userId, handle };
   }
 
   static async signInWithEmailAndPassword({
@@ -288,7 +288,10 @@ export abstract class AuthService {
       throw new NotFoundError(commonMessage);
     }
 
-    return user;
+    return {
+      id: user.id,
+      handle: user.handle,
+    };
   }
 
   static generateCode() {
