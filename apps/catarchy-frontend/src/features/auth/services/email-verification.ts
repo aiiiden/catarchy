@@ -11,9 +11,8 @@ type VerifyEmailCodePayload = Parameters<
 export async function sendVerificationEmail(
   payload: SendVerificationEmailPayload,
 ) {
-  const { data, error } = await api.auth["send-verification-email"].post(
-    payload,
-  );
+  const { data, error } =
+    await api.auth["send-verification-email"].post(payload);
   if (error) throw error;
   return data;
 }

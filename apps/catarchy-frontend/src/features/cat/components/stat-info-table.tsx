@@ -13,7 +13,10 @@ export function StatInfoTable() {
     if (status === "pending") return "Loading...";
     if (status === "error") return "!Error";
 
-    const ageData = data?.stat.growth.age ?? { int: 0, fraction: { numerator: 0, denominator: 12 } };
+    const ageData = data?.stat.growth.age ?? {
+      int: 0,
+      fraction: { numerator: 0, denominator: 12 },
+    };
     return formatAge(ageData, data?.stat.growth.ageGroup);
   }, [data, status]);
 

@@ -33,7 +33,10 @@ export function SoundCloudEmbed({
   const src = `https://w.soundcloud.com/player/?${params.toString()}`;
 
   return (
-    <div className="no-invert" style={height === "100%" ? { height: "100%" } : undefined}>
+    <div
+      className="no-invert"
+      style={height === "100%" ? { height: "100%" } : undefined}
+    >
       <iframe
         width="100%"
         height={height}

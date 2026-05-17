@@ -4,7 +4,8 @@ import { cn } from "../lib/cn";
 import { Box } from "./box";
 import styles from "./bubble-message.module.css";
 
-export interface BubbleMessageProps extends React.ComponentPropsWithoutRef<"div"> {
+export interface BubbleMessageProps
+  extends React.ComponentPropsWithoutRef<"div"> {
   children?: React.ReactNode;
   background?: "white" | "black";
 }

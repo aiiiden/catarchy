@@ -1,10 +1,10 @@
 .body {
   padding: 16px;
   display: flex;
-  flex-direction: column;   
+  flex-direction: column;
 }
 
 .name {
-    word-break: break-all;
-    text-align: center;
+  word-break: break-all;
+  text-align: center;
 }

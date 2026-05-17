@@ -1,7 +1,6 @@
 @font-face {
   font-family: "UnifontExMono";
-  src:
-    url("/assets/fonts/UnifontExMono.woff2") format("woff2"),
+  src: url("/assets/fonts/UnifontExMono.woff2") format("woff2"),
     url("/assets/fonts/UnifontExMono.woff") format("woff"),
     url("/assets/fonts/UnifontExMono.ttf") format("truetype"),
     url("/assets/fonts/UnifontExMono.eot") format("embedded-opentype");

@@ -5,7 +5,10 @@
   overflow: visible !important;
   width: min(
     calc(
-      100% - 1rem - var(--safe-area-inset-left) - var(--safe-area-inset-right)
+      100% -
+      1rem -
+      var(--safe-area-inset-left) -
+      var(--safe-area-inset-right)
     ),
     340px
   );

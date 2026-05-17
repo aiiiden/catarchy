@@ -1,12 +1,19 @@
 import { api } from "@/features/common";
 import { mutationOptions } from "@tanstack/react-query";
 
-type SendResetEmailPayload = Parameters<(typeof api.auth)["send-reset-password-email"]["post"]>[0];
-type VerifyResetCodePayload = Parameters<(typeof api.auth)["verify-email-code"]["patch"]>[0];
-type ResetPasswordPayload = Parameters<(typeof api.auth)["reset-password"]["post"]>[0];
+type SendResetEmailPayload = Parameters<
+  (typeof api.auth)["send-reset-password-email"]["post"]
+>[0];
+type VerifyResetCodePayload = Parameters<
+  (typeof api.auth)["verify-email-code"]["patch"]
+>[0];
+type ResetPasswordPayload = Parameters<
+  (typeof api.auth)["reset-password"]["post"]
+>[0];
 
 export async function sendResetPasswordEmail(payload: SendResetEmailPayload) {
-  const { data, error } = await api.auth["send-reset-password-email"].post(payload);
+  const { data, error } =
+    await api.auth["send-reset-password-email"].post(payload);
   if (error) throw error;
   return data;
 }
