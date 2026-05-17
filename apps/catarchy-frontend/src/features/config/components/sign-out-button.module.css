@@ -1,0 +1,8 @@
+.button {
+    justify-content: space-between;
+}
+
+.buttonText {
+    width: 100%;
+    text-align: left;
+}

@@ -1,8 +1,9 @@
-import { PowerOffButton } from "@/features/auth";
 import { CatLoading, LogoText, Scaffold } from "@/features/common";
 
 import { catInfoOptions } from "@/features/cat";
+import { ConfigButton } from "@/features/config";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { CareButton } from "../components/care-button";
 import { Interface } from "../components/interface";
 import { PlayMenu } from "../components/play-menu";
@@ -18,7 +19,12 @@ export function PlayScreen() {
       <Scaffold.Header
         title={<LogoText />}
         className={styles.headerNoBorder}
-        right={<PowerOffButton />}
+        // right={<PowerOffButton />}
+        right={
+          <Link to="/config">
+            <ConfigButton />
+          </Link>
+        }
       />
       <Scaffold.Body className={styles.body}>
         <div className={styles.content}>

@@ -12,10 +12,18 @@
 @import "./sprite.css";
 @import "./transitions.css";
 
-/* #root {
-    filter: invert(100%);
+html[data-theme="inverted"] {
+  filter: invert(100%);
 }
 
-dialog {
-    filter: invert(100%);
-} */
+html[data-theme="inverted"] dialog {
+  filter: invert(100%);
+}
+
+html[data-theme="inverted"] body {
+  background-color: var(--color-white) !important;
+}
+
+html[data-theme="inverted"] .no-invert {
+  filter: invert(100%);
+}

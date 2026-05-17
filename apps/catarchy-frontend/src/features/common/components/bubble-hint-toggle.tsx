@@ -12,12 +12,14 @@ interface BubbleHintToggleProps extends Omit<
     ref: React.RefObject<any>;
     onClick: () => void;
   }) => React.ReactNode;
+  disabled?: boolean;
 }
 
 export function BubbleHintToggle({
   hint,
   duration = 2000,
   children,
+  disabled,
   ...bubbleProps
 }: BubbleHintToggleProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -25,6 +27,8 @@ export function BubbleHintToggle({
   const timeoutRef = useRef<number | null>(null);
 
   const handleToggle = () => {
+    if (disabled) return;
+
     if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
     setIsVisible(!isVisible);
     timeoutRef.current = !isVisible
