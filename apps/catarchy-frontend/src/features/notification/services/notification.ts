@@ -5,9 +5,7 @@ type RegisterTokenPayload = Parameters<
   (typeof api.notification)["token"]["post"]
 >[0];
 
-export async function registerNotificationToken(
-  payload: RegisterTokenPayload,
-) {
+export async function registerNotificationToken(payload: RegisterTokenPayload) {
   const { data, error } = await api.notification.token.post(payload);
   if (error) throw error;
   return data;

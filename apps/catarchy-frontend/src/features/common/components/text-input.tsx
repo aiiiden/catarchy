@@ -3,7 +3,8 @@ import { cn } from "../lib/cn";
 import { Box } from "./box";
 import styles from "./text-input.module.css";
 
-export interface TextInputProps extends React.ComponentPropsWithoutRef<"input"> {
+export interface TextInputProps
+  extends React.ComponentPropsWithoutRef<"input"> {
   leadingSlot?: React.ReactNode;
   trailingSlot?: React.ReactNode;
 }

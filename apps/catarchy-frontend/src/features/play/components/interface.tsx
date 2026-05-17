@@ -37,7 +37,9 @@ export function Interface() {
       </div>
       <Stage
         hitbox={
-          CAT_CHARACTER_HITBOX[catInfo?.stat.growth.ageGroup ?? AgeGroup.NEWBORN]
+          CAT_CHARACTER_HITBOX[
+            catInfo?.stat.growth.ageGroup ?? AgeGroup.NEWBORN
+          ]
         }
         character={({ isMoving, isJumping }) => (
           <CatCharacter

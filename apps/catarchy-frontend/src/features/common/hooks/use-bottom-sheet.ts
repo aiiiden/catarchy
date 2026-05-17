@@ -15,7 +15,13 @@ export function useBottomSheet() {
   const close = useOverlayStore((s) => s.close);
 
   return {
-    open: ({ id, component, header, onDimClick, dimClosable }: BottomSheetOpenProps) =>
+    open: ({
+      id,
+      component,
+      header,
+      onDimClick,
+      dimClosable,
+    }: BottomSheetOpenProps) =>
       open({
         id,
         type: "bottom-sheet",

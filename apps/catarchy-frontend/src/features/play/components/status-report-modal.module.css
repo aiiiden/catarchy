@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-    gap: 8px;
+  gap: 8px;
 }
 
 .body {
@@ -22,5 +22,5 @@
 }
 
 .footer {
-    padding: 8px;
+  padding: 8px;
 }

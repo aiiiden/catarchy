@@ -1,16 +1,16 @@
 .box {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
 }
 
 .description {
-    font-size: 0.85em;
+  font-size: 0.85em;
 }
 
 .options {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }

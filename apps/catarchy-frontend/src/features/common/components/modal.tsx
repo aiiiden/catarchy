@@ -17,7 +17,12 @@ type ModalProps = {
   dimClosable?: boolean;
 };
 
-export function Modal({ children, onClose, header, dimClosable = true }: ModalProps) {
+export function Modal({
+  children,
+  onClose,
+  header,
+  dimClosable = true,
+}: ModalProps) {
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
