@@ -18,6 +18,8 @@ import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthPasswordResetRouteImport } from './routes/auth/password-reset'
 import { Route as GuardedPlayIndexRouteImport } from './routes/_guarded/play/index'
 import { Route as GuardedCatSummonRouteImport } from './routes/_guarded/cat/summon'
+import { Route as GuardedCatStatusRouteImport } from './routes/_guarded/cat/status'
+import { Route as GuardedCatCareHistoryRouteImport } from './routes/_guarded/cat/care-history'
 
 const TocRoute = TocRouteImport.update({
   id: '/toc',
@@ -63,6 +65,16 @@ const GuardedCatSummonRoute = GuardedCatSummonRouteImport.update({
   path: '/cat/summon',
   getParentRoute: () => GuardedRoute,
 } as any)
+const GuardedCatStatusRoute = GuardedCatStatusRouteImport.update({
+  id: '/cat/status',
+  path: '/cat/status',
+  getParentRoute: () => GuardedRoute,
+} as any)
+const GuardedCatCareHistoryRoute = GuardedCatCareHistoryRouteImport.update({
+  id: '/cat/care-history',
+  path: '/cat/care-history',
+  getParentRoute: () => GuardedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof gateIndexRoute
@@ -71,6 +83,8 @@ export interface FileRoutesByFullPath {
   '/auth/password-reset': typeof AuthPasswordResetRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/sign-in': typeof AuthSignInRoute
+  '/cat/care-history': typeof GuardedCatCareHistoryRoute
+  '/cat/status': typeof GuardedCatStatusRoute
   '/cat/summon': typeof GuardedCatSummonRoute
   '/play/': typeof GuardedPlayIndexRoute
 }
@@ -81,6 +95,8 @@ export interface FileRoutesByTo {
   '/auth/password-reset': typeof AuthPasswordResetRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/sign-in': typeof AuthSignInRoute
+  '/cat/care-history': typeof GuardedCatCareHistoryRoute
+  '/cat/status': typeof GuardedCatStatusRoute
   '/cat/summon': typeof GuardedCatSummonRoute
   '/play': typeof GuardedPlayIndexRoute
 }
@@ -93,6 +109,8 @@ export interface FileRoutesById {
   '/auth/register': typeof AuthRegisterRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/(gate)/': typeof gateIndexRoute
+  '/_guarded/cat/care-history': typeof GuardedCatCareHistoryRoute
+  '/_guarded/cat/status': typeof GuardedCatStatusRoute
   '/_guarded/cat/summon': typeof GuardedCatSummonRoute
   '/_guarded/play/': typeof GuardedPlayIndexRoute
 }
@@ -105,6 +123,8 @@ export interface FileRouteTypes {
     | '/auth/password-reset'
     | '/auth/register'
     | '/auth/sign-in'
+    | '/cat/care-history'
+    | '/cat/status'
     | '/cat/summon'
     | '/play/'
   fileRoutesByTo: FileRoutesByTo
@@ -115,6 +135,8 @@ export interface FileRouteTypes {
     | '/auth/password-reset'
     | '/auth/register'
     | '/auth/sign-in'
+    | '/cat/care-history'
+    | '/cat/status'
     | '/cat/summon'
     | '/play'
   id:
@@ -126,6 +148,8 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/sign-in'
     | '/(gate)/'
+    | '/_guarded/cat/care-history'
+    | '/_guarded/cat/status'
     | '/_guarded/cat/summon'
     | '/_guarded/play/'
   fileRoutesById: FileRoutesById
@@ -205,15 +229,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuardedCatSummonRouteImport
       parentRoute: typeof GuardedRoute
     }
+    '/_guarded/cat/status': {
+      id: '/_guarded/cat/status'
+      path: '/cat/status'
+      fullPath: '/cat/status'
+      preLoaderRoute: typeof GuardedCatStatusRouteImport
+      parentRoute: typeof GuardedRoute
+    }
+    '/_guarded/cat/care-history': {
+      id: '/_guarded/cat/care-history'
+      path: '/cat/care-history'
+      fullPath: '/cat/care-history'
+      preLoaderRoute: typeof GuardedCatCareHistoryRouteImport
+      parentRoute: typeof GuardedRoute
+    }
   }
 }
 
 interface GuardedRouteChildren {
+  GuardedCatCareHistoryRoute: typeof GuardedCatCareHistoryRoute
+  GuardedCatStatusRoute: typeof GuardedCatStatusRoute
   GuardedCatSummonRoute: typeof GuardedCatSummonRoute
   GuardedPlayIndexRoute: typeof GuardedPlayIndexRoute
 }
 
 const GuardedRouteChildren: GuardedRouteChildren = {
+  GuardedCatCareHistoryRoute: GuardedCatCareHistoryRoute,
+  GuardedCatStatusRoute: GuardedCatStatusRoute,
   GuardedCatSummonRoute: GuardedCatSummonRoute,
   GuardedPlayIndexRoute: GuardedPlayIndexRoute,
 }

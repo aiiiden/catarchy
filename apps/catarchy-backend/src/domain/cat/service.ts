@@ -1,9 +1,11 @@
+import { uuidv7 } from "uuidv7";
 import { getDatabase } from "../../infra/db";
+import { CatSex } from "../../infra/db/schema";
 import { runAtomic } from "../../lib/atomic";
 import { ConflictError, NotFoundError } from "../../lib/error";
 import { CatStatRepository } from "./cat-stat.repository";
 import { getEmotion } from "./constants/emotion";
-import { getAgeGroup } from "./constants/growth";
+import { getAge, getAgeGroup } from "./constants/growth";
 import { CatRepository } from "./repository";
 
 export abstract class CatService {
@@ -28,10 +30,12 @@ export abstract class CatService {
     return {
       id: cat.cat.id,
       name: cat.cat.name,
+      sex: cat.cat.sex as CatSex | null,
       stat: {
         growth: {
-          age: getAgeGroup(cat.stat.growth),
+          ageGroup: getAgeGroup(cat.stat.growth),
           value: cat.stat.growth,
+          age: getAge(cat.stat.growth),
         },
         emotion: {
           value: cat.stat.emotion,
@@ -60,7 +64,7 @@ export abstract class CatService {
       throw new ConflictError("You already have a cat.");
     }
 
-    const newCatId = crypto.randomUUID();
+    const newCatId = uuidv7();
 
     const [[newCat]] = await runAtomic(this.db, [
       this.catRepository.create({ id: newCatId, servantId: userId, name, sex }),

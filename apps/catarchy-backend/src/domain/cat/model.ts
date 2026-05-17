@@ -2,6 +2,60 @@ import Elysia, { t } from "elysia";
 import { CatSex } from "../../infra/db/schema";
 import { AgeGroup } from "./constants/growth";
 
+export const careRecordItemSchema = t.Object({
+  id: t.String({
+    description: "UUIDv7 identifier of the care record",
+    examples: ["01970f3a-2b4c-7e8f-9abc-def012345678"],
+  }),
+  catId: t.String({
+    description: "ID of the cat",
+    examples: ["01970f3a-2b4c-7e8f-9abc-def012345678"],
+  }),
+  servantId: t.String({
+    description: "ID of the servant who cared",
+    examples: ["01970f3a-2b4c-7e8f-9abc-def012345678"],
+  }),
+  growth: t.Object({
+    value: t.Number({ examples: [120] }),
+    age: t.Object({
+      value: t.Number({ examples: [10] }),
+      int: t.Number({ examples: [10] }),
+      fraction: t.Object({
+        numerator: t.Number({ examples: [0] }),
+        denominator: t.Literal(12),
+      }),
+    }),
+    ageGroup: t.Enum(AgeGroup),
+    delta: t.Number({ examples: [10] }),
+  }),
+  growthDelta: t.Number({
+    description: "Growth points gained from this care",
+    examples: [10],
+  }),
+  emotion: t.Object({
+    value: t.Number({ examples: [75] }),
+    emoji: t.String({ examples: ["😄"] }),
+    level: t.String({ examples: ["happy"] }),
+    delta: t.Number({ examples: [5] }),
+  }),
+  emotionDelta: t.Number({
+    description: "Emotion points changed from this care",
+    examples: [5],
+  }),
+  message: t.Nullable(
+    t.String({
+      description: "AI-generated care message",
+      examples: ["Mochi purrs softly."],
+    }),
+  ),
+  caredAt: t.Nullable(
+    t.String({
+      description: "ISO timestamp of when the care occurred",
+      examples: ["2026-05-15T12:00:00.000Z"],
+    }),
+  ),
+});
+
 export const catModel = new Elysia({
   name: "model.cat",
 }).model({
@@ -33,15 +87,38 @@ export const catModel = new Elysia({
       description: "The name of the cat",
       examples: ["Mochi"],
     }),
+    sex: t.Nullable(
+      t.Enum(CatSex, {
+        description: "The sex of the cat",
+        examples: ["MALE"],
+      }),
+    ),
     stat: t.Object({
       growth: t.Object({
-        age: t.Enum(AgeGroup, {
+        ageGroup: t.Enum(AgeGroup, {
           description: "Age group of the cat",
           examples: ["KITTEN"],
         }),
         value: t.Number({
           description: "Current growth points",
           examples: [120],
+        }),
+        age: t.Object({
+          value: t.Number({
+            description: "Growth divided by 12, rounded to 2 decimal places",
+            examples: [10.0],
+          }),
+          int: t.Number({
+            description: "Integer part of growth / 12",
+            examples: [10],
+          }),
+          fraction: t.Object({
+            numerator: t.Number({
+              description: "Remainder of growth divided by 12",
+              examples: [0],
+            }),
+            denominator: t.Literal(12),
+          }),
         }),
       }),
       emotion: t.Object({
@@ -98,6 +175,10 @@ export const catModel = new Elysia({
     }),
   }),
 
+  // ── GET /cat/care-records ──────────────────────────────────────────────────
+
+  "cat.care-records.item": careRecordItemSchema,
+
   // ── POST /cat/care ─────────────────────────────────────────────────────────
 
   "cat.care.body": t.Object({
@@ -111,13 +192,30 @@ export const catModel = new Elysia({
 
   "cat.care.response": t.Object({
     growth: t.Object({
-      age: t.Enum(AgeGroup, {
+      ageGroup: t.Enum(AgeGroup, {
         description: "Age group of the cat after care",
         examples: ["KITTEN"],
       }),
       value: t.Number({
         description: "Updated growth points after care",
         examples: [130],
+      }),
+      age: t.Object({
+        value: t.Number({
+          description: "Growth divided by 12, rounded to 2 decimal places",
+          examples: [10.83],
+        }),
+        int: t.Number({
+          description: "Integer part of growth / 12",
+          examples: [10],
+        }),
+        fraction: t.Object({
+          numerator: t.Number({
+            description: "Remainder of growth divided by 12",
+            examples: [10],
+          }),
+          denominator: t.Literal(12),
+        }),
       }),
     }),
     emotion: t.Object({

@@ -2,12 +2,13 @@ import { ai } from "../../infra/ai";
 import { sendPushNotification } from "../../infra/fcm";
 import { ConflictError, NotFoundError } from "../../lib/error";
 import { logger } from "../../lib/logger";
+import { CursorQuery } from "../../lib/pagination";
 import { ConsensusRepository } from "../consensus/repository";
 import { NotificationRepository } from "../notification/repository";
 import { CareRecordRepository } from "./care-record.repository";
 import { CatStatRepository } from "./cat-stat.repository";
 import { calculateNewEmotion, getEmotion } from "./constants/emotion";
-import { getAgeGroup } from "./constants/growth";
+import { getAge, getAgeGroup } from "./constants/growth";
 import { buildCarePrompt } from "./prompts/care";
 import { CatRepository } from "./repository";
 
@@ -67,9 +68,12 @@ export abstract class CatCareService {
     }
 
     // 3+4) calculate new stat with decay and care increment
-    const newGrowth = catStat.growth + growthPerCare;
+    const oldEmotion = catStat.emotion;
+    const oldGrowth = catStat.growth;
+
+    const newGrowth = oldGrowth + growthPerCare;
     const newEmotion = calculateNewEmotion({
-      currentEmotion: catStat.emotion,
+      currentEmotion: oldEmotion,
       lastCaredAt: cat.lastCaredAt,
       emotionPerCare,
       emotionDecrease,
@@ -116,20 +120,21 @@ export abstract class CatCareService {
       message = `${cat.name} enjoyed the care and purrs contentedly.`;
     }
 
-    await Promise.all([
-      this.careRecordRepository.create({
-        catId: cat.id,
-        emotionDelta: emotionPerCare,
-        growthDelta: growthPerCare,
-        servantId: userId,
-        message,
-      }),
-    ]);
+    await this.careRecordRepository.create({
+      catId: cat.id,
+      emotion: newEmotion,
+      emotionDelta: newEmotion - oldEmotion,
+      growth: newGrowth,
+      growthDelta: newGrowth - oldGrowth,
+      servantId: userId,
+      message,
+    });
 
     return {
       growth: {
-        age: getAgeGroup(updatedCatStat.growth),
+        ageGroup: getAgeGroup(updatedCatStat.growth),
         value: updatedCatStat.growth,
+        age: getAge(updatedCatStat.growth),
       },
       emotion: {
         value: updatedCatStat.emotion,
@@ -137,6 +142,45 @@ export abstract class CatCareService {
         level: emotionState.level,
       },
       message,
+    };
+  }
+
+  static async getCareRecords({
+    userId,
+    catId,
+    ...pagination
+  }: { userId: string; catId: string } & CursorQuery) {
+    const limit = pagination.limit;
+    const cursor = pagination.cursor;
+
+    const { hasMore, items, nextCursor } =
+      await this.careRecordRepository.findByCursor({
+        userId,
+        catId,
+        cursor,
+        limit,
+      });
+
+    const populatedItems = items.map((record) => ({
+      ...record,
+      growth: {
+        value: record.growth,
+        age: getAge(record.growth),
+        ageGroup: getAgeGroup(record.growth),
+        delta: record.growthDelta,
+      },
+      emotion: {
+        value: record.emotion,
+        emoji: getEmotion(record.emotion).emoji,
+        level: getEmotion(record.emotion).level,
+        delta: record.emotionDelta,
+      },
+    }));
+
+    return {
+      items: populatedItems,
+      nextCursor,
+      hasMore,
     };
   }
 

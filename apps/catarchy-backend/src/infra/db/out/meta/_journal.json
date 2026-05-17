@@ -8,6 +8,27 @@
       "when": 1778634362086,
       "tag": "0000_wonderful_overlord",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1778735292968,
+      "tag": "0001_smooth_inertia",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1778812930998,
+      "tag": "0002_clean_leper_queen",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1778987496945,
+      "tag": "0003_shallow_dazzler",
+      "breakpoints": true
     }
   ]
 }

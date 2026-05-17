@@ -1,8 +1,9 @@
-import Elysia, { StatusMap } from "elysia";
+import Elysia, { StatusMap, t } from "elysia";
+import { cursorQueryType, cursorResultType } from "../../lib/pagination";
 import { withCommonError } from "../../lib/response";
 import { authGuard } from "../auth/guard";
 import { CatCareService } from "./cat-care.service";
-import { catModel } from "./model";
+import { careRecordItemSchema, catModel } from "./model";
 import { CatService } from "./service";
 
 export const catRouter = () => {
@@ -58,6 +59,37 @@ export const catRouter = () => {
           [StatusMap["Not Found"]]: "cat.not-found",
           [StatusMap.Conflict]: "cat.conflict",
         }),
+      },
+    )
+    .get(
+      "/care-records",
+      async ({ user, query, catCareService }) => {
+        const { limit, cursor } = query;
+
+        return await catCareService.getCareRecords({
+          userId: user.id,
+          catId: query.catId,
+          limit,
+          cursor,
+        });
+      },
+      {
+        query: t.Object({
+          ...cursorQueryType({
+            cursor: {
+              description:
+                "uuidv7 string representing the last care record from the previous page. If not provided, it will return the first page.",
+            },
+            limit: {
+              description: "number of care records to return",
+              examples: [10],
+            },
+          }),
+          catId: t.String({
+            description: "ID of the cat to retrieve care records for",
+          }),
+        }),
+        response: withCommonError(cursorResultType(careRecordItemSchema)),
       },
     );
 };
