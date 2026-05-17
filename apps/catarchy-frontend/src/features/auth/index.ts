@@ -1,10 +1,10 @@
-// COMPONENTS
-export * from "./components/power-off-button";
-
 // SCREENS
 export * from "./screens/password-reset-screen";
 export * from "./screens/sign-in-screen";
 export * from "./screens/signup-screen";
+
+// HOOKS
+export * from "./hooks/use-auth";
 
 // SERVICES
 export * from "./services/password-reset";

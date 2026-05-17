@@ -17,6 +17,7 @@ import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthPasswordResetRouteImport } from './routes/auth/password-reset'
 import { Route as GuardedPlayIndexRouteImport } from './routes/_guarded/play/index'
+import { Route as GuardedConfigIndexRouteImport } from './routes/_guarded/config/index'
 import { Route as GuardedCatSummonRouteImport } from './routes/_guarded/cat/summon'
 import { Route as GuardedCatStatusRouteImport } from './routes/_guarded/cat/status'
 import { Route as GuardedCatCareHistoryRouteImport } from './routes/_guarded/cat/care-history'
@@ -60,6 +61,11 @@ const GuardedPlayIndexRoute = GuardedPlayIndexRouteImport.update({
   path: '/play/',
   getParentRoute: () => GuardedRoute,
 } as any)
+const GuardedConfigIndexRoute = GuardedConfigIndexRouteImport.update({
+  id: '/config/',
+  path: '/config/',
+  getParentRoute: () => GuardedRoute,
+} as any)
 const GuardedCatSummonRoute = GuardedCatSummonRouteImport.update({
   id: '/cat/summon',
   path: '/cat/summon',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/cat/care-history': typeof GuardedCatCareHistoryRoute
   '/cat/status': typeof GuardedCatStatusRoute
   '/cat/summon': typeof GuardedCatSummonRoute
+  '/config/': typeof GuardedConfigIndexRoute
   '/play/': typeof GuardedPlayIndexRoute
 }
 export interface FileRoutesByTo {
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/cat/care-history': typeof GuardedCatCareHistoryRoute
   '/cat/status': typeof GuardedCatStatusRoute
   '/cat/summon': typeof GuardedCatSummonRoute
+  '/config': typeof GuardedConfigIndexRoute
   '/play': typeof GuardedPlayIndexRoute
 }
 export interface FileRoutesById {
@@ -112,6 +120,7 @@ export interface FileRoutesById {
   '/_guarded/cat/care-history': typeof GuardedCatCareHistoryRoute
   '/_guarded/cat/status': typeof GuardedCatStatusRoute
   '/_guarded/cat/summon': typeof GuardedCatSummonRoute
+  '/_guarded/config/': typeof GuardedConfigIndexRoute
   '/_guarded/play/': typeof GuardedPlayIndexRoute
 }
 export interface FileRouteTypes {
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/cat/care-history'
     | '/cat/status'
     | '/cat/summon'
+    | '/config/'
     | '/play/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/cat/care-history'
     | '/cat/status'
     | '/cat/summon'
+    | '/config'
     | '/play'
   id:
     | '__root__'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/_guarded/cat/care-history'
     | '/_guarded/cat/status'
     | '/_guarded/cat/summon'
+    | '/_guarded/config/'
     | '/_guarded/play/'
   fileRoutesById: FileRoutesById
 }
@@ -222,6 +234,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuardedPlayIndexRouteImport
       parentRoute: typeof GuardedRoute
     }
+    '/_guarded/config/': {
+      id: '/_guarded/config/'
+      path: '/config'
+      fullPath: '/config/'
+      preLoaderRoute: typeof GuardedConfigIndexRouteImport
+      parentRoute: typeof GuardedRoute
+    }
     '/_guarded/cat/summon': {
       id: '/_guarded/cat/summon'
       path: '/cat/summon'
@@ -250,6 +269,7 @@ interface GuardedRouteChildren {
   GuardedCatCareHistoryRoute: typeof GuardedCatCareHistoryRoute
   GuardedCatStatusRoute: typeof GuardedCatStatusRoute
   GuardedCatSummonRoute: typeof GuardedCatSummonRoute
+  GuardedConfigIndexRoute: typeof GuardedConfigIndexRoute
   GuardedPlayIndexRoute: typeof GuardedPlayIndexRoute
 }
 
@@ -257,6 +277,7 @@ const GuardedRouteChildren: GuardedRouteChildren = {
   GuardedCatCareHistoryRoute: GuardedCatCareHistoryRoute,
   GuardedCatStatusRoute: GuardedCatStatusRoute,
   GuardedCatSummonRoute: GuardedCatSummonRoute,
+  GuardedConfigIndexRoute: GuardedConfigIndexRoute,
   GuardedPlayIndexRoute: GuardedPlayIndexRoute,
 }
 

@@ -6,7 +6,7 @@ import styles from "./button.module.css";
 type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
 type ButtonSize = "small" | "default" | "big";
 
-type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
+export type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   native?: boolean;
@@ -14,7 +14,14 @@ type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant = "primary", size = "default", disabled, native, ...props },
+    {
+      className,
+      variant = "primary",
+      size = "default",
+      disabled,
+      native,
+      ...props
+    },
     ref,
   ) => {
     if (native) {

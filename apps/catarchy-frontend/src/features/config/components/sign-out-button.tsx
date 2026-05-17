@@ -1,0 +1,37 @@
+import { useAuth } from "@/features/auth";
+import { Button, ChevronRight, Text, useAlert } from "@/features/common";
+import { useRouter } from "@tanstack/react-router";
+import styles from "./sign-out-button.module.css";
+
+export function SignoutButton() {
+  const router = useRouter();
+  const alert = useAlert();
+  const auth = useAuth();
+
+  const handleClick = () => {
+    alert.open({
+      id: "sign-out-confirmation",
+      title: "Sign Out",
+      message: "Are you sure you want to sign out?",
+      cancelLabel: "No",
+      confirmLabel: "Yes",
+      onConfirm: async () => {
+        await auth.signOut();
+        alert.close("sign-out-confirmation");
+        await router.navigate({
+          to: "/",
+        });
+      },
+      onCancel: () => {
+        alert.close("sign-out-confirmation");
+      },
+    });
+  };
+
+  return (
+    <Button variant="outline" onClick={handleClick} className={styles.button}>
+      <Text className={styles.buttonText}>Sign out</Text>
+      <ChevronRight />
+    </Button>
+  );
+}
