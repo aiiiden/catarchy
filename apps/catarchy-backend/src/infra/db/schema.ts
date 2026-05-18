@@ -78,38 +78,6 @@ export const sessionTable = sqliteTable(
   (t) => [index("session_user_id_idx").on(t.userId)],
 );
 
-// ── Wallet / Nonce ────────────────────────────────────────────────────────────
-
-/** EVM wallet addresses; userId is nullable to support pre-registration SIWE flows (user : wallet = 1 : 1) */
-export const walletTable = sqliteTable("wallet", {
-  id: text("id")
-    .$defaultFn(() => uuidv7())
-    .primaryKey(),
-  address: text("address").unique().notNull(),
-  userId: text("user_id")
-    .unique()
-    .references(() => userTable.id, { onDelete: "set null" }),
-  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
-});
-
-/** One-time nonces issued per wallet for SIWE challenge-response (wallet : nonce = 1 : N) */
-export const nonceTable = sqliteTable(
-  "nonce",
-  {
-    id: text("id")
-      .$defaultFn(() => uuidv7())
-      .primaryKey(),
-    walletId: text("wallet_id")
-      .notNull()
-      .references(() => walletTable.id),
-    nonce: text("nonce").notNull(),
-    expiredAt: integer("expired_at").notNull(),
-    createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  },
-  (t) => [index("nonce_wallet_id_idx").on(t.walletId)],
-);
-
 // ── Push Notification ─────────────────────────────────────────────────────────
 
 /** FCM push tokens per user for Web Push (PWA) notifications (user : fcmToken = 1 : N) */
@@ -323,25 +291,6 @@ export const userRelations = relations(userTable, ({ one, many }) => ({
   cats: many(cat),
   careRecords: many(careRecord),
   fcmTokens: many(fcmTokenTable),
-  wallet: one(walletTable, {
-    fields: [userTable.id],
-    references: [walletTable.userId],
-  }),
-}));
-
-export const walletRelations = relations(walletTable, ({ one, many }) => ({
-  user: one(userTable, {
-    fields: [walletTable.userId],
-    references: [userTable.id],
-  }),
-  nonces: many(nonceTable),
-}));
-
-export const nonceRelations = relations(nonceTable, ({ one }) => ({
-  wallet: one(walletTable, {
-    fields: [nonceTable.walletId],
-    references: [walletTable.id],
-  }),
 }));
 
 export const fcmTokenRelations = relations(fcmTokenTable, ({ one }) => ({
@@ -435,8 +384,6 @@ export const table = {
   auth: authTable,
   emailVerification: emailVerificationTable,
   session: sessionTable,
-  wallet: walletTable,
-  nonce: nonceTable,
   cat: cat,
   catStat: catStat,
   careRecord: careRecord,
