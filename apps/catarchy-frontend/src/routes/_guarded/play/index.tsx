@@ -6,7 +6,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/_guarded/play/")({
   async beforeLoad({ context: { queryClient } }) {
     try {
-      const cat = await queryClient.ensureQueryData(catInfoOptions());
+      await queryClient.ensureQueryData(catInfoOptions());
     } catch (error) {
       if (error instanceof EdenFetchError) {
         if (error.status === 404) {
