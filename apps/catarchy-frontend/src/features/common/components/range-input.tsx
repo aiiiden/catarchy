@@ -52,7 +52,6 @@ export const RangeInput = React.forwardRef<HTMLDivElement, RangeInputProps>(
     const trackRef = React.useRef<HTMLDivElement>(null);
     const thumbRef = React.useRef<HTMLDivElement>(null);
     const inputRef = React.useRef<HTMLInputElement>(null);
-    const [isDragging, setIsDragging] = React.useState(false);
     const [isFocused, setIsFocused] = React.useState(false);
     const fallbackAriaLabel = name ? `${name} slider` : "Slider";
 
@@ -103,7 +102,6 @@ export const RangeInput = React.forwardRef<HTMLDivElement, RangeInputProps>(
     );
 
     const handlePointerUp = React.useCallback(() => {
-      setIsDragging(false);
       document.removeEventListener("pointermove", handlePointerMove);
       document.removeEventListener("pointerup", handlePointerUp);
       document.removeEventListener("touchmove", handlePointerMove);
@@ -112,14 +110,12 @@ export const RangeInput = React.forwardRef<HTMLDivElement, RangeInputProps>(
 
     const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
       if (disabled) return;
-      setIsDragging(true);
       document.addEventListener("pointermove", handlePointerMove);
       document.addEventListener("pointerup", handlePointerUp);
     };
 
     const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
       if (disabled) return;
-      setIsDragging(true);
       document.addEventListener("touchmove", handlePointerMove);
       document.addEventListener("touchend", handlePointerUp);
     };

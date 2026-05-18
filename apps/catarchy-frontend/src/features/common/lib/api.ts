@@ -29,7 +29,7 @@ const fetchWithRefresh = async (
   });
 
   // Extract request ID for logging/debugging purposes
-  const requestId = response.headers.get("x-request-id");
+  // const requestId = response.headers.get("x-request-id");
 
   // If session is valid, return the response immediately
   if (response.status !== 401) return response;
