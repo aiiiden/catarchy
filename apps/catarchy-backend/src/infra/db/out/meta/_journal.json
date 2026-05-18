@@ -29,6 +29,13 @@
       "when": 1778987496945,
       "tag": "0003_shallow_dazzler",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1779082567881,
+      "tag": "0004_vengeful_phalanx",
+      "breakpoints": true
     }
   ]
 }
