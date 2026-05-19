@@ -36,6 +36,20 @@
       "when": 1779082567881,
       "tag": "0004_vengeful_phalanx",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1779105331873,
+      "tag": "0005_chunky_kulan_gath",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1779164461569,
+      "tag": "0006_real_saracen",
+      "breakpoints": true
     }
   ]
 }
