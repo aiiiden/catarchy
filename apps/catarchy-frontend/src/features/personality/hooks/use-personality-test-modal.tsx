@@ -104,14 +104,14 @@ export function usePersonalityTestModal({
             ]);
 
             if (!result?.isCompleted) {
-              await queryClient.invalidateQueries(
-                getCatPersonalityOptions({ catId }),
-              );
               const nextCount = answeredInSession + 1;
               if (!answerCount || nextCount < answerCount) {
                 start(nextCount);
               }
             } else {
+              await queryClient.invalidateQueries(
+                getCatPersonalityOptions({ catId }),
+              );
               onCompleted?.();
             }
           }}
