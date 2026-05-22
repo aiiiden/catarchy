@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { useAnalytics } from "@/features/analytics";
 import { useModal, useToast } from "@/features/common";
 
 import { QuestionStep } from "../components/question-step";
@@ -22,6 +23,7 @@ export function usePersonalityTestModal({
   const toast = useToast();
   const modal = useModal();
   const queryClient = useQueryClient();
+  const analytics = useAnalytics();
 
   const { data: progressData, refetch: fetchProgress } = useQuery(
     getPersonalityTestProgressOptions({ catId }),
@@ -87,6 +89,7 @@ export function usePersonalityTestModal({
           totalCount={progress.totalCount}
           currentIndex={progress.totalCount - progress.remainingCount}
           onAnswer={async (answer) => {
+            analytics.click({ eventName: "personality_test_answer" });
             const result = await submitAnswer({
               questionId: data.id,
               answer: answer,

@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { Suspense } from "react";
 
+import { useAnalytics } from "@/features/analytics";
 import {
   Button,
   cn,
@@ -22,6 +23,7 @@ export function PersonalityTestScreen({ catId }: { catId: string }) {
   const hasCompletedTest = data?.remainingCount === 0;
 
   const { start } = usePersonalityTestModal({ catId });
+  const analytics = useAnalytics();
 
   return (
     <Scaffold>
@@ -51,7 +53,13 @@ export function PersonalityTestScreen({ catId }: { catId: string }) {
       </Scaffold.Body>
       {!hasCompletedTest && (
         <Scaffold.Bottom sticky>
-          <Button size="big" onClick={() => start()}>
+          <Button
+            size="big"
+            onClick={() => {
+              analytics.click({ eventName: "personality_test_start" });
+              start();
+            }}
+          >
             <Text>Start Test</Text>
           </Button>
         </Scaffold.Bottom>

@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { useCallback } from "react";
 
+import { useAnalytics } from "@/features/analytics";
 import {
   careForCatOptions,
   catInfoOptions,
@@ -22,6 +23,7 @@ import { StatusReportModal } from "./status-report-modal";
 export function CareButton({ catId }: { catId: string }) {
   const modal = useModal();
   const queryClient = useQueryClient();
+  const analytics = useAnalytics();
 
   const personalityTestModal = usePersonalityTestModal({
     catId,
@@ -44,6 +46,7 @@ export function CareButton({ catId }: { catId: string }) {
   const cooldown = useCareCooldown({ catId });
 
   const handleClick = useCallback(async () => {
+    analytics.click({ eventName: "care_button" });
     const data = await careForCat.mutateAsync();
 
     if (!data) {
