@@ -1,6 +1,7 @@
 import { AgeGroup } from "@catarchy/shared/constants/cat";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
 
 import { Button, CatCharacter, cn, InfoTable, Text } from "@/features/common";
 
@@ -17,6 +18,23 @@ export function CareHistoryList({ catId }: { catId: string }) {
     }),
     enabled: Boolean(catId),
   });
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!hasNextPage || !loadMoreRef.current) return;
+
+    const observer = new IntersectionObserver(async ([entry]) => {
+      if (entry.isIntersecting) {
+        await fetchNextPage();
+      }
+    });
+
+    observer.observe(loadMoreRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [fetchNextPage, hasNextPage]);
 
   const hasNoRecords = data?.pages[0]?.items.length === 0;
 
@@ -105,19 +123,7 @@ export function CareHistoryList({ catId }: { catId: string }) {
           )),
         )}
         {hasNextPage && (
-          <div
-            id="load-more"
-            ref={() => {
-              const observer = new IntersectionObserver(async ([entry]) => {
-                if (entry.isIntersecting) {
-                  await fetchNextPage();
-                }
-              });
-
-              observer.observe(document.querySelector("#load-more")!);
-            }}
-            className={styles.loadMore}
-          >
+          <div id="load-more" ref={loadMoreRef} className={styles.loadMore}>
             <CatCharacter age={AgeGroup.ADULT} scale={1} tag="walk" />
           </div>
         )}
