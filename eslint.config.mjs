@@ -7,7 +7,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: ["**/dist/", "**/node_modules/", "**/routeTree.gen.ts", ".zed/"],
+    ignores: ["**/dist/", "**/node_modules/", "**/routeTree.gen.ts", ".zed/", "**/.localflare/", "**/.wrangler/"],
   },
   js.configs.recommended,
   tseslint.configs.recommended,
@@ -18,6 +18,10 @@ export default tseslint.config(
     rules: {
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
     },
   },
   {
