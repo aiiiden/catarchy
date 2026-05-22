@@ -172,59 +172,57 @@ export const careRecord = sqliteTable(
   ],
 );
 
-/** Big Five personality trait scores for a cat, derived from personality tests (cat : catPersonality = 1 : 0~1) */
-export const catPersonality = sqliteTable(
-  "cat_personality",
-  {
-    catId: text("cat_id")
-      .primaryKey()
-      .references(() => cat.id),
+/**
+ * Big Five personality trait scores for a cat (cat : catPersonality = 1 : 0~1).
+ * Two-phase values: while remainingCount > 0 the trait columns hold raw answer sums
+ * (unbounded integers); once remainingCount reaches 0 they are normalized to 0–10.
+ * Do not treat trait values as final scores until remainingCount === 0.
+ */
+export const catPersonality = sqliteTable("cat_personality", {
+  catId: text("cat_id")
+    .primaryKey()
+    .references(() => cat.id),
 
-    openness: integer("openness").notNull(),
-    conscientiousness: integer("conscientiousness").notNull(),
-    extraversion: integer("extraversion").notNull(),
-    agreeableness: integer("agreeableness").notNull(),
-    neuroticism: integer("neuroticism").notNull(),
+  openness: integer("openness").notNull().default(0),
+  conscientiousness: integer("conscientiousness").notNull().default(0),
+  extraversion: integer("extraversion").notNull().default(0),
+  agreeableness: integer("agreeableness").notNull().default(0),
+  neuroticism: integer("neuroticism").notNull().default(0),
 
-    createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-    updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
-  },
-  (t) => [
-    check("openness_range", sql`${t.openness} >= 0 AND ${t.openness} <= 10`),
-    check(
-      "conscientiousness_range",
-      sql`${t.conscientiousness} >= 0 AND ${t.conscientiousness} <= 10`,
-    ),
-    check(
-      "extraversion_range",
-      sql`${t.extraversion} >= 0 AND ${t.extraversion} <= 10`,
-    ),
-    check(
-      "agreeableness_range",
-      sql`${t.agreeableness} >= 0 AND ${t.agreeableness} <= 10`,
-    ),
-    check(
-      "neuroticism_range",
-      sql`${t.neuroticism} >= 0 AND ${t.neuroticism} <= 10`,
-    ),
-  ],
-);
+  /** Remaining unanswered questions; 0 = test complete and scores are normalized */
+  remainingCount: integer("remaining_count").notNull().default(0),
 
-/** Personality test question bank seeded from IPIP-NEO-PI-R 120-item inventory */
+  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
+});
+
+export enum PersonalityQuestionKeyed {
+  PLUS = "plus",
+  MINUS = "minus",
+}
+
+export enum PersonalityDomain {
+  OPENNESS = "openness",
+  CONSCIENTIOUSNESS = "conscientiousness",
+  EXTRAVERSION = "extraversion",
+  AGREEABLENESS = "agreeableness",
+  NEUROTICISM = "neuroticism",
+}
+
 export const personalityQuestion = sqliteTable("personality_question", {
   id: text("id").primaryKey(),
   text: text("text").notNull(),
   keyed: text("keyed", {
-    enum: ["plus", "minus"] as [string, ...string[]],
+    enum: Object.values(PersonalityQuestionKeyed) as [
+      PersonalityQuestionKeyed,
+      ...PersonalityQuestionKeyed[],
+    ],
   }).notNull(),
   domain: text("domain", {
-    enum: [
-      "openness",
-      "conscientiousness",
-      "extraversion",
-      "agreeableness",
-      "neuroticism",
-    ] as [string, ...string[]],
+    enum: Object.values(PersonalityDomain) as [
+      PersonalityDomain,
+      ...PersonalityDomain[],
+    ],
   }).notNull(),
   descriptionLevel1: text("description_level_1").notNull(),
   descriptionLevel2: text("description_level_2").notNull(),
@@ -232,25 +230,6 @@ export const personalityQuestion = sqliteTable("personality_question", {
   descriptionLevel4: text("description_level_4").notNull(),
   descriptionLevel5: text("description_level_5").notNull(),
 });
-
-/** Per-question scores for a cat's one-time personality test (catId + questionId = unique pair) */
-export const personalityTestAnswer = sqliteTable(
-  "personality_test_answer",
-  {
-    catId: text("cat_id")
-      .notNull()
-      .references(() => cat.id),
-    questionId: text("question_id")
-      .notNull()
-      .references(() => personalityQuestion.id),
-    answer: integer("answer").notNull(),
-  },
-  (t) => [
-    unique("personality_test_answer_unique").on(t.catId, t.questionId),
-    check("answer_range", sql`${t.answer} >= 1 AND ${t.answer} <= 5`),
-    index("personality_test_answer_cat_id_idx").on(t.catId),
-  ],
-);
 
 export enum CatRelationshipType {
   FRIEND = "FRIEND",
@@ -361,7 +340,6 @@ export const catRelations = relations(cat, ({ one, many }) => ({
     fields: [cat.id],
     references: [catPersonality.catId],
   }),
-  personalityTestAnswers: many(personalityTestAnswer),
   relationshipsAsCat1: many(catRelationship, { relationName: "cat1" }),
   relationshipsAsCat2: many(catRelationship, { relationName: "cat2" }),
 }));
@@ -386,27 +364,6 @@ export const careRecordRelations = relations(careRecord, ({ one }) => ({
 export const catPersonalityRelations = relations(catPersonality, ({ one }) => ({
   cat: one(cat, { fields: [catPersonality.catId], references: [cat.id] }),
 }));
-
-export const personalityTestAnswerRelations = relations(
-  personalityTestAnswer,
-  ({ one }) => ({
-    cat: one(cat, {
-      fields: [personalityTestAnswer.catId],
-      references: [cat.id],
-    }),
-    question: one(personalityQuestion, {
-      fields: [personalityTestAnswer.questionId],
-      references: [personalityQuestion.id],
-    }),
-  }),
-);
-
-export const personalityQuestionRelations = relations(
-  personalityQuestion,
-  ({ many }) => ({
-    answers: many(personalityTestAnswer),
-  }),
-);
 
 export const catRelationshipRelations = relations(
   catRelationship,
@@ -436,7 +393,6 @@ export const table = {
   careRecord: careRecord,
   catPersonality: catPersonality,
   personalityQuestion: personalityQuestion,
-  personalityTestAnswer: personalityTestAnswer,
   catRelationship: catRelationship,
   fcmToken: fcmTokenTable,
   chronicle: chronicle,
