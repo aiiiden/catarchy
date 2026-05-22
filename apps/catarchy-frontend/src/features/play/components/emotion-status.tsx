@@ -17,7 +17,11 @@ export function EmotionStatus({ catId }: { catId: string }) {
         background="black"
       >
         {({ ref, onClick }) => (
-          <button className={styles.button} ref={ref} onClick={onClick}>
+          <button
+            className={styles.button}
+            ref={ref as React.Ref<HTMLButtonElement>}
+            onClick={onClick}
+          >
             {catInfo?.stat.emotion.emoji}
           </button>
         )}

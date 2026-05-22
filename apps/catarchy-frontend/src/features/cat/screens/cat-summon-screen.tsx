@@ -3,6 +3,7 @@ import { useRouter } from "@tanstack/react-router";
 import { FormProvider } from "react-hook-form";
 import z from "zod";
 
+import { useAnalytics } from "@/features/analytics";
 import { Button, LogoText, Scaffold, useToast } from "@/features/common";
 
 import { SummonForm } from "../components/summon-form";
@@ -16,6 +17,7 @@ export function CatSummonScreen() {
   const queryClient = useQueryClient();
   const toast = useToast();
   const { form } = useSummonForm();
+  const analytics = useAnalytics();
 
   const summon = useMutation({
     ...summonOptions(),
@@ -30,6 +32,7 @@ export function CatSummonScreen() {
   });
 
   const submit = async (formData: z.infer<typeof summonFormSchema>) => {
+    analytics.click({ eventName: "summon_cat" });
     const result = await summon.mutateAsync(formData);
 
     if (!result) return;

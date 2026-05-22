@@ -1,5 +1,6 @@
 import { useRouter } from "@tanstack/react-router";
 
+import { useAnalytics } from "@/features/analytics";
 import { useAuth } from "@/features/auth";
 import { Button, ChevronRight, Text, useAlert } from "@/features/common";
 
@@ -9,8 +10,10 @@ export function SignoutButton() {
   const router = useRouter();
   const alert = useAlert();
   const auth = useAuth();
+  const analytics = useAnalytics();
 
   const handleClick = () => {
+    analytics.click({ eventName: "sign_out" });
     alert.open({
       id: "sign-out-confirmation",
       title: "Sign Out",
@@ -18,6 +21,7 @@ export function SignoutButton() {
       cancelLabel: "No",
       confirmLabel: "Yes",
       onConfirm: async () => {
+        analytics.click({ eventName: "sign_out_confirm" });
         await auth.signOut();
         alert.close("sign-out-confirmation");
         await router.navigate({
@@ -25,6 +29,7 @@ export function SignoutButton() {
         });
       },
       onCancel: () => {
+        analytics.click({ eventName: "sign_out_cancel" });
         alert.close("sign-out-confirmation");
       },
     });

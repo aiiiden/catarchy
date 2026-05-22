@@ -1,3 +1,4 @@
+import { useAnalytics } from "@/features/analytics";
 import { Box, RadioInput, Text } from "@/features/common";
 
 import { useThemeStore } from "../stores/theme";
@@ -5,6 +6,12 @@ import styles from "./theme-section.module.css";
 
 export function ThemeSection() {
   const { displayMode, setDisplayMode } = useThemeStore();
+  const analytics = useAnalytics();
+
+  const handleDisplayModeChange = (mode: "default" | "inverted") => {
+    analytics.click({ eventName: `theme_${mode}` });
+    setDisplayMode(mode);
+  };
 
   return (
     <Box containerClassName={styles.box} rounded>
@@ -18,14 +25,14 @@ export function ThemeSection() {
           label="Default"
           value="default"
           checked={displayMode === "default"}
-          onChange={() => setDisplayMode("default")}
+          onChange={() => handleDisplayModeChange("default")}
         />
         <RadioInput
           name="display-mode"
           label="Inverted"
           value="inverted"
           checked={displayMode === "inverted"}
-          onChange={() => setDisplayMode("inverted")}
+          onChange={() => handleDisplayModeChange("inverted")}
         />
       </div>
     </Box>
