@@ -1,6 +1,8 @@
+import { useQueryClient } from "@tanstack/react-query";
+
 import { catInfoOptions, useCareCooldown } from "@/features/cat";
 import { Text, useCountDown } from "@/features/common";
-import { useQueryClient } from "@tanstack/react-query";
+
 import styles from "./care-cooldown.module.css";
 
 function formatCountdown(seconds: number) {

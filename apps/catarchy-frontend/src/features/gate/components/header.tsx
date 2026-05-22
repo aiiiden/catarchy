@@ -1,4 +1,5 @@
 import { LogoText, Text } from "@/features/common";
+
 import styles from "./header.module.css";
 
 export function Header() {

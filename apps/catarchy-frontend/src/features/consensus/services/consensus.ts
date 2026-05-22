@@ -1,6 +1,7 @@
-import { api } from "@/features/common";
 import type { ConsensusKey } from "@catarchy/shared/constants/consensus";
 import { queryOptions } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 export type { ConsensusKey };
 

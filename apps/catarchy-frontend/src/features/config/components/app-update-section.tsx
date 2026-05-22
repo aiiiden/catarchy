@@ -5,6 +5,7 @@ import {
   Text,
   usePwaUpdate,
 } from "@/features/common";
+
 import styles from "./app-update-section.module.css";
 
 export function AppUpdateSection() {

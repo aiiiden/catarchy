@@ -23,7 +23,7 @@ const fetchWithRefresh = async (
   input: RequestInfo | URL,
   init?: RequestInit,
 ) => {
-  let response: Response = await fetch(input, {
+  const response: Response = await fetch(input, {
     ...init,
     credentials: "include",
   });

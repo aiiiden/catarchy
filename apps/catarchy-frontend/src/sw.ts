@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
 import { clientsClaim } from "workbox-core";
 import { precacheAndRoute } from "workbox-precaching";
+
 import { env } from "./features/common/lib/env";
 
 declare const self: ServiceWorkerGlobalScope & {

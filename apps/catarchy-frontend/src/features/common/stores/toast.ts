@@ -1,6 +1,5 @@
-import { create } from "zustand";
-
 import type React from "react";
+import { create } from "zustand";
 
 export type Toast = {
   id: string;

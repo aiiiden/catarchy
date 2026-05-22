@@ -1,5 +1,6 @@
-import { api } from "@/features/common";
 import { mutationOptions } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 export type SignInWithEmailPayload = Parameters<
   (typeof api.auth)["sign-in-email"]["post"]

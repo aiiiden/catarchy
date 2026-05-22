@@ -1,4 +1,11 @@
 import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { useCallback } from "react";
+
+import {
   careForCatOptions,
   catInfoOptions,
   useCareCooldown,
@@ -8,12 +15,7 @@ import {
   getPersonalityTestProgressOptions,
   usePersonalityTestModal,
 } from "@/features/personality";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import { useCallback } from "react";
+
 import { CareCooldown } from "./care-cooldown";
 import { StatusReportModal } from "./status-report-modal";
 

@@ -1,4 +1,5 @@
 import { CharacterBox } from "@/features/cat";
+
 import { ScoreTable } from "./score-table";
 import styles from "./test-result.module.css";
 

@@ -1,4 +1,5 @@
 import { cn, HeaderBackButton, Scaffold } from "@/features/common";
+
 import { CatName } from "../components/cat-name";
 import { CharacterBox } from "../components/character-box";
 import { StatInfoTable } from "../components/stat-info-table";

@@ -1,7 +1,9 @@
-import { Box, Button, cn, RadioInput, Text } from "@/features/common";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
+
+import { Box, Button, cn, RadioInput, Text } from "@/features/common";
+
 import styles from "./question-step.module.css";
 
 export function QuestionStep({

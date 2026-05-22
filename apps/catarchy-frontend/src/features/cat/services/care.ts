@@ -1,7 +1,9 @@
-import { api } from "@/features/common";
-import { consensusOptions } from "@/features/consensus";
 import { mutationOptions, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
+
+import { api } from "@/features/common";
+import { consensusOptions } from "@/features/consensus";
+
 import { catInfoOptions } from "./cat-info";
 
 type CareForCatResponse = Awaited<ReturnType<typeof api.cat.care.post>>["data"];

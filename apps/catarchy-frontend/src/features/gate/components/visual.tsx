@@ -1,5 +1,7 @@
-import { CatCharacter, cn } from "@/features/common";
 import { AgeGroup } from "@catarchy/shared/constants/cat";
+
+import { CatCharacter, cn } from "@/features/common";
+
 import Background from "../assets/gate-background.png";
 import styles from "./visual.module.css";
 

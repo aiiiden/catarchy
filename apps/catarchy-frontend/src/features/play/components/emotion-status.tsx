@@ -1,6 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { catInfoOptions } from "@/features/cat";
 import { BubbleHintToggle } from "@/features/common";
-import { useQuery } from "@tanstack/react-query";
+
 import styles from "./emotion-status.module.css";
 
 export function EmotionStatus({ catId }: { catId: string }) {

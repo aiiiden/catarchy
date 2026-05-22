@@ -1,6 +1,7 @@
-import { Box, Button } from "@/features/common";
-import { StreamText } from "@/features/common/components/stream-text";
 import { useState } from "react";
+
+import { Box, Button, StreamText } from "@/features/common";
+
 import styles from "./status-report-modal.module.css";
 export function StatusReportModal({
   mood,

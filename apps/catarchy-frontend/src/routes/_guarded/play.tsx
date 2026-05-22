@@ -1,5 +1,6 @@
-import { catListOptions } from "@/features/cat";
 import { createFileRoute, redirect } from "@tanstack/react-router";
+
+import { catListOptions } from "@/features/cat";
 
 export const Route = createFileRoute("/_guarded/play")({
   async beforeLoad({ context: { queryClient } }) {

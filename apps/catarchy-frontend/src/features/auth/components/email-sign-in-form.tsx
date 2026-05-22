@@ -1,7 +1,9 @@
-import { LogClick } from "@/features/analytics";
-import { Button, Field, Text, TextInput } from "@/features/common";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+
+import { LogClick } from "@/features/analytics";
+import { Button, Field, Text, TextInput } from "@/features/common";
+
 import { useEmailSignInFormContext } from "../hooks/use-email-sign-in-form";
 import styles from "./email-sign-in-form.module.css";
 

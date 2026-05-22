@@ -1,7 +1,8 @@
-import { InfoTable, Text } from "@/features/common";
 import { useQuery } from "@tanstack/react-query";
-import { getCatPersonalityOptions } from "../services/personality";
 
+import { InfoTable, Text } from "@/features/common";
+
+import { getCatPersonalityOptions } from "../services/personality";
 import styles from "./score-table.module.css";
 
 export function ScoreTable({ catId }: { catId: string }) {

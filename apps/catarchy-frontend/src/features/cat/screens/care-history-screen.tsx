@@ -1,4 +1,5 @@
 import { HeaderBackButton, Scaffold } from "@/features/common";
+
 import { CareHistoryList } from "../components/care-history-list";
 
 export function CareHistoryScreen({ catId }: { catId: string }) {

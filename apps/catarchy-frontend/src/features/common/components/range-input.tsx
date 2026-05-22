@@ -1,4 +1,5 @@
 import React from "react";
+
 import RangeIndicator from "../assets/range-thumb.svg?react";
 import { cn } from "../lib/cn";
 import styles from "./range-input.module.css";
@@ -108,13 +109,13 @@ export const RangeInput = React.forwardRef<HTMLDivElement, RangeInputProps>(
       document.removeEventListener("touchend", handlePointerUp);
     }, [handlePointerMove]);
 
-    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const handlePointerDown = () => {
       if (disabled) return;
       document.addEventListener("pointermove", handlePointerMove);
       document.addEventListener("pointerup", handlePointerUp);
     };
 
-    const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const handleTouchStart = () => {
       if (disabled) return;
       document.addEventListener("touchmove", handlePointerMove);
       document.addEventListener("touchend", handlePointerUp);

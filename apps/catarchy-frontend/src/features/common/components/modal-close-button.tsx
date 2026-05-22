@@ -1,4 +1,5 @@
 import React from "react";
+
 import XIcon from "../assets/x-icon.svg?react";
 import { Button } from "./button";
 

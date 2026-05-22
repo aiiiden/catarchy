@@ -26,6 +26,7 @@ export * from "./components/radio-input";
 export * from "./components/range-input";
 export * from "./components/select-box";
 export * from "./components/sprite";
+export * from "./components/stream-text";
 export * from "./components/text";
 export * from "./components/text-area";
 export * from "./components/text-input";

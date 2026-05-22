@@ -1,13 +1,14 @@
 import { useRef, useState } from "react";
+
 import { BubbleHint, type BubbleHintProps } from "./bubble-hint";
 
 interface BubbleHintToggleProps
   extends Omit<BubbleHintProps, "targetRef" | "children"> {
   hint: React.ReactNode;
   duration?: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   children: (props: {
-    ref: React.RefObject<any>;
+    ref: React.RefObject<HTMLElement | null>;
     onClick: () => void;
   }) => React.ReactNode;
   disabled?: boolean;

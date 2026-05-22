@@ -1,5 +1,6 @@
-import { api } from "@/features/common";
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 type CatPersonalityResult = Awaited<ReturnType<typeof api.personality.get>>;
 type CatPersonalityResponse = CatPersonalityResult["data"];

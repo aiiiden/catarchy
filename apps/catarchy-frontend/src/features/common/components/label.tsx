@@ -1,4 +1,5 @@
 import React from "react";
+
 import { cn } from "../lib/cn";
 import styles from "./label.module.css";
 import { Text } from "./text";

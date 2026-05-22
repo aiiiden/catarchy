@@ -1,7 +1,7 @@
-import { CheckSessionResponse, checkSessionOptions } from "@/features/auth";
-import { GateScreen } from "@/features/gate";
-
 import { createFileRoute, redirect } from "@tanstack/react-router";
+
+import { checkSessionOptions, CheckSessionResponse } from "@/features/auth";
+import { GateScreen } from "@/features/gate";
 
 export const Route = createFileRoute("/(gate)/")({
   component: GateScreen,
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/(gate)/")({
 
     try {
       session = await queryClient.ensureQueryData(checkSessionOptions());
-    } catch (error) {
+    } catch {
       // no-op, allow access to gate screen
     }
 

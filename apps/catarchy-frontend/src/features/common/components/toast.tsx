@@ -1,10 +1,11 @@
 import type React from "react";
+
 import XIcon from "../assets/x-icon.svg?react";
 import { cn } from "../lib/cn";
 import { Box } from "./box";
 import { Button } from "./button";
-import styles from "./toast.module.css";
 import { Text } from "./text";
+import styles from "./toast.module.css";
 
 type ToastProps = {
   id: string;

@@ -1,5 +1,6 @@
-import { api } from "@/features/common";
 import { mutationOptions } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 export type SignOutResponse = Awaited<
   ReturnType<(typeof api.auth)["sign-out"]["post"]>

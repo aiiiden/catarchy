@@ -1,4 +1,5 @@
-import React, { useEffect, useId, useRef, useState } from "react";
+import React, { useCallback, useEffect, useId, useRef, useState } from "react";
+
 import SelectTriangle from "../assets/select-triangle.svg?react";
 import { cn } from "../lib/cn";
 import { Box } from "./box";
@@ -73,11 +74,11 @@ export function SelectBox<V extends string = string>({
     setOpen(true);
   }
 
-  function closeList() {
+  const closeList = useCallback(() => {
     setOpen(false);
     setDropUp(false);
     onBlur?.();
-  }
+  }, [onBlur]);
 
   function selectOption(option: SelectOption<V>) {
     if (option.disabled) return;
@@ -135,7 +136,7 @@ export function SelectBox<V extends string = string>({
     }
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [open]);
+  }, [open, closeList]);
 
   return (
     <div className={cn(styles.root, className)}>

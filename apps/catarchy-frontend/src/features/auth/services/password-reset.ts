@@ -1,5 +1,6 @@
-import { api } from "@/features/common";
 import { mutationOptions } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 type SendResetEmailPayload = Parameters<
   (typeof api.auth)["send-reset-password-email"]["post"]

@@ -1,4 +1,5 @@
 import { Button, cn, Sprite } from "@/features/common";
+
 import KnobImage from "../assets/knob.svg?react";
 import noteKeyframes from "../assets/sprites/note.json";
 import noteTexture from "../assets/sprites/note.svg";

@@ -1,5 +1,6 @@
-import { api } from "@/features/common";
 import { queryOptions } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 export type MeResponse = Awaited<ReturnType<typeof api.user.me.get>>["data"];
 export type MeError = Awaited<ReturnType<typeof api.user.me.get>>["error"];

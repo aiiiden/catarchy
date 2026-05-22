@@ -39,7 +39,7 @@ export function useCountDown({
     }, 1000);
 
     return clearTimer;
-  }, [target, pauseWhen]);
+  }, [target, pauseWhen, onEnd]);
 
   return remainSeconds;
 }

@@ -1,6 +1,8 @@
-import { InfoTable, Text } from "@/features/common";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
+
+import { InfoTable, Text } from "@/features/common";
+
 import { formatAge } from "../lib/format-age";
 import { catInfoOptions } from "../services/cat-info";
 

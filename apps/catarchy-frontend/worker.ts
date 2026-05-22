@@ -1,5 +1,9 @@
+interface Fetcher {
+  fetch(request: Request): Promise<Response>;
+}
+
 interface Env {
-  ASSETS: any;
+  ASSETS: Fetcher;
 }
 
 export default {

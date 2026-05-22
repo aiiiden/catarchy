@@ -1,6 +1,7 @@
-import { catInfoOptions, catListOptions } from "@/features/cat";
 import { EdenFetchError } from "@elysiajs/eden";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+
+import { catInfoOptions, catListOptions } from "@/features/cat";
 
 export const Route = createFileRoute("/_guarded/$catId")({
   async beforeLoad({ context: { queryClient }, params }) {

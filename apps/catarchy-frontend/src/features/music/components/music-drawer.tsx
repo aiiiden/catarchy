@@ -1,7 +1,9 @@
-import { LogView, useAnalytics } from "@/features/analytics";
-import { Box, cn, Text } from "@/features/common";
 import { useLocation } from "@tanstack/react-router";
 import { useState } from "react";
+
+import { LogView, useAnalytics } from "@/features/analytics";
+import { Box, cn, Text } from "@/features/common";
+
 import styles from "./music-drawer.module.css";
 import { SoundKnob } from "./sound-knob";
 import { SoundCloudEmbed } from "./soundcloud-embed";
