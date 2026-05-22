@@ -202,7 +202,7 @@ export abstract class CatCareService {
       threshold,
     });
 
-    let failedList: string[] = [];
+    const failedList: string[] = [];
 
     await Promise.all(
       cats.map(async (cat) => {

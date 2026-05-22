@@ -1,9 +1,10 @@
 import { and, desc, eq, gt } from "drizzle-orm";
+
 import {
   type Database,
-  type Transaction,
   getDatabase,
   table,
+  type Transaction,
 } from "../../infra/db";
 
 type Client = Database | Transaction;

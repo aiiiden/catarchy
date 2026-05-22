@@ -1,4 +1,5 @@
 import { Elysia } from "elysia";
+
 import { authRouter } from "./domain/auth";
 import { catRouter } from "./domain/cat";
 import { consensusRouter } from "./domain/consensus";

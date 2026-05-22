@@ -146,10 +146,10 @@ export function TestIntroductionScreen() {
 
           <Text as="p" className={styles.paragraph}>
             Your individual responses are never stored. Each answer is
-            immediately applied to your cat's personality scores, and only
-            those final scores are retained on our servers. The results are
-            used solely to determine your cat character's personality type and
-            to establish relationships with other cats.
+            immediately applied to your cat's personality scores, and only those
+            final scores are retained on our servers. The results are used
+            solely to determine your cat character's personality type and to
+            establish relationships with other cats.
           </Text>
 
           <Text as="p" className={styles.paragraph}>

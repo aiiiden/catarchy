@@ -2,10 +2,10 @@
 
 ## Supported Versions
 
-| Version | Supported |
-| ------- | --------- |
-| Latest (`main`) | ✅ |
-| Older branches | ❌ |
+| Version         | Supported |
+| --------------- | --------- |
+| Latest (`main`) | ✅        |
+| Older branches  | ❌        |
 
 ## Reporting a Vulnerability
 
@@ -24,6 +24,7 @@ Include the following in your report:
 You can expect an acknowledgment within **48 hours**.
 
 Estimated resolution timelines by severity:
+
 - **Critical**: within **7 days**
 - **High**: within **14 days**
 - **Medium**: within **30 days**

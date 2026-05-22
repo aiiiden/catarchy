@@ -1,5 +1,6 @@
 import { env as cfEnv } from "cloudflare:workers";
 import { CloudflareAdapter } from "elysia/adapter/cloudflare-worker";
+
 import { createApp } from "./app";
 import { initAI } from "./infra/ai";
 import { initDatabase } from "./infra/db";

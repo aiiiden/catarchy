@@ -1,4 +1,5 @@
 import Elysia, { t } from "elysia";
+
 import { CONSENSUS_DEFINITIONS } from "./definitions";
 
 const consensusKeyEnum = Object.keys(CONSENSUS_DEFINITIONS) as [
@@ -7,7 +8,9 @@ const consensusKeyEnum = Object.keys(CONSENSUS_DEFINITIONS) as [
 ];
 
 const consensusItem = t.Object({
-  key: t.UnionEnum(consensusKeyEnum, { examples: ["CAT.COOLDOWN_HOUR_BETWEEN_CARE"] }),
+  key: t.UnionEnum(consensusKeyEnum, {
+    examples: ["CAT.COOLDOWN_HOUR_BETWEEN_CARE"],
+  }),
   value: t.Union([t.String(), t.Number(), t.Boolean()]),
   name: t.String({ examples: ["Care Cooldown Hours"] }),
   purpose: t.String(),
@@ -29,7 +32,9 @@ export const consensusModel = new Elysia({
 
   "consensus.not-found": t.Object({
     message: t.String({
-      examples: ['Consensus key "CAT.COOLDOWN_HOUR_BETWEEN_CARE" not found in database.'],
+      examples: [
+        'Consensus key "CAT.COOLDOWN_HOUR_BETWEEN_CARE" not found in database.',
+      ],
     }),
   }),
 });

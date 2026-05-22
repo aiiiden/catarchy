@@ -4,8 +4,7 @@ import { cn } from "../lib/cn";
 import { Box } from "./box";
 import styles from "./text-area.module.css";
 
-export interface TextAreaProps
-  extends React.ComponentPropsWithoutRef<"textarea"> {
+export interface TextAreaProps extends React.ComponentPropsWithoutRef<"textarea"> {
   autoResize?: boolean;
 }
 

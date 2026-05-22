@@ -2,11 +2,13 @@ import { useRef, useState } from "react";
 
 import { BubbleHint, type BubbleHintProps } from "./bubble-hint";
 
-interface BubbleHintToggleProps
-  extends Omit<BubbleHintProps, "targetRef" | "children"> {
+interface BubbleHintToggleProps extends Omit<
+  BubbleHintProps,
+  "targetRef" | "children"
+> {
   hint: React.ReactNode;
   duration?: number;
-   
+
   children: (props: {
     ref: React.RefObject<HTMLElement | null>;
     onClick: () => void;

@@ -1,4 +1,5 @@
 import Elysia, { StatusMap } from "elysia";
+
 import { withCommonError } from "../../lib/response";
 import { authGuard } from "../auth/guard";
 import type { ConsensusKey } from "./definitions";

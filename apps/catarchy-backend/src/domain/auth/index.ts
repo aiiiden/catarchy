@@ -1,6 +1,7 @@
 import { jwt } from "@elysiajs/jwt";
 import Elysia, { status, StatusMap, t } from "elysia";
 import ms from "ms";
+
 import { EmailService } from "../../infra/email/service";
 import { setAuthCookie } from "../../lib/cookie";
 import { ENVIRONMENT, getEnv } from "../../lib/env";

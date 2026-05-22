@@ -62,9 +62,7 @@
       "indexes": {
         "auth_email_unique": {
           "name": "auth_email_unique",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         }
       },
@@ -73,12 +71,8 @@
           "name": "auth_user_id_user_id_fk",
           "tableFrom": "auth",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -144,18 +138,12 @@
       "indexes": {
         "care_record_cat_id_idx": {
           "name": "care_record_cat_id_idx",
-          "columns": [
-            "cat_id"
-          ],
+          "columns": ["cat_id"],
           "isUnique": false
         },
         "care_record_servant_id_cared_at_idx": {
           "name": "care_record_servant_id_cared_at_idx",
-          "columns": [
-            "servant_id",
-            "cat_id",
-            "cared_at"
-          ],
+          "columns": ["servant_id", "cat_id", "cared_at"],
           "isUnique": false
         }
       },
@@ -164,12 +152,8 @@
           "name": "cat_care_record_cat_id_cat_id_fk",
           "tableFrom": "cat_care_record",
           "tableTo": "cat",
-          "columnsFrom": [
-            "cat_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["cat_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -177,12 +161,8 @@
           "name": "cat_care_record_servant_id_user_id_fk",
           "tableFrom": "cat_care_record",
           "tableTo": "user",
-          "columnsFrom": [
-            "servant_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["servant_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -249,9 +229,7 @@
       "indexes": {
         "cat_servant_unique": {
           "name": "cat_servant_unique",
-          "columns": [
-            "servant_id"
-          ],
+          "columns": ["servant_id"],
           "isUnique": true
         }
       },
@@ -260,12 +238,8 @@
           "name": "cat_servant_id_user_id_fk",
           "tableFrom": "cat",
           "tableTo": "user",
-          "columnsFrom": [
-            "servant_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["servant_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -334,12 +308,8 @@
           "name": "cat_personality_cat_id_cat_id_fk",
           "tableFrom": "cat_personality",
           "tableTo": "cat",
-          "columnsFrom": [
-            "cat_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["cat_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -420,17 +390,12 @@
       "indexes": {
         "cat_relationship_cat_id_2_idx": {
           "name": "cat_relationship_cat_id_2_idx",
-          "columns": [
-            "cat_id_2"
-          ],
+          "columns": ["cat_id_2"],
           "isUnique": false
         },
         "cat_relationship_unique": {
           "name": "cat_relationship_unique",
-          "columns": [
-            "cat_id_1",
-            "cat_id_2"
-          ],
+          "columns": ["cat_id_1", "cat_id_2"],
           "isUnique": true
         }
       },
@@ -439,12 +404,8 @@
           "name": "cat_relationship_cat_id_1_cat_id_fk",
           "tableFrom": "cat_relationship",
           "tableTo": "cat",
-          "columnsFrom": [
-            "cat_id_1"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["cat_id_1"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -452,12 +413,8 @@
           "name": "cat_relationship_cat_id_2_cat_id_fk",
           "tableFrom": "cat_relationship",
           "tableTo": "cat",
-          "columnsFrom": [
-            "cat_id_2"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["cat_id_2"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -512,12 +469,8 @@
           "name": "cat_stat_cat_id_cat_id_fk",
           "tableFrom": "cat_stat",
           "tableTo": "cat",
-          "columnsFrom": [
-            "cat_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["cat_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -572,9 +525,7 @@
       "indexes": {
         "chronicle_created_at_idx": {
           "name": "chronicle_created_at_idx",
-          "columns": [
-            "created_at"
-          ],
+          "columns": ["created_at"],
           "isUnique": false
         }
       },
@@ -703,9 +654,7 @@
       "indexes": {
         "email_verification_email_idx": {
           "name": "email_verification_email_idx",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": false
         }
       },
@@ -758,16 +707,12 @@
       "indexes": {
         "fcm_token_token_unique": {
           "name": "fcm_token_token_unique",
-          "columns": [
-            "token"
-          ],
+          "columns": ["token"],
           "isUnique": true
         },
         "fcm_token_user_id_idx": {
           "name": "fcm_token_user_id_idx",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         }
       },
@@ -776,12 +721,8 @@
           "name": "fcm_token_user_id_user_id_fk",
           "tableFrom": "fcm_token",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -833,9 +774,7 @@
       "indexes": {
         "nonce_wallet_id_idx": {
           "name": "nonce_wallet_id_idx",
-          "columns": [
-            "wallet_id"
-          ],
+          "columns": ["wallet_id"],
           "isUnique": false
         }
       },
@@ -844,12 +783,8 @@
           "name": "nonce_wallet_id_wallet_id_fk",
           "tableFrom": "nonce",
           "tableTo": "wallet",
-          "columnsFrom": [
-            "wallet_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["wallet_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -897,12 +832,8 @@
           "name": "personality_test_cat_id_cat_id_fk",
           "tableFrom": "personality_test",
           "tableTo": "cat",
-          "columnsFrom": [
-            "cat_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["cat_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -961,16 +892,12 @@
       "indexes": {
         "session_refresh_token_unique": {
           "name": "session_refresh_token_unique",
-          "columns": [
-            "refresh_token"
-          ],
+          "columns": ["refresh_token"],
           "isUnique": true
         },
         "session_user_id_idx": {
           "name": "session_user_id_idx",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         }
       },
@@ -979,12 +906,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1030,9 +953,7 @@
       "indexes": {
         "user_handle_unique": {
           "name": "user_handle_unique",
-          "columns": [
-            "handle"
-          ],
+          "columns": ["handle"],
           "isUnique": true
         }
       },
@@ -1085,16 +1006,12 @@
       "indexes": {
         "wallet_address_unique": {
           "name": "wallet_address_unique",
-          "columns": [
-            "address"
-          ],
+          "columns": ["address"],
           "isUnique": true
         },
         "wallet_user_id_unique": {
           "name": "wallet_user_id_unique",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": true
         }
       },
@@ -1103,12 +1020,8 @@
           "name": "wallet_user_id_user_id_fk",
           "tableFrom": "wallet",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }

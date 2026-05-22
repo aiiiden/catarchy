@@ -1,4 +1,5 @@
 import { and, eq } from "drizzle-orm";
+
 import { getDatabase, table } from "../../infra/db";
 
 export abstract class AuthRepository {
