@@ -8,7 +8,6 @@ export function PageViewTracker() {
   const { pageView } = useAnalytics();
 
   useEffect(() => {
-    // Track page view on location change
     pageView({
       path: location.pathname,
       properties: {

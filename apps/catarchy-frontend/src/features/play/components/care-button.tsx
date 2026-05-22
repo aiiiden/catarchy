@@ -76,7 +76,13 @@ export function CareButton({ catId }: { catId: string }) {
       ),
       dimClosable: false,
     });
-  }, [careForCat, modal, hasPersonalityTestRemaining, personalityTestModal]);
+  }, [
+    careForCat,
+    modal,
+    hasPersonalityTestRemaining,
+    personalityTestModal,
+    analytics,
+  ]);
 
   return (
     <Button
