@@ -1,4 +1,5 @@
 import { and, count, eq } from "drizzle-orm";
+
 import { getDatabase, table } from "../../infra/db";
 
 export abstract class PersonalityRepository {

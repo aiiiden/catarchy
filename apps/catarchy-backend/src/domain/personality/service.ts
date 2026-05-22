@@ -1,5 +1,9 @@
 import { PersonalityQuestionKeyed } from "../../infra/db/schema";
-import { BadRequestError, ForbiddenError, NotFoundError } from "../../lib/error";
+import {
+  BadRequestError,
+  ForbiddenError,
+  NotFoundError,
+} from "../../lib/error";
 import { CatRepository } from "../cat/repository";
 import { PersonalityRepository } from "./repository";
 
@@ -108,16 +112,22 @@ export abstract class PersonalityService {
 
     await this.personalityRepository.initCatPersonality({ catId, totalCount });
 
-    const progress = await this.personalityRepository.getCatPersonalityProgress({ catId });
+    const progress = await this.personalityRepository.getCatPersonalityProgress(
+      { catId },
+    );
     if (!progress) throw new Error("Failed to initialize personality record");
 
     if (progress.remainingCount <= 0) {
       throw new ForbiddenError("Personality test is already completed");
     }
 
-    const nextQuestion = await this.personalityRepository.getNextQuestion({ catId });
+    const nextQuestion = await this.personalityRepository.getNextQuestion({
+      catId,
+    });
     if (!nextQuestion || nextQuestion.id !== questionId) {
-      throw new BadRequestError("Submitted question does not match the next expected question");
+      throw new BadRequestError(
+        "Submitted question does not match the next expected question",
+      );
     }
 
     const delta =
@@ -143,7 +153,10 @@ export abstract class PersonalityService {
         remainingCount: 0,
       });
     } else {
-      await this.personalityRepository.updateCatPersonality({ catId, ...updated });
+      await this.personalityRepository.updateCatPersonality({
+        catId,
+        ...updated,
+      });
     }
 
     return { isCompleted };
@@ -155,7 +168,7 @@ export abstract class PersonalityService {
   ) {
     const questionsPerDomain = totalCount / 5;
     const toScale = (raw: number) =>
-      Math.round(((raw / questionsPerDomain) - 1) * 2.5);
+      Math.round((raw / questionsPerDomain - 1) * 2.5);
 
     return {
       openness: toScale(rawSums.openness),

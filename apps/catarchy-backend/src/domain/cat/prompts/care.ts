@@ -1,4 +1,5 @@
 import type { InferSelectModel } from "drizzle-orm";
+
 import type { catPersonality } from "../../../infra/db";
 import { type AgeGroup as AgeGroupType } from "../constants/growth";
 

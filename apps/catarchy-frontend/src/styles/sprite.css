@@ -4,8 +4,7 @@
   }
   to {
     background-position: calc(
-        var(--sprite-from-x, 0px) -
-        var(--sprite-total-width, 0px)
+        var(--sprite-from-x, 0px) - var(--sprite-total-width, 0px)
       )
       0px;
   }

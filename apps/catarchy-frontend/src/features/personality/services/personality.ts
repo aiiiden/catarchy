@@ -68,11 +68,7 @@ export function getPersonalityTestProgressOptions({
   });
 }
 
-export async function getNextPersonalityQuestion({
-  catId,
-}: {
-  catId: string;
-}) {
+export async function getNextPersonalityQuestion({ catId }: { catId: string }) {
   const { data, error } = await api.personality.question.get({
     query: {
       catId,
@@ -113,7 +109,11 @@ export async function submitPersonalityTestAnswer({
   return data;
 }
 
-export function submitPersonalityTestAnswerOptions({ catId }: { catId: string }) {
+export function submitPersonalityTestAnswerOptions({
+  catId,
+}: {
+  catId: string;
+}) {
   return mutationOptions<
     SubmitAnswerResponse,
     SubmitAnswerError,

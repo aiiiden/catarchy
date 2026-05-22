@@ -60,7 +60,10 @@ export const personalityModel = new Elysia({
     }),
     descriptions: t.Tuple(
       [t.String(), t.String(), t.String(), t.String(), t.String()],
-      { description: "Answer level descriptions indexed 0–4 (Very Inaccurate to Very Accurate)" },
+      {
+        description:
+          "Answer level descriptions indexed 0–4 (Very Inaccurate to Very Accurate)",
+      },
     ),
   }),
 
@@ -85,7 +88,8 @@ export const personalityModel = new Elysia({
 
   "personality.answer.response": t.Object({
     isCompleted: t.Boolean({
-      description: "Whether all questions have been answered and the personality has been calculated",
+      description:
+        "Whether all questions have been answered and the personality has been calculated",
     }),
   }),
 
@@ -100,15 +104,19 @@ export const personalityModel = new Elysia({
 
   "personality.forbidden": t.Object({
     message: t.String({
-      description: "Cat does not belong to the authenticated user, or the personality test is already completed",
+      description:
+        "Cat does not belong to the authenticated user, or the personality test is already completed",
       examples: ["Can't get question for a cat that doesn't belong to you"],
     }),
   }),
 
   "personality.bad-request": t.Object({
     message: t.String({
-      description: "Submitted questionId does not match the next expected question",
-      examples: ["Submitted question does not match the next expected question"],
+      description:
+        "Submitted questionId does not match the next expected question",
+      examples: [
+        "Submitted question does not match the next expected question",
+      ],
     }),
   }),
 });

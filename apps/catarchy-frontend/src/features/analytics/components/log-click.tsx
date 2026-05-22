@@ -15,7 +15,9 @@ export function LogClick({
 
   const clonedChild = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      const el = child as React.ReactElement<{ onClick?: (e: React.MouseEvent) => void }>;
+      const el = child as React.ReactElement<{
+        onClick?: (e: React.MouseEvent) => void;
+      }>;
       const existingOnClick = el.props.onClick;
 
       return React.cloneElement(el, {

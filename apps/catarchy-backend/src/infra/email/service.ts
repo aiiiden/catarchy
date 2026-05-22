@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+
 import { ExternalServiceError } from "../../lib/error";
 
 let _resend: Resend | null = null;

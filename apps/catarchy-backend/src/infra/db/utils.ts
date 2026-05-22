@@ -9,15 +9,16 @@ import {
 type Spread<
   T extends TObject | Table,
   Mode extends "select" | "insert" | undefined,
-> = T extends TObject<infer Fields>
-  ? { [K in keyof Fields]: Fields[K] }
-  : T extends Table
-    ? Mode extends "select"
-      ? BuildSchema<"select", T["_"]["columns"], undefined>["properties"]
-      : Mode extends "insert"
-        ? BuildSchema<"insert", T["_"]["columns"], undefined>["properties"]
-        : Record<string, never>
-    : Record<string, never>;
+> =
+  T extends TObject<infer Fields>
+    ? { [K in keyof Fields]: Fields[K] }
+    : T extends Table
+      ? Mode extends "select"
+        ? BuildSchema<"select", T["_"]["columns"], undefined>["properties"]
+        : Mode extends "insert"
+          ? BuildSchema<"insert", T["_"]["columns"], undefined>["properties"]
+          : Record<string, never>
+      : Record<string, never>;
 
 export const spread = <
   T extends TObject | Table,

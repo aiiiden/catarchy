@@ -1,4 +1,5 @@
 import Elysia, { t } from "elysia";
+
 import { CatSex } from "../../infra/db/schema";
 import { AgeGroup } from "./constants/growth";
 

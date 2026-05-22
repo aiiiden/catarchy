@@ -1,6 +1,6 @@
 import { createAlibaba } from "@ai-sdk/alibaba";
 import type { GatewayModelId } from "@ai-sdk/gateway";
-import { type LanguageModel, generateText } from "ai";
+import { generateText, type LanguageModel } from "ai";
 import { createAiGateway } from "ai-gateway-provider";
 import { createAnthropic } from "ai-gateway-provider/providers/anthropic";
 import { createDeepSeek } from "ai-gateway-provider/providers/deepseek";

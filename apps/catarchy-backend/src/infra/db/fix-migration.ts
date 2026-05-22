@@ -11,7 +11,10 @@ for (const file of readdirSync(migrationsDir)) {
 
   if (!original.includes("PRAGMA foreign_keys=OFF")) continue;
 
-  const segments = original.split(/--> statement-breakpoint\n?/).map((s) => s.trim()).filter(Boolean);
+  const segments = original
+    .split(/--> statement-breakpoint\n?/)
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   const inRecreation: string[] = [];
   const afterRecreation: string[] = [];
@@ -25,7 +28,12 @@ for (const file of readdirSync(migrationsDir)) {
       /^ALTER TABLE `__new_.*RENAME TO/.test(seg)
     ) {
       if (!/^PRAGMA foreign_keys=ON/.test(seg)) {
-        inRecreation.push(seg.replace(/^PRAGMA foreign_keys=OFF;?/, "PRAGMA defer_foreign_keys = on;"));
+        inRecreation.push(
+          seg.replace(
+            /^PRAGMA foreign_keys=OFF;?/,
+            "PRAGMA defer_foreign_keys = on;",
+          ),
+        );
       }
     } else {
       afterRecreation.push(seg);

@@ -119,7 +119,8 @@ export function searchQueryType({
     ),
     exact: t.Optional(
       t.Boolean({
-        description: exact.description ?? "Whether to perform an exact match search",
+        description:
+          exact.description ?? "Whether to perform an exact match search",
         ...(exact.examples && { examples: exact.examples }),
       }),
     ),

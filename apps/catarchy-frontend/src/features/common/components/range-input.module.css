@@ -94,7 +94,9 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  transition: filter 0.2s ease, transform 0.1s ease-out;
+  transition:
+    filter 0.2s ease,
+    transform 0.1s ease-out;
 }
 
 .thumbIcon {
