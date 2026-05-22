@@ -1,5 +1,6 @@
-import { CatStatusScreen } from "@/features/cat";
 import { createFileRoute } from "@tanstack/react-router";
+
+import { CatStatusScreen } from "@/features/cat";
 
 export const Route = createFileRoute("/_guarded/$catId/cat/status")({
   component: function CatStatusRoute() {

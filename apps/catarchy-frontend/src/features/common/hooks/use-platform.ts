@@ -3,7 +3,10 @@ type Browser = "chrome" | "firefox" | "safari" | "edge" | "opera" | "unknown";
 
 export function usePlatform() {
   const userAgent =
-    navigator.userAgent || navigator.vendor || (window as any).opera;
+    navigator.userAgent ||
+    navigator.vendor ||
+    (window as Window & { opera?: string }).opera ||
+    "";
 
   let os: OS = "unknown";
 
@@ -13,7 +16,10 @@ export function usePlatform() {
     os = "windows";
   } else if (/android/i.test(userAgent)) {
     os = "android";
-  } else if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
+  } else if (
+    /iPad|iPhone|iPod/.test(userAgent) &&
+    !(window as Window & { MSStream?: unknown }).MSStream
+  ) {
     os = "ios";
   } else if (/macintosh/i.test(userAgent)) {
     os = "macos";
@@ -44,7 +50,7 @@ export function usePlatform() {
 
   const isPWA =
     window.matchMedia("(display-mode: standalone)").matches ||
-    (navigator as any).standalone === true;
+    (navigator as Navigator & { standalone?: boolean }).standalone === true;
 
   return { os, browser, isPWA };
 }

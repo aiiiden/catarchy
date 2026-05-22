@@ -1,3 +1,8 @@
+import { useMutation } from "@tanstack/react-query";
+import { Link, useRouter, useSearch } from "@tanstack/react-router";
+import { FormProvider } from "react-hook-form";
+import z from "zod";
+
 import { LogClick } from "@/features/analytics";
 import {
   Button,
@@ -6,21 +11,16 @@ import {
   useBottomSheet,
   useToast,
 } from "@/features/common";
-import { Link, useRouter, useSearch } from "@tanstack/react-router";
-import { FormProvider } from "react-hook-form";
-import z from "zod";
-import { EmailSignInForm } from "../components/email-sign-in-form";
-import {
-  emailSignInFormSchema,
-  useEmailSignInForm,
-} from "../hooks/use-email-sign-in-form";
-
 import {
   RequestNotificationPermission,
   useNotification,
 } from "@/features/notification";
 
-import { useMutation } from "@tanstack/react-query";
+import { EmailSignInForm } from "../components/email-sign-in-form";
+import {
+  emailSignInFormSchema,
+  useEmailSignInForm,
+} from "../hooks/use-email-sign-in-form";
 import { signInWithEmailOptions } from "../services/sign-in";
 import styles from "./sign-in-screen.module.css";
 

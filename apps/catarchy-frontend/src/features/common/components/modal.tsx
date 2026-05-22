@@ -1,5 +1,7 @@
-import { LogView } from "@/features/analytics";
 import React, { useEffect, useRef } from "react";
+
+import { LogView } from "@/features/analytics";
+
 import { Box } from "./box";
 import styles from "./modal.module.css";
 import { Text } from "./text";

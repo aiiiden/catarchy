@@ -1,4 +1,5 @@
 import React from "react";
+
 import { cn } from "../lib/cn";
 import { Box, type BoxProps } from "./box";
 import styles from "./info-table.module.css";

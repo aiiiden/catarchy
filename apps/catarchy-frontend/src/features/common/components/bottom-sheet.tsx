@@ -1,5 +1,7 @@
+import React, { useCallback, useEffect, useRef, useState } from "react";
+
 import { LogView } from "@/features/analytics";
-import React, { useEffect, useRef, useState } from "react";
+
 import BorderEdge from "../assets/bottom-sheet-border-edge.svg?react";
 import styles from "./bottom-sheet.module.css";
 import { Text } from "./text";
@@ -37,16 +39,16 @@ export function BottomSheet({
     return () => clearTimeout(id);
   }, []);
 
-  function startClose() {
+  const startClose = useCallback(() => {
     if (closing.current) return;
     closing.current = true;
     setVisible(false);
     setTimeout(() => onClose?.(), DURATION);
-  }
+  }, [onClose]);
 
   useEffect(() => {
     if (isClosing) startClose();
-  }, [isClosing]);
+  }, [isClosing, startClose]);
 
   const isTitleString = typeof header?.title === "string";
 

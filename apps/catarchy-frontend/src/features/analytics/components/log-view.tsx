@@ -1,5 +1,6 @@
 import { useLocation } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
+
 import { useAnalytics } from "../hooks/use-anlytics";
 
 export function LogView({

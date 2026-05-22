@@ -1,7 +1,9 @@
-import { Button, CatCharacter, cn, InfoTable, Text } from "@/features/common";
 import { AgeGroup } from "@catarchy/shared/constants/cat";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+
+import { Button, CatCharacter, cn, InfoTable, Text } from "@/features/common";
+
 import { formatAge } from "../lib/format-age";
 import { careRecordsOptions } from "../services/care-record";
 import styles from "./care-history-list.module.css";

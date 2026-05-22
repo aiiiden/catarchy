@@ -1,5 +1,6 @@
 import { useLocation } from "@tanstack/react-router";
 import React from "react";
+
 import { useAnalytics } from "../hooks/use-anlytics";
 
 export function LogClick({
@@ -14,11 +15,8 @@ export function LogClick({
 
   const clonedChild = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      // cast to ReactElement with any props so we can safely access/override onClick
-      const el = child as React.ReactElement<any>;
-      const existingOnClick = el.props.onClick as
-        | ((e: React.MouseEvent) => void)
-        | undefined;
+      const el = child as React.ReactElement<{ onClick?: (e: React.MouseEvent) => void }>;
+      const existingOnClick = el.props.onClick;
 
       return React.cloneElement(el, {
         onClick: (e: React.MouseEvent) => {

@@ -1,6 +1,8 @@
-import { Box, CatCharacter } from "@/features/common";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+
+import { Box, CatCharacter } from "@/features/common";
+
 import { catInfoOptions } from "../services/cat-info";
 import styles from "./character-box.module.css";
 

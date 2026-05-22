@@ -1,4 +1,5 @@
 import React from "react";
+
 import CheckboxSymbol from "../assets/checkbox-symbol.svg?react";
 import { cn } from "../lib/cn";
 import styles from "./checkbox-input.module.css";

@@ -1,6 +1,8 @@
+import { useRouter } from "@tanstack/react-router";
+
 import { useAuth } from "@/features/auth";
 import { Button, ChevronRight, Text, useAlert } from "@/features/common";
-import { useRouter } from "@tanstack/react-router";
+
 import styles from "./sign-out-button.module.css";
 
 export function SignoutButton() {

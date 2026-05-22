@@ -1,5 +1,7 @@
-import { useModal, useToast } from "@/features/common";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { useModal, useToast } from "@/features/common";
+
 import { QuestionStep } from "../components/question-step";
 import {
   getCatPersonalityOptions,
@@ -30,7 +32,7 @@ export function usePersonalityTestModal({
     enabled: false,
   });
 
-  const { data: submitAnswerData, mutateAsync: submitAnswer } = useMutation(
+  const { mutateAsync: submitAnswer } = useMutation(
     submitPersonalityTestAnswerOptions({
       catId,
     }),

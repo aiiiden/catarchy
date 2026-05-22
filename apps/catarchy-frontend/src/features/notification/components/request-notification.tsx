@@ -1,5 +1,6 @@
 import { LogClick } from "@/features/analytics";
 import { Button, cn } from "@/features/common";
+
 import styles from "./request-notification.module.css";
 export function RequestNotificationPermission({
   onAllow,

@@ -1,5 +1,6 @@
-import { api } from "@/features/common";
 import { mutationOptions } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 type SendVerificationEmailPayload = Parameters<
   (typeof api.auth)["send-verification-email"]["post"]

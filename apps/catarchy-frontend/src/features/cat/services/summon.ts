@@ -1,5 +1,6 @@
-import { api } from "@/features/common";
 import { mutationOptions } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 type SummonCatPayload = Parameters<(typeof api.cat)["post"]>[0];
 type SummonCatResponse = Awaited<ReturnType<(typeof api.cat)["post"]>>["data"];

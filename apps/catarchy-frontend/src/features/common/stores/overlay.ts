@@ -1,5 +1,6 @@
 import type React from "react";
 import { create } from "zustand";
+
 import type { ModalHeader } from "../components/modal";
 
 export type OverlayType = "modal" | "bottom-sheet" | "alert";

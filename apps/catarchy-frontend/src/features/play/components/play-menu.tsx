@@ -1,5 +1,7 @@
-import { Box } from "@/features/common";
 import { Link } from "@tanstack/react-router";
+
+import { Box } from "@/features/common";
+
 import CatInfoIcon from "../assets/menu/cat-info.svg?react";
 import ChronicleIcon from "../assets/menu/chronicle.svg?react";
 import EducationIcon from "../assets/menu/education.svg?react";

@@ -1,5 +1,6 @@
-import { api } from "@/features/common";
 import { queryOptions, useQuery } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 export type CheckSessionResponse = Awaited<
   ReturnType<typeof api.auth.check.get>

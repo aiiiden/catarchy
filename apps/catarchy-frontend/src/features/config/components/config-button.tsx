@@ -1,4 +1,5 @@
 import { Button, ButtonProps } from "@/features/common";
+
 import CogIcon from "../assets/cog-icon.svg?react";
 import styles from "./config-button.module.css";
 export function ConfigButton({

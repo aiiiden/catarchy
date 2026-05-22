@@ -1,5 +1,6 @@
-import { checkSessionOptions } from "@/features/auth";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+
+import { checkSessionOptions } from "@/features/auth";
 
 export const Route = createFileRoute("/_guarded")({
   async beforeLoad({ context: { queryClient } }) {
@@ -8,7 +9,7 @@ export const Route = createFileRoute("/_guarded")({
       if (!session?.ok) {
         throw new Error("Session check failed");
       }
-    } catch (error) {
+    } catch {
       throw redirect({
         to: "/",
       });

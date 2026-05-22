@@ -1,6 +1,7 @@
-import { env } from "@/features/common";
 import { useEffect } from "react";
 import ReactGA from "react-ga4";
+
+import { env } from "@/features/common";
 
 export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
   const isLocal = import.meta.env.DEV;
@@ -16,7 +17,7 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
         trackingId: gaMesurementId,
       },
     ]);
-  }, []);
+  }, [gaMesurementId, isLocal]);
 
   return <>{children}</>;
 }

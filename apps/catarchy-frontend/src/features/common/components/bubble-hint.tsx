@@ -1,4 +1,5 @@
 import React, { useEffect, useImperativeHandle, useRef } from "react";
+
 import Tail from "../assets/bubble-tail.svg?react";
 import { cn } from "../lib/cn";
 import { Box } from "./box";
@@ -128,7 +129,7 @@ export const BubbleHint = React.forwardRef<HTMLDivElement, BubbleHintProps>(
       return () => {
         cancelAnimationFrame(rafId);
       };
-    }, [targetRef, preferredSide]);
+    }, [targetRef, preferredSide, offset]);
 
     return (
       <div ref={rootRef} className={cn(styles.root, className)}>

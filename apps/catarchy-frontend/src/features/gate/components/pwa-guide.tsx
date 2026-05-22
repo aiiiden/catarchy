@@ -1,6 +1,8 @@
+import { useState } from "react";
+
 import { LogClick } from "@/features/analytics";
 import { Button, cn, sleep, Text, usePlatform } from "@/features/common";
-import { useState } from "react";
+
 import styles from "./pwa-guide.module.css";
 
 export function PWAGuide({ onClose }: { onClose?: () => void }) {

@@ -1,6 +1,6 @@
+import { AgeGroup } from "@catarchy/shared/constants/cat";
 import { forwardRef } from "react";
 
-import { AgeGroup } from "@catarchy/shared/constants/cat";
 import catKeyframe from "../assets/sprites/cat.json";
 import catTexture from "../assets/sprites/cat.svg?url";
 import newbornKeyframe from "../assets/sprites/newborn.json";

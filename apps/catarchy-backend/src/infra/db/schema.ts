@@ -297,7 +297,7 @@ export const chronicle = sqliteTable(
 
 // ── Relations ─────────────────────────────────────────────────────────────────
 
-export const userRelations = relations(userTable, ({ one, many }) => ({
+export const userRelations = relations(userTable, ({ many }) => ({
   auth: many(authTable),
   sessions: many(sessionTable),
   cats: many(cat),

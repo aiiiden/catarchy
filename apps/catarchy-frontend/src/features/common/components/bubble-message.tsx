@@ -1,4 +1,5 @@
 import React from "react";
+
 import Tail from "../assets/bubble-tail.svg?react";
 import { cn } from "../lib/cn";
 import { Box } from "./box";

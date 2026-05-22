@@ -1,6 +1,7 @@
+import { Link } from "@tanstack/react-router";
+
 import { Button, ChevronRight, Text } from "@/features/common";
 
-import { Link } from "@tanstack/react-router";
 import styles from "./stat-submenu-list.module.css";
 
 export function StatSubmenuList({ catId }: { catId: string }) {

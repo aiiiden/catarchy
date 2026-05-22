@@ -1,5 +1,6 @@
-import { api } from "@/features/common";
 import { queryOptions } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 type CatListResponse = Awaited<ReturnType<typeof api.cat.get>>["data"];
 type CatInfoResult = Awaited<ReturnType<ReturnType<typeof api.cat>["get"]>>;

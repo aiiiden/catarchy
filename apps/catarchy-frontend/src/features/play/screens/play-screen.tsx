@@ -1,8 +1,9 @@
-import { LogoText, Scaffold } from "@/features/common";
-
-import { ConfigButton } from "@/features/config";
 import { Link } from "@tanstack/react-router";
 import { Suspense } from "react";
+
+import { LogoText, Scaffold } from "@/features/common";
+import { ConfigButton } from "@/features/config";
+
 import { CareButton } from "../components/care-button";
 import { Interface } from "../components/interface";
 import { PlayMenu } from "../components/play-menu";

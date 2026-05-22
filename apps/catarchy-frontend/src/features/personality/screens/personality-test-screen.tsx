@@ -1,14 +1,15 @@
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
+import { Suspense } from "react";
+
 import {
   Button,
   cn,
   HeaderBackButton,
   Scaffold,
   Text,
-  useModal,
 } from "@/features/common";
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
-import { Suspense } from "react";
+
 import { TestNudge } from "../components/test-nudge";
 import { TestResult } from "../components/test-result";
 import { usePersonalityTestModal } from "../hooks/use-personality-test-modal";
@@ -16,11 +17,7 @@ import { getPersonalityTestProgressOptions } from "../services/personality";
 import styles from "./personality-test-screen.module.css";
 
 export function PersonalityTestScreen({ catId }: { catId: string }) {
-  const modal = useModal();
-
-  const { data, status } = useQuery(
-    getPersonalityTestProgressOptions({ catId }),
-  );
+  const { data } = useQuery(getPersonalityTestProgressOptions({ catId }));
 
   const hasCompletedTest = data?.remainingCount === 0;
 

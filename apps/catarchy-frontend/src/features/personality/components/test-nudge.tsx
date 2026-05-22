@@ -1,8 +1,9 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
+
 import { catInfoOptions, CharacterBox } from "@/features/cat";
 import { Text } from "@/features/common";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { getPersonalityTestProgressOptions } from "../services/personality";
 
+import { getPersonalityTestProgressOptions } from "../services/personality";
 import styles from "./test-nudge.module.css";
 
 export function TestNudge({ catId }: { catId: string }) {

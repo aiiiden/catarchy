@@ -1,18 +1,20 @@
-import { env } from "@/features/common";
-import { registerNotificationToken } from "@/features/notification/services/notification";
-import {
-  NotificationContext,
-  PermissionState,
-} from "@/features/notification/hooks/use-notification";
 import { getApp, getApps } from "firebase/app";
 import {
   getMessaging,
   getToken,
   isSupported,
-  onMessage,
   type Messaging,
+  onMessage,
 } from "firebase/messaging";
 import { useCallback, useEffect, useState } from "react";
+
+import { env } from "@/features/common";
+
+import {
+  NotificationContext,
+  PermissionState,
+} from "../hooks/use-notification";
+import { registerNotificationToken } from "../services/notification";
 
 export function NotificationProvider({
   children,

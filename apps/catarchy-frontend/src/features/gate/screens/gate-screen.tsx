@@ -1,3 +1,6 @@
+import { useRouter } from "@tanstack/react-router";
+
+import { LogClick } from "@/features/analytics";
 import {
   Button,
   Scaffold,
@@ -5,8 +8,6 @@ import {
   usePlatform,
 } from "@/features/common";
 
-import { LogClick } from "@/features/analytics";
-import { useRouter } from "@tanstack/react-router";
 import { Header } from "../components/header";
 import { PWAGuide } from "../components/pwa-guide";
 import { Visual } from "../components/visual";

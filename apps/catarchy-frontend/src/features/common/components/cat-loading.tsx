@@ -1,7 +1,8 @@
-import { CatCharacter } from "./cat-character";
-import { Text } from "./text";
 import { AgeGroup } from "@catarchy/shared/constants/cat";
+
+import { CatCharacter } from "./cat-character";
 import styles from "./cat-loading.module.css";
+import { Text } from "./text";
 
 export function CatLoading() {
   return (

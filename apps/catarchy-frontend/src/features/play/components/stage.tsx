@@ -1,5 +1,7 @@
-import { LogClick } from "@/features/analytics";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+
+import { LogClick } from "@/features/analytics";
+
 import styles from "./stage.module.css";
 
 const ROOM_W = 286; // w-71.5 × 4px

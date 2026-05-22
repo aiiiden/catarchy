@@ -1,5 +1,6 @@
-import { api } from "@/features/common";
 import { InfiniteData, infiniteQueryOptions } from "@tanstack/react-query";
+
+import { api } from "@/features/common";
 
 type GetCareRecordsPayload = Awaited<
   Parameters<(typeof api.cat)["care-records"]["get"]>

@@ -1,5 +1,7 @@
-import { Button, ChevronRight, Text } from "@/features/common";
 import { useNavigate } from "@tanstack/react-router";
+
+import { Button, ChevronRight, Text } from "@/features/common";
+
 import styles from "./sign-out-button.module.css";
 
 export function ResetPasswordButton() {

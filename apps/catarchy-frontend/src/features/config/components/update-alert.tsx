@@ -1,6 +1,8 @@
+import { useEffect } from "react";
+
 import { LogClick } from "@/features/analytics";
 import { Button, cn, Text, usePwaUpdate, useToast } from "@/features/common";
-import { useEffect } from "react";
+
 import styles from "./update-alert.module.css";
 
 export function UpdateAlert() {

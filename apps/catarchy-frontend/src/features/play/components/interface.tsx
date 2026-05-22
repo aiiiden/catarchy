@@ -1,3 +1,6 @@
+import { AgeGroup } from "@catarchy/shared/constants/cat";
+import { useQuery } from "@tanstack/react-query";
+
 import { LogClick } from "@/features/analytics";
 import { catInfoOptions } from "@/features/cat";
 import {
@@ -7,8 +10,7 @@ import {
   Text,
   useToast,
 } from "@/features/common";
-import { AgeGroup } from "@catarchy/shared/constants/cat";
-import { useQuery } from "@tanstack/react-query";
+
 import { EmotionStatus } from "./emotion-status";
 import styles from "./interface.module.css";
 import { Stage } from "./stage";

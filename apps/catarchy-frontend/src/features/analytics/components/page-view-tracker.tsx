@@ -1,5 +1,6 @@
 import { useLocation } from "@tanstack/react-router";
 import { useEffect } from "react";
+
 import { useAnalytics } from "../hooks/use-anlytics";
 
 export function PageViewTracker() {
@@ -14,7 +15,7 @@ export function PageViewTracker() {
         fromPage: location.pathname,
       },
     });
-  }, [location.pathname]);
+  }, [location.pathname, pageView]);
 
   return <></>;
 }

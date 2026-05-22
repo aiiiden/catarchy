@@ -1,3 +1,10 @@
+import { EdenFetchError } from "@elysiajs/eden";
+import { useMutation } from "@tanstack/react-query";
+import { Link, useRouter } from "@tanstack/react-router";
+import { useState } from "react";
+import { FormProvider } from "react-hook-form";
+import z from "zod";
+
 import { LogClick } from "@/features/analytics";
 import {
   Button,
@@ -7,12 +14,7 @@ import {
   useAlert,
   useToast,
 } from "@/features/common";
-import { EdenFetchError } from "@elysiajs/eden";
-import { useMutation } from "@tanstack/react-query";
-import { Link, useRouter } from "@tanstack/react-router";
-import { useState } from "react";
-import { FormProvider } from "react-hook-form";
-import z from "zod";
+
 import { EmailPasswordForm } from "../components/email-password-form";
 import { HandleForm } from "../components/handle-form";
 import { HandleGuide } from "../components/handle-guide";

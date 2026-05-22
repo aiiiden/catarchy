@@ -1,8 +1,10 @@
+import type { QueryClient } from "@tanstack/react-query";
+import { createRootRouteWithContext,Outlet } from "@tanstack/react-router";
+
 import { PageViewTracker } from "@/features/analytics";
 import { UpdateAlert } from "@/features/config";
-import { MusicDrawer } from "@/features/music/components/music-drawer";
-import type { QueryClient } from "@tanstack/react-query";
-import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import { MusicDrawer } from "@/features/music";
+
 import {
   AlertRenderer,
   BottomSheetRenderer,

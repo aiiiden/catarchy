@@ -1,3 +1,9 @@
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
+import { useState } from "react";
+import { FormProvider } from "react-hook-form";
+import z from "zod";
+
 import { LogClick } from "@/features/analytics";
 import {
   Button,
@@ -5,17 +11,12 @@ import {
   Scaffold,
   useToast,
 } from "@/features/common";
-import { useRouter } from "@tanstack/react-router";
-import { FormProvider } from "react-hook-form";
-import z from "zod";
+
 import { EmailPasswordForm } from "../components/email-password-form";
 import {
   emailPasswordSchema,
   useEmailPasswordForm,
 } from "../hooks/use-email-password-form";
-
-import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 import {
   resetPasswordOptions,
   sendResetEmailOptions,
