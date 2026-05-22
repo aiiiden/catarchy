@@ -5,19 +5,19 @@ import { env } from "@/features/common";
 
 export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
   const isLocal = import.meta.env.DEV;
-  const gaMesurementId = env.VITE_GA_MEASUREMENT_ID;
+  const gaMeasurementId = env.VITE_GA_MEASUREMENT_ID;
 
   useEffect(() => {
     if (isLocal) return;
-    if (!gaMesurementId) return;
+    if (!gaMeasurementId) return;
     if (ReactGA.isInitialized) return;
 
     ReactGA.initialize([
       {
-        trackingId: gaMesurementId,
+        trackingId: gaMeasurementId,
       },
     ]);
-  }, [gaMesurementId, isLocal]);
+  }, [gaMeasurementId, isLocal]);
 
   return <>{children}</>;
 }
