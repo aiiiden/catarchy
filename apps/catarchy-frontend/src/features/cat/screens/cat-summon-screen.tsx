@@ -41,7 +41,7 @@ export function CatSummonScreen() {
       id: "summon-success",
     });
 
-    await queryClient.invalidateQueries(catListOptions());
+    await queryClient.refetchQueries({ queryKey: catListOptions().queryKey });
 
     await router.navigate({
       to: "/$catId/play",
