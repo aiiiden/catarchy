@@ -7,7 +7,7 @@ export abstract class PersonalityRepository {
     return getDatabase();
   }
 
-  static async getCatPersonality({ catId }: { catId: string }) {
+  static async findCatPersonality({ catId }: { catId: string }) {
     const [result] = await this.db
       .select({
         openness: table.catPersonality.openness,
@@ -28,7 +28,7 @@ export abstract class PersonalityRepository {
     return result;
   }
 
-  static async getCatPersonalityProgress({ catId }: { catId: string }) {
+  static async findCatPersonalityProgress({ catId }: { catId: string }) {
     const [result] = await this.db
       .select({
         openness: table.catPersonality.openness,
@@ -45,7 +45,7 @@ export abstract class PersonalityRepository {
     return result ?? null;
   }
 
-  static async getQuestionCount() {
+  static async findQuestionCount() {
     const [result] = await this.db
       .select({ count: count() })
       .from(table.personalityQuestion);
@@ -53,18 +53,18 @@ export abstract class PersonalityRepository {
     return result.count;
   }
 
-  static async getRemainingQuestionCount({ catId }: { catId: string }) {
-    const progress = await this.getCatPersonalityProgress({ catId });
+  static async findRemainingQuestionCount({ catId }: { catId: string }) {
+    const progress = await this.findCatPersonalityProgress({ catId });
     if (!progress) {
-      return await this.getQuestionCount();
+      return await this.findQuestionCount();
     }
     return progress.remainingCount;
   }
 
-  static async getNextQuestion({ catId }: { catId: string }) {
+  static async findNextQuestion({ catId }: { catId: string }) {
     const [totalCount, progress] = await Promise.all([
-      this.getQuestionCount(),
-      this.getCatPersonalityProgress({ catId }),
+      this.findQuestionCount(),
+      this.findCatPersonalityProgress({ catId }),
     ]);
 
     if (progress?.remainingCount === 0) return null;
@@ -105,7 +105,7 @@ export abstract class PersonalityRepository {
     };
   }
 
-  static async getQuestion({ questionId }: { questionId: string }) {
+  static async findQuestion({ questionId }: { questionId: string }) {
     const [result] = await this.db
       .select({
         id: table.personalityQuestion.id,

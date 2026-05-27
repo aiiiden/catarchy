@@ -37,11 +37,11 @@ export abstract class CatCareService {
     ] = await Promise.all([
       this.catRepository.findFullById({ catId, servantId: userId }),
       Promise.all([
-        this.consensusRepository.getValue("CAT.COOLDOWN_HOUR_BETWEEN_CARE"),
-        this.consensusRepository.getValue("CAT.GROWTH_PER_CARE"),
-        this.consensusRepository.getValue("CAT.EMOTION_PER_CARE"),
-        this.consensusRepository.getValue("CAT.EMOTION_DECREASE"),
-        this.consensusRepository.getValue(
+        this.consensusRepository.findValue("CAT.COOLDOWN_HOUR_BETWEEN_CARE"),
+        this.consensusRepository.findValue("CAT.GROWTH_PER_CARE"),
+        this.consensusRepository.findValue("CAT.EMOTION_PER_CARE"),
+        this.consensusRepository.findValue("CAT.EMOTION_DECREASE"),
+        this.consensusRepository.findValue(
           "CAT.EMOTION_DECREASE_FREQUENCY_HOUR",
         ),
       ]),
@@ -194,7 +194,7 @@ export abstract class CatCareService {
    * *Only for cron job
    */
   static async remindCare() {
-    const frequencyHours = await this.consensusRepository.getValue(
+    const frequencyHours = await this.consensusRepository.findValue(
       "CAT.EMOTION_DECREASE_FREQUENCY_HOUR",
     );
 
