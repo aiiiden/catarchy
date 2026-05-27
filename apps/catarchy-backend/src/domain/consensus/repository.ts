@@ -34,15 +34,15 @@ function cacheSetMeta(key: ConsensusKey, name: string, purpose: string) {
 }
 
 export abstract class ConsensusRepository {
-  static async getAllValues() {
+  static async findAllValues() {
     return Promise.all(
       (Object.keys(CONSENSUS_DEFINITIONS) as ConsensusKey[]).map((key) =>
-        this.getValueWithMeta(key),
+        this.findValueWithMeta(key),
       ),
     );
   }
 
-  static async getValueWithMeta<K extends ConsensusKey>(key: K) {
+  static async findValueWithMeta<K extends ConsensusKey>(key: K) {
     const valueType = CONSENSUS_DEFINITIONS[key];
     const cacheKey = PREFIX + key;
 
@@ -88,7 +88,7 @@ export abstract class ConsensusRepository {
     };
   }
 
-  static async getValue<K extends ConsensusKey>(
+  static async findValue<K extends ConsensusKey>(
     key: K,
   ): Promise<ConsensusValue<K>> {
     const valueType = CONSENSUS_DEFINITIONS[key];

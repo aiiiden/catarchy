@@ -5,10 +5,10 @@ export abstract class ConsensusService {
   private static consensusRepository = ConsensusRepository;
 
   static async getAll() {
-    return this.consensusRepository.getAllValues();
+    return this.consensusRepository.findAllValues();
   }
 
   static async getOne(key: ConsensusKey) {
-    return this.consensusRepository.getValueWithMeta(key);
+    return this.consensusRepository.findValueWithMeta(key);
   }
 }

@@ -29,7 +29,7 @@ export abstract class PersonalityService {
       );
     }
 
-    return this.personalityRepository.getCatPersonality({ catId });
+    return this.personalityRepository.findCatPersonality({ catId });
   }
 
   static async getProgress({
@@ -51,8 +51,8 @@ export abstract class PersonalityService {
     }
 
     const [totalCount, remainingCount] = await Promise.all([
-      this.personalityRepository.getQuestionCount(),
-      this.personalityRepository.getRemainingQuestionCount({ catId }),
+      this.personalityRepository.findQuestionCount(),
+      this.personalityRepository.findRemainingQuestionCount({ catId }),
     ]);
 
     return { totalCount, remainingCount };
@@ -76,7 +76,7 @@ export abstract class PersonalityService {
       );
     }
 
-    return this.personalityRepository.getNextQuestion({ catId });
+    return this.personalityRepository.findNextQuestion({ catId });
   }
 
   static async submitAnswer({
@@ -102,8 +102,8 @@ export abstract class PersonalityService {
     }
 
     const [question, totalCount] = await Promise.all([
-      this.personalityRepository.getQuestion({ questionId }),
-      this.personalityRepository.getQuestionCount(),
+      this.personalityRepository.findQuestion({ questionId }),
+      this.personalityRepository.findQuestionCount(),
     ]);
 
     if (!question) {
@@ -112,7 +112,7 @@ export abstract class PersonalityService {
 
     await this.personalityRepository.initCatPersonality({ catId, totalCount });
 
-    const progress = await this.personalityRepository.getCatPersonalityProgress(
+    const progress = await this.personalityRepository.findCatPersonalityProgress(
       { catId },
     );
     if (!progress) throw new Error("Failed to initialize personality record");
@@ -121,7 +121,7 @@ export abstract class PersonalityService {
       throw new ForbiddenError("Personality test is already completed");
     }
 
-    const nextQuestion = await this.personalityRepository.getNextQuestion({
+    const nextQuestion = await this.personalityRepository.findNextQuestion({
       catId,
     });
     if (!nextQuestion || nextQuestion.id !== questionId) {
