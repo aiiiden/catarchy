@@ -217,6 +217,10 @@ export const catModel = new Elysia({
   }),
 
   "cat.care.response": t.Object({
+    careRecordId: t.String({
+      description: "ID of the created care record",
+      examples: ["01970f3a-2b4c-7e8f-9abc-def012345678"],
+    }),
     growth: t.Object({
       ageGroup: t.Enum(AgeGroup, {
         description: "Age group of the cat after care",
@@ -257,10 +261,6 @@ export const catModel = new Elysia({
         description: "Emotion level label",
         examples: ["happy"],
       }),
-    }),
-    message: t.String({
-      description: "AI-generated description of the cat's reaction",
-      examples: ["Mochi purrs softly and nuzzles against your hand."],
     }),
   }),
 });

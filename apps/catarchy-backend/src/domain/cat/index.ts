@@ -1,8 +1,10 @@
 import Elysia, { StatusMap, t } from "elysia";
 
+import { runInBackground } from "../../infra/background";
 import { cursorQueryType, cursorResultType } from "../../lib/pagination";
 import { withCommonError } from "../../lib/response";
 import { authGuard } from "../auth/guard";
+import { CareReportHandler } from "./care-message.handler";
 import { CatCareService } from "./cat-care.service";
 import { careRecordItemSchema, catModel } from "./model";
 import { CatService } from "./service";
@@ -14,6 +16,7 @@ export const catRouter = () => {
   })
     .decorate("catService", CatService)
     .decorate("catCareService", CatCareService)
+    .decorate("careMessageHandler", CareReportHandler)
     .use(catModel)
     .use(authGuard())
     .get(
@@ -61,12 +64,28 @@ export const catRouter = () => {
     )
     .post(
       "/care",
-      async ({ user, catCareService, body }) => {
-        return await catCareService.careForCat({
-          userId: user.id,
-          catId: body.catId,
-          promptConfig: { localDateTime: body.localDateTime },
-        });
+      async ({ user, catCareService, body, careMessageHandler }) => {
+        const { cat, catStat, emotion, growth, careRecord } =
+          await catCareService.careForCat({
+            userId: user.id,
+            catId: body.catId,
+          });
+
+        runInBackground(() =>
+          Promise.all([
+            careMessageHandler.handleCareReport({
+              catRecordId: careRecord.id,
+              cat: cat,
+              catStat: catStat,
+            }),
+          ]),
+        );
+
+        return {
+          careRecordId: careRecord.id,
+          emotion,
+          growth,
+        };
       },
       {
         body: "cat.care.body",
@@ -74,6 +93,21 @@ export const catRouter = () => {
           [StatusMap.OK]: "cat.care.response",
           [StatusMap["Not Found"]]: "cat.not-found",
           [StatusMap.Conflict]: "cat.conflict",
+        }),
+      },
+    )
+    .get(
+      "/care-records/:careRecordId",
+      async ({ user, catCareService, params }) => {
+        return await catCareService.getCareRecord({
+          userId: user.id,
+          careRecordId: params.careRecordId,
+        });
+      },
+      {
+        response: withCommonError({
+          [StatusMap.OK]: "cat.care-records.item",
+          [StatusMap["Not Found"]]: "cat.not-found",
         }),
       },
     )
