@@ -22,7 +22,8 @@ export function StatInfoTable({ catId }: { catId: string }) {
     currentRelationshipOptions({ catId }),
   );
 
-  const haveNoFriends = relationship?.friendCount === 0;
+  const friendCount = relationship?.friendCount ?? 0;
+  const haveNoFriends = friendCount === 0;
 
   const age = useMemo(
     () =>
@@ -40,9 +41,7 @@ export function StatInfoTable({ catId }: { catId: string }) {
     return "BOYFRIEND";
   }, [relationship]);
 
-  const hasMoreThanThreeFriends = relationship
-    ? relationship.friendCount > 3
-    : false;
+  const hasMoreThanThreeFriends = friendCount > 3;
 
   return (
     <InfoTable>
@@ -121,7 +120,7 @@ export function StatInfoTable({ catId }: { catId: string }) {
                     <TextMarquee maxWidth={180}>{friend.catName}</TextMarquee>
                   </div>
                 ))}
-                {!haveNoFriends && !hasMoreThanThreeFriends && (
+                {Boolean(friendCount && !hasMoreThanThreeFriends) && (
                   <Link
                     to={"/$catId/cat/friend"}
                     params={{
@@ -129,7 +128,7 @@ export function StatInfoTable({ catId }: { catId: string }) {
                     }}
                     className={styles.moreFriends}
                   >
-                    <Text>+ {relationship!.friendCount - 3} more friends</Text>
+                    <Text>+ {friendCount - 3} more friends</Text>
                   </Link>
                 )}
               </div>
