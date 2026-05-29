@@ -1,10 +1,20 @@
 import { and, eq, isNull, lt, or, sql } from "drizzle-orm";
 
 import { getDatabase, table } from "../../infra/db";
+import { CatSex } from "../../infra/db/schema";
 
 export abstract class CatRepository {
   private static get db() {
     return getDatabase();
+  }
+
+  static async findById({ catId }: { catId: string }) {
+    const [cat] = await this.db
+      .select()
+      .from(table.cat)
+      .where(eq(table.cat.id, catId))
+      .limit(1);
+    return cat;
   }
 
   static async findByServantId({
@@ -61,7 +71,7 @@ export abstract class CatRepository {
     id: string;
     servantId: string;
     name: string;
-    sex: string;
+    sex: CatSex;
   }) {
     return this.db
       .insert(table.cat)
@@ -133,4 +143,5 @@ export abstract class CatRepository {
         or(isNull(table.cat.lastCaredAt), lt(table.cat.lastCaredAt, threshold)),
       );
   }
+
 }
