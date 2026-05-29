@@ -54,6 +54,22 @@ export default tseslint.config(
     },
   },
   {
+    files: ["apps/catarchy-backend/src/domain/**/index.ts"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "ExportAllDeclaration[source.value=/\\/(service|model)(\\.ts)?$/]",
+          message: "Do not re-export service or model from barrel index. Keep them internal to the domain.",
+        },
+        {
+          selector: "ExportNamedDeclaration[source.value=/\\/(service|model)(\\.ts)?$/]",
+          message: "Do not re-export service or model from barrel index. Keep them internal to the domain.",
+        },
+      ],
+    },
+  },
+  {
     files: ["apps/catarchy-frontend/**/*.{ts,tsx}"],
     plugins: {
       react: reactPlugin,
