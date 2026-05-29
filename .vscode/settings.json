@@ -18,6 +18,7 @@
     "**/*.module.css": "css"
   },
   "search.exclude": {
-    "**/.wrangler": true
+    "**/.wrangler": true,
+    "**/.localflare": true
   }
 }

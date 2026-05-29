@@ -1,18 +1,18 @@
 import { Elysia } from "elysia";
 
-import { authRouter } from "./domain/auth";
-import { catRouter } from "./domain/cat";
-import { consensusRouter } from "./domain/consensus";
-import { notificationRouter } from "./domain/notification";
-import { personalityRouter } from "./domain/personality";
-import { relationshipRouter } from "./domain/relationship";
-import { userRouter } from "./domain/user";
-import { emailRouter } from "./infra/email";
-import { healthRouter } from "./infra/health";
-import { openapiPlugin } from "./infra/openapi";
-import { corsPlugin } from "./plugin/cors";
-import { errorHandler } from "./plugin/error-handler";
-import { requestId } from "./plugin/request-id";
+import { authRouter } from "@/domain/auth";
+import { catRouter } from "@/domain/cat";
+import { consensusRouter } from "@/domain/consensus";
+import { notificationRouter } from "@/domain/notification";
+import { personalityRouter } from "@/domain/personality";
+import { relationshipRouter } from "@/domain/relationship";
+import { userRouter } from "@/domain/user";
+import { emailRouter } from "@/infra/email";
+import { healthRouter } from "@/infra/health";
+import { openapiPlugin } from "@/infra/openapi";
+import { corsPlugin } from "@/plugin/cors";
+import { errorHandler } from "@/plugin/error-handler";
+import { requestId } from "@/plugin/request-id";
 
 type CreateAppConfig = {
   adapter?: NonNullable<ConstructorParameters<typeof Elysia>[0]>["adapter"];

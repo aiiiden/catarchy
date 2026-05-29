@@ -1,10 +1,11 @@
-import { PersonalityQuestionKeyed } from "../../infra/db/schema";
+import { CatRepository } from "@/domain/cat";
+import { PersonalityQuestionKeyed } from "@/infra/db/schema";
 import {
   BadRequestError,
   ForbiddenError,
   NotFoundError,
-} from "../../lib/error";
-import { CatRepository } from "../cat/repository";
+} from "@/lib/error";
+
 import { PersonalityRepository } from "./repository";
 
 export abstract class PersonalityService {

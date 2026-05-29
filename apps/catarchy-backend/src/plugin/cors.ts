@@ -1,7 +1,7 @@
 import { cors } from "@elysiajs/cors";
 import { Elysia } from "elysia";
 
-import { getEnv } from "../lib/env";
+import { getEnv } from "@/lib/env";
 
 export const corsPlugin = new Elysia({ name: "cors" }).use(
   cors({

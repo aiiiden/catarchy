@@ -1,9 +1,10 @@
 import { ConsensusValueType } from "@catarchy/shared/constants/consensus";
 import { eq } from "drizzle-orm";
 
-import { cache } from "../../infra/cache";
-import { getDatabase, table } from "../../infra/db";
-import { NotFoundError } from "../../lib/error";
+import { cache } from "@/infra/cache";
+import { getDatabase, table } from "@/infra/db";
+import { NotFoundError } from "@/lib/error";
+
 import {
   CONSENSUS_DEFINITIONS,
   type ConsensusKey,

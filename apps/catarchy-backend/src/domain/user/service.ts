@@ -1,5 +1,6 @@
-import { NotFoundError } from "../../lib/error";
-import { AuthRepository } from "../auth/repository";
+import { AuthRepository } from "@/domain/auth";
+import { NotFoundError } from "@/lib/error";
+
 import { UserRepository } from "./repository";
 
 export abstract class UserService {

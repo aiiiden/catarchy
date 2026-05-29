@@ -1,6 +1,7 @@
 import Elysia, { t } from "elysia";
 
-import { CatSex } from "../../infra/db/schema";
+import { CatSex } from "@/infra/db/schema";
+
 import { AgeGroup } from "./lib/growth";
 
 export const careRecordItemSchema = t.Object({

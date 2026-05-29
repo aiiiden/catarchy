@@ -10,6 +10,9 @@ mode = "smart"
 [build]
 watch_dir = "src"
 
+[alias]
+"@" = "./src"
+
 [observability]
 [observability.logs]
 enabled = true

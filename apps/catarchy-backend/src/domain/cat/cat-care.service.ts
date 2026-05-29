@@ -1,10 +1,11 @@
-import { ai } from "../../infra/ai";
-import { sendPushNotification } from "../../infra/fcm";
-import { ConflictError, NotFoundError } from "../../lib/error";
-import { logger } from "../../lib/logger";
-import { CursorQuery } from "../../lib/pagination";
-import { ConsensusRepository } from "../consensus/repository";
-import { NotificationRepository } from "../notification/repository";
+import { ConsensusRepository } from "@/domain/consensus";
+import { NotificationRepository } from "@/domain/notification";
+import { ai } from "@/infra/ai";
+import { sendPushNotification } from "@/infra/fcm";
+import { ConflictError, NotFoundError } from "@/lib/error";
+import { logger } from "@/lib/logger";
+import { CursorQuery } from "@/lib/pagination";
+
 import { CareRecordRepository } from "./care-record.repository";
 import { CatStatRepository } from "./cat-stat.repository";
 import { calculateNewEmotion, getEmotion } from "./lib/emotion";
@@ -199,10 +200,13 @@ export abstract class CatCareService {
 
     const hour = new Date().getUTCHours();
     const timePeriod =
-      hour >= 5 && hour < 12 ? "morning"
-      : hour >= 12 && hour < 18 ? "afternoon"
-      : hour >= 18 && hour < 22 ? "evening"
-      : "night";
+      hour >= 5 && hour < 12
+        ? "morning"
+        : hour >= 12 && hour < 18
+          ? "afternoon"
+          : hour >= 18 && hour < 22
+            ? "evening"
+            : "night";
 
     let message = "";
     try {
@@ -212,11 +216,12 @@ export abstract class CatCareService {
         // "xai/grok-4.3",
         "openai/gpt-4.1-nano",
         {
-        maxOutputTokens: 50,
-        temperature: 0.8,
-        system: `Describe a cat's behavior/Lang: en-US/Pattern: "[Name(no-capitalize)] verb object [adverb/adjective phrase]."/1~2 sentences/Plain text only/Reflect time of day in behavior`,
-        prompt: `${cat.name}, mood:${getEmotion(catStat.emotion).level}, age:${getAgeGroup(catStat.growth)}, time:${timePeriod}`,
-      });
+          maxOutputTokens: 50,
+          temperature: 0.8,
+          system: `Describe a cat's behavior/Lang: en-US/Pattern: "[Name(no-capitalize)] verb object [adverb/adjective phrase]."/1~2 sentences/Plain text only/Reflect time of day in behavior`,
+          prompt: `${cat.name}, mood:${getEmotion(catStat.emotion).level}, age:${getAgeGroup(catStat.growth)}, time:${timePeriod}`,
+        },
+      );
       message = text.trim();
     } catch {
       message = `${cat.name} enjoyed the care and purrs contentedly.`;

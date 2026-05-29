@@ -1,6 +1,6 @@
 import { eq, sql } from "drizzle-orm";
 
-import { getDatabase, table } from "../../infra/db";
+import { getDatabase, table } from "@/infra/db";
 
 export abstract class CatStatRepository {
   private static get db() {

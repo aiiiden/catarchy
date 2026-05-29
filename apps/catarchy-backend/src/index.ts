@@ -1,14 +1,14 @@
 import { env as cfEnv } from "cloudflare:workers";
 import { CloudflareAdapter } from "elysia/adapter/cloudflare-worker";
 
-import { createApp } from "./app";
-import { initAI } from "./infra/ai";
-import { initDatabase } from "./infra/db";
-import { initEmail } from "./infra/email/service";
-import { type CloudflareBindings, initEnv } from "./lib/env";
-import { scheduledHandler } from "./scheduled";
+import { createApp } from "@/app";
+import { initAI } from "@/infra/ai";
+import { initDatabase } from "@/infra/db";
+import { initEmail } from "@/infra/email/service";
+import { type CloudflareBindings, initEnv } from "@/lib/env";
+import { scheduledHandler } from "@/scheduled";
 
-export type { App } from "./app";
+export type { App } from "@/app";
 
 // Env Initialization
 const env = initEnv(cfEnv as Record<string, string> & CloudflareBindings);

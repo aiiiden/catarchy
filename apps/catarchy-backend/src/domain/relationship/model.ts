@@ -1,8 +1,8 @@
 import Elysia, { t } from "elysia";
 
-import { CatRelationshipType } from "../../infra/db/schema";
-import { cursorQueryType } from "../../lib/pagination";
-import { AgeGroup } from "../cat/lib/growth";
+import { AgeGroup } from "@/domain/cat";
+import { CatRelationshipType } from "@/infra/db/schema";
+import { cursorQueryType } from "@/lib/pagination";
 
 const statType = {
   growth: t.Object({

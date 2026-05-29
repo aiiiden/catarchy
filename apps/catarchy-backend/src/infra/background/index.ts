@@ -1,6 +1,6 @@
 import { waitUntil } from "cloudflare:workers";
 
-import { logger } from "../../lib/logger";
+import { logger } from "@/lib/logger";
 
 export function runInBackground(fn: () => Promise<unknown>): void {
   try {

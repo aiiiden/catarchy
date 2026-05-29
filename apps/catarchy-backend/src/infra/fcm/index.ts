@@ -1,4 +1,4 @@
-import { getEnv } from "../../lib/env";
+import { getEnv } from "@/lib/env";
 
 const FCM_PROJECT_ID = "catarchy-general";
 const FCM_ENDPOINT = `https://fcm.googleapis.com/v1/projects/${FCM_PROJECT_ID}/messages:send`;
