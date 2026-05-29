@@ -107,7 +107,16 @@ export function StatInfoTable({ catId }: { catId: string }) {
               <Text>🐈 FRIENDS</Text>
             </th>
             <td align="right">
-              <div className={styles.friendList}>
+              <div
+                className={styles.friendList}
+                style={
+                  {
+                    "--has-less-than-three-friends": !hasMoreThanThreeFriends
+                      ? 1
+                      : 0,
+                  } as React.CSSProperties
+                }
+              >
                 {relationship?.friends.map((friend) => (
                   <div key={friend.catId} className={styles.catInfoItem}>
                     <div className={styles.catIcon}>
@@ -120,7 +129,7 @@ export function StatInfoTable({ catId }: { catId: string }) {
                     <TextMarquee maxWidth={180}>{friend.catName}</TextMarquee>
                   </div>
                 ))}
-                {Boolean(friendCount && !hasMoreThanThreeFriends) && (
+                {Boolean(friendCount && hasMoreThanThreeFriends) && (
                   <Link
                     to={"/$catId/cat/friend"}
                     params={{
