@@ -6,7 +6,7 @@ export function usePwaUpdate() {
     updateServiceWorker,
   } = useRegisterSW({
     onRegisteredSW(_, registration) {
-      setInterval(() => registration?.update(), 15 * 60 * 1000);
+      setInterval(() => registration?.update(), 3 * 60 * 1000);
     },
   });
 
