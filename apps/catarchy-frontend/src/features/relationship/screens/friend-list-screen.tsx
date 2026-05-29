@@ -1,9 +1,10 @@
 import { AgeGroup } from "@catarchy/shared/constants/cat";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
-import { formatAge } from "@/features/cat";
+import { catInfoOptions, formatAge } from "@/features/cat";
 import {
   CatCharacter,
+  cn,
   HeaderBackButton,
   InfoTable,
   Scaffold,
@@ -11,10 +12,13 @@ import {
   useInfiniteScroll,
 } from "@/features/common";
 
+import { FriendListEmpty } from "../components/friend-list-empty";
 import { friendListOptions } from "../services/friend";
 import styles from "./friend-list-screen.module.css";
 
 export function FriendListScreen({ catId }: { catId: string }) {
+  const { data: catInfo } = useQuery(catInfoOptions(catId));
+
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
     friendListOptions({
       catId,
@@ -27,11 +31,14 @@ export function FriendListScreen({ catId }: { catId: string }) {
     hasNextPage,
   });
 
+  const hasNoFriends = data?.pages[0]?.count === 0;
+
   return (
     <Scaffold>
       <Scaffold.Header title="Friends" left={<HeaderBackButton />} />
-      <Scaffold.Body className={styles.body}>
+      <Scaffold.Body className={cn("bg-pattern-cat", styles.body)}>
         <div className={styles.listContainer}>
+          {hasNoFriends && <FriendListEmpty catName={catInfo?.name} />}
           {data?.pages.map((page) =>
             page?.items.map((friend) => (
               <InfoTable key={friend.id} className={styles.table}>
@@ -39,7 +46,7 @@ export function FriendListScreen({ catId }: { catId: string }) {
                   <tr>
                     <td colSpan={3} align="center">
                       <div className={styles.catNameCell}>
-                        <Text as="p" className={styles.catName}>
+                        <Text as="p" className={cn(styles.catName)}>
                           {friend.catName}
                         </Text>
                       </div>
@@ -59,8 +66,12 @@ export function FriendListScreen({ catId }: { catId: string }) {
                     <td align="right">{friend.emotion.emoji}</td>
                   </tr>
                   <tr>
-                    <th align="left">UPDATED AT</th>
-                    <td align="right">{friend.updatedAt}</td>
+                    <th align="left">BE FRIEND SINCE...</th>
+                    <td align="right">
+                      {friend.updatedAt
+                        ? new Date(friend.updatedAt).toLocaleDateString()
+                        : "-"}
+                    </td>
                   </tr>
                 </tbody>
               </InfoTable>
