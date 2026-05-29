@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 
-import { getDatabase, table, UserAuthProvider } from "../../infra/db";
+import { getDatabase, table, UserAuthProvider } from "@/infra/db";
 
 export abstract class AuthRepository {
   private static get db() {

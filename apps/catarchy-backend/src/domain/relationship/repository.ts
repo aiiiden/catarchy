@@ -12,7 +12,7 @@ import {
   sql,
 } from "drizzle-orm";
 
-import { CatRelationshipType, getDatabase, table } from "../../infra/db";
+import { CatRelationshipType, getDatabase, table } from "@/infra/db";
 
 export abstract class RelationshipRepository {
   private static get db() {

@@ -1,7 +1,7 @@
 import { and, desc, eq, lt } from "drizzle-orm";
 
-import { getDatabase, table } from "../../infra/db";
-import type { CursorQuery } from "../../lib/pagination";
+import { getDatabase, table } from "@/infra/db";
+import type { CursorQuery } from "@/lib/pagination";
 
 export abstract class CareRecordRepository {
   private static get db() {

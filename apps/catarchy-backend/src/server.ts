@@ -1,7 +1,7 @@
-import { createApp } from "./app";
-import { initAI } from "./infra/ai";
-import { initEmail } from "./infra/email/service";
-import { initEnv } from "./lib/env";
+import { createApp } from "@/app";
+import { initAI } from "@/infra/ai";
+import { initEmail } from "@/infra/email/service";
+import { initEnv } from "@/lib/env";
 
 /**
  * Local development entry point.

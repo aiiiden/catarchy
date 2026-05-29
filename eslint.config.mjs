@@ -25,6 +25,51 @@ export default tseslint.config(
     },
   },
   {
+    files: ["apps/catarchy-backend/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["../**"],
+              message: "Use @/ absolute imports instead of relative parent imports.",
+            },
+            {
+              group: ["@/domain/*/*"],
+              message:
+                "Do not import from internal domain paths. Use the barrel file (@/domain/[name]) for cross-domain imports, or use relative paths within the same domain.",
+            },
+            {
+              group: ["@/domain/*/service", "@/domain/*/service.ts"],
+              message: "Do not import services from other domains. Orchestrate via the calling layer.",
+            },
+            {
+              group: ["@/domain/*/handler", "@/domain/*/handler.ts"],
+              message: "Do not import handlers from other domains. Orchestrate via the calling layer.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["apps/catarchy-backend/src/domain/**/index.ts"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "ExportAllDeclaration[source.value=/\\/(service|model)(\\.ts)?$/]",
+          message: "Do not re-export service or model from barrel index. Keep them internal to the domain.",
+        },
+        {
+          selector: "ExportNamedDeclaration[source.value=/\\/(service|model)(\\.ts)?$/]",
+          message: "Do not re-export service or model from barrel index. Keep them internal to the domain.",
+        },
+      ],
+    },
+  },
+  {
     files: ["apps/catarchy-frontend/**/*.{ts,tsx}"],
     plugins: {
       react: reactPlugin,

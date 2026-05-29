@@ -1,6 +1,6 @@
 import { eq, inArray } from "drizzle-orm";
 
-import { getDatabase, table } from "../../infra/db";
+import { getDatabase, table } from "@/infra/db";
 
 export abstract class NotificationRepository {
   private static get db() {

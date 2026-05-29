@@ -1,4 +1,5 @@
-import { sendMultiplePushNotification } from "../../infra/fcm";
+import { sendMultiplePushNotification } from "@/infra/fcm";
+
 import { NotificationRepository } from "./repository";
 
 export abstract class NotificationService {

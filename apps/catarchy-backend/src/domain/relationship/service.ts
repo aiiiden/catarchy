@@ -1,18 +1,16 @@
-import { CatRelationshipType } from "../../infra/db";
-import { sendPushNotification } from "../../infra/fcm";
+import { CareRecordRepository, CatRepository, getAge, getAgeGroup, getEmotion } from "@/domain/cat";
+import { ConsensusRepository } from "@/domain/consensus";
+import { NotificationRepository } from "@/domain/notification";
+import { PersonalityRepository } from "@/domain/personality";
+import { CatRelationshipType } from "@/infra/db";
+import { sendPushNotification } from "@/infra/fcm";
 import {
   ForbiddenError,
   NotFoundError,
   PreconditionFailedError,
-} from "../../lib/error";
-import type { CursorQuery } from "../../lib/pagination";
-import { CareRecordRepository } from "../cat/care-record.repository";
-import { getEmotion } from "../cat/lib/emotion";
-import { getAge, getAgeGroup } from "../cat/lib/growth";
-import { CatRepository } from "../cat/repository";
-import { ConsensusRepository } from "../consensus/repository";
-import { NotificationRepository } from "../notification/repository";
-import { PersonalityRepository } from "../personality/repository";
+} from "@/lib/error";
+import type { CursorQuery } from "@/lib/pagination";
+
 import { CatPersonalityVector } from "./lib/personality-vector";
 import { RelationshipRepository } from "./repository";
 

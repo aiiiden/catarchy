@@ -1,9 +1,10 @@
 import { uuidv7 } from "uuidv7";
 
-import { getDatabase } from "../../infra/db";
-import { CatSex } from "../../infra/db/schema";
-import { runAtomic } from "../../lib/atomic";
-import { ConflictError, NotFoundError } from "../../lib/error";
+import { getDatabase } from "@/infra/db";
+import { CatSex } from "@/infra/db/schema";
+import { runAtomic } from "@/lib/atomic";
+import { ConflictError, NotFoundError } from "@/lib/error";
+
 import { CatStatRepository } from "./cat-stat.repository";
 import { getEmotion } from "./lib/emotion";
 import { getAge, getAgeGroup } from "./lib/growth";

@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
 import { nanoid } from "nanoid";
 
-import { ENVIRONMENT, getEnv } from "../lib/env";
-import { logger } from "../lib/logger";
+import { ENVIRONMENT, getEnv } from "@/lib/env";
+import { logger } from "@/lib/logger";
 
 export const requestId = new Elysia({ name: "requestId" })
   .onBeforeHandle(({ request, set }) => {

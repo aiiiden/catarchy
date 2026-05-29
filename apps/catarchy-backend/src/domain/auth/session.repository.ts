@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 
-import { getDatabase, table } from "../../infra/db";
+import { getDatabase, table } from "@/infra/db";
 
 export abstract class SessionRepository {
   private static get db() {

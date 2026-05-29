@@ -1,4 +1,4 @@
-import { CatCareService } from "./domain/cat/cat-care.service";
+import { CatCareService } from "@/domain/cat";
 
 export const scheduledHandler = async () => {
   await CatCareService.remindCare();

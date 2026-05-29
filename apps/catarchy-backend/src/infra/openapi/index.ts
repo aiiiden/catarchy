@@ -1,5 +1,4 @@
 import { openapi } from "@elysiajs/openapi";
-// import { ENVIRONMENT, getEnv } from "../../lib/env";
 
 export const openapiPlugin = () =>
   openapi({

@@ -1,7 +1,7 @@
 import { jwt } from "@elysiajs/jwt";
 import Elysia, { status, t } from "elysia";
 
-import { getEnv } from "../../lib/env";
+import { getEnv } from "@/lib/env";
 
 export const authGuard = () =>
   new Elysia({ name: "auth.guard" })

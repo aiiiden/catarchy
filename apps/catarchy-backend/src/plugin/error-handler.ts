@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 
-import { AppError } from "../lib/error";
-import { logger } from "../lib/logger";
+import { AppError } from "@/lib/error";
+import { logger } from "@/lib/logger";
 
 export interface CustomErrorResponse {
   message: string;

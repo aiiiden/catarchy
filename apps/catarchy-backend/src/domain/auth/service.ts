@@ -4,10 +4,11 @@ import bcrypt from "bcryptjs";
 import ms from "ms";
 import { uuidv7 } from "uuidv7";
 
-import { getDatabase } from "../../infra/db";
-import { runAtomic } from "../../lib/atomic";
-import { ConflictError, ForbiddenError, NotFoundError } from "../../lib/error";
-import { UserRepository } from "../user/repository";
+import { UserRepository } from "@/domain/user";
+import { getDatabase } from "@/infra/db";
+import { runAtomic } from "@/lib/atomic";
+import { ConflictError, ForbiddenError, NotFoundError } from "@/lib/error";
+
 import { EmailVerificationRepository } from "./email-verification.repository";
 import { AuthRepository } from "./repository";
 import { SessionRepository } from "./session.repository";

@@ -5,7 +5,7 @@ import {
   getDatabase,
   table,
   type Transaction,
-} from "../../infra/db";
+} from "@/infra/db";
 
 type Client = Database | Transaction;
 
