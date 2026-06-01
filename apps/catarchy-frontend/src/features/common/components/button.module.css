@@ -7,12 +7,12 @@
   align-items: center;
   display: flex;
   user-select: none;
-  background-color: var(--color-white);
+  background-color: var(--color-paper);
 }
 
 /* primary */
 .container[data-variant="primary"] {
-  background-color: var(--color-black);
+  background-color: var(--color-ink);
 }
 .container[data-variant="primary"]:hover {
   background-image: var(--bg-dither-8);

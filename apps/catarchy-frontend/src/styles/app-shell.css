@@ -12,9 +12,9 @@
   display: none;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-white);
+  background-color: var(--color-paper);
   text-align: center;
-  color: var(--color-black);
+  color: var(--color-ink);
   font-size: 1rem;
 }
 
@@ -38,7 +38,7 @@ body {
   overflow: hidden;
   overscroll-behavior: none;
   touch-action: pan-x pan-y;
-  color: var(--color-black);
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-sans);

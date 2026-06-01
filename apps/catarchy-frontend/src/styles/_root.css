@@ -26,7 +26,7 @@ html[data-theme="inverted"] dialog {
 }
 
 html[data-theme="inverted"] body {
-  background-color: var(--color-white) !important;
+  background-color: var(--color-paper) !important;
 }
 
 html[data-theme="inverted"] .no-invert {

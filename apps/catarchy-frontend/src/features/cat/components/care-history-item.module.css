@@ -1,5 +1,5 @@
 .table {
-  background-color: var(--color-white);
+  background-color: var(--color-paper);
   padding-top: 2px;
   padding-bottom: 2px;
   width: 100%;
@@ -12,7 +12,7 @@
 
 .table tr:not(:last-child) th,
 .table tr:not(:last-child) td {
-  border-bottom: 1px dashed var(--color-gray-100);
+  border-bottom: 1px dashed var(--color-ink-100);
 }
 
 .table th {
@@ -28,7 +28,7 @@
 .delta {
   font-size: 12px;
   letter-spacing: -2px;
-  color: var(--color-gray-500);
+  color: var(--color-ink-500);
 }
 
 .message {
@@ -39,6 +39,6 @@
 
 .characterCell {
   width: 74px;
-  border-right: 1px dashed var(--color-gray-100);
+  border-right: 1px dashed var(--color-ink-100);
   vertical-align: middle;
 }
