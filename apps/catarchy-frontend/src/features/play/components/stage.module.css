@@ -13,5 +13,5 @@
 
 .platform {
   position: absolute;
-  background-color: red;
+  background-color: var(--color-warn);
 }
