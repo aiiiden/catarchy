@@ -47,7 +47,7 @@
 }
 
 .input:focus-visible ~ .indicator {
-  outline: 1px solid var(--color-black);
+  outline: 1px solid var(--color-ink);
 }
 
 .input:checked ~ .indicator .off {

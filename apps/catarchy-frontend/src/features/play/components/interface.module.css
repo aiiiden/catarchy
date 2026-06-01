@@ -2,7 +2,7 @@
   border: 1px solid currentColor;
   width: 288px;
   height: 14.75rem;
-  background-color: var(--color-white);
+  background-color: var(--color-paper);
 }
 
 .toolbar {
@@ -28,18 +28,18 @@
 }
 
 .settingsBtn {
-  background-color: var(--color-black);
+  background-color: var(--color-ink);
   width: 2.25rem;
   height: 2.25rem;
-  color: var(--color-white);
+  color: var(--color-paper);
   display: flex;
   justify-content: center;
   align-items: center;
-  border-left: 1px solid var(--color-black);
-  border-bottom: 1px solid var(--color-black);
+  border-left: 1px solid var(--color-ink);
+  border-bottom: 1px solid var(--color-ink);
 }
 
 .settingsBtn:hover {
-  background-color: var(--color-white);
-  color: var(--color-black);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
 }

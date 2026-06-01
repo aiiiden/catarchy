@@ -15,7 +15,7 @@
 .btn {
   padding-inline: 0.5rem;
   padding-block: 1px;
-  border: 1px solid var(--color-white);
+  border: 1px solid var(--color-paper);
 }
 
 .btnLater {
@@ -29,11 +29,11 @@
 }
 
 .btnUpdate {
-  background-color: var(--color-white);
-  color: var(--color-black);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
 }
 
 .btnUpdate:active {
-  background-color: var(--color-white);
-  color: var(--color-black);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
 }

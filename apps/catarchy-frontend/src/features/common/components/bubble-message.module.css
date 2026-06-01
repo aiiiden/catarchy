@@ -10,12 +10,12 @@
 }
 
 .container {
-  background-color: var(--color-white);
+  background-color: var(--color-paper);
   padding-inline: 0.5rem;
   padding-block: 0.25rem;
 }
 
 .containerDark {
-  background-color: var(--color-black);
-  color: var(--color-white);
+  background-color: var(--color-ink);
+  color: var(--color-paper);
 }

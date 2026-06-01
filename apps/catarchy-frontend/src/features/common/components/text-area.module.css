@@ -22,7 +22,7 @@
 
 .textarea:disabled {
   cursor: not-allowed;
-  color: var(--color-gray-100);
+  color: var(--color-ink-100);
   text-shadow:
     -2px -2px 0 #fff,
     -1px -2px 0 #fff,

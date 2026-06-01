@@ -20,7 +20,7 @@
 }
 
 .header {
-  border-bottom: 1px solid var(--color-black);
+  border-bottom: 1px solid var(--color-ink);
   padding-left: 1px;
   padding-top: 1px;
   padding-right: 1px;
@@ -33,7 +33,7 @@
   padding-inline: 0.5rem;
   padding-bottom: 0.5rem;
   padding-top: 0.375rem;
-  background-color: var(--color-white);
+  background-color: var(--color-paper);
 }
 
 .headerIcon {
@@ -49,7 +49,7 @@
 }
 
 .bodyInner {
-  background-color: var(--color-white);
+  background-color: var(--color-paper);
 }
 
 .wFull {

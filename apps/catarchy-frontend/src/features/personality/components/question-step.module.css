@@ -63,7 +63,7 @@
   transform: translateY(-50%);
   width: var(--answer-gap);
   height: 1px;
-  background-color: var(--color-black);
+  background-color: var(--color-ink);
   z-index: 0;
 }
 
