@@ -77,25 +77,19 @@ export abstract class RelationshipService {
         `Personality test incomplete: ${catId}`,
       );
 
-    const [
-      friendTargets,
-      unfriendedIds,
-      unfriendedScorePenalty,
-      friendProbSameSex,
-      friendProbDiffSex,
-    ] = await Promise.all([
+    const [friendTargets, unfriendedIds, consensusValues] = await Promise.all([
       this.relationshipRepository.findFriendCandidates({ catId }),
       this.relationshipRepository.findUnfriendedIds({ catId }),
-      this.consensusRepository.findValue(
+      this.consensusRepository.findValues([
         "RELATIONSHIP.UNFRIENDED_SCORE_PENALTY",
-      ),
-      this.consensusRepository.findValue(
         "RELATIONSHIP.FRIEND_MATCH_PROBABILITY_SAME_SEX",
-      ),
-      this.consensusRepository.findValue(
         "RELATIONSHIP.FRIEND_MATCH_PROBABILITY_DIFF_SEX",
-      ),
+      ]),
     ]);
+
+    const unfriendedScorePenalty = consensusValues["RELATIONSHIP.UNFRIENDED_SCORE_PENALTY"];
+    const friendProbSameSex = consensusValues["RELATIONSHIP.FRIEND_MATCH_PROBABILITY_SAME_SEX"];
+    const friendProbDiffSex = consensusValues["RELATIONSHIP.FRIEND_MATCH_PROBABILITY_DIFF_SEX"];
 
     const sex = cat.sex;
     const myPersonality = { catId, sex, ...personality };

@@ -1,7 +1,7 @@
 import { ConsensusValueType } from "@catarchy/shared/constants/consensus";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
-import { cache } from "@/infra/cache";
+import { consensusCache } from "@/infra/cache";
 import { getDatabase, table } from "@/infra/db";
 import { NotFoundError } from "@/lib/error";
 
@@ -11,9 +11,11 @@ import {
   type ConsensusValue,
 } from "./definitions";
 
-const PREFIX = "consensus:";
-const NAME_SUFFIX = ":name";
-const PURPOSE_SUFFIX = ":purpose";
+type CachedEntry = {
+  value: string;
+  name: string;
+  purpose: string;
+};
 
 function parseValue(
   raw: string,
@@ -29,9 +31,13 @@ function parseValue(
   }
 }
 
-function cacheSetMeta(key: ConsensusKey, name: string, purpose: string) {
-  cache.set(PREFIX + key + NAME_SUFFIX, name);
-  cache.set(PREFIX + key + PURPOSE_SUFFIX, purpose);
+async function getCached(key: ConsensusKey): Promise<CachedEntry | null> {
+  const raw = await consensusCache.get(key);
+  return raw ? (JSON.parse(raw) as CachedEntry) : null;
+}
+
+async function setCached(key: ConsensusKey, entry: CachedEntry) {
+  await consensusCache.set(key, JSON.stringify(entry));
 }
 
 export abstract class ConsensusRepository {
@@ -45,22 +51,14 @@ export abstract class ConsensusRepository {
 
   static async findValueWithMeta<K extends ConsensusKey>(key: K) {
     const valueType = CONSENSUS_DEFINITIONS[key];
-    const cacheKey = PREFIX + key;
 
-    const cachedValue = cache.get(cacheKey);
-    const cachedName = cache.get(cacheKey + NAME_SUFFIX);
-    const cachedPurpose = cache.get(cacheKey + PURPOSE_SUFFIX);
-
-    if (
-      cachedValue !== undefined &&
-      cachedName !== undefined &&
-      cachedPurpose !== undefined
-    ) {
+    const cached = await getCached(key);
+    if (cached) {
       return {
         key,
-        value: parseValue(cachedValue, valueType) as ConsensusValue<K>,
-        name: cachedName,
-        purpose: cachedPurpose,
+        value: parseValue(cached.value, valueType) as ConsensusValue<K>,
+        name: cached.name,
+        purpose: cached.purpose,
       };
     }
 
@@ -78,8 +76,7 @@ export abstract class ConsensusRepository {
     if (!row)
       throw new NotFoundError(`Consensus key "${key}" not found in database.`);
 
-    cache.set(cacheKey, row.value);
-    cacheSetMeta(key, row.name, row.purpose);
+    await setCached(key, row);
 
     return {
       key,
@@ -89,15 +86,61 @@ export abstract class ConsensusRepository {
     };
   }
 
+  static async findValues<const Keys extends ConsensusKey[]>(
+    keys: Keys,
+  ): Promise<{ [K in Keys[number]]: ConsensusValue<K> }> {
+    const cachedEntries = await Promise.all(
+      keys.map(async (key) => ({ key, cached: await getCached(key) })),
+    );
+
+    const hits = new Map(
+      cachedEntries
+        .filter((e) => e.cached !== null)
+        .map((e) => [e.key, e.cached!]),
+    );
+
+    const missingKeys = keys.filter((key) => !hits.has(key));
+
+    if (missingKeys.length > 0) {
+      const db = getDatabase();
+      const rows = await db
+        .select({
+          key: table.consensus.key,
+          value: table.consensus.value,
+          name: table.consensus.name,
+          purpose: table.consensus.purpose,
+        })
+        .from(table.consensus)
+        .where(inArray(table.consensus.key, missingKeys));
+
+      const rowMap = new Map(rows.map((r) => [r.key, r]));
+
+      await Promise.all(
+        missingKeys.map((key) => {
+          const row = rowMap.get(key);
+          if (!row) throw new NotFoundError(`Consensus key "${key}" not found in database.`);
+          hits.set(key, row);
+          return setCached(key as ConsensusKey, row);
+        }),
+      );
+    }
+
+    return Object.fromEntries(
+      keys.map((key) => {
+        const entry = hits.get(key)!;
+        return [key, parseValue(entry.value, CONSENSUS_DEFINITIONS[key])];
+      }),
+    ) as { [K in Keys[number]]: ConsensusValue<K> };
+  }
+
   static async findValue<K extends ConsensusKey>(
     key: K,
   ): Promise<ConsensusValue<K>> {
     const valueType = CONSENSUS_DEFINITIONS[key];
 
-    const cacheKey = PREFIX + key;
-    const cached = cache.get(cacheKey);
-    if (cached !== undefined)
-      return parseValue(cached, valueType) as ConsensusValue<K>;
+    const cached = await getCached(key);
+    if (cached)
+      return parseValue(cached.value, valueType) as ConsensusValue<K>;
 
     const db = getDatabase();
     const [row] = await db
@@ -113,8 +156,7 @@ export abstract class ConsensusRepository {
     if (!row)
       throw new NotFoundError(`Consensus key "${key}" not found in database.`);
 
-    cache.set(cacheKey, row.value);
-    cacheSetMeta(key, row.name, row.purpose);
+    await setCached(key, row);
 
     return parseValue(row.value, valueType) as ConsensusValue<K>;
   }
@@ -131,12 +173,11 @@ export abstract class ConsensusRepository {
       .set({ value: raw })
       .where(eq(table.consensus.key, key));
 
-    cache.set(PREFIX + key, raw);
+    const cached = await getCached(key);
+    if (cached) await setCached(key, { ...cached, value: raw });
   }
 
-  static invalidate(key: ConsensusKey) {
-    cache.delete(PREFIX + key);
-    cache.delete(PREFIX + key + NAME_SUFFIX);
-    cache.delete(PREFIX + key + PURPOSE_SUFFIX);
+  static async invalidate(key: ConsensusKey) {
+    await consensusCache.delete(key);
   }
 }

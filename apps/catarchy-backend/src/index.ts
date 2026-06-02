@@ -3,6 +3,7 @@ import { CloudflareAdapter } from "elysia/adapter/cloudflare-worker";
 
 import { createApp } from "@/app";
 import { initAI } from "@/infra/ai";
+import { initKV } from "@/infra/cache";
 import { initDatabase } from "@/infra/db";
 import { initEmail } from "@/infra/email/service";
 import { type CloudflareBindings, initEnv } from "@/lib/env";
@@ -16,6 +17,7 @@ const env = initEnv(cfEnv as Record<string, string> & CloudflareBindings);
 // Init Singletons
 const bindings = cfEnv as unknown as CloudflareBindings;
 initDatabase(bindings.DB);
+initKV(bindings.CACHE);
 initAI({
   anthropicApiKey: env.ANTHROPIC_API_KEY,
   openaiApiKey: env.OPENAI_API_KEY,
