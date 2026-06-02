@@ -9,19 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TocRouteImport } from './routes/toc'
-import { Route as PpRouteImport } from './routes/pp'
-import { Route as ChronicleRouteImport } from './routes/chronicle'
 import { Route as GuardedRouteImport } from './routes/_guarded'
-import { Route as gateIndexRouteImport } from './routes/(gate)/index'
-import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
-import { Route as AuthRegisterRouteImport } from './routes/auth/register'
-import { Route as AuthPasswordResetRouteImport } from './routes/auth/password-reset'
+import { Route as publicIndexRouteImport } from './routes/(public)/index'
 import { Route as GuardedPlayRouteImport } from './routes/_guarded/play'
 import { Route as GuardedCatIdRouteImport } from './routes/_guarded/$catId'
+import { Route as publicTocRouteImport } from './routes/(public)/toc'
+import { Route as publicPpRouteImport } from './routes/(public)/pp'
+import { Route as publicChronicleRouteImport } from './routes/(public)/chronicle'
 import { Route as GuardedCongressIndexRouteImport } from './routes/_guarded/congress/index'
 import { Route as GuardedConfigIndexRouteImport } from './routes/_guarded/config/index'
 import { Route as GuardedCatSummonRouteImport } from './routes/_guarded/cat/summon'
+import { Route as publicAuthSignInRouteImport } from './routes/(public)/auth/sign-in'
+import { Route as publicAuthRegisterRouteImport } from './routes/(public)/auth/register'
+import { Route as publicAuthPasswordResetRouteImport } from './routes/(public)/auth/password-reset'
 import { Route as GuardedCatIdPlayIndexRouteImport } from './routes/_guarded/$catId/play/index'
 import { Route as GuardedCatIdCatStatusRouteImport } from './routes/_guarded/$catId/cat/status'
 import { Route as GuardedCatIdCatCareHistoryRouteImport } from './routes/_guarded/$catId/cat/care-history'
@@ -29,43 +29,13 @@ import { Route as GuardedCatIdCatPersonalityIndexRouteImport } from './routes/_g
 import { Route as GuardedCatIdCatFriendIndexRouteImport } from './routes/_guarded/$catId/cat/friend/index'
 import { Route as GuardedCatIdCatPersonalityIntroductionRouteImport } from './routes/_guarded/$catId/cat/personality/introduction'
 
-const TocRoute = TocRouteImport.update({
-  id: '/toc',
-  path: '/toc',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PpRoute = PpRouteImport.update({
-  id: '/pp',
-  path: '/pp',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChronicleRoute = ChronicleRouteImport.update({
-  id: '/chronicle',
-  path: '/chronicle',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const GuardedRoute = GuardedRouteImport.update({
   id: '/_guarded',
   getParentRoute: () => rootRouteImport,
 } as any)
-const gateIndexRoute = gateIndexRouteImport.update({
-  id: '/(gate)/',
+const publicIndexRoute = publicIndexRouteImport.update({
+  id: '/(public)/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthSignInRoute = AuthSignInRouteImport.update({
-  id: '/auth/sign-in',
-  path: '/auth/sign-in',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRegisterRoute = AuthRegisterRouteImport.update({
-  id: '/auth/register',
-  path: '/auth/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthPasswordResetRoute = AuthPasswordResetRouteImport.update({
-  id: '/auth/password-reset',
-  path: '/auth/password-reset',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GuardedPlayRoute = GuardedPlayRouteImport.update({
@@ -77,6 +47,21 @@ const GuardedCatIdRoute = GuardedCatIdRouteImport.update({
   id: '/$catId',
   path: '/$catId',
   getParentRoute: () => GuardedRoute,
+} as any)
+const publicTocRoute = publicTocRouteImport.update({
+  id: '/(public)/toc',
+  path: '/toc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const publicPpRoute = publicPpRouteImport.update({
+  id: '/(public)/pp',
+  path: '/pp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const publicChronicleRoute = publicChronicleRouteImport.update({
+  id: '/(public)/chronicle',
+  path: '/chronicle',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const GuardedCongressIndexRoute = GuardedCongressIndexRouteImport.update({
   id: '/congress/',
@@ -92,6 +77,21 @@ const GuardedCatSummonRoute = GuardedCatSummonRouteImport.update({
   id: '/cat/summon',
   path: '/cat/summon',
   getParentRoute: () => GuardedRoute,
+} as any)
+const publicAuthSignInRoute = publicAuthSignInRouteImport.update({
+  id: '/(public)/auth/sign-in',
+  path: '/auth/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const publicAuthRegisterRoute = publicAuthRegisterRouteImport.update({
+  id: '/(public)/auth/register',
+  path: '/auth/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const publicAuthPasswordResetRoute = publicAuthPasswordResetRouteImport.update({
+  id: '/(public)/auth/password-reset',
+  path: '/auth/password-reset',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const GuardedCatIdPlayIndexRoute = GuardedCatIdPlayIndexRouteImport.update({
   id: '/play/',
@@ -129,15 +129,15 @@ const GuardedCatIdCatPersonalityIntroductionRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof gateIndexRoute
-  '/chronicle': typeof ChronicleRoute
-  '/pp': typeof PpRoute
-  '/toc': typeof TocRoute
+  '/': typeof publicIndexRoute
+  '/chronicle': typeof publicChronicleRoute
+  '/pp': typeof publicPpRoute
+  '/toc': typeof publicTocRoute
   '/$catId': typeof GuardedCatIdRouteWithChildren
   '/play': typeof GuardedPlayRoute
-  '/auth/password-reset': typeof AuthPasswordResetRoute
-  '/auth/register': typeof AuthRegisterRoute
-  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/password-reset': typeof publicAuthPasswordResetRoute
+  '/auth/register': typeof publicAuthRegisterRoute
+  '/auth/sign-in': typeof publicAuthSignInRoute
   '/cat/summon': typeof GuardedCatSummonRoute
   '/config/': typeof GuardedConfigIndexRoute
   '/congress/': typeof GuardedCongressIndexRoute
@@ -149,15 +149,15 @@ export interface FileRoutesByFullPath {
   '/$catId/cat/personality/': typeof GuardedCatIdCatPersonalityIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof gateIndexRoute
-  '/chronicle': typeof ChronicleRoute
-  '/pp': typeof PpRoute
-  '/toc': typeof TocRoute
+  '/': typeof publicIndexRoute
+  '/chronicle': typeof publicChronicleRoute
+  '/pp': typeof publicPpRoute
+  '/toc': typeof publicTocRoute
   '/$catId': typeof GuardedCatIdRouteWithChildren
   '/play': typeof GuardedPlayRoute
-  '/auth/password-reset': typeof AuthPasswordResetRoute
-  '/auth/register': typeof AuthRegisterRoute
-  '/auth/sign-in': typeof AuthSignInRoute
+  '/auth/password-reset': typeof publicAuthPasswordResetRoute
+  '/auth/register': typeof publicAuthRegisterRoute
+  '/auth/sign-in': typeof publicAuthSignInRoute
   '/cat/summon': typeof GuardedCatSummonRoute
   '/config': typeof GuardedConfigIndexRoute
   '/congress': typeof GuardedCongressIndexRoute
@@ -171,15 +171,15 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_guarded': typeof GuardedRouteWithChildren
-  '/chronicle': typeof ChronicleRoute
-  '/pp': typeof PpRoute
-  '/toc': typeof TocRoute
+  '/(public)/chronicle': typeof publicChronicleRoute
+  '/(public)/pp': typeof publicPpRoute
+  '/(public)/toc': typeof publicTocRoute
   '/_guarded/$catId': typeof GuardedCatIdRouteWithChildren
   '/_guarded/play': typeof GuardedPlayRoute
-  '/auth/password-reset': typeof AuthPasswordResetRoute
-  '/auth/register': typeof AuthRegisterRoute
-  '/auth/sign-in': typeof AuthSignInRoute
-  '/(gate)/': typeof gateIndexRoute
+  '/(public)/': typeof publicIndexRoute
+  '/(public)/auth/password-reset': typeof publicAuthPasswordResetRoute
+  '/(public)/auth/register': typeof publicAuthRegisterRoute
+  '/(public)/auth/sign-in': typeof publicAuthSignInRoute
   '/_guarded/cat/summon': typeof GuardedCatSummonRoute
   '/_guarded/config/': typeof GuardedConfigIndexRoute
   '/_guarded/congress/': typeof GuardedCongressIndexRoute
@@ -234,15 +234,15 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_guarded'
-    | '/chronicle'
-    | '/pp'
-    | '/toc'
+    | '/(public)/chronicle'
+    | '/(public)/pp'
+    | '/(public)/toc'
     | '/_guarded/$catId'
     | '/_guarded/play'
-    | '/auth/password-reset'
-    | '/auth/register'
-    | '/auth/sign-in'
-    | '/(gate)/'
+    | '/(public)/'
+    | '/(public)/auth/password-reset'
+    | '/(public)/auth/register'
+    | '/(public)/auth/sign-in'
     | '/_guarded/cat/summon'
     | '/_guarded/config/'
     | '/_guarded/congress/'
@@ -256,38 +256,17 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   GuardedRoute: typeof GuardedRouteWithChildren
-  ChronicleRoute: typeof ChronicleRoute
-  PpRoute: typeof PpRoute
-  TocRoute: typeof TocRoute
-  AuthPasswordResetRoute: typeof AuthPasswordResetRoute
-  AuthRegisterRoute: typeof AuthRegisterRoute
-  AuthSignInRoute: typeof AuthSignInRoute
-  gateIndexRoute: typeof gateIndexRoute
+  publicChronicleRoute: typeof publicChronicleRoute
+  publicPpRoute: typeof publicPpRoute
+  publicTocRoute: typeof publicTocRoute
+  publicIndexRoute: typeof publicIndexRoute
+  publicAuthPasswordResetRoute: typeof publicAuthPasswordResetRoute
+  publicAuthRegisterRoute: typeof publicAuthRegisterRoute
+  publicAuthSignInRoute: typeof publicAuthSignInRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/toc': {
-      id: '/toc'
-      path: '/toc'
-      fullPath: '/toc'
-      preLoaderRoute: typeof TocRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pp': {
-      id: '/pp'
-      path: '/pp'
-      fullPath: '/pp'
-      preLoaderRoute: typeof PpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chronicle': {
-      id: '/chronicle'
-      path: '/chronicle'
-      fullPath: '/chronicle'
-      preLoaderRoute: typeof ChronicleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_guarded': {
       id: '/_guarded'
       path: ''
@@ -295,32 +274,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuardedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(gate)/': {
-      id: '/(gate)/'
+    '/(public)/': {
+      id: '/(public)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof gateIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/sign-in': {
-      id: '/auth/sign-in'
-      path: '/auth/sign-in'
-      fullPath: '/auth/sign-in'
-      preLoaderRoute: typeof AuthSignInRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/register': {
-      id: '/auth/register'
-      path: '/auth/register'
-      fullPath: '/auth/register'
-      preLoaderRoute: typeof AuthRegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/password-reset': {
-      id: '/auth/password-reset'
-      path: '/auth/password-reset'
-      fullPath: '/auth/password-reset'
-      preLoaderRoute: typeof AuthPasswordResetRouteImport
+      preLoaderRoute: typeof publicIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_guarded/play': {
@@ -336,6 +294,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/$catId'
       preLoaderRoute: typeof GuardedCatIdRouteImport
       parentRoute: typeof GuardedRoute
+    }
+    '/(public)/toc': {
+      id: '/(public)/toc'
+      path: '/toc'
+      fullPath: '/toc'
+      preLoaderRoute: typeof publicTocRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(public)/pp': {
+      id: '/(public)/pp'
+      path: '/pp'
+      fullPath: '/pp'
+      preLoaderRoute: typeof publicPpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(public)/chronicle': {
+      id: '/(public)/chronicle'
+      path: '/chronicle'
+      fullPath: '/chronicle'
+      preLoaderRoute: typeof publicChronicleRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_guarded/congress/': {
       id: '/_guarded/congress/'
@@ -357,6 +336,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/cat/summon'
       preLoaderRoute: typeof GuardedCatSummonRouteImport
       parentRoute: typeof GuardedRoute
+    }
+    '/(public)/auth/sign-in': {
+      id: '/(public)/auth/sign-in'
+      path: '/auth/sign-in'
+      fullPath: '/auth/sign-in'
+      preLoaderRoute: typeof publicAuthSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(public)/auth/register': {
+      id: '/(public)/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof publicAuthRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(public)/auth/password-reset': {
+      id: '/(public)/auth/password-reset'
+      path: '/auth/password-reset'
+      fullPath: '/auth/password-reset'
+      preLoaderRoute: typeof publicAuthPasswordResetRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_guarded/$catId/play/': {
       id: '/_guarded/$catId/play/'
@@ -447,13 +447,13 @@ const GuardedRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   GuardedRoute: GuardedRouteWithChildren,
-  ChronicleRoute: ChronicleRoute,
-  PpRoute: PpRoute,
-  TocRoute: TocRoute,
-  AuthPasswordResetRoute: AuthPasswordResetRoute,
-  AuthRegisterRoute: AuthRegisterRoute,
-  AuthSignInRoute: AuthSignInRoute,
-  gateIndexRoute: gateIndexRoute,
+  publicChronicleRoute: publicChronicleRoute,
+  publicPpRoute: publicPpRoute,
+  publicTocRoute: publicTocRoute,
+  publicIndexRoute: publicIndexRoute,
+  publicAuthPasswordResetRoute: publicAuthPasswordResetRoute,
+  publicAuthRegisterRoute: publicAuthRegisterRoute,
+  publicAuthSignInRoute: publicAuthSignInRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

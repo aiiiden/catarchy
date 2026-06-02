@@ -4,7 +4,7 @@ import { HeaderBackButton, Scaffold } from "@/features/common";
 
 import styles from "./document.module.css";
 
-export const Route = createFileRoute("/toc")({
+export const Route = createFileRoute("/(public)/toc")({
   component: RouteComponent,
 });
 
