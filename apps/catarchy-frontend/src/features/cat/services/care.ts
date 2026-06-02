@@ -2,7 +2,7 @@ import { mutationOptions, useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 
 import { api } from "@/features/common";
-import { consensusOptions } from "@/features/consensus";
+import { consensusOptions } from "@/features/congress";
 
 import { catInfoOptions } from "./cat-info";
 

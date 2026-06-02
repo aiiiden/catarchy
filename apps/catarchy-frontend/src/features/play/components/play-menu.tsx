@@ -36,7 +36,10 @@ export function PlayMenu({ catId }: { catId: string }) {
           <ChronicleIcon />
         </Box>
       </Link>
-      <Link to="/" disabled className={styles.linkDisabled}>
+      <Link
+        to="/congress"
+        onClick={() => analytics.click({ eventName: "menu_congress" })}
+      >
         <Box rounded containerClassName={styles.box}>
           <ForumIcon />
         </Box>

@@ -19,6 +19,7 @@ import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthPasswordResetRouteImport } from './routes/auth/password-reset'
 import { Route as GuardedPlayRouteImport } from './routes/_guarded/play'
 import { Route as GuardedCatIdRouteImport } from './routes/_guarded/$catId'
+import { Route as GuardedCongressIndexRouteImport } from './routes/_guarded/congress/index'
 import { Route as GuardedConfigIndexRouteImport } from './routes/_guarded/config/index'
 import { Route as GuardedCatSummonRouteImport } from './routes/_guarded/cat/summon'
 import { Route as GuardedCatIdPlayIndexRouteImport } from './routes/_guarded/$catId/play/index'
@@ -75,6 +76,11 @@ const GuardedPlayRoute = GuardedPlayRouteImport.update({
 const GuardedCatIdRoute = GuardedCatIdRouteImport.update({
   id: '/$catId',
   path: '/$catId',
+  getParentRoute: () => GuardedRoute,
+} as any)
+const GuardedCongressIndexRoute = GuardedCongressIndexRouteImport.update({
+  id: '/congress/',
+  path: '/congress/',
   getParentRoute: () => GuardedRoute,
 } as any)
 const GuardedConfigIndexRoute = GuardedConfigIndexRouteImport.update({
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/auth/sign-in': typeof AuthSignInRoute
   '/cat/summon': typeof GuardedCatSummonRoute
   '/config/': typeof GuardedConfigIndexRoute
+  '/congress/': typeof GuardedCongressIndexRoute
   '/$catId/cat/care-history': typeof GuardedCatIdCatCareHistoryRoute
   '/$catId/cat/status': typeof GuardedCatIdCatStatusRoute
   '/$catId/play/': typeof GuardedCatIdPlayIndexRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/auth/sign-in': typeof AuthSignInRoute
   '/cat/summon': typeof GuardedCatSummonRoute
   '/config': typeof GuardedConfigIndexRoute
+  '/congress': typeof GuardedCongressIndexRoute
   '/$catId/cat/care-history': typeof GuardedCatIdCatCareHistoryRoute
   '/$catId/cat/status': typeof GuardedCatIdCatStatusRoute
   '/$catId/play': typeof GuardedCatIdPlayIndexRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/(gate)/': typeof gateIndexRoute
   '/_guarded/cat/summon': typeof GuardedCatSummonRoute
   '/_guarded/config/': typeof GuardedConfigIndexRoute
+  '/_guarded/congress/': typeof GuardedCongressIndexRoute
   '/_guarded/$catId/cat/care-history': typeof GuardedCatIdCatCareHistoryRoute
   '/_guarded/$catId/cat/status': typeof GuardedCatIdCatStatusRoute
   '/_guarded/$catId/play/': typeof GuardedCatIdPlayIndexRoute
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/cat/summon'
     | '/config/'
+    | '/congress/'
     | '/$catId/cat/care-history'
     | '/$catId/cat/status'
     | '/$catId/play/'
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
     | '/auth/sign-in'
     | '/cat/summon'
     | '/config'
+    | '/congress'
     | '/$catId/cat/care-history'
     | '/$catId/cat/status'
     | '/$catId/play'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/(gate)/'
     | '/_guarded/cat/summon'
     | '/_guarded/config/'
+    | '/_guarded/congress/'
     | '/_guarded/$catId/cat/care-history'
     | '/_guarded/$catId/cat/status'
     | '/_guarded/$catId/play/'
@@ -325,6 +337,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuardedCatIdRouteImport
       parentRoute: typeof GuardedRoute
     }
+    '/_guarded/congress/': {
+      id: '/_guarded/congress/'
+      path: '/congress'
+      fullPath: '/congress/'
+      preLoaderRoute: typeof GuardedCongressIndexRouteImport
+      parentRoute: typeof GuardedRoute
+    }
     '/_guarded/config/': {
       id: '/_guarded/config/'
       path: '/config'
@@ -412,6 +431,7 @@ interface GuardedRouteChildren {
   GuardedPlayRoute: typeof GuardedPlayRoute
   GuardedCatSummonRoute: typeof GuardedCatSummonRoute
   GuardedConfigIndexRoute: typeof GuardedConfigIndexRoute
+  GuardedCongressIndexRoute: typeof GuardedCongressIndexRoute
 }
 
 const GuardedRouteChildren: GuardedRouteChildren = {
@@ -419,6 +439,7 @@ const GuardedRouteChildren: GuardedRouteChildren = {
   GuardedPlayRoute: GuardedPlayRoute,
   GuardedCatSummonRoute: GuardedCatSummonRoute,
   GuardedConfigIndexRoute: GuardedConfigIndexRoute,
+  GuardedCongressIndexRoute: GuardedCongressIndexRoute,
 }
 
 const GuardedRouteWithChildren =
