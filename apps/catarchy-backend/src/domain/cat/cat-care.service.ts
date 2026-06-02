@@ -27,27 +27,22 @@ export abstract class CatCareService {
     catId: string;
   }) {
     // 1) get cat, cat stat, and consensus values needed for care logic in parallel
-    const [
-      catFull,
-      [
-        cooldownHour,
-        growthPerCare,
-        emotionPerCare,
-        emotionDecrease,
-        emotionDecreaseFrequencyHour,
-      ],
-    ] = await Promise.all([
+    const [catFull, consensusValues] = await Promise.all([
       this.catRepository.findFullById({ catId, servantId: userId }),
-      Promise.all([
-        this.consensusRepository.findValue("CAT.COOLDOWN_HOUR_BETWEEN_CARE"),
-        this.consensusRepository.findValue("CAT.GROWTH_PER_CARE"),
-        this.consensusRepository.findValue("CAT.EMOTION_PER_CARE"),
-        this.consensusRepository.findValue("CAT.EMOTION_DECREASE"),
-        this.consensusRepository.findValue(
-          "CAT.EMOTION_DECREASE_FREQUENCY_HOUR",
-        ),
+      this.consensusRepository.findValues([
+        "CAT.COOLDOWN_HOUR_BETWEEN_CARE",
+        "CAT.GROWTH_PER_CARE",
+        "CAT.EMOTION_PER_CARE",
+        "CAT.EMOTION_DECREASE",
+        "CAT.EMOTION_DECREASE_FREQUENCY_HOUR",
       ]),
     ]);
+
+    const cooldownHour = consensusValues["CAT.COOLDOWN_HOUR_BETWEEN_CARE"];
+    const growthPerCare = consensusValues["CAT.GROWTH_PER_CARE"];
+    const emotionPerCare = consensusValues["CAT.EMOTION_PER_CARE"];
+    const emotionDecrease = consensusValues["CAT.EMOTION_DECREASE"];
+    const emotionDecreaseFrequencyHour = consensusValues["CAT.EMOTION_DECREASE_FREQUENCY_HOUR"];
 
     if (!catFull) {
       throw new NotFoundError("You don't have a cat to care for.");

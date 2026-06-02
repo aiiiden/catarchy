@@ -24,5 +24,9 @@ database_name = "catarchy-db"
 database_id = "4110c1df-32ba-41c0-8f04-731636300825"
 migrations_dir = "src/infra/db/out"
 
+[[kv_namespaces]]
+binding = "CACHE"
+id = "93f523aeabe745bab5caf1bb7f02bef9"
+
 [triggers]
 crons = ["0 */12 * * *"]
