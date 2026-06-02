@@ -3,7 +3,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { checkSessionOptions, CheckSessionResponse } from "@/features/auth";
 import { GateScreen } from "@/features/gate";
 
-export const Route = createFileRoute("/(gate)/")({
+export const Route = createFileRoute("/(public)/")({
   component: GateScreen,
   async beforeLoad({ context: { queryClient } }) {
     let session: CheckSessionResponse = null;
