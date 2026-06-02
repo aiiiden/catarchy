@@ -195,7 +195,6 @@ export abstract class RelationshipRepository {
     return this.db
       .select({
         catId: table.catPersonality.catId,
-        sex: table.cat.sex,
         openness: table.catPersonality.openness,
         conscientiousness: table.catPersonality.conscientiousness,
         extraversion: table.catPersonality.extraversion,
@@ -204,7 +203,6 @@ export abstract class RelationshipRepository {
         remainingCount: table.catPersonality.remainingCount,
       })
       .from(table.catPersonality)
-      .innerJoin(table.cat, eq(table.catPersonality.catId, table.cat.id))
       .where(
         and(
           not(eq(table.catPersonality.catId, catId)),

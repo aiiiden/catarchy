@@ -24,6 +24,10 @@ type PersonalityRow = Awaited<
   ReturnType<typeof RelationshipRepository.findFriendCandidates>
 >[number];
 
+type LovePersonalityRow = Awaited<
+  ReturnType<typeof RelationshipRepository.findLoveCandidates>
+>[number];
+
 type MatchResult =
   | {
       type: "friend" | "love";
@@ -82,37 +86,26 @@ export abstract class RelationshipService {
       this.relationshipRepository.findUnfriendedIds({ catId }),
       this.consensusRepository.findValues([
         "RELATIONSHIP.UNFRIENDED_SCORE_PENALTY",
-        "RELATIONSHIP.FRIEND_MATCH_PROBABILITY_SAME_SEX",
-        "RELATIONSHIP.FRIEND_MATCH_PROBABILITY_DIFF_SEX",
+        "RELATIONSHIP.FRIEND_MATCH_PROBABILITY",
       ]),
     ]);
 
     const unfriendedScorePenalty = consensusValues["RELATIONSHIP.UNFRIENDED_SCORE_PENALTY"];
-    const friendProbSameSex = consensusValues["RELATIONSHIP.FRIEND_MATCH_PROBABILITY_SAME_SEX"];
-    const friendProbDiffSex = consensusValues["RELATIONSHIP.FRIEND_MATCH_PROBABILITY_DIFF_SEX"];
+    const friendProb = consensusValues["RELATIONSHIP.FRIEND_MATCH_PROBABILITY"];
 
-    const sex = cat.sex;
-    const myPersonality = { catId, sex, ...personality };
+    const myPersonality = { catId, sex: cat.sex, ...personality };
     const unfriendedSet = new Set(unfriendedIds);
     const vector = new CatPersonalityVector(myPersonality);
 
     const bestFriendCandidate = this.rankFriendCandidates(
       friendTargets,
       vector,
-      sex,
       unfriendedSet,
       unfriendedScorePenalty,
     )[0];
 
-    // If a friend candidate exists, roll for friendship first.
-    // On success, love matching is skipped entirely.
-    // Same-sex friendships form more easily than opposite-sex ones.
     if (bestFriendCandidate) {
-      const probability = bestFriendCandidate.isSameSex
-        ? friendProbSameSex
-        : friendProbDiffSex;
-
-      if (Math.random() < probability) {
+      if (Math.random() < friendProb) {
         const targetCat = await this.catRepository.findById({
           catId: bestFriendCandidate.catId,
         });
@@ -145,16 +138,19 @@ export abstract class RelationshipService {
         reason: "already has active romance",
       };
 
-    const [loveTargets, loveProb] = await Promise.all([
+    const [loveTargets, loveProbs] = await Promise.all([
       this.relationshipRepository.findLoveCandidates({ catId }),
-      this.consensusRepository.findValue("RELATIONSHIP.LOVE_MATCH_PROBABILITY"),
+      this.consensusRepository.findValues([
+        "RELATIONSHIP.LOVE_MATCH_PROBABILITY_DIFF_SEX",
+        "RELATIONSHIP.LOVE_MATCH_PROBABILITY_SAME_SEX",
+      ]),
     ]);
 
-    const bestLoveCandidate = this.rankLoveCandidates(
-      loveTargets,
-      vector,
-      sex,
-    )[0];
+    const bestLoveCandidate = this.rankLoveCandidates(loveTargets, vector)[0];
+
+    const loveProb = bestLoveCandidate?.sex === cat.sex
+      ? loveProbs["RELATIONSHIP.LOVE_MATCH_PROBABILITY_SAME_SEX"]
+      : loveProbs["RELATIONSHIP.LOVE_MATCH_PROBABILITY_DIFF_SEX"];
 
     if (bestLoveCandidate && Math.random() < loveProb) {
       const targetCat = await this.catRepository.findById({
@@ -186,14 +182,12 @@ export abstract class RelationshipService {
   private static rankFriendCandidates(
     targets: PersonalityRow[],
     vector: CatPersonalityVector,
-    mySex: string | null,
     unfriendedSet: Set<string>,
     unfriendedScorePenalty: number,
   ) {
     return targets
       .map((target) => ({
         catId: target.catId,
-        isSameSex: target.sex === mySex,
         // Rule 7: apply penalty for previously unfriended cats
         score: Math.max(
           0,
@@ -205,14 +199,13 @@ export abstract class RelationshipService {
   }
 
   private static rankLoveCandidates(
-    targets: PersonalityRow[],
+    targets: LovePersonalityRow[],
     vector: CatPersonalityVector,
-    mySex: string | null,
   ) {
     return targets
       .map((target) => ({
         catId: target.catId,
-        isSameSex: target.sex === mySex,
+        sex: target.sex,
         score: vector.calculateLoveScore(new CatPersonalityVector(target)),
       }))
       .toSorted((a, b) => b.score - a.score);
