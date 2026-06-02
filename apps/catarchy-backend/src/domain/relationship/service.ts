@@ -91,7 +91,7 @@ export abstract class RelationshipService {
     ]);
 
     const unfriendedScorePenalty = consensusValues["RELATIONSHIP.UNFRIENDED_SCORE_PENALTY"];
-    const friendProb = consensusValues["RELATIONSHIP.FRIEND_MATCH_PROBABILITY"];
+    const friendProb = consensusValues["RELATIONSHIP.FRIEND_MATCH_PROBABILITY"] / 100;
 
     const myPersonality = { catId, sex: cat.sex, ...personality };
     const unfriendedSet = new Set(unfriendedIds);
@@ -148,9 +148,9 @@ export abstract class RelationshipService {
 
     const bestLoveCandidate = this.rankLoveCandidates(loveTargets, vector)[0];
 
-    const loveProb = bestLoveCandidate?.sex === cat.sex
+    const loveProb = (bestLoveCandidate?.sex === cat.sex
       ? loveProbs["RELATIONSHIP.LOVE_MATCH_PROBABILITY_SAME_SEX"]
-      : loveProbs["RELATIONSHIP.LOVE_MATCH_PROBABILITY_DIFF_SEX"];
+      : loveProbs["RELATIONSHIP.LOVE_MATCH_PROBABILITY_DIFF_SEX"]) / 100;
 
     if (bestLoveCandidate && Math.random() < loveProb) {
       const targetCat = await this.catRepository.findById({

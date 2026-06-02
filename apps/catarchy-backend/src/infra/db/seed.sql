@@ -1,15 +1,14 @@
 -- ── Consensus (world-wide game parameters) ────────────────────────────────────
-INSERT OR IGNORE INTO consensus (key, value, value_type, name, purpose) VALUES
-  ('CAT.COOLDOWN_HOUR_BETWEEN_CARE',  '1',  'NUMBER', 'Care cooldown',     'Minimum cooldown time (in hours) between caring for your cat'),
-  ('CAT.GROWTH_PER_CARE',     '1',  'NUMBER', 'Growth stat gained per care', 'Growth stat gained when caring for your cat'),
-  ('CAT.EMOTION_PER_CARE',    '5',  'NUMBER', 'Emotion stat gained per care', 'Emotion stat gained when caring for your cat'),
-  ('CAT.EMOTION_DECREASE',    '10', 'NUMBER', 'Emotion decrease per cycle', 'Emotion stat lost per cycle when you do not care for your cat'),
-  ('CAT.EMOTION_DECREASE_FREQUENCY_HOUR', '12', 'NUMBER', 'Emotion decrease frequency (hours)', 'How often (in hours) emotion decreases if cat was not cared for'),
-  ('CAT.MAX_GROWTH',          '100', 'NUMBER', 'Maximum growth stat', 'Maximum growth stat your cat can have'),
-  ('RELATIONSHIP.UNFRIENDED_SCORE_PENALTY',             '10',   'NUMBER', 'Unfriended score penalty',              'Score penalty applied when matching with a previously unfriended cat'),
-  ('RELATIONSHIP.FRIEND_MATCH_PROBABILITY',              '0.4',  'NUMBER', 'Friend match probability',              'Probability of forming a friendship with a candidate cat'),
-  ('RELATIONSHIP.LOVE_MATCH_PROBABILITY_DIFF_SEX',       '0.09', 'NUMBER', 'Love match probability (diff sex)',     'Probability of forming a romantic relationship with a different-sex cat candidate'),
-  ('RELATIONSHIP.LOVE_MATCH_PROBABILITY_SAME_SEX',       '0.01', 'NUMBER', 'Love match probability (same sex)',     'Probability of forming a romantic relationship with a same-sex cat candidate')
+INSERT OR IGNORE INTO consensus (key, value, value_type, name, unit, purpose) VALUES
+  ('CAT.COOLDOWN_HOUR_BETWEEN_CARE',  '1',  'NUMBER', 'Care cooldown',                       'hour(s)',  'Minimum cooldown time (in hours) between caring for your cat'),
+  ('CAT.GROWTH_PER_CARE',             '1',  'NUMBER', 'Growth stat gained per care',          NULL,  'Growth stat gained when caring for your cat'),
+  ('CAT.EMOTION_PER_CARE',            '5',  'NUMBER', 'Emotion stat gained per care',         'pt.',  'Emotion stat gained when caring for your cat'),
+  ('CAT.EMOTION_DECREASE',            '10', 'NUMBER', 'Emotion decrease per cycle',           'pt.',  'Emotion stat lost per cycle when you do not care for your cat'),
+  ('CAT.EMOTION_DECREASE_FREQUENCY_HOUR', '12', 'NUMBER', 'Emotion decrease frequency',       'hour(s)',  'How often (in hours) emotion decreases if cat was not cared for'),
+  ('RELATIONSHIP.UNFRIENDED_SCORE_PENALTY',        '10', 'NUMBER', 'Unfriended score penalty',          'pt.',  'Score penalty applied when matching with a previously unfriended cat'),
+  ('RELATIONSHIP.FRIEND_MATCH_PROBABILITY',        '40', 'NUMBER', 'Friend match probability',          '%',   'Probability of forming a friendship with a candidate cat'),
+  ('RELATIONSHIP.LOVE_MATCH_PROBABILITY_DIFF_SEX', '9',  'NUMBER', 'Love match probability (diff sex)', '%',   'Probability of forming a romantic relationship with a different-sex cat candidate'),
+  ('RELATIONSHIP.LOVE_MATCH_PROBABILITY_SAME_SEX', '1',  'NUMBER', 'Love match probability (same sex)', '%',   'Probability of forming a romantic relationship with a same-sex cat candidate')
 ;
 
 -- ── Big5 Personality Traits ────────────────────────────────────

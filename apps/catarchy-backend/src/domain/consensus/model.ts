@@ -13,6 +13,7 @@ const consensusItem = t.Object({
   }),
   value: t.Union([t.String(), t.Number(), t.Boolean()]),
   name: t.String({ examples: ["Care Cooldown Hours"] }),
+  unit: t.Nullable(t.String()),
   purpose: t.String(),
 });
 

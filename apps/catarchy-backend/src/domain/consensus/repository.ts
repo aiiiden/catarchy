@@ -14,6 +14,7 @@ import {
 type CachedEntry = {
   value: string;
   name: string;
+  unit: string | null;
   purpose: string;
 };
 
@@ -58,6 +59,7 @@ export abstract class ConsensusRepository {
         key,
         value: parseValue(cached.value, valueType) as ConsensusValue<K>,
         name: cached.name,
+        unit: cached.unit ?? null,
         purpose: cached.purpose,
       };
     }
@@ -67,6 +69,7 @@ export abstract class ConsensusRepository {
       .select({
         value: table.consensus.value,
         name: table.consensus.name,
+        unit: table.consensus.unit,
         purpose: table.consensus.purpose,
       })
       .from(table.consensus)
@@ -82,6 +85,7 @@ export abstract class ConsensusRepository {
       key,
       value: parseValue(row.value, valueType) as ConsensusValue<K>,
       name: row.name,
+      unit: row.unit,
       purpose: row.purpose,
     };
   }
@@ -108,6 +112,7 @@ export abstract class ConsensusRepository {
           key: table.consensus.key,
           value: table.consensus.value,
           name: table.consensus.name,
+          unit: table.consensus.unit,
           purpose: table.consensus.purpose,
         })
         .from(table.consensus)
@@ -147,6 +152,7 @@ export abstract class ConsensusRepository {
       .select({
         value: table.consensus.value,
         name: table.consensus.name,
+        unit: table.consensus.unit,
         purpose: table.consensus.purpose,
       })
       .from(table.consensus)

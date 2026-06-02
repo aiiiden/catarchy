@@ -319,6 +319,7 @@ export const consensusTable = sqliteTable("consensus", {
     ],
   }).notNull(),
   name: text("name").notNull(),
+  unit: text("unit"),
   purpose: text("purpose").notNull(),
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
   updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),

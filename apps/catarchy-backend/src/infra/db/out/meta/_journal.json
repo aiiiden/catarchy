@@ -99,6 +99,13 @@
       "when": 1780277623234,
       "tag": "0013_solid_jackpot",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "6",
+      "when": 1780382227239,
+      "tag": "0014_red_albert_cleary",
+      "breakpoints": true
     }
   ]
 }
