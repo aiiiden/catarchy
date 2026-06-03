@@ -1,5 +1,6 @@
 import js from "@eslint/js";
 import prettierConfig from "eslint-config-prettier";
+import importX from "eslint-plugin-import-x";
 import reactPlugin from "eslint-plugin-react";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
@@ -74,9 +75,15 @@ export default tseslint.config(
     plugins: {
       react: reactPlugin,
       "react-hooks": reactHooksPlugin,
+      "import-x": importX,
     },
     settings: {
       react: { version: "detect" },
+      "import-x/resolver": {
+        typescript: {
+          project: "apps/catarchy-frontend/tsconfig.json",
+        },
+      },
     },
     rules: {
       ...reactPlugin.configs.recommended.rules,
@@ -86,6 +93,7 @@ export default tseslint.config(
       "react/no-unescaped-entities": "off",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
+      "import-x/no-unresolved": ["error", { ignore: ["\\.css$", "^virtual:"] }],
       "no-restricted-imports": [
         "error",
         {
