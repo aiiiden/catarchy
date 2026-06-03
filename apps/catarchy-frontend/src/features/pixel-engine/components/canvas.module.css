@@ -1,0 +1,67 @@
+.container {
+  width: 100%;
+}
+
+.canvas {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: repeating-conic-gradient(
+      var(--color-ink-100) 0% 25%,
+      var(--color-paper) 0% 50%
+    )
+    0 0 / 4px 4px;
+}
+
+.layer {
+  display: grid;
+  position: absolute;
+  inset: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+}
+
+.pixel {
+  aspect-ratio: 1;
+  box-shadow: inset 0 0 0 0.1px var(--color-ink-500);
+}
+
+.pixel[data-color="ink"] {
+  background-color: var(--color-ink);
+}
+.pixel[data-color="paper"] {
+  background-color: var(--color-paper);
+}
+.pixel[data-color="empty"] {
+  background-color: transparent;
+}
+
+.selectionContainer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.selectionCell {
+  position: absolute;
+  box-shadow: inset 0 0 0 0.5px var(--color-warn);
+}
+
+.selectionCell[data-color="ink"]   { background-color: var(--color-ink); }
+.selectionCell[data-color="paper"] { background-color: var(--color-paper); }
+.selectionCell[data-color="empty"] { background-color: transparent; }
+
+.cursor {
+  position: absolute;
+  pointer-events: none;
+  left: calc(var(--cursor-x) / var(--cols) * 100%);
+  top: calc(var(--cursor-y) / var(--rows) * 100%);
+  width: calc(100% / var(--cols));
+  height: calc(100% / var(--rows));
+  box-shadow: inset 0 0 0 2px var(--color-warn);
+  z-index: 9999;
+}
