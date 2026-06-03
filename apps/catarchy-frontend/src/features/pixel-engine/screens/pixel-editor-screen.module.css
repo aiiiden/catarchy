@@ -1,0 +1,68 @@
+.body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dpadWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.colorSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.colorPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  padding: 4px;
+}
+
+.colorChip {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.colorChip[data-color="ink"] {
+  background-color: var(--color-ink);
+}
+.colorChip[data-color="paper"] {
+  background-color: var(--color-paper);
+}
+.colorChip[data-color="empty"] {
+  background: repeating-conic-gradient(
+      var(--color-ink-100) 0% 25%,
+      var(--color-paper) 0% 50%
+    )
+    0 0 / 8px 8px;
+}
+
+.colorChipActive {
+  box-shadow: 0 0 0 1px var(--color-warn);
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.layerPicker {
+  display: flex;
+  gap: 4px;
+}

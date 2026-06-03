@@ -11,6 +11,7 @@ type ButtonSize = "small" | "default" | "big";
 export type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  icon?: boolean;
   native?: boolean;
 };
 
@@ -20,6 +21,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       variant = "primary",
       size = "default",
+      icon,
       disabled,
       native,
       onClick,
@@ -65,6 +67,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         data-variant={variant}
         data-size={size}
+        data-icon={icon ? "true" : undefined}
         rounded={variant !== "ghost"}
         disabled={disabled}
         onClick={handleClick}

@@ -18,6 +18,7 @@ import { Route as publicPpRouteImport } from './routes/(public)/pp'
 import { Route as publicChronicleRouteImport } from './routes/(public)/chronicle'
 import { Route as GuardedCongressIndexRouteImport } from './routes/_guarded/congress/index'
 import { Route as GuardedConfigIndexRouteImport } from './routes/_guarded/config/index'
+import { Route as publicEditorIndexRouteImport } from './routes/(public)/editor/index'
 import { Route as GuardedCatSummonRouteImport } from './routes/_guarded/cat/summon'
 import { Route as publicAuthSignInRouteImport } from './routes/(public)/auth/sign-in'
 import { Route as publicAuthRegisterRouteImport } from './routes/(public)/auth/register'
@@ -72,6 +73,11 @@ const GuardedConfigIndexRoute = GuardedConfigIndexRouteImport.update({
   id: '/config/',
   path: '/config/',
   getParentRoute: () => GuardedRoute,
+} as any)
+const publicEditorIndexRoute = publicEditorIndexRouteImport.update({
+  id: '/(public)/editor/',
+  path: '/editor/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const GuardedCatSummonRoute = GuardedCatSummonRouteImport.update({
   id: '/cat/summon',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/auth/register': typeof publicAuthRegisterRoute
   '/auth/sign-in': typeof publicAuthSignInRoute
   '/cat/summon': typeof GuardedCatSummonRoute
+  '/editor/': typeof publicEditorIndexRoute
   '/config/': typeof GuardedConfigIndexRoute
   '/congress/': typeof GuardedCongressIndexRoute
   '/$catId/cat/care-history': typeof GuardedCatIdCatCareHistoryRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/auth/register': typeof publicAuthRegisterRoute
   '/auth/sign-in': typeof publicAuthSignInRoute
   '/cat/summon': typeof GuardedCatSummonRoute
+  '/editor': typeof publicEditorIndexRoute
   '/config': typeof GuardedConfigIndexRoute
   '/congress': typeof GuardedCongressIndexRoute
   '/$catId/cat/care-history': typeof GuardedCatIdCatCareHistoryRoute
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/(public)/auth/register': typeof publicAuthRegisterRoute
   '/(public)/auth/sign-in': typeof publicAuthSignInRoute
   '/_guarded/cat/summon': typeof GuardedCatSummonRoute
+  '/(public)/editor/': typeof publicEditorIndexRoute
   '/_guarded/config/': typeof GuardedConfigIndexRoute
   '/_guarded/congress/': typeof GuardedCongressIndexRoute
   '/_guarded/$catId/cat/care-history': typeof GuardedCatIdCatCareHistoryRoute
@@ -203,6 +212,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/sign-in'
     | '/cat/summon'
+    | '/editor/'
     | '/config/'
     | '/congress/'
     | '/$catId/cat/care-history'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/auth/sign-in'
     | '/cat/summon'
+    | '/editor'
     | '/config'
     | '/congress'
     | '/$catId/cat/care-history'
@@ -244,6 +255,7 @@ export interface FileRouteTypes {
     | '/(public)/auth/register'
     | '/(public)/auth/sign-in'
     | '/_guarded/cat/summon'
+    | '/(public)/editor/'
     | '/_guarded/config/'
     | '/_guarded/congress/'
     | '/_guarded/$catId/cat/care-history'
@@ -263,6 +275,7 @@ export interface RootRouteChildren {
   publicAuthPasswordResetRoute: typeof publicAuthPasswordResetRoute
   publicAuthRegisterRoute: typeof publicAuthRegisterRoute
   publicAuthSignInRoute: typeof publicAuthSignInRoute
+  publicEditorIndexRoute: typeof publicEditorIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -329,6 +342,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/config/'
       preLoaderRoute: typeof GuardedConfigIndexRouteImport
       parentRoute: typeof GuardedRoute
+    }
+    '/(public)/editor/': {
+      id: '/(public)/editor/'
+      path: '/editor'
+      fullPath: '/editor/'
+      preLoaderRoute: typeof publicEditorIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_guarded/cat/summon': {
       id: '/_guarded/cat/summon'
@@ -454,6 +474,7 @@ const rootRouteChildren: RootRouteChildren = {
   publicAuthPasswordResetRoute: publicAuthPasswordResetRoute,
   publicAuthRegisterRoute: publicAuthRegisterRoute,
   publicAuthSignInRoute: publicAuthSignInRoute,
+  publicEditorIndexRoute: publicEditorIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
