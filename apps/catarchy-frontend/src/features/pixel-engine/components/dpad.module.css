@@ -1,0 +1,61 @@
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+  gap: 4px;
+  justify-content: start;
+}
+
+.up {
+  grid-column: 2;
+  grid-row: 1;
+  width: 54px;
+  aspect-ratio: 1;
+}
+.left {
+  grid-column: 1;
+  grid-row: 2;
+  width: 54px;
+  aspect-ratio: 1;
+}
+.center {
+  grid-column: 2;
+  grid-row: 2;
+  width: 54px;
+  aspect-ratio: 1;
+}
+
+.paintBtn {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border: 2px solid var(--color-ink);
+  font-size: 0.75rem;
+}
+
+.paintBtn[data-color="ink"] {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.paintBtn[data-color="paper"] {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.paintBtn[data-color="empty"] {
+  background: repeating-conic-gradient(var(--color-ink-100) 0% 25%, var(--color-paper) 0% 50%) 0 0 / 4px 4px;
+  color: var(--color-ink);
+}
+.right {
+  grid-column: 3;
+  grid-row: 2;
+  width: 54px;
+  aspect-ratio: 1;
+}
+.down {
+  grid-column: 2;
+  grid-row: 3;
+  width: 54px;
+  aspect-ratio: 1;
+}
