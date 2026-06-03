@@ -93,7 +93,7 @@ export default tseslint.config(
       "react/no-unescaped-entities": "off",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
-      "import-x/no-unresolved": ["error", { ignore: ["\\.css$"] }],
+      "import-x/no-unresolved": ["error", { ignore: ["\\.css$", "^virtual:"] }],
       "no-restricted-imports": [
         "error",
         {
