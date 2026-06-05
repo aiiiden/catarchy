@@ -27,7 +27,7 @@ import styles from "./sign-in-screen.module.css";
 export function SignInScreen() {
   const router = useRouter();
   const toast = useToast();
-  const { email } = useSearch({ from: "/auth/sign-in" });
+  const { email } = useSearch({ from: "/(public)/auth/sign-in" });
   const { form } = useEmailSignInForm({ defaultEmail: email });
 
   const signInWithEmail = useMutation({
