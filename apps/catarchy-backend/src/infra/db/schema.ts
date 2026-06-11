@@ -30,26 +30,52 @@ export const userTable = sqliteTable("user", {
 
 export enum UserAuthProvider {
   EMAIL_PASSWORD = "email_password",
+  WALLET = "wallet",
 }
 
 /** Authentication credentials per provider (user : auth = 1 : N) */
-export const authTable = sqliteTable("auth", {
+export const authTable = sqliteTable(
+  "auth",
+  {
+    id: text("id")
+      .$defaultFn(() => uuidv7())
+      .primaryKey(),
+    provider: text("provider", {
+      enum: Object.values(UserAuthProvider) as [
+        UserAuthProvider,
+        ...UserAuthProvider[],
+      ],
+    }).notNull(),
+    email: text("email").unique(),
+    password: text("password"),
+    walletAddress: text("wallet_address").unique(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => userTable.id),
+    createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
+    updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
+  },
+  (t) => [
+    check(
+      "email_password_required",
+      sql`${t.provider} != 'email_password' OR (${t.email} IS NOT NULL AND ${t.password} IS NOT NULL)`,
+    ),
+    check(
+      "wallet_required",
+      sql`${t.provider} != 'wallet' OR ${t.walletAddress} IS NOT NULL`,
+    ),
+  ],
+);
+
+/** Temporary SIWE nonces for wallet authentication */
+export const siweNonceTable = sqliteTable("siwe_nonce", {
   id: text("id")
     .$defaultFn(() => uuidv7())
     .primaryKey(),
-  provider: text("provider", {
-    enum: Object.values(UserAuthProvider) as [
-      UserAuthProvider,
-      ...UserAuthProvider[],
-    ],
-  }).notNull(),
-  email: text("email").unique(),
-  password: text("password"),
-  userId: text("user_id")
-    .notNull()
-    .references(() => userTable.id),
+  walletAddress: text("wallet_address").notNull(),
+  nonce: text("nonce").notNull().unique(),
+  expiredAt: integer("expired_at").notNull(),
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 /** Temporary email verification codes issued during registration or sign-in */
