@@ -302,10 +302,6 @@ export abstract class AuthService {
     return randomInt(0, 999999).toString().padStart(6, "0");
   }
 
-  static async findUserById(id: string) {
-    return this.userRepository.findById({ id });
-  }
-
   static async createSession(userId: string, refreshToken: string) {
     const now = Date.now();
     const expiredAt = now + ms(this.refreshTokenExp);
@@ -346,7 +342,17 @@ export abstract class AuthService {
       return null;
     }
 
-    return session;
+    const user = await this.userRepository.findById({
+      id: session.userId,
+    });
+
+    // Delete the orphaned session if the user does not exist
+    if (!user) {
+      await this.sessionRepository.deleteByRefreshToken(refreshToken);
+      return null;
+    }
+
+    return { session, user };
   }
 
   static async deleteSession(refreshToken: string) {

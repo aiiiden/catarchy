@@ -6,6 +6,7 @@ import { EmailService } from "@/infra/email/service";
 import { setAuthCookie } from "@/lib/cookie";
 import { ENVIRONMENT, getEnv } from "@/lib/env";
 import { ExternalServiceError } from "@/lib/error";
+import { logger } from "@/lib/logger";
 import { withCommonError } from "@/lib/response";
 
 import { authModel } from "./model";
@@ -212,15 +213,12 @@ export const authRouter = () => {
         }
 
         // 2. Validate session existence and expiry in DB
-        const session = await authService.validateSession(oldRefreshToken);
-        if (!session) {
+        const result = await authService.validateSession(oldRefreshToken);
+        if (!result?.session || !result.user) {
           return status(401, { message: "Invalid or expired refresh token" });
         }
 
-        const user = await authService.findUserById(session.userId);
-        if (!user) {
-          return status(401, { message: "Invalid or expired refresh token" });
-        }
+        const { session, user } = result;
 
         // 3. Token rotation
         const [accessToken, newRefreshToken] = await Promise.all([
@@ -241,6 +239,7 @@ export const authRouter = () => {
           ms(AuthService.accessTokenExp) / 1000,
           isProd,
         );
+
         setAuthCookie(
           cookie.refreshToken,
           newRefreshToken,
@@ -299,11 +298,18 @@ export const authRouter = () => {
       "/sign-out",
       async ({ cookie, authService }) => {
         const refreshToken = cookie.refreshToken.value;
+
         if (refreshToken) {
-          await authService.deleteSession(refreshToken);
+          await authService.deleteSession(refreshToken).catch((error) => {
+            logger.info(
+              `Failed to delete session for refresh token: ${refreshToken}. Error: ${error.message}`,
+            );
+          });
         }
+
         cookie.accessToken.remove();
         cookie.refreshToken.remove();
+
         return { message: "Signed out successfully" };
       },
       {
