@@ -1,14 +1,7 @@
-type CookieRef = {
-  value: string | undefined;
-  maxAge: number | undefined;
-  httpOnly: boolean | undefined;
-  secure: boolean | undefined;
-  sameSite: "lax" | "strict" | "none" | boolean | undefined;
-  path: string | undefined;
-};
+import { Cookie } from "elysia";
 
 export const setAuthCookie = (
-  ref: CookieRef,
+  ref: Cookie<string | undefined>,
   value: string,
   maxAge: number,
   isProd: boolean,
