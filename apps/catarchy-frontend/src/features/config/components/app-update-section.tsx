@@ -13,8 +13,10 @@ export function AppUpdateSection() {
 
   return (
     <Box containerClassName={styles.box} rounded>
-      <Text as="p">App Update</Text>
-      <Text as="p" className={styles.description}>
+      <Text as="h2" size="normal" className={styles.title}>
+        App Update
+      </Text>
+      <Text as="p" size="small" className={styles.description}>
         {needsUpdate
           ? "A new version is available. Update now to get the latest features."
           : "You're on the latest version. No update needed."}

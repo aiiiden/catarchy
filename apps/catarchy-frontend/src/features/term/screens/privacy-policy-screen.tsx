@@ -1,4 +1,4 @@
-import { HeaderBackButton, Scaffold } from "@/features/common";
+import { HeaderBackButton, Scaffold, Text } from "@/features/common";
 
 import styles from "./document.module.css";
 
@@ -152,7 +152,9 @@ export function PrivacyPolicyScreen() {
     <Scaffold>
       <Scaffold.Header title="Privacy Policy" left={<HeaderBackButton />} />
       <Scaffold.Body>
-        <pre className={styles.pre}>{content}</pre>
+        <Text as="pre" className={styles.pre}>
+          {content}
+        </Text>
       </Scaffold.Body>
     </Scaffold>
   );

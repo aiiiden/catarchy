@@ -44,11 +44,11 @@ export function StatInfoTable({ catId }: { catId: string }) {
   const hasMoreThanThreeFriends = friendCount > 3;
 
   return (
-    <InfoTable>
+    <InfoTable className={styles.table}>
       <tbody>
         <tr>
           <th align="left">
-            <Text>🎂 AGE</Text>
+            <Text size="small">🎂 AGE</Text>
           </th>
           <td align="right">
             <Text>{age}</Text>
@@ -56,7 +56,7 @@ export function StatInfoTable({ catId }: { catId: string }) {
         </tr>
         <tr>
           <th align="left">
-            <Text>{cat?.stat.emotion.emoji} MOOD</Text>
+            <Text size="small">{cat?.stat.emotion.emoji} MOOD</Text>
           </th>
           <td align="right">
             <Text>{cat?.stat.emotion.level.toUpperCase()}</Text>
@@ -65,7 +65,7 @@ export function StatInfoTable({ catId }: { catId: string }) {
         {relationship?.couple && (
           <tr>
             <th align="left" className={styles.verticalTop}>
-              <Text>❤︎⁠ {coupleTitle}</Text>
+              <Text size="small">❤︎⁠ {coupleTitle}</Text>
             </th>
             <td align="right">
               <BubbleHintToggle
@@ -104,7 +104,7 @@ export function StatInfoTable({ catId }: { catId: string }) {
         {!haveNoFriends && (
           <tr>
             <th align="left" className={styles.verticalTop}>
-              <Text>🐈 FRIENDS</Text>
+              <Text size="small">🐈 FRIENDS</Text>
             </th>
             <td align="right">
               <div
@@ -137,7 +137,7 @@ export function StatInfoTable({ catId }: { catId: string }) {
                     }}
                     className={styles.moreFriends}
                   >
-                    <Text>+ {friendCount - 3} more friends</Text>
+                    <Text size="small">+ {friendCount - 3} more friends</Text>
                   </Link>
                 )}
               </div>

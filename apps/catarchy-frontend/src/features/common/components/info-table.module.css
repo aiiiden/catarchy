@@ -10,6 +10,8 @@
 
 .table th,
 .table td {
+  /* Let each Text size determine row height instead of the inherited 24px line box. */
+  line-height: 1;
   padding-top: 2px;
   padding-bottom: 2px;
 }

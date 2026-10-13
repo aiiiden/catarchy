@@ -14,10 +14,10 @@
   background-color: transparent;
   width: 100%;
   min-width: 0;
-  font-size: 1rem;
   outline: none;
   resize: none;
-  font-family: inherit;
+  font-family: var(--font-normal);
+  font-size: var(--text-normal);
 }
 
 .textarea:disabled {

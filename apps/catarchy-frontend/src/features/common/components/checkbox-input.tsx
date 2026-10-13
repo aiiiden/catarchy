@@ -82,7 +82,7 @@ export const CheckboxInput = React.forwardRef<
           {...props}
         />
 
-        <span
+        <Text
           onClick={handleIndicatorClick}
           aria-hidden="true"
           className={cn(
@@ -91,9 +91,9 @@ export const CheckboxInput = React.forwardRef<
             indicatorClassName,
           )}
         >
-          <span className={styles.off}>{offState}</span>
-          <span className={styles.on}>{onState}</span>
-        </span>
+          <Text className={styles.off}>{offState}</Text>
+          <Text className={styles.on}>{onState}</Text>
+        </Text>
 
         {label != null && (
           <Text as="label" htmlFor={inputId} className={styles.labelText}>

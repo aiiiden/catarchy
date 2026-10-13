@@ -12,8 +12,10 @@ export function SoundEffectSection() {
       containerClassName={styles.boxContainer}
       rounded
     >
-      <Text as="p">Button Sound</Text>
-      <Text as="p" className={styles.description}>
+      <Text as="h2" size="normal" className={styles.title}>
+        Button Sound
+      </Text>
+      <Text as="p" size="small" className={styles.description}>
         Select the audio to play when the button is pressed
       </Text>
       <div className={styles.selectContainer}>

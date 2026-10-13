@@ -55,7 +55,7 @@ function IosGuide() {
           </Text>
           <div className={styles.copyRow}>
             <a href={safariUrl} className={styles.btnLink}>
-              Open in Safari
+              <Text>Open in Safari</Text>
             </a>
             <LogClick eventName="pwa_copy_url">
               <Button

@@ -42,7 +42,7 @@ export function BubbleHintToggle({
     <>
       {isVisible && (
         <BubbleHint targetRef={targetRef} {...bubbleProps}>
-          {typeof hint === "string" ? <Text>{hint}</Text> : hint}
+          {typeof hint === "string" ? <Text size="small">{hint}</Text> : hint}
         </BubbleHint>
       )}
       {children({ ref: targetRef, onClick: handleToggle })}

@@ -1,4 +1,4 @@
-import { Button } from "@/features/common";
+import { Button, Text } from "@/features/common";
 
 import styles from "./dpad.module.css";
 
@@ -13,25 +13,44 @@ type DpadProps = {
   paintColor?: PaintColor;
 };
 
-export function Dpad({ onUp, onDown, onLeft, onRight, onCenter, paintColor = "ink" }: DpadProps) {
+export function Dpad({
+  onUp,
+  onDown,
+  onLeft,
+  onRight,
+  onCenter,
+  paintColor = "ink",
+}: DpadProps) {
   return (
     <div className={styles.dpad}>
       <div className={styles.up}>
-        <Button icon variant="outline" onClick={onUp}>⬆</Button>
+        <Button icon variant="outline" onClick={onUp}>
+          ⬆
+        </Button>
       </div>
       <div className={styles.left}>
-        <Button icon variant="outline" onClick={onLeft}>⬅</Button>
+        <Button icon variant="outline" onClick={onLeft}>
+          ⬅
+        </Button>
       </div>
       <div className={styles.center}>
-        <button className={styles.paintBtn} data-color={paintColor} onClick={onCenter}>
-          ◉
+        <button
+          className={styles.paintBtn}
+          data-color={paintColor}
+          onClick={onCenter}
+        >
+          <Text size="small">◉</Text>
         </button>
       </div>
       <div className={styles.right}>
-        <Button icon variant="outline" onClick={onRight}>➡</Button>
+        <Button icon variant="outline" onClick={onRight}>
+          ➡
+        </Button>
       </div>
       <div className={styles.down}>
-        <Button icon variant="outline" onClick={onDown}>⬇</Button>
+        <Button icon variant="outline" onClick={onDown}>
+          ⬇
+        </Button>
       </div>
     </div>
   );

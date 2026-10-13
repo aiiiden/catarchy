@@ -42,7 +42,7 @@ export function StreamText<T extends TextTag = "span">({
         className={styles.character}
       />
     ) : (
-      <span
+      <Text
         key={index}
         onAnimationEnd={(e) => {
           if (e.currentTarget.nextSibling === null) {
@@ -54,11 +54,12 @@ export function StreamText<T extends TextTag = "span">({
           {
             "--duration": `${characterDuration * 0.001}s`,
             "--delay": `${characterDelay * index * 0.001}s`,
+            lineHeight: "inherit",
           } as React.CSSProperties
         }
       >
         {char}
-      </span>
+      </Text>
     );
   });
 

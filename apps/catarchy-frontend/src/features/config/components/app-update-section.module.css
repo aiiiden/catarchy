@@ -1,13 +1,20 @@
 .box {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 12px;
+  gap: 12px;
+  padding: 16px;
+}
+
+.title {
+  font-weight: 700;
+  line-height: var(--text-leading);
 }
 
 .description {
-  font-size: 0.85em;
-  text-wrap: "balance";
+  color: color-mix(in srgb, var(--color-ink) 75%, var(--color-paper));
+  text-wrap: balance;
+  line-height: var(--text-leading);
+  overflow-wrap: anywhere;
 }
 
 .button {

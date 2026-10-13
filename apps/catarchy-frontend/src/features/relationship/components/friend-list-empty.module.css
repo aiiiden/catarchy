@@ -10,4 +10,6 @@
 .message {
   text-align: center;
   text-wrap: balance;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }

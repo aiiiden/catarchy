@@ -46,7 +46,7 @@ export function QuestionStep({
   return (
     <article className={styles.container}>
       <header className={styles.header}>
-        <Text as="p" className={styles.progress}>
+        <Text as="p" size="small" className={styles.progress}>
           Question {currentIndex + 1} of {totalCount}
         </Text>
         <Text as="p" className={cn([styles.question, "font-bold"])}>
@@ -61,12 +61,12 @@ export function QuestionStep({
       >
         <div>
           <div className={styles.selectContainer}>
-            <Text>NO</Text>
+            <Text size="small">NO</Text>
             <div
               className={styles.radioGroup}
               style={
                 {
-                  "--answer-gap": "1.75rem",
+                  "--answer-gap": "clamp(12px, 5vw, 28px)",
                 } as React.CSSProperties
               }
             >
@@ -92,7 +92,7 @@ export function QuestionStep({
                 )}
               />
             </div>
-            <Text>YES</Text>
+            <Text size="small">YES</Text>
           </div>
         </div>
 

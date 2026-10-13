@@ -4,8 +4,7 @@
   overflow: hidden;
 }
 
-#root::after {
-  content: "Please rotate your device 😸";
+.orientation-notice {
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -15,11 +14,11 @@
   background-color: var(--color-paper);
   text-align: center;
   color: var(--color-ink);
-  font-size: 1rem;
+  font-size: var(--text-normal);
 }
 
 @media (orientation: landscape) and (pointer: coarse) {
-  #root::after {
+  .orientation-notice {
     display: flex;
   }
 }

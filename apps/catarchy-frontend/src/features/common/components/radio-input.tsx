@@ -79,7 +79,7 @@ export const RadioInput = React.forwardRef<HTMLInputElement, RadioInputProps>(
           {...props}
         />
 
-        <span
+        <Text
           onClick={handleIndicatorClick}
           aria-hidden="true"
           className={cn(
@@ -88,9 +88,9 @@ export const RadioInput = React.forwardRef<HTMLInputElement, RadioInputProps>(
             indicatorClassName,
           )}
         >
-          <span className={styles.off}>{offState}</span>
-          <span className={styles.on}>{onState}</span>
-        </span>
+          <Text className={styles.off}>{offState}</Text>
+          <Text className={styles.on}>{onState}</Text>
+        </Text>
 
         {label != null && (
           <Text as="label" htmlFor={inputId} className={styles.labelText}>

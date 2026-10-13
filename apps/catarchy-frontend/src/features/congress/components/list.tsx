@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { InfoTable } from "@/features/common";
+import { InfoTable, Text } from "@/features/common";
 
 import { allConsensusOptions } from "../services/consensus";
 import styles from "./list.module.css";
@@ -14,14 +14,20 @@ export function ConsensusList() {
         <InfoTable key={option.key} className={styles.table}>
           <tbody>
             <tr>
-              <td align="left">{option.name}</td>
+              <td align="left">
+                <Text size="small">{option.name}</Text>
+              </td>
               <td align="right">
-                {option.value}
-                {option.unit && <> {option.unit}</>}
+                <Text size="small">
+                  {option.value}
+                  {option.unit && <> {option.unit}</>}
+                </Text>
               </td>
             </tr>
             <tr>
-              <td colSpan={2}>{option.purpose}</td>
+              <td colSpan={2}>
+                <Text>{option.purpose}</Text>
+              </td>
             </tr>
           </tbody>
         </InfoTable>

@@ -30,7 +30,6 @@
   height: 100%;
   cursor: pointer;
   border: 2px solid var(--color-ink);
-  font-size: 0.75rem;
 }
 
 .paintBtn[data-color="ink"] {
@@ -44,7 +43,11 @@
 }
 
 .paintBtn[data-color="empty"] {
-  background: repeating-conic-gradient(var(--color-ink-100) 0% 25%, var(--color-paper) 0% 50%) 0 0 / 4px 4px;
+  background: repeating-conic-gradient(
+      var(--color-ink-100) 0% 25%,
+      var(--color-paper) 0% 50%
+    )
+    0 0 / 4px 4px;
   color: var(--color-ink);
 }
 .right {

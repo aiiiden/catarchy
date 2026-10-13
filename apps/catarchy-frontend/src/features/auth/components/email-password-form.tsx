@@ -86,9 +86,9 @@ export function EmailPasswordForm({
                 autoComplete="one-time-code"
                 trailingSlot={
                   remainSeconds > 0 && !emailVerified ? (
-                    <Text>{formattedRemainSeconds}</Text>
+                    <Text size="small">{formattedRemainSeconds}</Text>
                   ) : emailVerified ? (
-                    <Text>Verified</Text>
+                    <Text size="small">Verified</Text>
                   ) : null
                 }
               />

@@ -220,13 +220,13 @@ export function SignupScreen() {
           </FormProvider>
         </div>
         <div>
-          <Text as="p" className={styles.terms}>
+          <Text as="p" size="small" className={styles.terms}>
             <Link to="/toc" className={styles.termsLink}>
-              Terms
+              <Text>Terms</Text>
             </Link>{" "}
             /{" "}
             <Link to="/pp" className={styles.termsLink}>
-              Privacy
+              <Text>Privacy</Text>
             </Link>
           </Text>
         </div>

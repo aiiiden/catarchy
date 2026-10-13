@@ -5,7 +5,7 @@ import styles from "./header.module.css";
 export function Header() {
   return (
     <header className={styles.container}>
-      <Text as="h2" className={cn("font-bold", styles.title)}>
+      <Text as="h2" size="large" className={cn("font-bold", styles.title)}>
         Catarchy Congress
       </Text>
       <Text as="p" className={styles.description}>

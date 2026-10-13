@@ -4,6 +4,8 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
 import { clientsClaim } from "workbox-core";
 import { precacheAndRoute } from "workbox-precaching";
+import { registerRoute } from "workbox-routing";
+import { StaleWhileRevalidate } from "workbox-strategies";
 
 import { env } from "./features/common/lib/env";
 
@@ -18,6 +20,15 @@ self.addEventListener("activate", (event) => {
 
 clientsClaim();
 precacheAndRoute(self.__WB_MANIFEST);
+
+// Cache only subsets that a screen actually uses; fonts stay out of the precache.
+registerRoute(
+  ({ request, url }) =>
+    request.destination === "font" &&
+    url.origin === self.location.origin &&
+    /^\/assets\/fonts\/(unifont-16|fusion-12|fusion-10)\//.test(url.pathname),
+  new StaleWhileRevalidate({ cacheName: "pixel-fonts-v1" }),
+);
 
 const firebaseApp = initializeApp({
   apiKey: env.VITE_FIREBASE_API_KEY,

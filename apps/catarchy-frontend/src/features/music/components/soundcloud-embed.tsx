@@ -1,3 +1,5 @@
+import { Text } from "@/features/common";
+
 interface SoundCloudEmbedProps {
   url: string;
   color?: string;
@@ -46,18 +48,16 @@ export function SoundCloudEmbed({
         title={label ?? "SoundCloud Player"}
       />
       {(artistName || label) && (
-        <div
+        <Text
+          as="p"
+          size="xsmall"
           style={{
-            fontSize: 10,
             color: "#cccccc",
             lineBreak: "anywhere",
             wordBreak: "normal",
             overflow: "hidden",
             whiteSpace: "nowrap",
             textOverflow: "ellipsis",
-            fontFamily:
-              "Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif",
-            fontWeight: 100,
           }}
         >
           {artistName && (
@@ -68,10 +68,10 @@ export function SoundCloudEmbed({
               rel="noreferrer"
               style={{ color: "#cccccc", textDecoration: "none" }}
             >
-              {artistName}
+              <Text>{artistName}</Text>
             </a>
           )}
-          {artistName && label && " · "}
+          {artistName && label && <Text> · </Text>}
           {label && (
             <a
               href={labelUrl}
@@ -80,10 +80,10 @@ export function SoundCloudEmbed({
               rel="noreferrer"
               style={{ color: "#cccccc", textDecoration: "none" }}
             >
-              {label}
+              <Text>{label}</Text>
             </a>
           )}
-        </div>
+        </Text>
       )}
     </div>
   );
