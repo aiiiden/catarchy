@@ -1,17 +1,20 @@
-@font-face {
-  font-family: "UnifontExMono";
-  src:
-    url("/assets/fonts/UnifontExMono.woff2") format("woff2"),
-    url("/assets/fonts/UnifontExMono.woff") format("woff"),
-    url("/assets/fonts/UnifontExMono.ttf") format("truetype"),
-    url("/assets/fonts/UnifontExMono.eot") format("embedded-opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
+@import "./font-faces.css";
 
 :root {
-  --font-sans: "UnifontExMono", monospace;
+  --font-normal: "UnifontExMono", monospace;
+  --font-small: "FusionPixel12", "UnifontExMono", monospace;
+  --font-xsmall: "FusionPixel10", "UnifontExMono", monospace;
+  --font-sans: var(--font-normal);
+  --text-xsmall: 10px;
+  --text-small: 12px;
+  --text-normal: 16px;
+  --text-large: 24px;
+  --text-xlarge: 32px;
+  --leading-xsmall: 12px;
+  --leading-small: 16px;
+  --leading-normal: 20px;
+  --leading-large: 30px;
+  --leading-xlarge: 40px;
 }
 
 .text-box-trim {

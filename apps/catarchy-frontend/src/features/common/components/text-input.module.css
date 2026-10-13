@@ -29,9 +29,9 @@
   width: 100%;
   min-width: 0;
   line-height: 0;
-  font-size: 1rem;
   outline: none;
-  font-family: inherit;
+  font-family: var(--font-normal);
+  font-size: var(--text-normal);
 }
 
 .input:disabled {

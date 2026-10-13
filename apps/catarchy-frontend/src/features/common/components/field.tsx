@@ -66,7 +66,7 @@ export function Field({
           offset={4}
           className={styles.bubbleHint}
         >
-          <Text>⚠ {error}</Text>
+          <Text size="small">⚠ {error}</Text>
         </BubbleHint>
       )}
     </div>

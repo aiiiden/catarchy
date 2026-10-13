@@ -58,19 +58,31 @@ export function FriendListScreen({ catId }: { catId: string }) {
                         <CatCharacter age={friend.growth.ageGroup} scale={2} />
                       </div>
                     </td>
-                    <th align="left">AGE</th>
-                    <td align="right">{formatAge(friend.growth.age)}</td>
-                  </tr>
-                  <tr>
-                    <th align="left">MOOD</th>
-                    <td align="right">{friend.emotion.emoji}</td>
-                  </tr>
-                  <tr>
-                    <th align="left">BE FRIEND SINCE...</th>
+                    <th align="left">
+                      <Text size="small">AGE</Text>
+                    </th>
                     <td align="right">
-                      {friend.updatedAt
-                        ? new Date(friend.updatedAt).toLocaleDateString()
-                        : "-"}
+                      <Text size="small">{formatAge(friend.growth.age)}</Text>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th align="left">
+                      <Text size="small">MOOD</Text>
+                    </th>
+                    <td align="right">
+                      <Text size="small">{friend.emotion.emoji}</Text>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th align="left">
+                      <Text size="small">BE FRIEND SINCE...</Text>
+                    </th>
+                    <td align="right">
+                      <Text size="small">
+                        {friend.updatedAt
+                          ? new Date(friend.updatedAt).toLocaleDateString()
+                          : "-"}
+                      </Text>
                     </td>
                   </tr>
                 </tbody>

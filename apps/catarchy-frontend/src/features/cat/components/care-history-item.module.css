@@ -26,8 +26,7 @@
 }
 
 .delta {
-  font-size: 12px;
-  letter-spacing: -2px;
+  margin-left: 4px;
   color: var(--color-ink-500);
 }
 
@@ -35,6 +34,8 @@
   padding: 16px 6px;
   text-align: center;
   text-wrap: balance;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .characterCell {

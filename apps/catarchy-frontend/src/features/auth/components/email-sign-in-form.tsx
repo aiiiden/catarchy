@@ -55,7 +55,7 @@ export function EmailSignInForm() {
         <div className={styles.forgotLink}>
           <LogClick eventName="forgot_password">
             <Link to="/auth/password-reset">
-              <Text className={styles.linkText}>Forgot Password?</Text>
+              <Text size="small">Forgot Password?</Text>
             </Link>
           </LogClick>
         </div>

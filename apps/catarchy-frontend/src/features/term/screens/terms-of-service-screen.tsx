@@ -1,4 +1,4 @@
-import { HeaderBackButton, Scaffold } from "@/features/common";
+import { HeaderBackButton, Scaffold, Text } from "@/features/common";
 
 import styles from "./document.module.css";
 
@@ -128,7 +128,9 @@ export function TermsOfServiceScreen() {
     <Scaffold>
       <Scaffold.Header title="Terms of Service" left={<HeaderBackButton />} />
       <Scaffold.Body>
-        <pre className={styles.pre}>{content}</pre>
+        <Text as="pre" className={styles.pre}>
+          {content}
+        </Text>
       </Scaffold.Body>
     </Scaffold>
   );

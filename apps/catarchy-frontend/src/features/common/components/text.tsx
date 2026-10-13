@@ -7,6 +7,12 @@ export type TextTag =
   | "i"
   | "em"
   | "s"
+  | "strong"
+  | "small"
+  | "cite"
+  | "pre"
+  | "dt"
+  | "dd"
   | "label"
   | "p"
   | "span"
@@ -17,30 +23,34 @@ export type TextTag =
   | "h5"
   | "h6";
 
+export type TextSize = "xsmall" | "small" | "normal" | "large" | "xlarge";
+
 export type TextProps<T extends TextTag = "span"> =
-  React.ComponentPropsWithoutRef<T> & {
+  React.ComponentPropsWithRef<T> & {
     as?: T;
+    /** Inherits the nearest Text size; defaults to normal (16px) at the root. */
+    size?: TextSize;
     boxTrim?: boolean;
   };
 
-export const Text = React.forwardRef(
-  <T extends TextTag = "span">(
-    { as, className, style, boxTrim, ...props }: TextProps<T>,
-    ref: React.ForwardedRef<React.ComponentRef<T>>,
-  ) => {
-    const Tag = (as ?? "span") as React.ElementType;
+export function Text<T extends TextTag = "span">({
+  as,
+  size,
+  className,
+  boxTrim,
+  ...props
+}: TextProps<T>) {
+  const Tag = (as ?? "span") as React.ElementType;
 
-    return (
-      <Tag
-        className={cn([
-          styles.root,
-          boxTrim && (as ?? "span") !== "span" && "text-box-trim",
-          className,
-        ])}
-        style={style}
-        {...props}
-        ref={ref}
-      />
-    );
-  },
-);
+  return (
+    <Tag
+      {...props}
+      className={cn(
+        styles.root,
+        boxTrim && (as ?? "span") !== "span" && "text-box-trim",
+        className,
+      )}
+      data-text-size={size}
+    />
+  );
+}

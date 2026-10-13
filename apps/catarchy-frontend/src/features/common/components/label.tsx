@@ -14,12 +14,12 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
 
     return (
       <label ref={ref} className={cn(styles.label, className)} {...props}>
-        {isChildrenString ? (
-          <Text className={styles.labelText}>{children}</Text>
-        ) : (
-          children
+        {isChildrenString ? <Text size="small">{children}</Text> : children}
+        {required && (
+          <Text size="small" className={styles.requiredMark}>
+            *
+          </Text>
         )}
-        {required && <Text className={styles.requiredMark}>*</Text>}
       </label>
     );
   },

@@ -1,0 +1,380 @@
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-latin-code.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+0020-007E, U+00A0-00FF, U+2000-206F, U+2190-21FF, U+2200-22FF, U+2300-23FF;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-korean.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+1100-11FF, U+3130-318F, U+A960-A97F, U+AC00-D7A3, U+D7B0-D7FF;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-kana.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+FF65-FF9F;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-cjk-punct.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+3000-303F;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-cjk-1.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-6FFF;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-cjk-2.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+7000-8FFF;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-cjk-3.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+9000-9FFF;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-cjk-compat.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+F900-FAFF;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-symbols.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+2460-24FF, U+2500-257F, U+2580-259F, U+25A0-25FF;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-emoji-core.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+200D, U+FE00-FE0F, U+2600-26FF, U+2700-27BF, U+1F300-1F5FF, U+1F600-1F64F,
+    U+1F680-1F6FF, U+1F3FB-1F3FF;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-emoji-extra.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+1F000-1F02F, U+1F0A0-1F0FF, U+1F100-1F1FF, U+1F200-1F2FF, U+1F700-1F77F,
+    U+1F780-1F7FF, U+1F800-1F8FF, U+1F900-1F9FF, U+1FA70-1FAFF;
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("/assets/fonts/fusion-12/fusion-pixel-12px-monospaced-latin-code.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+0020-007E, U+00A0-00FF, U+2000-206F, U+2190-21FF, U+2200-22FF, U+2300-23FF;
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("/assets/fonts/fusion-12/fusion-pixel-12px-monospaced-korean.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+1100-11FF, U+3130-318F, U+A960-A97F, U+AC00-D7A3, U+D7B0-D7FF;
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("/assets/fonts/fusion-12/fusion-pixel-12px-monospaced-kana.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+FF65-FF9F;
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("/assets/fonts/fusion-12/fusion-pixel-12px-monospaced-cjk-punct.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+3000-303F;
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("/assets/fonts/fusion-12/fusion-pixel-12px-monospaced-cjk-1.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-6FFF;
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("/assets/fonts/fusion-12/fusion-pixel-12px-monospaced-cjk-2.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+7000-8FFF;
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("/assets/fonts/fusion-12/fusion-pixel-12px-monospaced-cjk-3.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+9000-9FFF;
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("/assets/fonts/fusion-12/fusion-pixel-12px-monospaced-cjk-compat.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+F900-FAFF;
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("/assets/fonts/fusion-12/fusion-pixel-12px-monospaced-symbols.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+2460-24FF, U+2500-257F, U+2580-259F, U+25A0-25FF;
+}
+
+@font-face {
+  font-family: "FusionPixel10";
+  src: url("/assets/fonts/fusion-10/fusion-pixel-10px-monospaced-latin-code.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+0020-007E, U+00A0-00FF, U+2000-206F, U+2190-21FF, U+2200-22FF, U+2300-23FF;
+}
+
+@font-face {
+  font-family: "FusionPixel10";
+  src: url("/assets/fonts/fusion-10/fusion-pixel-10px-monospaced-korean.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+1100-11FF, U+3130-318F, U+A960-A97F, U+AC00-D7A3, U+D7B0-D7FF;
+}
+
+@font-face {
+  font-family: "FusionPixel10";
+  src: url("/assets/fonts/fusion-10/fusion-pixel-10px-monospaced-kana.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+FF65-FF9F;
+}
+
+@font-face {
+  font-family: "FusionPixel10";
+  src: url("/assets/fonts/fusion-10/fusion-pixel-10px-monospaced-cjk-punct.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+3000-303F;
+}
+
+@font-face {
+  font-family: "FusionPixel10";
+  src: url("/assets/fonts/fusion-10/fusion-pixel-10px-monospaced-cjk-1.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+4E00-6FFF;
+}
+
+@font-face {
+  font-family: "FusionPixel10";
+  src: url("/assets/fonts/fusion-10/fusion-pixel-10px-monospaced-cjk-2.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+7000-8FFF;
+}
+
+@font-face {
+  font-family: "FusionPixel10";
+  src: url("/assets/fonts/fusion-10/fusion-pixel-10px-monospaced-cjk-3.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+9000-9FFF;
+}
+
+@font-face {
+  font-family: "FusionPixel10";
+  src: url("/assets/fonts/fusion-10/fusion-pixel-10px-monospaced-cjk-compat.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+F900-FAFF;
+}
+
+@font-face {
+  font-family: "FusionPixel10";
+  src: url("/assets/fonts/fusion-10/fusion-pixel-10px-monospaced-symbols.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range: U+2460-24FF, U+2500-257F, U+2580-259F, U+25A0-25FF;
+}
+
+@font-face {
+  font-family: "UnifontExMono";
+  src: url("/assets/fonts/unifont-16/UnifontExMono-common-extra.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+0100-0131, U+0134-0180, U+0182-0183, U+0186, U+0189, U+018B-018C,
+    U+018E-018F, U+0191-0192, U+019A, U+019E-01A1, U+01A7-01A9, U+01AF-01B1,
+    U+01CD-01E3, U+01E6-01ED, U+01F0, U+01F4-01F5, U+01F8-021B, U+021E-0220,
+    U+0226-0233, U+0237, U+023D, U+0244-0245, U+0248-0249, U+1E9E, U+2070-2071,
+    U+2074-208E, U+2090-209C, U+2103, U+2109, U+2116, U+2122, U+2126-2127,
+    U+212A-212B, U+212E, U+2150-218B, U+2800-28FF, U+2C60-2C61, U+2C6E-2C6F,
+    U+2E80, U+2E82-2E86, U+2E88-2E8A, U+2E8C-2E8E, U+2E90, U+2E92-2E99,
+    U+2E9B-2E9D, U+2E9F-2EA1, U+2EA5, U+2EA7, U+2EAA, U+2EAC, U+2EB4-2EB8,
+    U+2EBB-2EBC, U+2EBE-2EC1, U+2EC4-2EC6, U+2EC8-2EC9, U+2ECB-2ED1,
+    U+2ED3-2ED4, U+2ED7-2EDD, U+2EE2-2EE9, U+2EEB-2EF3, U+2F00-2F70,
+    U+2F72-2FD5, U+2FF0-2FFF, U+3105-312F, U+3220-3229, U+327F-3289,
+    U+32A3-32A8, U+32C0-32CB, U+32FF, U+3358-3370, U+337B-337E, U+33E0-33FE,
+    U+3400, U+3403, U+39F4, U+3B4C, U+4109, U+45B8, U+4CD7-4CD8, U+A726-A727,
+    U+A73E-A741, U+A7FA, U+FE10-FE19, U+FE30-FE4F, U+FF01-FF64, U+FFE0-FFE6,
+    U+FFE8-FFEE, U+FFFC-FFFD, U+27684;
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("/assets/fonts/fusion-12/fusion-pixel-12px-monospaced-common-extra.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+0100-0131, U+0134-0180, U+0182-0183, U+0186, U+0189, U+018B-018C,
+    U+018E-018F, U+0191-0192, U+019A, U+019E-01A1, U+01A7-01A9, U+01AF-01B1,
+    U+01CD-01E3, U+01E6-01ED, U+01F0, U+01F4-01F5, U+01F8-021B, U+021E-0220,
+    U+0226-0233, U+0237, U+023D, U+0244-0245, U+0248-0249, U+1E9E, U+2070-2071,
+    U+2074-208E, U+2090-209C, U+2103, U+2109, U+2116, U+2122, U+2126-2127,
+    U+212A-212B, U+212E, U+2150-218B, U+2600-2614, U+2616-2621, U+2624-2625,
+    U+2628-266F, U+2680-2695, U+2698-269A, U+26AA-26AC, U+26B2-26B5, U+26B8,
+    U+26BC, U+26BF, U+26C4-26CC, U+26CE-26CF, U+26D2-26D4, U+26D8-26DE,
+    U+26E0-26EF, U+26F1-26F3, U+26F5-26F6, U+26F8, U+26FC-26FD, U+26FF,
+    U+2708-2709, U+2766-2767, U+2776-2793, U+2800-28FF, U+2C60-2C61,
+    U+2C6E-2C6F, U+2E80, U+2E82-2E86, U+2E88-2E8A, U+2E8C-2E8E, U+2E90,
+    U+2E92-2E99, U+2E9B-2E9D, U+2E9F-2EA1, U+2EA5, U+2EA7, U+2EAA, U+2EAC,
+    U+2EB4-2EB8, U+2EBB-2EBC, U+2EBE-2EC1, U+2EC4-2EC6, U+2EC8-2EC9,
+    U+2ECB-2ED1, U+2ED3-2ED4, U+2ED7-2EDD, U+2EE2-2EE9, U+2EEB-2EF3,
+    U+2F00-2F70, U+2F72-2FD5, U+2FF0-2FFF, U+3105-312F, U+3220-3229,
+    U+327F-3289, U+32A3-32A8, U+32C0-32CB, U+32FF, U+3358-3370, U+337B-337E,
+    U+33E0-33FE, U+3400, U+3403, U+39F4, U+3B4C, U+4109, U+45B8, U+4CD7-4CD8,
+    U+A726-A727, U+A73E-A741, U+A7FA, U+FE10-FE19, U+FE30-FE4F, U+FF01-FF64,
+    U+FFE0-FFE6, U+FFE8-FFEE, U+FFFC-FFFD, U+1F100-1F10C, U+1F110-1F129,
+    U+1F12F-1F149, U+1F150-1F169, U+1F170-1F189, U+1F1E6-1F1FF, U+27684;
+}
+
+@font-face {
+  font-family: "FusionPixel10";
+  src: url("/assets/fonts/fusion-10/fusion-pixel-10px-monospaced-common-extra.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  unicode-range:
+    U+0100-0131, U+0134-0180, U+0182-0183, U+0186, U+0189, U+018B-018C,
+    U+018E-018F, U+0191-0192, U+019A, U+019E-01A1, U+01A7-01A9, U+01AF-01B1,
+    U+01CD-01E3, U+01E6-01ED, U+01F0, U+01F4-01F5, U+01F8-021B, U+021E-0220,
+    U+0226-0233, U+0237, U+023D, U+0244-0245, U+0248-0249, U+1E9E, U+2070-2071,
+    U+2074-208E, U+2090-209C, U+2103, U+2109, U+2116, U+2122, U+2126-2127,
+    U+212A-212B, U+212E, U+2150-218B, U+2600-2614, U+2616-2621, U+2624-2625,
+    U+2628-266F, U+2680-2695, U+2698-269A, U+26AA-26AC, U+26B2-26B5, U+26B8,
+    U+26BC, U+26BF, U+26C4-26CC, U+26CE-26CF, U+26D2-26D4, U+26D8-26DE,
+    U+26E0-26EF, U+26F1-26F3, U+26F5-26F6, U+26F8, U+26FC-26FD, U+26FF,
+    U+2708-2709, U+2766-2767, U+2776-2793, U+2800-28FF, U+2C60-2C61,
+    U+2C6E-2C6F, U+2E80, U+2E82-2E86, U+2E88-2E8A, U+2E8C-2E8E, U+2E90,
+    U+2E92-2E99, U+2E9B-2E9D, U+2E9F-2EA1, U+2EA5, U+2EA7, U+2EAA, U+2EAC,
+    U+2EB4-2EB8, U+2EBB-2EBC, U+2EBE-2EC1, U+2EC4-2EC6, U+2EC8-2EC9,
+    U+2ECB-2ED1, U+2ED3-2ED4, U+2ED7-2EDD, U+2EE2-2EE9, U+2EEB-2EF3,
+    U+2F00-2F70, U+2F72-2FD5, U+2FF0-2FFF, U+3105-312F, U+3220-3229,
+    U+327F-3289, U+32A3-32A8, U+32C0-32CB, U+32FF, U+3358-3370, U+337B-337E,
+    U+33E0-33FE, U+3400, U+3403, U+39F4, U+3B4C, U+4109, U+45B8, U+4CD7-4CD8,
+    U+A726-A727, U+A73E-A741, U+A7FA, U+FE10-FE19, U+FE30-FE4F, U+FF01-FF64,
+    U+FFE0-FFE6, U+FFE8-FFEE, U+FFFC-FFFD, U+1F100-1F10C, U+1F110-1F129,
+    U+1F12F-1F149, U+1F150-1F169, U+1F170-1F189, U+1F1E6-1F1FF, U+27684;
+}

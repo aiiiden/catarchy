@@ -4,3 +4,8 @@
   gap: 8px;
   padding: 6px;
 }
+
+.root p {
+  line-height: var(--text-leading, var(--leading-normal));
+  overflow-wrap: anywhere;
+}

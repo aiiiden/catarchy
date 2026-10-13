@@ -33,7 +33,7 @@ export function TestNudge({ catId }: { catId: string }) {
           </Text>
         </div>
       </div>
-      <Text as="p" className={styles.progressText}>
+      <Text as="p" size="small" className={styles.progressText}>
         You have {personalityTestData?.remainingCount} questions left to answer.
       </Text>
     </div>

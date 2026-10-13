@@ -1,9 +1,23 @@
+.table {
+  width: 100%;
+}
+
+.table table {
+  table-layout: fixed;
+}
+
+.table th {
+  width: 104px;
+}
+
 .verticalTop {
   vertical-align: top;
 }
 
 .catInfoItem {
-  display: inline-flex;
+  display: flex;
+  min-width: 0;
+  width: 100%;
   align-items: center;
   gap: 8px;
   justify-content: flex-end;

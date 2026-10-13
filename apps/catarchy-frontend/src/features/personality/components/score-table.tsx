@@ -23,42 +23,42 @@ export function ScoreTable({ catId }: { catId: string }) {
       <tbody>
         <tr>
           <th align="left">
-            <Text>Openness</Text>
+            <Text size="small">Openness</Text>
           </th>
           <td align="right">
-            <Text>{formatscore(data?.openness)}</Text>
+            <Text size="small">{formatscore(data?.openness)}</Text>
           </td>
         </tr>
         <tr>
           <th align="left">
-            <Text>Conscientiousness</Text>
+            <Text size="small">Conscientiousness</Text>
           </th>
           <td align="right">
-            <Text>{formatscore(data?.conscientiousness)}</Text>
+            <Text size="small">{formatscore(data?.conscientiousness)}</Text>
           </td>
         </tr>
         <tr>
           <th align="left">
-            <Text>Extraversion</Text>
+            <Text size="small">Extraversion</Text>
           </th>
           <td align="right">
-            <Text>{formatscore(data?.extraversion)}</Text>
+            <Text size="small">{formatscore(data?.extraversion)}</Text>
           </td>
         </tr>
         <tr>
           <th align="left">
-            <Text>Agreeableness</Text>
+            <Text size="small">Agreeableness</Text>
           </th>
           <td align="right">
-            <Text>{formatscore(data?.agreeableness)}</Text>
+            <Text size="small">{formatscore(data?.agreeableness)}</Text>
           </td>
         </tr>
         <tr>
           <th align="left">
-            <Text>Neuroticism</Text>
+            <Text size="small">Neuroticism</Text>
           </th>
           <td align="right">
-            <Text>{formatscore(data?.neuroticism)}</Text>
+            <Text size="small">{formatscore(data?.neuroticism)}</Text>
           </td>
         </tr>
       </tbody>

@@ -33,43 +33,53 @@ export function TestIntroductionScreen() {
           </Text>
           <dl className={styles.definitionList}>
             <div>
-              <dt className={styles.definitionTerm}>Openness</dt>
-              <dd className={styles.definitionDescription}>
+              <Text as="dt" className={styles.definitionTerm}>
+                Openness
+              </Text>
+              <Text as="dd" className={styles.definitionDescription}>
                 Open individuals are creative, curious, and enjoy new
                 experiences.
-              </dd>
+              </Text>
             </div>
 
             <div>
-              <dt className={styles.definitionTerm}>Conscientiousness</dt>
-              <dd className={styles.definitionDescription}>
+              <Text as="dt" className={styles.definitionTerm}>
+                Conscientiousness
+              </Text>
+              <Text as="dd" className={styles.definitionDescription}>
                 Conscientious individuals are organized, highly responsible, and
                 strive to achieve their goals.
-              </dd>
+              </Text>
             </div>
 
             <div>
-              <dt className={styles.definitionTerm}>Extraversion</dt>
-              <dd className={styles.definitionDescription}>
+              <Text as="dt" className={styles.definitionTerm}>
+                Extraversion
+              </Text>
+              <Text as="dd" className={styles.definitionDescription}>
                 Extraverted individuals are sociable, active, and enjoy
                 interacting with others.
-              </dd>
+              </Text>
             </div>
 
             <div>
-              <dt className={styles.definitionTerm}>Agreeableness</dt>
-              <dd className={styles.definitionDescription}>
+              <Text as="dt" className={styles.definitionTerm}>
+                Agreeableness
+              </Text>
+              <Text as="dd" className={styles.definitionDescription}>
                 Agreeable individuals are kind, cooperative, and empathetic
                 toward others' feelings.
-              </dd>
+              </Text>
             </div>
 
             <div>
-              <dt className={styles.definitionTerm}>Neuroticism</dt>
-              <dd className={styles.definitionDescription}>
+              <Text as="dt" className={styles.definitionTerm}>
+                Neuroticism
+              </Text>
+              <Text as="dd" className={styles.definitionDescription}>
                 Individuals high in neuroticism are emotionally unstable and can
                 be sensitive to stress.
-              </dd>
+              </Text>
             </div>
           </dl>
         </article>
@@ -106,10 +116,10 @@ export function TestIntroductionScreen() {
             widely used in psychological research. While a standard Big Five
             personality test typically consists of 120 questions, Catarchy uses
             the 50-item scale from{" "}
-            <cite className={styles.citation}>
+            <Text as="cite" size="small" className={styles.citation}>
               Goldberg, L. R. "The development of markers for the Big-Five
               factor structure" (1992)
-            </cite>{" "}
+            </Text>{" "}
             for a quicker assessment. For more details, please refer to the{" "}
             <a
               className={styles.link}
@@ -117,7 +127,7 @@ export function TestIntroductionScreen() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              IPIP 50-item scale (Goldberg's Big-Five markers)
+              <Text>IPIP 50-item scale (Goldberg's Big-Five markers)</Text>
             </a>
             .
           </Text>
@@ -156,7 +166,7 @@ export function TestIntroductionScreen() {
             If you have any concerns regarding your privacy, please feel free to
             contact at{" "}
             <a href="mailto:admin@catarchy.net" className={styles.link}>
-              admin@catarchy.net
+              <Text>admin@catarchy.net</Text>
             </a>
             . If you have any technical questions, you may also open an issue on
             the{" "}
@@ -166,7 +176,7 @@ export function TestIntroductionScreen() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Catarchy GitHub Repository Issue Tracker
+              <Text>Catarchy GitHub Repository Issue Tracker</Text>
             </a>
             .
           </Text>

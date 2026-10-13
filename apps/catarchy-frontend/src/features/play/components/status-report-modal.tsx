@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
 import { careRecordOptions } from "@/features/cat";
-import { Box, Button, CatLoading, StreamText } from "@/features/common";
+import { Box, Button, CatLoading, StreamText, Text } from "@/features/common";
 
 import styles from "./status-report-modal.module.css";
 
@@ -56,15 +56,17 @@ export function StatusReportModal({
       <div className={styles.body}>
         {message && (
           <Box as="dl" className={styles.moodBox}>
-            <dt className="sr-only">Mood</dt>
-            <dd>{mood || "..."}</dd>
+            <Text as="dt" className="sr-only">
+              Mood
+            </Text>
+            <Text as="dd">{mood || "..."}</Text>
           </Box>
         )}
 
         {gaveUp ? (
-          <p className={styles.reportText}>
+          <Text as="p" className={styles.reportText}>
             The cat is too shy to share its feelings...
-          </p>
+          </Text>
         ) : message ? (
           <StreamText
             as="p"

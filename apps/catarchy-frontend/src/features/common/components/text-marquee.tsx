@@ -24,26 +24,34 @@ export function TextMarquee({
   style,
 }: TextMarqueeProps) {
   const textRef = useRef<HTMLSpanElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [textWidth, setTextWidth] = useState(0);
+  const [availableWidth, setAvailableWidth] = useState(maxWidth);
 
   useEffect(() => {
     const text = textRef.current;
-    if (!text) return;
+    const container = containerRef.current;
+    if (!text || !container) return;
 
-    const check = () => setTextWidth(text.scrollWidth);
+    const check = () => {
+      setTextWidth(text.scrollWidth);
+      setAvailableWidth(container.clientWidth);
+    };
     check();
     const ro = new ResizeObserver(check);
     ro.observe(text);
+    ro.observe(container);
     return () => ro.disconnect();
-  }, [children]);
+  }, [children, maxWidth]);
 
-  const isActive = textWidth > maxWidth;
+  const isActive = textWidth > Math.min(maxWidth, availableWidth);
   const cycleWidth = textWidth + GAP;
   const duration = cycleWidth / speed;
   const offset = direction === "left" ? -cycleWidth : cycleWidth;
 
   return (
     <div
+      ref={containerRef}
       className={cn([styles.container, className])}
       style={{ maxWidth, ...style }}
     >
@@ -59,8 +67,8 @@ export function TextMarquee({
             : undefined
         }
       >
-        <span ref={textRef}>{children}</span>
-        {isActive && <span aria-hidden="true">{children}</span>}
+        <Text ref={textRef}>{children}</Text>
+        {isActive && <Text aria-hidden="true">{children}</Text>}
       </Text>
     </div>
   );

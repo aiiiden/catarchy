@@ -4,6 +4,7 @@ import { cn } from "../lib/cn";
 import { useHaptic } from "../lib/haptic";
 import { Box } from "./box";
 import styles from "./button.module.css";
+import { Text } from "./text";
 
 type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
 type ButtonSize = "small" | "default" | "big";
@@ -25,6 +26,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       disabled,
       native,
       onClick,
+      children,
       ...props
     },
     ref,
@@ -35,6 +37,14 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onClick?.(e);
     };
 
+    const content = React.Children.map(children, (child) =>
+      typeof child === "string" || typeof child === "number" ? (
+        <Text>{child}</Text>
+      ) : (
+        child
+      ),
+    );
+
     if (native) {
       return (
         <button
@@ -43,7 +53,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           disabled={disabled}
           onClick={handleClick}
           {...props}
-        />
+        >
+          {content}
+        </button>
       );
     }
 
@@ -72,7 +84,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled}
         onClick={handleClick}
         {...props}
-      />
+      >
+        {content}
+      </Box>
     );
   },
 );

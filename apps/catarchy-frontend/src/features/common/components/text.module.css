@@ -1,4 +1,36 @@
 .root {
-  line-height: 1;
+  font-family: var(--text-font, var(--font-normal));
+  font-size: var(--text-size, var(--text-normal));
+  line-height: var(--text-leading, var(--leading-normal));
   user-select: none;
+}
+
+.root[data-text-size="xsmall"] {
+  --text-font: var(--font-xsmall);
+  --text-size: var(--text-xsmall);
+  --text-leading: var(--leading-xsmall);
+}
+
+.root[data-text-size="small"] {
+  --text-font: var(--font-small);
+  --text-size: var(--text-small);
+  --text-leading: var(--leading-small);
+}
+
+.root[data-text-size="normal"] {
+  --text-font: var(--font-normal);
+  --text-size: var(--text-normal);
+  --text-leading: var(--leading-normal);
+}
+
+.root[data-text-size="large"] {
+  --text-font: var(--font-small);
+  --text-size: var(--text-large);
+  --text-leading: var(--leading-large);
+}
+
+.root[data-text-size="xlarge"] {
+  --text-font: var(--font-normal);
+  --text-size: var(--text-xlarge);
+  --text-leading: var(--leading-xlarge);
 }

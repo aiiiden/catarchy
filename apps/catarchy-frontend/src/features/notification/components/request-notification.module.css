@@ -17,3 +17,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
 }
+
+.container p {
+  line-height: 1.5;
+}

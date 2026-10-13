@@ -6,9 +6,15 @@
 
 .table {
   width: 100%;
+}
+
+.table table {
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .table td {
-  padding: 4px;
+  padding: 6px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }

@@ -18,6 +18,7 @@
   display: block;
   margin-bottom: 16px;
   line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .definitionList {
@@ -33,7 +34,8 @@
 }
 
 .definitionDescription {
-  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .link {

@@ -15,8 +15,10 @@ export function ThemeSection() {
 
   return (
     <Box containerClassName={styles.box} rounded>
-      <Text as="p">Display Mode</Text>
-      <Text as="p" className={styles.description}>
+      <Text as="h2" size="normal" className={styles.title}>
+        Display Mode
+      </Text>
+      <Text as="p" size="small" className={styles.description}>
         Choose how the app is displayed on your screen.
       </Text>
       <div className={styles.options}>

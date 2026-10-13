@@ -3,7 +3,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { Providers } from "./_providers";
-import { queryClient } from "./features/common";
+import { queryClient, Text } from "./features/common";
 import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({
@@ -26,6 +26,9 @@ export default function renderApp(rootElement: HTMLElement) {
       <Providers>
         <RouterProvider router={router} />
       </Providers>
+      <Text as="p" className="orientation-notice" size="normal">
+        Please rotate your device 😸
+      </Text>
     </StrictMode>,
   );
 }

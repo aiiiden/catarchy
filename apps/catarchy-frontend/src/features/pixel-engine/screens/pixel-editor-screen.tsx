@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Button, HeaderBackButton, Scaffold } from "@/features/common";
+import { Button, HeaderBackButton, Scaffold, Text } from "@/features/common";
 
 import { Canvas, Pixel, Selection, SelectionCell } from "../components/canvas";
 import { Dpad } from "../components/dpad";
@@ -207,24 +207,24 @@ export function PixelEditorScreen() {
             variant={mode === "draw" ? "primary" : "outline"}
             onClick={() => switchMode("draw")}
           >
-            ✏ Draw
+            <Text size="small">✏ Draw</Text>
           </Button>
           <Button
             size="small"
             variant={mode === "fill" ? "primary" : "outline"}
             onClick={() => switchMode("fill")}
           >
-            ◈ Fill
+            <Text size="small">◈ Fill</Text>
           </Button>
           <Button
             size="small"
             variant={mode === "move" ? "primary" : "outline"}
             onClick={() => switchMode("move")}
           >
-            ⊹ Move
+            <Text size="small">⊹ Move</Text>
           </Button>
           <Button size="small" variant="outline" onClick={reset}>
-            Reset
+            <Text size="small">Reset</Text>
           </Button>
         </div>
 

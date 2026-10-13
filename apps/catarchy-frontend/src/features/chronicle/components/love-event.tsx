@@ -12,7 +12,9 @@ interface Props {
 export function LoveEvent({ catName, targetCatName, createdAt }: Props) {
   return (
     <Box rounded containerClassName={styles.root}>
-      <Text as="p">{timeAgo(createdAt)}</Text>
+      <Text as="p" size="xsmall">
+        {timeAgo(createdAt)}
+      </Text>
       <Text as="p">{`${catName} and ${targetCatName} have become a couple!`}</Text>
     </Box>
   );

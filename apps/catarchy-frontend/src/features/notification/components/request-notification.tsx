@@ -1,5 +1,5 @@
 import { LogClick } from "@/features/analytics";
-import { Button, cn } from "@/features/common";
+import { Button, cn, Text } from "@/features/common";
 
 import styles from "./request-notification.module.css";
 export function RequestNotificationPermission({
@@ -12,14 +12,14 @@ export function RequestNotificationPermission({
   return (
     <article className={cn([styles.container])}>
       <header className={styles.header}>
-        <h2>Enable Notifications</h2>
+        <Text as="h2">Enable Notifications</Text>
       </header>
 
       <div>
-        <p>
+        <Text as="p">
           To stay updated with the latest news and updates, please enable
           notifications.
-        </p>
+        </Text>
       </div>
 
       <div className={styles.footer}>
