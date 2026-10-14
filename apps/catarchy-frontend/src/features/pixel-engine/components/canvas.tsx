@@ -60,7 +60,12 @@ export function Canvas({
 }) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const selectionRef = useRef<HTMLDivElement>(null);
-  const touchStartRef = useRef<{ x: number; y: number; baseDx: number; baseDy: number } | null>(null);
+  const touchStartRef = useRef<{
+    x: number;
+    y: number;
+    baseDx: number;
+    baseDy: number;
+  } | null>(null);
   const currentDragRef = useRef<{ dx: number; dy: number }>({ dx: 0, dy: 0 });
   const justTouchedRef = useRef(false);
 
@@ -85,12 +90,28 @@ export function Canvas({
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (!touchStartRef.current || !canvasRef.current || !selectionRef.current || !selection) return;
+    if (
+      !touchStartRef.current ||
+      !canvasRef.current ||
+      !selectionRef.current ||
+      !selection
+    )
+      return;
     const touch = e.touches[0];
     const pixelSize = canvasRef.current.clientWidth / size.width;
-    const rawDx = touchStartRef.current.baseDx + Math.floor((touch.clientX - touchStartRef.current.x) / pixelSize);
-    const rawDy = touchStartRef.current.baseDy + Math.floor((touch.clientY - touchStartRef.current.y) / pixelSize);
-    const { dx, dy } = clampDxDy(selection.cells, rawDx, rawDy, size.width, size.height);
+    const rawDx =
+      touchStartRef.current.baseDx +
+      Math.floor((touch.clientX - touchStartRef.current.x) / pixelSize);
+    const rawDy =
+      touchStartRef.current.baseDy +
+      Math.floor((touch.clientY - touchStartRef.current.y) / pixelSize);
+    const { dx, dy } = clampDxDy(
+      selection.cells,
+      rawDx,
+      rawDy,
+      size.width,
+      size.height,
+    );
     currentDragRef.current = { dx, dy };
     // 직접 DOM 조작 — React 리렌더 없음
     selectionRef.current.style.transform = `translate(${dx * pixelSize}px, ${dy * pixelSize}px)`;

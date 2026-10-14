@@ -1,16 +1,11 @@
 {
-  "eslint.useFlatConfig": true,
-  "eslint.workingDirectories": [
-    { "directory": "apps/catarchy-frontend", "changeProcessCWD": true },
-    { "directory": "apps/catarchy-backend", "changeProcessCWD": true }
-  ],
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.oxc": "explicit"
   },
   "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "cSpell.words": ["Elysia", "catarchy"],
   "files.associations": {

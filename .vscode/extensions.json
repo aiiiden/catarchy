@@ -1,7 +1,3 @@
 {
-  "recommendations": [
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "oven.bun-vscode"
-  ]
+  "recommendations": ["oxc.oxc-vscode", "oven.bun-vscode"]
 }

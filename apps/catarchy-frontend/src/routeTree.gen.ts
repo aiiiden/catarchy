@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* oxlint-disable */
 
 // @ts-nocheck
 
@@ -11,23 +11,23 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as GuardedRouteImport } from './routes/_guarded'
 import { Route as publicIndexRouteImport } from './routes/(public)/index'
-import { Route as GuardedPlayRouteImport } from './routes/_guarded/play'
-import { Route as GuardedCatIdRouteImport } from './routes/_guarded/$catId'
-import { Route as publicTocRouteImport } from './routes/(public)/toc'
-import { Route as publicPpRouteImport } from './routes/(public)/pp'
 import { Route as publicChronicleRouteImport } from './routes/(public)/chronicle'
-import { Route as GuardedCongressIndexRouteImport } from './routes/_guarded/congress/index'
-import { Route as GuardedConfigIndexRouteImport } from './routes/_guarded/config/index'
+import { Route as publicPpRouteImport } from './routes/(public)/pp'
+import { Route as publicTocRouteImport } from './routes/(public)/toc'
+import { Route as GuardedCatIdRouteImport } from './routes/_guarded/$catId'
+import { Route as GuardedPlayRouteImport } from './routes/_guarded/play'
+import { Route as publicAuthPasswordResetRouteImport } from './routes/(public)/auth/password-reset'
+import { Route as publicAuthRegisterRouteImport } from './routes/(public)/auth/register'
+import { Route as publicAuthSignInRouteImport } from './routes/(public)/auth/sign-in'
 import { Route as publicEditorIndexRouteImport } from './routes/(public)/editor/index'
 import { Route as GuardedCatSummonRouteImport } from './routes/_guarded/cat/summon'
-import { Route as publicAuthSignInRouteImport } from './routes/(public)/auth/sign-in'
-import { Route as publicAuthRegisterRouteImport } from './routes/(public)/auth/register'
-import { Route as publicAuthPasswordResetRouteImport } from './routes/(public)/auth/password-reset'
-import { Route as GuardedCatIdPlayIndexRouteImport } from './routes/_guarded/$catId/play/index'
-import { Route as GuardedCatIdCatStatusRouteImport } from './routes/_guarded/$catId/cat/status'
+import { Route as GuardedConfigIndexRouteImport } from './routes/_guarded/config/index'
+import { Route as GuardedCongressIndexRouteImport } from './routes/_guarded/congress/index'
 import { Route as GuardedCatIdCatCareHistoryRouteImport } from './routes/_guarded/$catId/cat/care-history'
-import { Route as GuardedCatIdCatPersonalityIndexRouteImport } from './routes/_guarded/$catId/cat/personality/index'
+import { Route as GuardedCatIdCatStatusRouteImport } from './routes/_guarded/$catId/cat/status'
+import { Route as GuardedCatIdPlayIndexRouteImport } from './routes/_guarded/$catId/play/index'
 import { Route as GuardedCatIdCatFriendIndexRouteImport } from './routes/_guarded/$catId/cat/friend/index'
+import { Route as GuardedCatIdCatPersonalityIndexRouteImport } from './routes/_guarded/$catId/cat/personality/index'
 import { Route as GuardedCatIdCatPersonalityIntroductionRouteImport } from './routes/_guarded/$catId/cat/personality/introduction'
 
 const GuardedRoute = GuardedRouteImport.update({
@@ -39,19 +39,9 @@ const publicIndexRoute = publicIndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GuardedPlayRoute = GuardedPlayRouteImport.update({
-  id: '/play',
-  path: '/play',
-  getParentRoute: () => GuardedRoute,
-} as any)
-const GuardedCatIdRoute = GuardedCatIdRouteImport.update({
-  id: '/$catId',
-  path: '/$catId',
-  getParentRoute: () => GuardedRoute,
-} as any)
-const publicTocRoute = publicTocRouteImport.update({
-  id: '/(public)/toc',
-  path: '/toc',
+const publicChronicleRoute = publicChronicleRouteImport.update({
+  id: '/(public)/chronicle',
+  path: '/chronicle',
   getParentRoute: () => rootRouteImport,
 } as any)
 const publicPpRoute = publicPpRouteImport.update({
@@ -59,20 +49,35 @@ const publicPpRoute = publicPpRouteImport.update({
   path: '/pp',
   getParentRoute: () => rootRouteImport,
 } as any)
-const publicChronicleRoute = publicChronicleRouteImport.update({
-  id: '/(public)/chronicle',
-  path: '/chronicle',
+const publicTocRoute = publicTocRouteImport.update({
+  id: '/(public)/toc',
+  path: '/toc',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GuardedCongressIndexRoute = GuardedCongressIndexRouteImport.update({
-  id: '/congress/',
-  path: '/congress/',
+const GuardedCatIdRoute = GuardedCatIdRouteImport.update({
+  id: '/$catId',
+  path: '/$catId',
   getParentRoute: () => GuardedRoute,
 } as any)
-const GuardedConfigIndexRoute = GuardedConfigIndexRouteImport.update({
-  id: '/config/',
-  path: '/config/',
+const GuardedPlayRoute = GuardedPlayRouteImport.update({
+  id: '/play',
+  path: '/play',
   getParentRoute: () => GuardedRoute,
+} as any)
+const publicAuthPasswordResetRoute = publicAuthPasswordResetRouteImport.update({
+  id: '/(public)/auth/password-reset',
+  path: '/auth/password-reset',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const publicAuthRegisterRoute = publicAuthRegisterRouteImport.update({
+  id: '/(public)/auth/register',
+  path: '/auth/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const publicAuthSignInRoute = publicAuthSignInRouteImport.update({
+  id: '/(public)/auth/sign-in',
+  path: '/auth/sign-in',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const publicEditorIndexRoute = publicEditorIndexRouteImport.update({
   id: '/(public)/editor/',
@@ -84,30 +89,15 @@ const GuardedCatSummonRoute = GuardedCatSummonRouteImport.update({
   path: '/cat/summon',
   getParentRoute: () => GuardedRoute,
 } as any)
-const publicAuthSignInRoute = publicAuthSignInRouteImport.update({
-  id: '/(public)/auth/sign-in',
-  path: '/auth/sign-in',
-  getParentRoute: () => rootRouteImport,
+const GuardedConfigIndexRoute = GuardedConfigIndexRouteImport.update({
+  id: '/config/',
+  path: '/config/',
+  getParentRoute: () => GuardedRoute,
 } as any)
-const publicAuthRegisterRoute = publicAuthRegisterRouteImport.update({
-  id: '/(public)/auth/register',
-  path: '/auth/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const publicAuthPasswordResetRoute = publicAuthPasswordResetRouteImport.update({
-  id: '/(public)/auth/password-reset',
-  path: '/auth/password-reset',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GuardedCatIdPlayIndexRoute = GuardedCatIdPlayIndexRouteImport.update({
-  id: '/play/',
-  path: '/play/',
-  getParentRoute: () => GuardedCatIdRoute,
-} as any)
-const GuardedCatIdCatStatusRoute = GuardedCatIdCatStatusRouteImport.update({
-  id: '/cat/status',
-  path: '/cat/status',
-  getParentRoute: () => GuardedCatIdRoute,
+const GuardedCongressIndexRoute = GuardedCongressIndexRouteImport.update({
+  id: '/congress/',
+  path: '/congress/',
+  getParentRoute: () => GuardedRoute,
 } as any)
 const GuardedCatIdCatCareHistoryRoute =
   GuardedCatIdCatCareHistoryRouteImport.update({
@@ -115,16 +105,26 @@ const GuardedCatIdCatCareHistoryRoute =
     path: '/cat/care-history',
     getParentRoute: () => GuardedCatIdRoute,
   } as any)
-const GuardedCatIdCatPersonalityIndexRoute =
-  GuardedCatIdCatPersonalityIndexRouteImport.update({
-    id: '/cat/personality/',
-    path: '/cat/personality/',
-    getParentRoute: () => GuardedCatIdRoute,
-  } as any)
+const GuardedCatIdCatStatusRoute = GuardedCatIdCatStatusRouteImport.update({
+  id: '/cat/status',
+  path: '/cat/status',
+  getParentRoute: () => GuardedCatIdRoute,
+} as any)
+const GuardedCatIdPlayIndexRoute = GuardedCatIdPlayIndexRouteImport.update({
+  id: '/play/',
+  path: '/play/',
+  getParentRoute: () => GuardedCatIdRoute,
+} as any)
 const GuardedCatIdCatFriendIndexRoute =
   GuardedCatIdCatFriendIndexRouteImport.update({
     id: '/cat/friend/',
     path: '/cat/friend/',
+    getParentRoute: () => GuardedCatIdRoute,
+  } as any)
+const GuardedCatIdCatPersonalityIndexRoute =
+  GuardedCatIdCatPersonalityIndexRouteImport.update({
+    id: '/cat/personality/',
+    path: '/cat/personality/',
     getParentRoute: () => GuardedCatIdRoute,
   } as any)
 const GuardedCatIdCatPersonalityIntroductionRoute =
@@ -294,25 +294,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_guarded/play': {
-      id: '/_guarded/play'
-      path: '/play'
-      fullPath: '/play'
-      preLoaderRoute: typeof GuardedPlayRouteImport
-      parentRoute: typeof GuardedRoute
-    }
-    '/_guarded/$catId': {
-      id: '/_guarded/$catId'
-      path: '/$catId'
-      fullPath: '/$catId'
-      preLoaderRoute: typeof GuardedCatIdRouteImport
-      parentRoute: typeof GuardedRoute
-    }
-    '/(public)/toc': {
-      id: '/(public)/toc'
-      path: '/toc'
-      fullPath: '/toc'
-      preLoaderRoute: typeof publicTocRouteImport
+    '/(public)/chronicle': {
+      id: '/(public)/chronicle'
+      path: '/chronicle'
+      fullPath: '/chronicle'
+      preLoaderRoute: typeof publicChronicleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(public)/pp': {
@@ -322,26 +308,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicPpRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(public)/chronicle': {
-      id: '/(public)/chronicle'
-      path: '/chronicle'
-      fullPath: '/chronicle'
-      preLoaderRoute: typeof publicChronicleRouteImport
+    '/(public)/toc': {
+      id: '/(public)/toc'
+      path: '/toc'
+      fullPath: '/toc'
+      preLoaderRoute: typeof publicTocRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_guarded/congress/': {
-      id: '/_guarded/congress/'
-      path: '/congress'
-      fullPath: '/congress/'
-      preLoaderRoute: typeof GuardedCongressIndexRouteImport
+    '/_guarded/$catId': {
+      id: '/_guarded/$catId'
+      path: '/$catId'
+      fullPath: '/$catId'
+      preLoaderRoute: typeof GuardedCatIdRouteImport
       parentRoute: typeof GuardedRoute
     }
-    '/_guarded/config/': {
-      id: '/_guarded/config/'
-      path: '/config'
-      fullPath: '/config/'
-      preLoaderRoute: typeof GuardedConfigIndexRouteImport
+    '/_guarded/play': {
+      id: '/_guarded/play'
+      path: '/play'
+      fullPath: '/play'
+      preLoaderRoute: typeof GuardedPlayRouteImport
       parentRoute: typeof GuardedRoute
+    }
+    '/(public)/auth/password-reset': {
+      id: '/(public)/auth/password-reset'
+      path: '/auth/password-reset'
+      fullPath: '/auth/password-reset'
+      preLoaderRoute: typeof publicAuthPasswordResetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(public)/auth/register': {
+      id: '/(public)/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof publicAuthRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(public)/auth/sign-in': {
+      id: '/(public)/auth/sign-in'
+      path: '/auth/sign-in'
+      fullPath: '/auth/sign-in'
+      preLoaderRoute: typeof publicAuthSignInRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/(public)/editor/': {
       id: '/(public)/editor/'
@@ -357,32 +364,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuardedCatSummonRouteImport
       parentRoute: typeof GuardedRoute
     }
-    '/(public)/auth/sign-in': {
-      id: '/(public)/auth/sign-in'
-      path: '/auth/sign-in'
-      fullPath: '/auth/sign-in'
-      preLoaderRoute: typeof publicAuthSignInRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_guarded/config/': {
+      id: '/_guarded/config/'
+      path: '/config'
+      fullPath: '/config/'
+      preLoaderRoute: typeof GuardedConfigIndexRouteImport
+      parentRoute: typeof GuardedRoute
     }
-    '/(public)/auth/register': {
-      id: '/(public)/auth/register'
-      path: '/auth/register'
-      fullPath: '/auth/register'
-      preLoaderRoute: typeof publicAuthRegisterRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_guarded/congress/': {
+      id: '/_guarded/congress/'
+      path: '/congress'
+      fullPath: '/congress/'
+      preLoaderRoute: typeof GuardedCongressIndexRouteImport
+      parentRoute: typeof GuardedRoute
     }
-    '/(public)/auth/password-reset': {
-      id: '/(public)/auth/password-reset'
-      path: '/auth/password-reset'
-      fullPath: '/auth/password-reset'
-      preLoaderRoute: typeof publicAuthPasswordResetRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_guarded/$catId/play/': {
-      id: '/_guarded/$catId/play/'
-      path: '/play'
-      fullPath: '/$catId/play/'
-      preLoaderRoute: typeof GuardedCatIdPlayIndexRouteImport
+    '/_guarded/$catId/cat/care-history': {
+      id: '/_guarded/$catId/cat/care-history'
+      path: '/cat/care-history'
+      fullPath: '/$catId/cat/care-history'
+      preLoaderRoute: typeof GuardedCatIdCatCareHistoryRouteImport
       parentRoute: typeof GuardedCatIdRoute
     }
     '/_guarded/$catId/cat/status': {
@@ -392,18 +392,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuardedCatIdCatStatusRouteImport
       parentRoute: typeof GuardedCatIdRoute
     }
-    '/_guarded/$catId/cat/care-history': {
-      id: '/_guarded/$catId/cat/care-history'
-      path: '/cat/care-history'
-      fullPath: '/$catId/cat/care-history'
-      preLoaderRoute: typeof GuardedCatIdCatCareHistoryRouteImport
-      parentRoute: typeof GuardedCatIdRoute
-    }
-    '/_guarded/$catId/cat/personality/': {
-      id: '/_guarded/$catId/cat/personality/'
-      path: '/cat/personality'
-      fullPath: '/$catId/cat/personality/'
-      preLoaderRoute: typeof GuardedCatIdCatPersonalityIndexRouteImport
+    '/_guarded/$catId/play/': {
+      id: '/_guarded/$catId/play/'
+      path: '/play'
+      fullPath: '/$catId/play/'
+      preLoaderRoute: typeof GuardedCatIdPlayIndexRouteImport
       parentRoute: typeof GuardedCatIdRoute
     }
     '/_guarded/$catId/cat/friend/': {
@@ -411,6 +404,13 @@ declare module '@tanstack/react-router' {
       path: '/cat/friend'
       fullPath: '/$catId/cat/friend/'
       preLoaderRoute: typeof GuardedCatIdCatFriendIndexRouteImport
+      parentRoute: typeof GuardedCatIdRoute
+    }
+    '/_guarded/$catId/cat/personality/': {
+      id: '/_guarded/$catId/cat/personality/'
+      path: '/cat/personality'
+      fullPath: '/$catId/cat/personality/'
+      preLoaderRoute: typeof GuardedCatIdCatPersonalityIndexRouteImport
       parentRoute: typeof GuardedCatIdRoute
     }
     '/_guarded/$catId/cat/personality/introduction': {

@@ -54,7 +54,12 @@ export const CatCharacter = forwardRef<
   return (
     <div
       ref={ref}
-      style={{ width: clipW, height: clipH, overflow: "hidden", position: "relative" }}
+      style={{
+        width: clipW,
+        height: clipH,
+        overflow: "hidden",
+        position: "relative",
+      }}
     >
       <Sprite
         tag={tag}

@@ -14,16 +14,11 @@
     },
   ],
   "settings": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "oxc.oxc-vscode",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit",
+      "source.fixAll.oxc": "explicit",
     },
-    "eslint.useFlatConfig": true,
-    "eslint.workingDirectories": [
-      { "directory": "apps/catarchy-frontend", "changeProcessCWD": true },
-      { "directory": "apps/catarchy-backend", "changeProcessCWD": true },
-    ],
     "typescript.tsdk": "node_modules/typescript/lib",
     "typescript.enablePromptUseWorkspaceTsdk": true,
     "tailwindCSS.experimental.classRegex": [],
@@ -33,6 +28,6 @@
     "liveServer.settings.multiRootWorkspaceName": "frontend",
   },
   "extensions": {
-    "recommendations": ["fronterior.biome-monorepo"],
+    "recommendations": ["oxc.oxc-vscode", "oven.bun-vscode"],
   },
 }

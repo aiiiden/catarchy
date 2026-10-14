@@ -1,6 +1,4 @@
-import {
-  ChronicleEventType,
-} from "@catarchy/shared/constants/chronicle";
+import { ChronicleEventType } from "@catarchy/shared/constants/chronicle";
 
 import { ChronicleRepository } from "./repository";
 

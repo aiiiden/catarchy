@@ -1,19 +1,107 @@
 {
-  "formatter": {
-    "language_server": {
-      "name": "biome",
-    },
-  },
   "format_on_save": "on",
   "languages": {
     "TypeScript": {
-      "formatter": { "language_server": { "name": "biome" } },
+      "formatter": {
+        "language_server": {
+          "name": "oxfmt"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      },
+      "language_servers": ["oxlint", "..."],
+      "code_actions_on_format": {
+        "source.fixAll.oxc": true
+      }
     },
     "TSX": {
-      "formatter": { "language_server": { "name": "biome" } },
+      "formatter": {
+        "language_server": {
+          "name": "oxfmt"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      },
+      "language_servers": ["oxlint", "..."],
+      "code_actions_on_format": {
+        "source.fixAll.oxc": true
+      }
     },
     "JavaScript": {
-      "formatter": { "language_server": { "name": "biome" } },
+      "formatter": {
+        "language_server": {
+          "name": "oxfmt"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      },
+      "language_servers": ["oxlint", "..."],
+      "code_actions_on_format": {
+        "source.fixAll.oxc": true
+      }
     },
-  },
+    "CSS": {
+      "formatter": {
+        "language_server": {
+          "name": "oxfmt"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      }
+    },
+    "JSON": {
+      "formatter": {
+        "language_server": {
+          "name": "oxfmt"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      }
+    },
+    "JSONC": {
+      "formatter": {
+        "language_server": {
+          "name": "oxfmt"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      }
+    },
+    "Markdown": {
+      "formatter": {
+        "language_server": {
+          "name": "oxfmt"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      }
+    },
+    "YAML": {
+      "formatter": {
+        "language_server": {
+          "name": "oxfmt"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      }
+    },
+    "HTML": {
+      "formatter": {
+        "language_server": {
+          "name": "oxfmt"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      }
+    }
+  }
 }

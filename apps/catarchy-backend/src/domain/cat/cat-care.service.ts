@@ -42,7 +42,8 @@ export abstract class CatCareService {
     const growthPerCare = consensusValues["CAT.GROWTH_PER_CARE"];
     const emotionPerCare = consensusValues["CAT.EMOTION_PER_CARE"];
     const emotionDecrease = consensusValues["CAT.EMOTION_DECREASE"];
-    const emotionDecreaseFrequencyHour = consensusValues["CAT.EMOTION_DECREASE_FREQUENCY_HOUR"];
+    const emotionDecreaseFrequencyHour =
+      consensusValues["CAT.EMOTION_DECREASE_FREQUENCY_HOUR"];
 
     if (!catFull) {
       throw new NotFoundError("You don't have a cat to care for.");
@@ -213,7 +214,7 @@ export abstract class CatCareService {
         {
           maxOutputTokens: 50,
           temperature: 0.8,
-          system: `Describe a cat's behavior/Lang: en-US/Pattern: "[Name(no-capitalize)] verb object [adverb/adjective phrase]."/1~2 sentences/Plain text only/Reflect time of day in behavior`,
+          instructions: `Describe a cat's behavior/Lang: en-US/Pattern: "[Name(no-capitalize)] verb object [adverb/adjective phrase]."/1~2 sentences/Plain text only/Reflect time of day in behavior`,
           prompt: `${cat.name}, mood:${getEmotion(catStat.emotion).level}, age:${getAgeGroup(catStat.growth)}, time:${timePeriod}`,
         },
       );

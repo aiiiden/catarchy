@@ -1,10 +1,6 @@
 import { CatRepository } from "@/domain/cat";
 import { PersonalityQuestionKeyed } from "@/infra/db/schema";
-import {
-  BadRequestError,
-  ForbiddenError,
-  NotFoundError,
-} from "@/lib/error";
+import { BadRequestError, ForbiddenError, NotFoundError } from "@/lib/error";
 
 import { PersonalityRepository } from "./repository";
 
@@ -113,9 +109,9 @@ export abstract class PersonalityService {
 
     await this.personalityRepository.initCatPersonality({ catId, totalCount });
 
-    const progress = await this.personalityRepository.findCatPersonalityRecord(
-      { catId },
-    );
+    const progress = await this.personalityRepository.findCatPersonalityRecord({
+      catId,
+    });
     if (!progress) throw new Error("Failed to initialize personality record");
 
     if (progress.remainingCount <= 0) {

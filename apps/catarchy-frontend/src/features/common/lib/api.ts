@@ -1,5 +1,6 @@
-import type { App } from "@backend/app";
 import { treaty } from "@elysiajs/eden";
+
+import type { App } from "@backend/app";
 
 let refreshPromise: Promise<boolean> | null = null;
 

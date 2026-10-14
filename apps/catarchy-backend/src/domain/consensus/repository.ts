@@ -123,7 +123,10 @@ export abstract class ConsensusRepository {
       await Promise.all(
         missingKeys.map((key) => {
           const row = rowMap.get(key);
-          if (!row) throw new NotFoundError(`Consensus key "${key}" not found in database.`);
+          if (!row)
+            throw new NotFoundError(
+              `Consensus key "${key}" not found in database.`,
+            );
           hits.set(key, row);
           return setCached(key as ConsensusKey, row);
         }),
@@ -144,8 +147,7 @@ export abstract class ConsensusRepository {
     const valueType = CONSENSUS_DEFINITIONS[key];
 
     const cached = await getCached(key);
-    if (cached)
-      return parseValue(cached.value, valueType) as ConsensusValue<K>;
+    if (cached) return parseValue(cached.value, valueType) as ConsensusValue<K>;
 
     const db = getDatabase();
     const [row] = await db

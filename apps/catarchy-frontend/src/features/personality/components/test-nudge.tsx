@@ -23,8 +23,7 @@ export function TestNudge({ catId }: { catId: string }) {
           </Text>
           <Text as="p" className={styles.text}>
             Your personality will be reflected in your cat [{catInfoData?.name}]{" "}
-            through a simple test. <br /> <br />
-            🐈 🙂
+            through a simple test. <br /> <br />🐈 🙂
           </Text>
 
           <Text as="p" className={styles.text}>
