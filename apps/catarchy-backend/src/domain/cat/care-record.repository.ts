@@ -66,13 +66,7 @@ export abstract class CareRecordRepository {
       .returning();
   }
 
-  static async findById({
-    id,
-    userId,
-  }: {
-    id: string;
-    userId: string;
-  }) {
+  static async findById({ id, userId }: { id: string; userId: string }) {
     const [record] = await CareRecordRepository.db
       .select({
         id: table.careRecord.id,
@@ -96,7 +90,13 @@ export abstract class CareRecordRepository {
     return record;
   }
 
-  static async findLatestByCatId({ catId, limit }: { catId: string; limit: number }) {
+  static async findLatestByCatId({
+    catId,
+    limit,
+  }: {
+    catId: string;
+    limit: number;
+  }) {
     return CareRecordRepository.db
       .select({ id: table.careRecord.id })
       .from(table.careRecord)

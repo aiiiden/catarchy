@@ -17,6 +17,11 @@ export default defineConfig(({ mode }) => {
       tanstackRouter({
         target: "react",
         autoCodeSplitting: true,
+        routeTreeFileHeader: [
+          "/* oxlint-disable */",
+          "// @ts-nocheck",
+          "// noinspection JSUnusedGlobalSymbols",
+        ],
       }),
       react(),
       VitePWA({

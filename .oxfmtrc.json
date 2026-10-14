@@ -1,0 +1,32 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "useTabs": false,
+  "tabWidth": 2,
+  "endOfLine": "lf",
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/routeTree.gen.ts",
+    "**/.wrangler/**",
+    "**/.localflare/**",
+    "bun.lock",
+    "apps/catarchy-backend/src/infra/db/out/**"
+  ],
+  "sortImports": {
+    "groups": [
+      "side_effect",
+      "builtin",
+      "external",
+      "internal",
+      ["parent", "sibling", "index"],
+      "unknown"
+    ],
+    "internalPattern": ["@/", "@backend/"],
+    "sortSideEffects": false
+  }
+}
